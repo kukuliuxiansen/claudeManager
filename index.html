@@ -136,6 +136,25 @@
         .stats {
             display: flex;
             gap: 24px;
+            align-items: center;
+        }
+
+        .header-btn {
+            padding: 8px 16px;
+            background: var(--accent-blue);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
         }
 
         .stat {
@@ -261,6 +280,7 @@
         .category-card.agents { --card-accent: var(--accent-purple); --card-glow: rgba(139, 92, 246, 0.15); }
         .category-card.commands { --card-accent: var(--accent-purple); --card-glow: rgba(139, 92, 246, 0.15); }
         .category-card.plugins { --card-accent: var(--accent-orange); --card-glow: rgba(245, 158, 11, 0.15); }
+        .category-card.rules { --card-accent: var(--accent-green); --card-glow: rgba(16, 184, 129, 0.15); }
 
         .card-header {
             display: flex;
@@ -409,6 +429,7 @@
         .category-card:nth-child(2) { animation-delay: 0.15s; }
         .category-card:nth-child(3) { animation-delay: 0.2s; }
         .category-card:nth-child(4) { animation-delay: 0.25s; }
+        .category-card:nth-child(5) { animation-delay: 0.3s; }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -485,6 +506,11 @@
                 <div class="stat-value">10+</div>
                 <div class="stat-label">Plugins</div>
             </div>
+            <div class="stat">
+                <div class="stat-value">17</div>
+                <div class="stat-label">Rules</div>
+            </div>
+            <button class="header-btn" onclick="window.location.href='pages/ccWithLLm.html'">解析请求</button>
         </div>
     </header>
 
@@ -577,6 +603,26 @@
                     <span class="card-module-tag">plugin-dev</span>
                     <span class="card-module-tag">hookify</span>
                     <span class="card-module-tag">statusline-setup</span>
+                </div>
+                <div class="card-arrow">→</div>
+            </div>
+
+            <!-- Rules -->
+            <div class="category-card rules" data-category="rules">
+                <div class="card-header">
+                    <div class="card-icon">📋</div>
+                    <div class="card-count">17 rules</div>
+                </div>
+                <h2 class="card-title">Rules 开发规则</h2>
+                <p class="card-description">
+                    开发规则与指南，定义代码风格、安全规范、测试要求和最佳实践。包含通用规则和语言特定规则。
+                </p>
+                <div class="card-modules">
+                    <span class="card-module-tag">coding-style</span>
+                    <span class="card-module-tag">security</span>
+                    <span class="card-module-tag">testing</span>
+                    <span class="card-module-tag">typescript</span>
+                    <span class="card-module-tag">git-workflow</span>
                 </div>
                 <div class="card-arrow">→</div>
             </div>
