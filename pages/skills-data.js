@@ -1,6 +1,6 @@
 // Auto-generated skills and commands data
-// Skills: 112
-// Commands: 22
+// Skills: 62
+// Commands: 72
 
 const CAPABILITIES_DATA = {
   "agent-harness-construction": {
@@ -397,7 +397,7 @@ const CAPABILITIES_DATA = {
   },
   "aside": {
     "name": "aside",
-    "type": "skill",
+    "type": "command",
     "title": "Aside Command",
     "description": "Ask a question mid-task and get an immediate, focused answer \u2014 then continue right where you left off. The current task, files, and context are never modified.",
     "sections": {
@@ -412,7 +412,7 @@ const CAPABILITIES_DATA = {
   },
   "claw": {
     "name": "claw",
-    "type": "skill",
+    "type": "command",
     "title": "Claw Command",
     "description": "Start an interactive AI agent session with persistent markdown history and operational controls.",
     "sections": {
@@ -425,7 +425,7 @@ const CAPABILITIES_DATA = {
   },
   "code-review": {
     "name": "code-review",
-    "type": "skill",
+    "type": "command",
     "title": "code-review",
     "description": "Comprehensive security and quality review of uncommitted changes:",
     "sections": {},
@@ -434,7 +434,7 @@ const CAPABILITIES_DATA = {
   },
   "e2e": {
     "name": "e2e",
-    "type": "skill",
+    "type": "command",
     "title": "E2E Command",
     "description": "This command invokes the **e2e-runner** agent to generate, maintain, and execute end-to-end tests using Playwright.",
     "sections": {
@@ -457,7 +457,7 @@ const CAPABILITIES_DATA = {
   },
   "evolve": {
     "name": "evolve",
-    "type": "skill",
+    "type": "command",
     "title": "Evolve Command",
     "description": "",
     "sections": {
@@ -472,7 +472,7 @@ const CAPABILITIES_DATA = {
   },
   "go-build": {
     "name": "go-build",
-    "type": "skill",
+    "type": "command",
     "title": "Go Build and Fix",
     "description": "This command invokes the **go-build-resolver** agent to incrementally fix Go build errors with minimal changes.",
     "sections": {
@@ -490,7 +490,7 @@ const CAPABILITIES_DATA = {
   },
   "go-review": {
     "name": "go-review",
-    "type": "skill",
+    "type": "command",
     "title": "Go Code Review",
     "description": "This command invokes the **go-reviewer** agent for comprehensive Go-specific code review.",
     "sections": {
@@ -507,7 +507,7 @@ const CAPABILITIES_DATA = {
   },
   "go-test": {
     "name": "go-test",
-    "type": "skill",
+    "type": "command",
     "title": "Go TDD Command",
     "description": "This command enforces test-driven development methodology for Go code using idiomatic Go testing patterns.",
     "sections": {
@@ -525,7 +525,7 @@ const CAPABILITIES_DATA = {
   },
   "gradle-build": {
     "name": "gradle-build",
-    "type": "skill",
+    "type": "command",
     "title": "Gradle Build Fix",
     "description": "Incrementally fix Gradle build and compilation errors for Android and Kotlin Multiplatform projects.",
     "sections": {
@@ -541,7 +541,7 @@ const CAPABILITIES_DATA = {
   },
   "instinct-export": {
     "name": "instinct-export",
-    "type": "skill",
+    "type": "command",
     "title": "Instinct Export Command",
     "description": "Exports instincts to a shareable format. Perfect for:",
     "sections": {
@@ -554,7 +554,7 @@ const CAPABILITIES_DATA = {
   },
   "instinct-import": {
     "name": "instinct-import",
-    "type": "skill",
+    "type": "command",
     "title": "Instinct Import Command",
     "description": "",
     "sections": {
@@ -570,7 +570,7 @@ const CAPABILITIES_DATA = {
   },
   "instinct-status": {
     "name": "instinct-status",
-    "type": "skill",
+    "type": "command",
     "title": "Instinct Status Command",
     "description": "Shows learned instincts for the current project plus global instincts, grouped by domain.",
     "sections": {
@@ -582,7 +582,7 @@ const CAPABILITIES_DATA = {
   },
   "kotlin-build": {
     "name": "kotlin-build",
-    "type": "skill",
+    "type": "command",
     "title": "Kotlin Build and Fix",
     "description": "This command invokes the **kotlin-build-resolver** agent to incrementally fix Kotlin build errors with minimal changes.",
     "sections": {
@@ -600,7 +600,7 @@ const CAPABILITIES_DATA = {
   },
   "kotlin-review": {
     "name": "kotlin-review",
-    "type": "skill",
+    "type": "command",
     "title": "Kotlin Code Review",
     "description": "This command invokes the **kotlin-reviewer** agent for comprehensive Kotlin-specific code review.",
     "sections": {
@@ -617,7 +617,7 @@ const CAPABILITIES_DATA = {
   },
   "kotlin-test": {
     "name": "kotlin-test",
-    "type": "skill",
+    "type": "command",
     "title": "Kotlin TDD Command",
     "description": "This command enforces test-driven development methodology for Kotlin code using Kotest, MockK, and Kover.",
     "sections": {
@@ -635,7 +635,7 @@ const CAPABILITIES_DATA = {
   },
   "learn-eval": {
     "name": "learn-eval",
-    "type": "skill",
+    "type": "command",
     "title": "/learn-eval - Extract, Evaluate, then Save",
     "description": "Extends `/learn` with a quality gate, save-location decision, and knowledge-placement awareness before writing any skill file.",
     "sections": {
@@ -649,7 +649,7 @@ const CAPABILITIES_DATA = {
   },
   "orchestrate": {
     "name": "orchestrate",
-    "type": "skill",
+    "type": "command",
     "title": "orchestrate",
     "description": "Sequential agent workflow for complex tasks.",
     "sections": {
@@ -668,7 +668,7 @@ const CAPABILITIES_DATA = {
   },
   "plan": {
     "name": "plan",
-    "type": "skill",
+    "type": "command",
     "title": "Plan Command",
     "description": "This command invokes the **planner** agent to create a comprehensive implementation plan before writing any code.",
     "sections": {
@@ -684,7 +684,7 @@ const CAPABILITIES_DATA = {
   },
   "projects": {
     "name": "projects",
-    "type": "skill",
+    "type": "command",
     "title": "Projects Command",
     "description": "List project registry entries and per-project instinct/observation counts for continuous-learning-v2.",
     "sections": {
@@ -696,7 +696,7 @@ const CAPABILITIES_DATA = {
   },
   "promote": {
     "name": "promote",
-    "type": "skill",
+    "type": "command",
     "title": "Promote Command",
     "description": "Promote instincts from project scope to global scope in continuous-learning-v2.",
     "sections": {
@@ -708,7 +708,7 @@ const CAPABILITIES_DATA = {
   },
   "prompt-optimize": {
     "name": "prompt-optimize",
-    "type": "skill",
+    "type": "command",
     "title": "/prompt-optimize",
     "description": "Analyze and optimize the following prompt for maximum ECC leverage.",
     "sections": {
@@ -722,7 +722,7 @@ const CAPABILITIES_DATA = {
   },
   "python-review": {
     "name": "python-review",
-    "type": "skill",
+    "type": "command",
     "title": "Python Code Review",
     "description": "This command invokes the **python-reviewer** agent for comprehensive Python-specific code review.",
     "sections": {
@@ -742,7 +742,7 @@ const CAPABILITIES_DATA = {
   },
   "resume-session": {
     "name": "resume-session",
-    "type": "skill",
+    "type": "command",
     "title": "Resume Session Command",
     "description": "Load the last saved session state and orient fully before doing any work.",
     "sections": {
@@ -757,7 +757,7 @@ const CAPABILITIES_DATA = {
   },
   "save-session": {
     "name": "save-session",
-    "type": "skill",
+    "type": "command",
     "title": "Save Session Command",
     "description": "Capture everything that happened in this session \u2014 what was built, what worked, what failed, what's left \u2014 and write it to a dated file so the next session can pick up exactly where this one left off.",
     "sections": {
@@ -772,7 +772,7 @@ const CAPABILITIES_DATA = {
   },
   "sessions": {
     "name": "sessions",
-    "type": "skill",
+    "type": "command",
     "title": "sessions",
     "description": "Manage Claude Code session history - list, load, alias, and edit sessions stored in `~/.claude/sessions/`.",
     "sections": {
@@ -787,7 +787,7 @@ const CAPABILITIES_DATA = {
   },
   "skill-create": {
     "name": "skill-create",
-    "type": "skill",
+    "type": "command",
     "title": "/skill-create - Local Skill Generation",
     "description": "Analyze your repository's git history to extract coding patterns and generate SKILL.md files that teach Claude your team's practices.",
     "sections": {
@@ -802,7 +802,7 @@ const CAPABILITIES_DATA = {
   },
   "tdd": {
     "name": "tdd",
-    "type": "skill",
+    "type": "command",
     "title": "TDD Command",
     "description": "This command invokes the **tdd-guide** agent to enforce test-driven development methodology.",
     "sections": {
@@ -1533,7 +1533,7 @@ const CAPABILITIES_DATA = {
   },
   "feature-dev": {
     "name": "feature-dev",
-    "type": "skill",
+    "type": "command",
     "title": "Feature Development",
     "description": "You are helping a developer implement a new feature. Follow a systematic approach: understand the codebase deeply, identify and ask about all underspecified details, design elegant architectures, then",
     "sections": {
@@ -1551,7 +1551,7 @@ const CAPABILITIES_DATA = {
   },
   "review-pr": {
     "name": "review-pr",
-    "type": "skill",
+    "type": "command",
     "title": "Comprehensive PR Review",
     "description": "Run a comprehensive pull request review using multiple specialized agents, each focusing on a different aspect of code quality.",
     "sections": {
@@ -1567,7 +1567,7 @@ const CAPABILITIES_DATA = {
   },
   "create-plugin": {
     "name": "create-plugin",
-    "type": "skill",
+    "type": "command",
     "title": "Plugin Creation Workflow",
     "description": "Guide the user through creating a complete, high-quality Claude Code plugin from initial concept to tested implementation. Follow a systematic approach: understand requirements, design components, cla",
     "sections": {
@@ -1588,7 +1588,7 @@ const CAPABILITIES_DATA = {
   },
   "configure": {
     "name": "configure",
-    "type": "skill",
+    "type": "command",
     "title": "Configure Hookify Rules",
     "description": "**Load hookify:writing-rules skill first** to understand rule format.",
     "sections": {
@@ -1601,7 +1601,7 @@ const CAPABILITIES_DATA = {
   },
   "help": {
     "name": "help",
-    "type": "skill",
+    "type": "command",
     "title": "Hookify Plugin Help",
     "description": "Explain how the hookify plugin works and how to use it.",
     "sections": {
@@ -1619,7 +1619,7 @@ const CAPABILITIES_DATA = {
   },
   "hookify": {
     "name": "hookify",
-    "type": "skill",
+    "type": "command",
     "title": "Hookify - Create Hooks from Unwanted Behaviors",
     "description": "**FIRST: Load the hookify:writing-rules skill** using the Skill tool to understand rule file format and syntax.",
     "sections": {
@@ -1635,7 +1635,7 @@ const CAPABILITIES_DATA = {
   },
   "list": {
     "name": "list",
-    "type": "skill",
+    "type": "command",
     "title": "List Hookify Rules",
     "description": "**Load hookify:writing-rules skill first** to understand rule format.",
     "sections": {
@@ -1647,7 +1647,7 @@ const CAPABILITIES_DATA = {
   },
   "clean_gone": {
     "name": "clean_gone",
-    "type": "skill",
+    "type": "command",
     "title": "clean_gone",
     "description": "",
     "sections": {
@@ -1660,7 +1660,7 @@ const CAPABILITIES_DATA = {
   },
   "commit-push-pr": {
     "name": "commit-push-pr",
-    "type": "skill",
+    "type": "command",
     "title": "commit-push-pr",
     "description": "",
     "sections": {
@@ -1672,7 +1672,7 @@ const CAPABILITIES_DATA = {
   },
   "commit": {
     "name": "commit",
-    "type": "skill",
+    "type": "command",
     "title": "commit",
     "description": "",
     "sections": {
@@ -1684,7 +1684,7 @@ const CAPABILITIES_DATA = {
   },
   "cpp-build": {
     "name": "cpp-build",
-    "type": "skill",
+    "type": "command",
     "title": "C++ Build and Fix",
     "description": "This command invokes the **cpp-build-resolver** agent to incrementally fix C++ build errors with minimal changes.",
     "sections": {
@@ -1702,7 +1702,7 @@ const CAPABILITIES_DATA = {
   },
   "cpp-review": {
     "name": "cpp-review",
-    "type": "skill",
+    "type": "command",
     "title": "C++ Code Review",
     "description": "This command invokes the **cpp-reviewer** agent for comprehensive C++-specific code review.",
     "sections": {
@@ -1719,7 +1719,7 @@ const CAPABILITIES_DATA = {
   },
   "cpp-test": {
     "name": "cpp-test",
-    "type": "skill",
+    "type": "command",
     "title": "C++ TDD Command",
     "description": "This command enforces test-driven development methodology for C++ code using GoogleTest/GoogleMock with CMake/CTest.",
     "sections": {
@@ -1737,7 +1737,7 @@ const CAPABILITIES_DATA = {
   },
   "devfleet": {
     "name": "devfleet",
-    "type": "skill",
+    "type": "command",
     "title": "DevFleet \u2014 Multi-Agent Orchestration",
     "description": "Orchestrate parallel Claude Code agents via Claude DevFleet. Each agent runs in an isolated git worktree with full tooling.",
     "sections": {
@@ -1750,7 +1750,7 @@ const CAPABILITIES_DATA = {
   },
   "docs": {
     "name": "docs",
-    "type": "skill",
+    "type": "command",
     "title": "/docs",
     "description": "",
     "sections": {
@@ -1764,7 +1764,7 @@ const CAPABILITIES_DATA = {
   },
   "prune": {
     "name": "prune",
-    "type": "skill",
+    "type": "command",
     "title": "Prune Pending Instincts",
     "description": "Remove expired pending instincts that were auto-generated but never reviewed or promoted.",
     "sections": {
@@ -1775,7 +1775,7 @@ const CAPABILITIES_DATA = {
   },
   "rust-build": {
     "name": "rust-build",
-    "type": "skill",
+    "type": "command",
     "title": "Rust Build and Fix",
     "description": "This command invokes the **rust-build-resolver** agent to incrementally fix Rust build errors with minimal changes.",
     "sections": {
@@ -1793,7 +1793,7 @@ const CAPABILITIES_DATA = {
   },
   "rust-review": {
     "name": "rust-review",
-    "type": "skill",
+    "type": "command",
     "title": "Rust Code Review",
     "description": "This command invokes the **rust-reviewer** agent for comprehensive Rust-specific code review.",
     "sections": {
@@ -1810,7 +1810,7 @@ const CAPABILITIES_DATA = {
   },
   "rust-test": {
     "name": "rust-test",
-    "type": "skill",
+    "type": "command",
     "title": "Rust TDD Command",
     "description": "This command enforces test-driven development methodology for Rust code using `#[test]`, rstest, proptest, and mockall.",
     "sections": {
@@ -1828,7 +1828,7 @@ const CAPABILITIES_DATA = {
   },
   "loop": {
     "name": "loop",
-    "type": "skill",
+    "type": "command",
     "title": "Loop",
     "description": "\u5faa\u73af\u6267\u884c Skill\uff0c\u6309\u8bbe\u5b9a\u95f4\u9694\u91cd\u590d\u8fd0\u884c\u547d\u4ee4\u6216\u63d0\u793a",
     "sections": {
@@ -1840,7 +1840,7 @@ const CAPABILITIES_DATA = {
   },
   "simplify": {
     "name": "simplify",
-    "type": "skill",
+    "type": "command",
     "title": "Simplify",
     "description": "\u4ee3\u7801\u7b80\u5316 Skill\uff0c\u5ba1\u67e5\u53d8\u66f4\u4ee3\u7801\u7684\u590d\u7528\u6027\u3001\u8d28\u91cf\u548c\u6548\u7387",
     "sections": {
@@ -1851,7 +1851,7 @@ const CAPABILITIES_DATA = {
   },
   "update-config": {
     "name": "update-config",
-    "type": "skill",
+    "type": "command",
     "title": "Update Config",
     "description": "\u914d\u7f6e\u66f4\u65b0 Skill\uff0c\u7528\u4e8e\u914d\u7f6e Claude Code harness \u7684 settings.json",
     "sections": {
@@ -1863,7 +1863,7 @@ const CAPABILITIES_DATA = {
   },
   "skill-health": {
     "name": "skill-health",
-    "type": "skill",
+    "type": "command",
     "title": "Skill Health Dashboard",
     "description": "Shows a comprehensive health dashboard for all skills in the portfolio with success rate sparklines, failure pattern clustering, pending amendments, and version history.",
     "sections": {
