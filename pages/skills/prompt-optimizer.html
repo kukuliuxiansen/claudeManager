@@ -8,7 +8,7 @@
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,56 +26,38 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #f59e0b; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(245, 158, 11, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #f59e0b; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(245, 158, 11, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(245, 158, 11, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #f59e0b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
         <span class="breadcrumb-current">提示词优化</span>
     </nav>
@@ -83,845 +65,222 @@
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
             </div>
             <h1 class="detail-title">提示词优化</h1>
-            <p class="detail-subtitle">提示词优化器，自动改进和优化提示词的清晰度和效果</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    local
-                </div>
+            <p class="detail-subtitle">分析原始提示词，识别意图和缺口，匹配ECC组件并输出优化后的提示词</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Tool Skill
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">local</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                何时使用
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- User says &quot;optimize this prompt&quot;, &quot;improve my prompt&quot;, &quot;rewrite this prompt&quot;
-- User says &quot;help me write a better prompt for...&quot;
-- User says &quot;what&#039;s the best way to ask Claude Code to...&quot;
-- User says &quot;优化prompt&quot;, &quot;改进prompt&quot;, &quot;怎么写prompt&quot;, &quot;帮我优化这个指令&quot;
-- User pastes a draft prompt and asks for feedback or enhancement
-- User says &quot;I don&#039;t know how to prompt for this&quot;
-- User says &quot;how should I use ECC for...&quot;
-- User explicitly invokes `/prompt-optimize`
+                <p>提示词优化Skill 分析原始提示词，匹配ECC生态组件，输出完整优化提示词供用户直接使用。</p>
 
-### Do Not Use When
-
-- User wants the task done directly (just execute it)
-- User says &quot;优化代码&quot;, &quot;优化性能&quot;, &quot;optimize this code&quot;, &quot;optimize performance&quot; — these are refactoring tasks, not prompt optimization
-- User is asking about ECC configuration (use `configure-ecc` instead)
-- User wants a skill inventory (use `skill-stocktake` instead)
-- User says &quot;just do it&quot; or &quot;直接做&quot;</pre>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">项目检测</h4>
+                            <p class="feature-desc">自动检测项目技术栈(package.json, go.mod等)用于提示词优化</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">意图分类</h4>
+                            <p class="feature-desc">识别任务类型：新功能、Bug修复、重构、研究、测试、审查等</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">组件匹配</h4>
+                            <p class="feature-desc">自动匹配Commands、Skills、Agents和推荐模型</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">缺口检测</h4>
+                            <p class="feature-desc">识别缺失信息，必要时提出澄清问题</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                How It Works
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">**Advisory only — do not execute the user&#039;s task.**
+                <p>提示词优化器采用6阶段分析管道，仅输出分析和优化提示词，不执行任务。</p>
 
-Do NOT write code, create files, run commands, or take any implementation
-action. Your ONLY output is an analysis plus an optimized prompt.
+                <p style="margin-top:20px"><strong>分析阶段</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>Phase 0</strong>: 项目检测 - CLAUDE.md、技术栈文件</li>
+                    <li><strong>Phase 1</strong>: 意图检测 - 任务分类</li>
+                    <li><strong>Phase 2</strong>: 范围评估 - TRIVIAL/LOW/MEDIUM/HIGH/EPIC</li>
+                    <li><strong>Phase 3</strong>: ECC组件匹配 - Commands/Skills/Agents</li>
+                    <li><strong>Phase 4</strong>: 缺口检测 - 缺失关键信息</li>
+                    <li><strong>Phase 5</strong>: 工作流与模型推荐</li>
+                </ul>
 
-If the user says &quot;just do it&quot;, &quot;直接做&quot;, or &quot;don&#039;t optimize, just execute&quot;,
-do not switch into implementation mode inside this skill. Tell the user this
-skill only produces optimized prompts, and instruct them to make a normal
-task request if they want execution instead.
-
-Run this 6-phase pipeline sequentially. Present results using the Output Format below.
-
-### Analysis Pipeline
-
-### Phase 0: Project Detection
-
-Before analyzing the prompt, detect the current project context:
-
-1. Check if a `CLAUDE.md` exists in the working directory — read it for project conventions
-2. Detect tech stack from project files:
-   - `package.json` → Node.js / TypeScript / React / Next.js
-   - `go.mod` → Go
-   - `pyproject.toml` / `requirements.txt` → Python
-   - `Cargo.toml` → Rust
-   - `build.gradle` / `pom.xml` → Java / Kotlin / Spring Boot
-   - `Package.swift` → Swift
-   - `Gemfile` → Ruby
-   - `composer.json` → PHP
-   - `*.csproj` / `*.sln` → .NET
-   - `Makefile` / `CMakeLists.txt` → C / C++
-   - `cpanfile` / `Makefile.PL` → Perl
-3. Note detected tech stack for use in Phase 3 and Phase 4
-
-If no project files are found (e.g., the prompt is abstract or for a new project),
-skip detection and flag &quot;tech stack unknown&quot; in Phase 4.
-
-### Phase 1: Intent Detection
-
-Classify the user&#039;s task into one or more categories:
-
-| Category | Signal Words | Example |
-|----------|-------------|---------|
-| New Feature | build, create, add, implement, 创建, 实现, 添加 | &quot;Build a login page&quot; |
-| Bug Fix | fix, broken, not working, error, 修复, 报错 | &quot;Fix the auth flow&quot; |
-| Refactor | refactor, clean up, restructure, 重构, 整理 | &quot;Refactor the API layer&quot; |
-| Research | how to, what is, explore, investigate, 怎么, 如何 | &quot;How to add SSO&quot; |
-| Testing | test, coverage, verify, 测试, 覆盖率 | &quot;Add tests for the cart&quot; |
-| Review | review, audit, check, 审查, 检查 | &quot;Review my PR&quot; |
-| Documentation | document, update docs, 文档 | &quot;Update the API docs&quot; |
-| Infrastructure | deploy, CI, docker, database, 部署, 数据库 | &quot;Set up CI/CD pipeline&quot; |
-| Design | design, architecture, plan, 设计, 架构 | &quot;Design the data model&quot; |
-
-### Phase 2: Scope Assessment
-
-If Phase 0 detected a project, use codebase size as a signal. Otherwise, estimate
-from the prompt description alone and mark the estimate as uncertain.
-
-| Scope | Heuristic | Orchestration |
-|-------|-----------|---------------|
-| TRIVIAL | Single file, &lt; 50 lines | Direct execution |
-| LOW | Single component or module | Single command or skill |
-| MEDIUM | Multiple components, same domain | Command chain + /verify |
-| HIGH | Cross-domain, 5+ files | /plan first, then phased execution |
-| EPIC | Multi-session, multi-PR, architectural shift | Use blueprint skill for multi-session plan |
-
-### Phase 3: ECC Component Matching
-
-Map intent + scope + tech stack (from Phase 0) to specific ECC components.
-
-#### By Intent Type
-
-| Intent | Commands | Skills | Agents |
-|--------|----------|--------|--------|
-| New Feature | /plan, /tdd, /code-review, /verify | tdd-workflow, verification-loop | planner, tdd-guide, code-reviewer |
-| Bug Fix | /tdd, /build-fix, /verify | tdd-workflow | tdd-guide, build-error-resolver |
-| Refactor | /refactor-clean, /code-review, /verify | verification-loop | refactor-cleaner, code-reviewer |
-| Research | /plan | search-first, iterative-retrieval | — |
-| Testing | /tdd, /e2e, /test-coverage | tdd-workflow, e2e-testing | tdd-guide, e2e-runner |
-| Review | /code-review | security-review | code-reviewer, security-reviewer |
-| Documentation | /update-docs, /update-codemaps | — | doc-updater |
-| Infrastructure | /plan, /verify | docker-patterns, deployment-patterns, database-migrations | architect |
-| Design (MEDIUM-HIGH) | /plan | — | planner, architect |
-| Design (EPIC) | — | blueprint (invoke as skill) | planner, architect |
-
-#### By Tech Stack
-
-| Tech Stack | Skills to Add | Agent |
-|------------|--------------|-------|
-| Python / Django | django-patterns, django-tdd, django-security, django-verification, python-patterns, python-testing | python-reviewer |
-| Go | golang-patterns, golang-testing | go-reviewer, go-build-resolver |
-| Spring Boot / Java | springboot-patterns, springboot-tdd, springboot-security, springboot-verification, java-coding-standards, jpa-patterns | code-reviewer |
-| Kotlin / Android | kotlin-coroutines-flows, compose-multiplatform-patterns, android-clean-architecture | kotlin-reviewer |
-| TypeScript / React | frontend-patterns, backend-patterns, coding-standards | code-reviewer |
-| Swift / iOS | swiftui-patterns, swift-concurrency-6-2, swift-actor-persistence, swift-protocol-di-testing | code-reviewer |
-| PostgreSQL | postgres-patterns, database-migrations | database-reviewer |
-| Perl | perl-patterns, perl-testing, perl-security | code-reviewer |
-| C++ | cpp-coding-standards, cpp-testing | code-reviewer |
-| Other / Unlisted | coding-standards (universal) | code-reviewer |
-
-### Phase 4: Missing Context Detection
-
-Scan the prompt for missing critical information. Check each item and mark
-whether Phase 0 auto-detected it or the user must supply it:
-
-- [ ] **Tech stack** — Detected in Phase 0, or must user specify?
-- [ ] **Target scope** — Files, directories, or modules mentioned?
-- [ ] **Acceptance criteria** — How to know the task is done?
-- [ ] **Error handling** — Edge cases and failure modes addressed?
-- [ ] **Security requirements** — Auth, input validation, secrets?
-- [ ] **Testing expectations** — Unit, integration, E2E?
-- [ ] **Performance constraints** — Load, latency, resource limits?
-- [ ] **UI/UX requirements** — Design specs, responsive, a11y? (if frontend)
-- [ ] **Database changes** — Schema, migrations, indexes? (if data layer)
-- [ ] **Existing patterns** — Reference files or conventions to follow?
-- [ ] **Scope boundaries** — What NOT to do?
-
-**If 3+ critical items are missing**, ask the user up to 3 clarification
-questions before generating the optimized prompt. Then incorporate the
-answers into the optimized prompt.
-
-### Phase 5: Workflow &amp; Model Recommendation
-
-Determine where this prompt sits in the development lifecycle:
-
-```
-Research → Plan → Implement (TDD) → Review → Verify → Commit
-```
-
-For MEDIUM+ tasks, always start with /plan. For EPIC tasks, use blueprint skill.
-
-**Model recommendation** (include in output):
-
-| Scope | Recommended Model | Rationale |
-|-------|------------------|-----------|
-| TRIVIAL-LOW | Sonnet 4.6 | Fast, cost-efficient for simple tasks |
-| MEDIUM | Sonnet 4.6 | Best coding model for standard work |
-| HIGH | Sonnet 4.6 (main) + Opus 4.6 (planning) | Opus for architecture, Sonnet for implementation |
-| EPIC | Opus 4.6 (blueprint) + Sonnet 4.6 (execution) | Deep reasoning for multi-session planning |
-
-**Multi-prompt splitting** (for HIGH/EPIC scope):
-
-For tasks that exceed a single session, split into sequential prompts:
-- Prompt 1: Research + Plan (use search-first skill, then /plan)
-- Prompt 2-N: Implement one phase per prompt (each ends with /verify)
-- Final Prompt: Integration test + /code-review across all phases
-- Use /save-session and /resume-session to preserve context between sessions
-
----</pre>
+                <p style="margin-top:20px"><strong>范围定义</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>TRIVIAL: 单文件，<50行</li>
+                    <li>LOW: 单组件或模块</li>
+                    <li>MEDIUM: 多组件，同领域</li>
+                    <li>HIGH: 跨领域，5+文件</li>
+                    <li>EPIC: 多会话，多PR，架构变更</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Output Format
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">Present your analysis in this exact structure. Respond in the same language
-as the user&#039;s input.
+                <p>当用户请求优化提示词时触发：</p>
 
-### Section 1: Prompt Diagnosis
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">输出格式与优化示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 输出格式
 
-**Strengths:** List what the original prompt does well.
+### Section 1: 提示词诊断
+**Strengths:** 原提示词的优点
+**Issues:** 问题表格（问题/影响/修复建议）
+**Needs Clarification:** 需要澄清的问题列表
 
-**Issues:**
-
-| Issue | Impact | Suggested Fix |
-|-------|--------|---------------|
-| (problem) | (consequence) | (how to fix) |
-
-**Needs Clarification:** Numbered list of questions the user should answer.
-If Phase 0 auto-detected the answer, state it instead of asking.
-
-### Section 2: Recommended ECC Components
-
+### Section 2: 推荐ECC组件
 | Type | Component | Purpose |
-|------|-----------|---------|
-| Command | /plan | Plan architecture before coding |
-| Skill | tdd-workflow | TDD methodology guidance |
-| Agent | code-reviewer | Post-implementation review |
-| Model | Sonnet 4.6 | Recommended for this scope |
+|Command| /plan | 规划架构 |
+|Skill| tdd-workflow | TDD方法 |
+|Agent| code-reviewer | 代码审查 |
 
-### Section 3: Optimized Prompt — Full Version
+### Section 3: 优化提示词 - 完整版
+（自包含的可复制提示词）
 
-Present the complete optimized prompt inside a single fenced code block.
-The prompt must be self-contained and ready to copy-paste. Include:
-- Clear task description with context
-- Tech stack (detected or specified)
-- /command invocations at the right workflow stages
-- Acceptance criteria
-- Verification steps
-- Scope boundaries (what NOT to do)
+### Section 4: 优化提示词 - 快速版
+/plan [feature]. /tdd to implement. /code-review. /verify.
 
-For items that reference blueprint, write: &quot;Use the blueprint skill to...&quot;
-(not `/blueprint`, since blueprint is a skill, not a command).
+# 示例：模糊中文提示词
+输入: "帮我写一个用户登录页面"
+检测: package.json with Next.js 15, TypeScript
 
-### Section 4: Optimized Prompt — Quick Version
-
-A compact version for experienced ECC users. Vary by intent type:
-
-| Intent | Quick Pattern |
-|--------|--------------|
-| New Feature | `/plan [feature]. /tdd to implement. /code-review. /verify.` |
-| Bug Fix | `/tdd — write failing test for [bug]. Fix to green. /verify.` |
-| Refactor | `/refactor-clean [scope]. /code-review. /verify.` |
-| Research | `Use search-first skill for [topic]. /plan based on findings.` |
-| Testing | `/tdd [module]. /e2e for critical flows. /test-coverage.` |
-| Review | `/code-review. Then use security-reviewer agent.` |
-| Docs | `/update-docs. /update-codemaps.` |
-| EPIC | `Use blueprint skill for &quot;[objective]&quot;. Execute phases with /verify gates.` |
-
-### Section 5: Enhancement Rationale
-
-| Enhancement | Reason |
-|-------------|--------|
-| (what was added) | (why it matters) |
-
-### Footer
-
-&gt; Not what you need? Tell me what to adjust, or make a normal task request
-&gt; if you want execution instead of prompt optimization.
-
----</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                示例
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Trigger Examples
-
-- &quot;Optimize this prompt for ECC&quot;
-- &quot;Rewrite this prompt so Claude Code uses the right commands&quot;
-- &quot;帮我优化这个指令&quot;
-- &quot;How should I prompt ECC for this task?&quot;
-
-### Example 1: Vague Chinese Prompt (Project Detected)
-
-**User input:**
-```
-帮我写一个用户登录页面
-```
-
-**Phase 0 detects:** `package.json` with Next.js 15, TypeScript, Tailwind CSS
-
-**Optimized Prompt (Full):**
-```
+优化后:
 使用项目现有技术栈（Next.js 15 + TypeScript + Tailwind CSS）实现用户登录页面。
 
 技术要求：
 - 沿用项目现有的组件结构和路由约定
-- 表单验证使用项目中已有的验证方案（检查是否已用 Zod/Yup/其他）
-- 认证方式：沿用项目现有认证方案（如无，默认 JWT）
-- 包含：邮箱/密码登录表单、表单验证、错误提示、加载状态、响应式布局
+- 认证方式：沿用项目现有认证方案
 
 工作流：
-1. /plan 先规划组件结构和认证流程，参考现有页面的模式
-2. /tdd 测试先行：编写登录表单的单元测试和认证流程的集成测试
-3. 实现登录页面和认证逻辑
-4. /code-review 审查实现
-5. /verify 验证所有测试通过且页面正常渲染
-
-安全要求：
-- 密码不明文传输
-- 防止暴力破解（rate limiting）
-- XSS 防护
-- CSRF token
-
-验收标准：
-- 所有测试通过，覆盖率 80%+
-- 页面在移动端和桌面端正常渲染
-- 登录成功跳转到 dashboard，失败显示错误信息
-
-不要做：
-- 不要实现注册页面
-- 不要实现忘记密码功能
-- 不要修改现有的路由结构
-```
-
-### Example 2: Moderate English Prompt
-
-**User input:**
-```
-Add a REST API endpoint for user profile updates with validation
-```
-
-**Phase 0 detects:** `go.mod` with Go 1.22, Chi router
-
-**Optimized Prompt (Full):**
-```
-Add a REST API endpoint for user profile updates (PATCH /api/users/:id).
-
-Tech stack: Go 1.22 + Chi router (detected from project)
-
-Requirements:
-- PATCH /api/users/:id — partial update of user profile
-- Input validation for fields: name, email, avatar_url, bio
-- Auth: require valid token, users can only update own profile
-- Return 200 with updated user on success
-- Return 400 with validation errors on invalid input
-- Return 401/403 for auth failures
-- Follow existing API patterns in the codebase
-
-Workflow:
-1. /plan the endpoint structure, middleware chain, and validation logic
-2. /tdd — write table-driven tests for success, validation failure, auth failure, not-found
-3. Implement following existing handler patterns
-4. /go-review
-5. /verify — run full test suite, confirm no regressions
-
-Do not:
-- Modify existing endpoints
-- Change the database schema (use existing user table)
-- Add new dependencies without checking existing ones first (use search-first skill)
-```
-
-### Example 3: EPIC Project
-
-**User input:**
-```
-Migrate our monolith to microservices
-```
-
-**Optimized Prompt (Full):**
-```
-Use the blueprint skill to plan: &quot;Migrate monolith to microservices architecture&quot;
-
-Before executing, answer these questions in the blueprint:
-1. Which domain boundaries exist in the current monolith?
-2. Which service should be extracted first (lowest coupling)?
-3. Communication pattern: REST APIs, gRPC, or event-driven (Kafka/RabbitMQ)?
-4. Database strategy: shared DB initially or database-per-service from start?
-5. Deployment target: Kubernetes, Docker Compose, or serverless?
-
-The blueprint should produce phases like:
-- Phase 1: Identify service boundaries and create domain map
-- Phase 2: Set up infrastructure (API gateway, service mesh, CI/CD per service)
-- Phase 3: Extract first service (strangler fig pattern)
-- Phase 4: Verify with integration tests, then extract next service
-- Phase N: Decommission monolith
-
-Each phase = 1 PR, with /verify gates between phases.
-Use /save-session between phases. Use /resume-session to continue.
-Use git worktrees for parallel service extraction when dependencies allow.
-
-Recommended: Opus 4.6 for blueprint planning, Sonnet 4.6 for phase execution.
-```
-
----</pre>
+1. /plan 先规划组件结构和认证流程
+2. /tdd 测试先行
+3. /code-review 审查实现
+4. /verify 验证测试通过</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Related Components
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">| Component | When to Reference |
-|-----------|------------------|
-| `configure-ecc` | User hasn&#039;t set up ECC yet |
-| `skill-stocktake` | Audit which components are installed (use instead of hardcoded catalog) |
-| `search-first` | Research phase in optimized prompts |
-| `blueprint` | EPIC-scope optimized prompts (invoke as skill, not command) |
-| `strategic-compact` | Long session context management |
-| `cost-aware-llm-pipeline` | Token optimization recommendations |</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>仅建议不执行</strong> - 此技能只输出优化提示词，不执行实际任务</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>澄清优先</strong> - 缺失3+关键信息时先提问再生成提示词</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>EPIC用blueprint</strong> - 大型任务使用blueprint skill进行多会话规划</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>模型推荐</strong> - 根据范围推荐合适的模型(Haiku/Sonnet/Opus)</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: prompt-optimizer
-description: &gt;-
-  Analyze raw prompts, identify intent and gaps, match ECC components
-  (skills/commands/agents/hooks), and output a ready-to-paste optimized
-  prompt. Advisory role only — never executes the task itself.
-  TRIGGER when: user says &quot;optimize prompt&quot;, &quot;improve my prompt&quot;,
-  &quot;how to write a prompt for&quot;, &quot;help me prompt&quot;, &quot;rewrite this prompt&quot;,
-  or explicitly asks to enhance prompt quality. Also triggers on Chinese
-  equivalents: &quot;优化prompt&quot;, &quot;改进prompt&quot;, &quot;怎么写prompt&quot;, &quot;帮我优化这个指令&quot;.
-  DO NOT TRIGGER when: user wants the task executed directly, or says
-  &quot;just do it&quot; / &quot;直接做&quot;. DO NOT TRIGGER when user says &quot;优化代码&quot;,
-  &quot;优化性能&quot;, &quot;optimize performance&quot;, &quot;optimize this code&quot; — those are
-  refactoring/performance tasks, not prompt optimization.
-origin: community
-metadata:
-  author: YannJY02
-  version: &quot;1.0.0&quot;
----
-
-# Prompt Optimizer
-
-Analyze a draft prompt, critique it, match it to ECC ecosystem components,
-and output a complete optimized prompt the user can paste and run.
-
-## When to Use
-
-- User says &quot;optimize this prompt&quot;, &quot;improve my prompt&quot;, &quot;rewrite this prompt&quot;
-- User says &quot;help me write a better prompt for...&quot;
-- User says &quot;what&#039;s the best way to ask Claude Code to...&quot;
-- User says &quot;优化prompt&quot;, &quot;改进prompt&quot;, &quot;怎么写prompt&quot;, &quot;帮我优化这个指令&quot;
-- User pastes a draft prompt and asks for feedback or enhancement
-- User says &quot;I don&#039;t know how to prompt for this&quot;
-- User says &quot;how should I use ECC for...&quot;
-- User explicitly invokes `/prompt-optimize`
-
-### Do Not Use When
-
-- User wants the task done directly (just execute it)
-- User says &quot;优化代码&quot;, &quot;优化性能&quot;, &quot;optimize this code&quot;, &quot;optimize performance&quot; — these are refactoring tasks, not prompt optimization
-- User is asking about ECC configuration (use `configure-ecc` instead)
-- User wants a skill inventory (use `skill-stocktake` instead)
-- User says &quot;just do it&quot; or &quot;直接做&quot;
-
-## How It Works
-
-**Advisory only — do not execute the user&#039;s task.**
-
-Do NOT write code, create files, run commands, or take any implementation
-action. Your ONLY output is an analysis plus an optimized prompt.
-
-If the user says &quot;just do it&quot;, &quot;直接做&quot;, or &quot;don&#039;t optimize, just execute&quot;,
-do not switch into implementation mode inside this skill. Tell the user this
-skill only produces optimized prompts, and instruct them to make a normal
-task request if they want execution instead.
-
-Run this 6-phase pipeline sequentially. Present results using the Output Format below.
-
-### Analysis Pipeline
-
-### Phase 0: Project Detection
-
-Before analyzing the prompt, detect the current project context:
-
-1. Check if a `CLAUDE.md` exists in the working directory — read it for project conventions
-2. Detect tech stack from project files:
-   - `package.json` → Node.js / TypeScript / React / Next.js
-   - `go.mod` → Go
-   - `pyproject.toml` / `requirements.txt` → Python
-   - `Cargo.toml` → Rust
-   - `build.gradle` / `pom.xml` → Java / Kotlin / Spring Boot
-   - `Package.swift` → Swift
-   - `Gemfile` → Ruby
-   - `composer.json` → PHP
-   - `*.csproj` / `*.sln` → .NET
-   - `Makefile` / `CMakeLists.txt` → C / C++
-   - `cpanfile` / `Makefile.PL` → Perl
-3. Note detected tech stack for use in Phase 3 and Phase 4
-
-If no project files are found (e.g., the prompt is abstract or for a new project),
-skip detection and flag &quot;tech stack unknown&quot; in Phase 4.
-
-### Phase 1: Intent Detection
-
-Classify the user&#039;s task into one or more categories:
-
-| Category | Signal Words | Example |
-|----------|-------------|---------|
-| New Feature | build, create, add, implement, 创建, 实现, 添加 | &quot;Build a login page&quot; |
-| Bug Fix | fix, broken, not working, error, 修复, 报错 | &quot;Fix the auth flow&quot; |
-| Refactor | refactor, clean up, restructure, 重构, 整理 | &quot;Refactor the API layer&quot; |
-| Research | how to, what is, explore, investigate, 怎么, 如何 | &quot;How to add SSO&quot; |
-| Testing | test, coverage, verify, 测试, 覆盖率 | &quot;Add tests for the cart&quot; |
-| Review | review, audit, check, 审查, 检查 | &quot;Review my PR&quot; |
-| Documentation | document, update docs, 文档 | &quot;Update the API docs&quot; |
-| Infrastructure | deploy, CI, docker, database, 部署, 数据库 | &quot;Set up CI/CD pipeline&quot; |
-| Design | design, architecture, plan, 设计, 架构 | &quot;Design the data model&quot; |
-
-### Phase 2: Scope Assessment
-
-If Phase 0 detected a project, use codebase size as a signal. Otherwise, estimate
-from the prompt description alone and mark the estimate as uncertain.
-
-| Scope | Heuristic | Orchestration |
-|-------|-----------|---------------|
-| TRIVIAL | Single file, &lt; 50 lines | Direct execution |
-| LOW | Single component or module | Single command or skill |
-| MEDIUM | Multiple components, same domain | Command chain + /verify |
-| HIGH | Cross-domain, 5+ files | /plan first, then phased execution |
-| EPIC | Multi-session, multi-PR, architectural shift | Use blueprint skill for multi-session plan |
-
-### Phase 3: ECC Component Matching
-
-Map intent + scope + tech stack (from Phase 0) to specific ECC components.
-
-#### By Intent Type
-
-| Intent | Commands | Skills | Agents |
-|--------|----------|--------|--------|
-| New Feature | /plan, /tdd, /code-review, /verify | tdd-workflow, verification-loop | planner, tdd-guide, code-reviewer |
-| Bug Fix | /tdd, /build-fix, /verify | tdd-workflow | tdd-guide, build-error-resolver |
-| Refactor | /refactor-clean, /code-review, /verify | verification-loop | refactor-cleaner, code-reviewer |
-| Research | /plan | search-first, iterative-retrieval | — |
-| Testing | /tdd, /e2e, /test-coverage | tdd-workflow, e2e-testing | tdd-guide, e2e-runner |
-| Review | /code-review | security-review | code-reviewer, security-reviewer |
-| Documentation | /update-docs, /update-codemaps | — | doc-updater |
-| Infrastructure | /plan, /verify | docker-patterns, deployment-patterns, database-migrations | architect |
-| Design (MEDIUM-HIGH) | /plan | — | planner, architect |
-| Design (EPIC) | — | blueprint (invoke as skill) | planner, architect |
-
-#### By Tech Stack
-
-| Tech Stack | Skills to Add | Agent |
-|------------|--------------|-------|
-| Python / Django | django-patterns, django-tdd, django-security, django-verification, python-patterns, python-testing | python-reviewer |
-| Go | golang-patterns, golang-testing | go-reviewer, go-build-resolver |
-| Spring Boot / Java | springboot-patterns, springboot-tdd, springboot-security, springboot-verification, java-coding-standards, jpa-patterns | code-reviewer |
-| Kotlin / Android | kotlin-coroutines-flows, compose-multiplatform-patterns, android-clean-architecture | kotlin-reviewer |
-| TypeScript / React | frontend-patterns, backend-patterns, coding-standards | code-reviewer |
-| Swift / iOS | swiftui-patterns, swift-concurrency-6-2, swift-actor-persistence, swift-protocol-di-testing | code-reviewer |
-| PostgreSQL | postgres-patterns, database-migrations | database-reviewer |
-| Perl | perl-patterns, perl-testing, perl-security | code-reviewer |
-| C++ | cpp-coding-standards, cpp-testing | code-reviewer |
-| Other / Unlisted | coding-standards (universal) | code-reviewer |
-
-### Phase 4: Missing Context Detection
-
-Scan the prompt for missing critical information. Check each item and mark
-whether Phase 0 auto-detected it or the user must supply it:
-
-- [ ] **Tech stack** — Detected in Phase 0, or must user specify?
-- [ ] **Target scope** — Files, directories, or modules mentioned?
-- [ ] **Acceptance criteria** — How to know the task is done?
-- [ ] **Error handling** — Edge cases and failure modes addressed?
-- [ ] **Security requirements** — Auth, input validation, secrets?
-- [ ] **Testing expectations** — Unit, integration, E2E?
-- [ ] **Performance constraints** — Load, latency, resource limits?
-- [ ] **UI/UX requirements** — Design specs, responsive, a11y? (if frontend)
-- [ ] **Database changes** — Schema, migrations, indexes? (if data layer)
-- [ ] **Existing patterns** — Reference files or conventions to follow?
-- [ ] **Scope boundaries** — What NOT to do?
-
-**If 3+ critical items are missing**, ask the user up to 3 clarification
-questions before generating the optimized prompt. Then incorporate the
-answers into the optimized prompt.
-
-### Phase 5: Workflow &amp; Model Recommendation
-
-Determine where this prompt sits in the development lifecycle:
-
-```
-Research → Plan → Implement (TDD) → Review → Verify → Commit
-```
-
-For MEDIUM+ tasks, always start with /plan. For EPIC tasks, use blueprint skill.
-
-**Model recommendation** (include in output):
-
-| Scope | Recommended Model | Rationale |
-|-------|------------------|-----------|
-| TRIVIAL-LOW | Sonnet 4.6 | Fast, cost-efficient for simple tasks |
-| MEDIUM | Sonnet 4.6 | Best coding model for standard work |
-| HIGH | Sonnet 4.6 (main) + Opus 4.6 (planning) | Opus for architecture, Sonnet for implementation |
-| EPIC | Opus 4.6 (blueprint) + Sonnet 4.6 (execution) | Deep reasoning for multi-session planning |
-
-**Multi-prompt splitting** (for HIGH/EPIC scope):
-
-For tasks that exceed a single session, split into sequential prompts:
-- Prompt 1: Research + Plan (use search-first skill, then /plan)
-- Prompt 2-N: Implement one phase per prompt (each ends with /verify)
-- Final Prompt: Integration test + /code-review across all phases
-- Use /save-session and /resume-session to preserve context between sessions
-
----
-
-## Output Format
-
-Present your analysis in this exact structure. Respond in the same language
-as the user&#039;s input.
-
-### Section 1: Prompt Diagnosis
-
-**Strengths:** List what the original prompt does well.
-
-**Issues:**
-
-| Issue | Impact | Suggested Fix |
-|-------|--------|---------------|
-| (problem) | (consequence) | (how to fix) |
-
-**Needs Clarification:** Numbered list of questions the user should answer.
-If Phase 0 auto-detected the answer, state it instead of asking.
-
-### Section 2: Recommended ECC Components
-
-| Type | Component | Purpose |
-|------|-----------|---------|
-| Command | /plan | Plan architecture before coding |
-| Skill | tdd-workflow | TDD methodology guidance |
-| Agent | code-reviewer | Post-implementation review |
-| Model | Sonnet 4.6 | Recommended for this scope |
-
-### Section 3: Optimized Prompt — Full Version
-
-Present the complete optimized prompt inside a single fenced code block.
-The prompt must be self-contained and ready to copy-paste. Include:
-- Clear task description with context
-- Tech stack (detected or specified)
-- /command invocations at the right workflow stages
-- Acceptance criteria
-- Verification steps
-- Scope boundaries (what NOT to do)
-
-For items that reference blueprint, write: &quot;Use the blueprint skill to...&quot;
-(not `/blueprint`, since blueprint is a skill, not a command).
-
-### Section 4: Optimized Prompt — Quick Version
-
-A compact version for experienced ECC users. Vary by intent type:
-
-| Intent | Quick Pattern |
-|--------|--------------|
-| New Feature | `/plan [feature]. /tdd to implement. /code-review. /verify.` |
-| Bug Fix | `/tdd — write failing test for [bug]. Fix to green. /verify.` |
-| Refactor | `/refactor-clean [scope]. /code-review. /verify.` |
-| Research | `Use search-first skill for [topic]. /plan based on findings.` |
-| Testing | `/tdd [module]. /e2e for critical flows. /test-coverage.` |
-| Review | `/code-review. Then use security-reviewer agent.` |
-| Docs | `/update-docs. /update-codemaps.` |
-| EPIC | `Use blueprint skill for &quot;[objective]&quot;. Execute phases with /verify gates.` |
-
-### Section 5: Enhancement Rationale
-
-| Enhancement | Reason |
-|-------------|--------|
-| (what was added) | (why it matters) |
-
-### Footer
-
-&gt; Not what you need? Tell me what to adjust, or make a normal task request
-&gt; if you want execution instead of prompt optimization.
-
----
-
-## Examples
-
-### Trigger Examples
-
-- &quot;Optimize this prompt for ECC&quot;
-- &quot;Rewrite this prompt so Claude Code uses the right commands&quot;
-- &quot;帮我优化这个指令&quot;
-- &quot;How should I prompt ECC for this task?&quot;
-
-### Example 1: Vague Chinese Prompt (Project Detected)
-
-**User input:**
-```
-帮我写一个用户登录页面
-```
-
-**Phase 0 detects:** `package.json` with Next.js 15, TypeScript, Tailwind CSS
-
-**Optimized Prompt (Full):**
-```
-使用项目现有技术栈（Next.js 15 + TypeScript + Tailwind CSS）实现用户登录页面。
-
-技术要求：
-- 沿用项目现有的组件结构和路由约定
-- 表单验证使用项目中已有的验证方案（检查是否已用 Zod/Yup/其他）
-- 认证方式：沿用项目现有认证方案（如无，默认 JWT）
-- 包含：邮箱/密码登录表单、表单验证、错误提示、加载状态、响应式布局
-
-工作流：
-1. /plan 先规划组件结构和认证流程，参考现有页面的模式
-2. /tdd 测试先行：编写登录表单的单元测试和认证流程的集成测试
-3. 实现登录页面和认证逻辑
-4. /code-review 审查实现
-5. /verify 验证所有测试通过且页面正常渲染
-
-安全要求：
-- 密码不明文传输
-- 防止暴力破解（rate limiting）
-- XSS 防护
-- CSRF token
-
-验收标准：
-- 所有测试通过，覆盖率 80%+
-- 页面在移动端和桌面端正常渲染
-- 登录成功跳转到 dashboard，失败显示错误信息
-
-不要做：
-- 不要实现注册页面
-- 不要实现忘记密码功能
-- 不要修改现有的路由结构
-```
-
-### Example 2: Moderate English Prompt
-
-**User input:**
-```
-Add a REST API endpoint for user profile updates with validation
-```
-
-**Phase 0 detects:** `go.mod` with Go 1.22, Chi router
-
-**Optimized Prompt (Full):**
-```
-Add a REST API endpoint for user profile updates (PATCH /api/users/:id).
-
-Tech stack: Go 1.22 + Chi router (detected from project)
-
-Requirements:
-- PATCH /api/users/:id — partial update of user profile
-- Input validation for fields: name, email, avatar_url, bio
-- Auth: require valid token, users can only update own profile
-- Return 200 with updated user on success
-- Return 400 with validation errors on invalid input
-- Return 401/403 for auth failures
-- Follow existing API patterns in the codebase
-
-Workflow:
-1. /plan the endpoint structure, middleware chain, and validation logic
-2. /tdd — write table-driven tests for success, validation failure, auth failure, not-found
-3. Implement following existing handler patterns
-4. /go-review
-5. /verify — run full test suite, confirm no regressions
-
-Do not:
-- Modify existing endpoints
-- Change the database schema (use existing user table)
-- Add new dependencies without checking existing ones first (use search-first skill)
-```
-
-### Example 3: EPIC Project
-
-**User input:**
-```
-Migrate our monolith to microservices
-```
-
-**Optimized Prompt (Full):**
-```
-Use the blueprint skill to plan: &quot;Migrate monolith to microservices architecture&quot;
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">EPIC项目示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 输入: "Migrate our monolith to microservices"
+
+# 优化提示词:
+Use the blueprint skill to plan: "Migrate monolith to microservices architecture"
 
 Before executing, answer these questions in the blueprint:
 1. Which domain boundaries exist in the current monolith?
 2. Which service should be extracted first (lowest coupling)?
-3. Communication pattern: REST APIs, gRPC, or event-driven (Kafka/RabbitMQ)?
-4. Database strategy: shared DB initially or database-per-service from start?
+3. Communication pattern: REST APIs, gRPC, or event-driven?
+4. Database strategy: shared DB or database-per-service?
 5. Deployment target: Kubernetes, Docker Compose, or serverless?
 
 The blueprint should produce phases like:
 - Phase 1: Identify service boundaries and create domain map
-- Phase 2: Set up infrastructure (API gateway, service mesh, CI/CD per service)
+- Phase 2: Set up infrastructure (API gateway, service mesh)
 - Phase 3: Extract first service (strangler fig pattern)
-- Phase 4: Verify with integration tests, then extract next service
+- Phase 4: Verify with integration tests, then extract next
 - Phase N: Decommission monolith
 
 Each phase = 1 PR, with /verify gates between phases.
 Use /save-session between phases. Use /resume-session to continue.
-Use git worktrees for parallel service extraction when dependencies allow.
 
-Recommended: Opus 4.6 for blueprint planning, Sonnet 4.6 for phase execution.
-```
-
----
-
-## Related Components
-
-| Component | When to Reference |
-|-----------|------------------|
-| `configure-ecc` | User hasn&#039;t set up ECC yet |
-| `skill-stocktake` | Audit which components are installed (use instead of hardcoded catalog) |
-| `search-first` | Research phase in optimized prompts |
-| `blueprint` | EPIC-scope optimized prompts (invoke as skill, not command) |
-| `strategic-compact` | Long session context management |
-| `cost-aware-llm-pipeline` | Token optimization recommendations |
-</pre>
+Recommended: Opus 4.6 for blueprint planning, Sonnet 4.6 for execution.</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
+            <div class="nav-card" onclick="location.href='project-guidelines-example.html'">
+                <div class="nav-label">上一个</div>
+                <div class="nav-title">project-guidelines-example</div>
+            </div>
+            <div class="nav-card" onclick="location.href='../skills.html'">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
+                <div class="nav-title">Skills 列表</div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

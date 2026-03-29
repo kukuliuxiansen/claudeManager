@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>技能开发 - Everything Claude Code</title>
+    <title>skill-development - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,1439 +26,250 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; }
+        .nav-card:hover { border-color: rgba(139, 92, 246, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">技能开发</span>
+        <span class="breadcrumb-current">skill-development</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
             </div>
-            <h1 class="detail-title">技能开发</h1>
-            <p class="detail-subtitle">技能开发指南，创建和维护技能</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    plugin-dev
-                </div>
+            <h1 class="detail-title">skill-development</h1>
+            <p class="detail-subtitle">Claude Code插件技能开发指南，创建和维护高质量技能</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Plugin Development
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">plugin-dev</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                About Skills
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">Skills are modular, self-contained packages that extend Claude&#039;s capabilities by providing
-specialized knowledge, workflows, and tools. Think of them as &quot;onboarding guides&quot; for specific
-domains or tasks—they transform Claude from a general-purpose agent into a specialized agent
-equipped with procedural knowledge that no model can fully possess.
+                <p>skill-development Skill 提供完整的技能开发工作流程，帮助开发者创建高质量、可维护的Claude Code插件技能。</p>
 
-### What Skills Provide
-
-1. Specialized workflows - Multi-step procedures for specific domains
-2. Tool integrations - Instructions for working with specific file formats or APIs
-3. Domain expertise - Company-specific knowledge, schemas, business logic
-4. Bundled resources - Scripts, references, and assets for complex and repetitive tasks
-
-### Anatomy of a Skill
-
-Every skill consists of a required SKILL.md file and optional bundled resources:
-
-```
-skill-name/
-├── SKILL.md (required)
-│   ├── YAML frontmatter metadata (required)
-│   │   ├── name: (required)
-│   │   └── description: (required)
-│   └── Markdown instructions (required)
-└── Bundled Resources (optional)
-    ├── scripts/          - Executable code (Python/Bash/etc.)
-    ├── references/       - Documentation intended to be loaded into context as needed
-    └── assets/           - Files used in output (templates, icons, fonts, etc.)
-```
-
-#### SKILL.md (required)
-
-**Metadata Quality:** The `name` and `description` in YAML frontmatter determine when Claude will use the skill. Be specific about what the skill does and when to use it. Use the third-person (e.g. &quot;This skill should be used when...&quot; instead of &quot;Use this skill when...&quot;).
-
-#### Bundled Resources (optional)
-
-##### Scripts (`scripts/`)
-
-Executable code (Python/Bash/etc.) for tasks that require deterministic reliability or are repeatedly rewritten.
-
-- **When to include**: When the same code is being rewritten repeatedly or deterministic reliability is needed
-- **Example**: `scripts/rotate_pdf.py` for PDF rotation tasks
-- **Benefits**: Token efficient, deterministic, may be executed without loading into context
-- **Note**: Scripts may still need to be read by Claude for patching or environment-specific adjustments
-
-##### References (`references/`)
-
-Documentation and reference material intended to be loaded as needed into context to inform Claude&#039;s process and thinking.
-
-- **When to include**: For documentation that Claude should reference while working
-- **Examples**: `references/finance.md` for financial schemas, `references/mnda.md` for company NDA template, `references/policies.md` for company policies, `references/api_docs.md` for API specifications
-- **Use cases**: Database schemas, API documentation, domain knowledge, company policies, detailed workflow guides
-- **Benefits**: Keeps SKILL.md lean, loaded only when Claude determines it&#039;s needed
-- **Best practice**: If files are large (&gt;10k words), include grep search patterns in SKILL.md
-- **Avoid duplication**: Information should live in either SKILL.md or references files, not both. Prefer references files for detailed information unless it&#039;s truly core to the skill—this keeps SKILL.md lean while making information discoverable without hogging the context window. Keep only essential procedural instructions and workflow guidance in SKILL.md; move detailed reference material, schemas, and examples to references files.
-
-##### Assets (`assets/`)
-
-Files not intended to be loaded into context, but rather used within the output Claude produces.
-
-- **When to include**: When the skill needs files that will be used in the final output
-- **Examples**: `assets/logo.png` for brand assets, `assets/slides.pptx` for PowerPoint templates, `assets/frontend-template/` for HTML/React boilerplate, `assets/font.ttf` for typography
-- **Use cases**: Templates, images, icons, boilerplate code, fonts, sample documents that get copied or modified
-- **Benefits**: Separates output resources from documentation, enables Claude to use files without loading them into context
-
-### Progressive Disclosure Design Principle
-
-Skills use a three-level loading system to manage context efficiently:
-
-1. **Metadata (name + description)** - Always in context (~100 words)
-2. **SKILL.md body** - When skill triggers (&lt;5k words)
-3. **Bundled resources** - As needed by Claude (Unlimited*)
-
-*Unlimited because scripts can be executed without reading into context window.</pre>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">渐进式披露设计</h4>
+                            <p class="feature-desc">三层加载系统：元数据始终加载、SKILL.md触发时加载、资源按需加载，优化上下文使用</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">资源组织结构</h4>
+                            <p class="feature-desc">scripts/存放可执行代码、references/存放参考文档、assets/存放输出资源文件</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">触发描述优化</h4>
+                            <p class="feature-desc">第三人称格式描述，包含具体触发短语，确保技能在正确时机被加载</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">验证检查清单</h4>
+                            <p class="feature-desc">完整的质量检查清单，覆盖结构、描述、内容、渐进式披露和测试要求</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Skill Creation Process
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">To create a skill, follow the &quot;Skill Creation Process&quot; in order, skipping steps only if there is a clear reason why they are not applicable.
+                <p>技能开发遵循<strong>"渐进式披露 + 祈使语气"</strong>原则。通过三层加载系统管理上下文，使用第三人称和祈使语气确保内容一致性。</p>
 
-### Step 1: Understanding the Skill with Concrete Examples
+                <p style="margin-top:20px"><strong>技能解剖</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7); margin-top:15px">
+                    <li><strong>SKILL.md</strong>: 必需文件，包含YAML frontmatter（name + description）和Markdown指令</li>
+                    <li><strong>scripts/</strong>: 可执行代码，用于确定性任务或重复性操作</li>
+                    <li><strong>references/</strong>: 参考文档，按需加载到上下文</li>
+                    <li><strong>assets/</strong>: 输出资源文件（模板、图标、字体）</li>
+                </ul>
 
-Skip this step only when the skill&#039;s usage patterns are already clearly understood. It remains valuable even when working with an existing skill.
+                <p style="margin-top:20px"><strong>渐进式披露</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>元数据</strong> (name + description): 始终在上下文中 (~100词)</li>
+                    <li><strong>SKILL.md主体</strong>: 技能触发时加载 (1500-2000词理想)</li>
+                    <li><strong>捆绑资源</strong>: 按需加载 (无限制)</li>
+                </ul>
+            </div>
+        </section>
 
-To create an effective skill, clearly understand concrete examples of how the skill will be used. This understanding can come from either direct user examples or generated examples that are validated with user feedback.
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <p>skill-development Skill 在创建或改进插件技能时使用：</p>
 
-For example, when building an image-editor skill, relevant questions include:
-
-- &quot;What functionality should the image-editor skill support? Editing, rotating, anything else?&quot;
-- &quot;Can you give some examples of how this skill would be used?&quot;
-- &quot;I can imagine users asking for things like &#039;Remove the red-eye from this image&#039; or &#039;Rotate this image&#039;. Are there other ways you imagine this skill being used?&quot;
-- &quot;What would a user say that should trigger this skill?&quot;
-
-To avoid overwhelming users, avoid asking too many questions in a single message. Start with the most important questions and follow up as needed for better effectiveness.
-
-Conclude this step when there is a clear sense of the functionality the skill should support.
-
-### Step 2: Planning the Reusable Skill Contents
-
-To turn concrete examples into an effective skill, analyze each example by:
-
-1. Considering how to execute on the example from scratch
-2. Identifying what scripts, references, and assets would be helpful when executing these workflows repeatedly
-
-Example: When building a `pdf-editor` skill to handle queries like &quot;Help me rotate this PDF,&quot; the analysis shows:
-
-1. Rotating a PDF requires re-writing the same code each time
-2. A `scripts/rotate_pdf.py` script would be helpful to store in the skill
-
-Example: When designing a `frontend-webapp-builder` skill for queries like &quot;Build me a todo app&quot; or &quot;Build me a dashboard to track my steps,&quot; the analysis shows:
-
-1. Writing a frontend webapp requires the same boilerplate HTML/React each time
-2. An `assets/hello-world/` template containing the boilerplate HTML/React project files would be helpful to store in the skill
-
-Example: When building a `big-query` skill to handle queries like &quot;How many users have logged in today?&quot; the analysis shows:
-
-1. Querying BigQuery requires re-discovering the table schemas and relationships each time
-2. A `references/schema.md` file documenting the table schemas would be helpful to store in the skill
-
-**For Claude Code plugins:** When building a hooks skill, the analysis shows:
-1. Developers repeatedly need to validate hooks.json and test hook scripts
-2. `scripts/validate-hook-schema.sh` and `scripts/test-hook.sh` utilities would be helpful
-3. `references/patterns.md` for detailed hook patterns to avoid bloating SKILL.md
-
-To establish the skill&#039;s contents, analyze each concrete example to create a list of the reusable resources to include: scripts, references, and assets.
-
-### Step 3: Create Skill Structure
-
-For Claude Code plugins, create the skill directory structure:
-
-```bash
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">创建流程</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 创建技能目录结构
 mkdir -p plugin-name/skills/skill-name/{references,examples,scripts}
 touch plugin-name/skills/skill-name/SKILL.md
-```
 
-**Note:** Unlike the generic skill-creator which uses `init_skill.py`, plugin skills are created directly in the plugin&#039;s `skills/` directory with a simpler manual structure.
-
-### Step 4: Edit the Skill
-
-When editing the (newly-created or existing) skill, remember that the skill is being created for another instance of Claude to use. Focus on including information that would be beneficial and non-obvious to Claude. Consider what procedural knowledge, domain-specific details, or reusable assets would help another Claude instance execute these tasks more effectively.
-
-#### Start with Reusable Skill Contents
-
-To begin implementation, start with the reusable resources identified above: `scripts/`, `references/`, and `assets/` files. Note that this step may require user input. For example, when implementing a `brand-guidelines` skill, the user may need to provide brand assets or templates to store in `assets/`, or documentation to store in `references/`.
-
-Also, delete any example files and directories not needed for the skill. Create only the directories you actually need (references/, examples/, scripts/).
-
-#### Update SKILL.md
-
-**Writing Style:** Write the entire skill using **imperative/infinitive form** (verb-first instructions), not second person. Use objective, instructional language (e.g., &quot;To accomplish X, do Y&quot; rather than &quot;You should do X&quot; or &quot;If you need to do X&quot;). This maintains consistency and clarity for AI consumption.
-
-**Description (Frontmatter):** Use third-person format with specific trigger phrases:
-
-```yaml
+// SKILL.md frontmatter格式
 ---
 name: Skill Name
-description: This skill should be used when the user asks to &quot;specific phrase 1&quot;, &quot;specific phrase 2&quot;, &quot;specific phrase 3&quot;. Include exact phrases users would say that should trigger this skill. Be concrete and specific.
+description: This skill should be used when the user asks to "phrase1", "phrase2"...
 version: 0.1.0
 ---
-```
 
-**Good description examples:**
-```yaml
-description: This skill should be used when the user asks to &quot;create a hook&quot;, &quot;add a PreToolUse hook&quot;, &quot;validate tool use&quot;, &quot;implement prompt-based hooks&quot;, or mentions hook events (PreToolUse, PostToolUse, Stop).
-```
+// 写作风格要求
+- 使用祈使语气（"创建配置文件"而非"你应该创建"）
+- 描述使用第三人称（"This skill should be used..."）
+- 保持SKILL.md精简（1500-2000词）
+- 详细内容移至references/
 
-**Bad description examples:**
-```yaml
-description: Use this skill when working with hooks.  # Wrong person, vague
-description: Load when user needs hook help.  # Not third person
-description: Provides hook guidance.  # No trigger phrases
-```
-
-To complete SKILL.md body, answer the following questions:
-
-1. What is the purpose of the skill, in a few sentences?
-2. When should the skill be used? (Include this in frontmatter description with specific triggers)
-3. In practice, how should Claude use the skill? All reusable skill contents developed above should be referenced so that Claude knows how to use them.
-
-**Keep SKILL.md lean:** Target 1,500-2,000 words for the body. Move detailed content to references/:
-- Detailed patterns → `references/patterns.md`
-- Advanced techniques → `references/advanced.md`
-- Migration guides → `references/migration.md`
-- API references → `references/api-reference.md`
-
-**Reference resources in SKILL.md:**
-```markdown
-## Additional Resources
-
-### Reference Files
-
-For detailed patterns and techniques, consult:
-- **`references/patterns.md`** - Common patterns
-- **`references/advanced.md`** - Advanced use cases
-
-### Example Files
-
-Working examples in `examples/`:
-- **`example-script.sh`** - Working example
-```
-
-### Step 5: Validate and Test
-
-**For plugin skills, validation is different from generic skills:**
-
-1. **Check structure**: Skill directory in `plugin-name/skills/skill-name/`
-2. **Validate SKILL.md**: Has frontmatter with name and description
-3. **Check trigger phrases**: Description includes specific user queries
-4. **Verify writing style**: Body uses imperative/infinitive form, not second person
-5. **Test progressive disclosure**: SKILL.md is lean (~1,500-2,000 words), detailed content in references/
-6. **Check references**: All referenced files exist
-7. **Validate examples**: Examples are complete and correct
-8. **Test scripts**: Scripts are executable and work correctly
-
-**Use the skill-reviewer agent:**
-```
-Ask: &quot;Review my skill and check if it follows best practices&quot;
-```
-
-The skill-reviewer agent will check description quality, content organization, and progressive disclosure.
-
-### Step 6: Iterate
-
-After testing the skill, users may request improvements. Often this happens right after using the skill, with fresh context of how the skill performed.
-
-**Iteration workflow:**
-1. Use the skill on real tasks
-2. Notice struggles or inefficiencies
-3. Identify how SKILL.md or bundled resources should be updated
-4. Implement changes and test again
-
-**Common improvements:**
-- Strengthen trigger phrases in description
-- Move long sections from SKILL.md to references/
-- Add missing examples or scripts
-- Clarify ambiguous instructions
-- Add edge case handling</pre>
+// 验证检查清单
+1. SKILL.md存在且包含有效YAML frontmatter
+2. 描述包含具体触发短语
+3. 正文使用祈使语气
+4. 所有引用文件存在
+5. 测试技能在预期触发时加载</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Plugin-Specific Considerations
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">### Skill Location in Plugins
-
-Plugin skills live in the plugin&#039;s `skills/` directory:
-
-```
-my-plugin/
-├── .claude-plugin/
-│   └── plugin.json
-├── commands/
-├── agents/
-└── skills/
-    └── my-skill/
-        ├── SKILL.md
-        ├── references/
-        ├── examples/
-        └── scripts/
-```
-
-### Auto-Discovery
-
-Claude Code automatically discovers skills:
-- Scans `skills/` directory
-- Finds subdirectories containing `SKILL.md`
-- Loads skill metadata (name + description) always
-- Loads SKILL.md body when skill triggers
-- Loads references/examples when needed
-
-### No Packaging Needed
-
-Plugin skills are distributed as part of the plugin, not as separate ZIP files. Users get skills when they install the plugin.
-
-### Testing in Plugins
-
-Test skills by installing plugin locally:
-
-```bash
-# Test with --plugin-dir
-cc --plugin-dir /path/to/plugin
-
-# Ask questions that should trigger the skill
-# Verify skill loads correctly
-```</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>保持SKILL.md精简</strong> - 目标1500-2000词，详细内容移至references/</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>具体触发短语</strong> - 描述中包含用户会说的具体短语，确保正确触发</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>避免重复内容</strong> - 信息只存在于一个位置，SKILL.md或references二选一</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>参考示例技能</strong> - 学习plugin-dev中的hook-development、agent-development等优秀示例</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Examples from Plugin-Dev
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">Study the skills in this plugin as examples of best practices:
-
-**hook-development skill:**
-- Excellent trigger phrases: &quot;create a hook&quot;, &quot;add a PreToolUse hook&quot;, etc.
-- Lean SKILL.md (1,651 words)
-- 3 references/ files for detailed content
-- 3 examples/ of working hooks
-- 3 scripts/ utilities
-
-**agent-development skill:**
-- Strong triggers: &quot;create an agent&quot;, &quot;agent frontmatter&quot;, etc.
-- Focused SKILL.md (1,438 words)
-- References include the AI generation prompt from Claude Code
-- Complete agent examples
-
-**plugin-settings skill:**
-- Specific triggers: &quot;plugin settings&quot;, &quot;.local.md files&quot;, &quot;YAML frontmatter&quot;
-- References show real implementations (multi-agent-swarm, ralph-loop)
-- Working parsing scripts
-
-Each demonstrates progressive disclosure and strong triggering.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Progressive Disclosure in Practice
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### What Goes in SKILL.md
-
-**Include (always loaded when skill triggers):**
-- Core concepts and overview
-- Essential procedures and workflows
-- Quick reference tables
-- Pointers to references/examples/scripts
-- Most common use cases
-
-**Keep under 3,000 words, ideally 1,500-2,000 words**
-
-### What Goes in references/
-
-**Move to references/ (loaded as needed):**
-- Detailed patterns and advanced techniques
-- Comprehensive API documentation
-- Migration guides
-- Edge cases and troubleshooting
-- Extensive examples and walkthroughs
-
-**Each reference file can be large (2,000-5,000+ words)**
-
-### What Goes in examples/
-
-**Working code examples:**
-- Complete, runnable scripts
-- Configuration files
-- Template files
-- Real-world usage examples
-
-**Users can copy and adapt these directly**
-
-### What Goes in scripts/
-
-**Utility scripts:**
-- Validation tools
-- Testing helpers
-- Parsing utilities
-- Automation scripts
-
-**Should be executable and documented**</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Writing Style Requirements
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Imperative/Infinitive Form
-
-Write using verb-first instructions, not second person:
-
-**Correct (imperative):**
-```
-To create a hook, define the event type.
-Configure the MCP server with authentication.
-Validate settings before use.
-```
-
-**Incorrect (second person):**
-```
-You should create a hook by defining the event type.
-You need to configure the MCP server.
-You must validate settings before use.
-```
-
-### Third-Person in Description
-
-The frontmatter description must use third person:
-
-**Correct:**
-```yaml
-description: This skill should be used when the user asks to &quot;create X&quot;, &quot;configure Y&quot;...
-```
-
-**Incorrect:**
-```yaml
-description: Use this skill when you want to create X...
-description: Load this skill when user asks...
-```
-
-### Objective, Instructional Language
-
-Focus on what to do, not who should do it:
-
-**Correct:**
-```
-Parse the frontmatter using sed.
-Extract fields with grep.
-Validate values before use.
-```
-
-**Incorrect:**
-```
-You can parse the frontmatter...
-Claude should extract fields...
-The user might validate values...
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Validation Checklist
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Before finalizing a skill:
-
-**Structure:**
-- [ ] SKILL.md file exists with valid YAML frontmatter
-- [ ] Frontmatter has `name` and `description` fields
-- [ ] Markdown body is present and substantial
-- [ ] Referenced files actually exist
-
-**Description Quality:**
-- [ ] Uses third person (&quot;This skill should be used when...&quot;)
-- [ ] Includes specific trigger phrases users would say
-- [ ] Lists concrete scenarios (&quot;create X&quot;, &quot;configure Y&quot;)
-- [ ] Not vague or generic
-
-**Content Quality:**
-- [ ] SKILL.md body uses imperative/infinitive form
-- [ ] Body is focused and lean (1,500-2,000 words ideal, &lt;5k max)
-- [ ] Detailed content moved to references/
-- [ ] Examples are complete and working
-- [ ] Scripts are executable and documented
-
-**Progressive Disclosure:**
-- [ ] Core concepts in SKILL.md
-- [ ] Detailed docs in references/
-- [ ] Working code in examples/
-- [ ] Utilities in scripts/
-- [ ] SKILL.md references these resources
-
-**Testing:**
-- [ ] Skill triggers on expected user queries
-- [ ] Content is helpful for intended tasks
-- [ ] No duplicated information across files
-- [ ] References load when needed</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Common Mistakes to Avoid
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Mistake 1: Weak Trigger Description
-
-❌ **Bad:**
-```yaml
-description: Provides guidance for working with hooks.
-```
-
-**Why bad:** Vague, no specific trigger phrases, not third person
-
-✅ **Good:**
-```yaml
-description: This skill should be used when the user asks to &quot;create a hook&quot;, &quot;add a PreToolUse hook&quot;, &quot;validate tool use&quot;, or mentions hook events. Provides comprehensive hooks API guidance.
-```
-
-**Why good:** Third person, specific phrases, concrete scenarios
-
-### Mistake 2: Too Much in SKILL.md
-
-❌ **Bad:**
-```
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Skill Structure</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 标准技能结构
 skill-name/
-└── SKILL.md  (8,000 words - everything in one file)
-```
-
-**Why bad:** Bloats context when skill loads, detailed content always loaded
-
-✅ **Good:**
-```
-skill-name/
-├── SKILL.md  (1,800 words - core essentials)
-└── references/
-    ├── patterns.md (2,500 words)
-    └── advanced.md (3,700 words)
-```
-
-**Why good:** Progressive disclosure, detailed content loaded only when needed
-
-### Mistake 3: Second Person Writing
-
-❌ **Bad:**
-```markdown
-You should start by reading the configuration file.
-You need to validate the input.
-You can use the grep tool to search.
-```
-
-**Why bad:** Second person, not imperative form
-
-✅ **Good:**
-```markdown
-Start by reading the configuration file.
-Validate the input before processing.
-Use the grep tool to search for patterns.
-```
-
-**Why good:** Imperative form, direct instructions
-
-### Mistake 4: Missing Resource References
-
-❌ **Bad:**
-```markdown
-# SKILL.md
-
-[Core content]
-
-[No mention of references/ or examples/]
-```
-
-**Why bad:** Claude doesn&#039;t know references exist
-
-✅ **Good:**
-```markdown
-# SKILL.md
-
-[Core content]
-
-## Additional Resources
-
-### Reference Files
-- **`references/patterns.md`** - Detailed patterns
-- **`references/advanced.md`** - Advanced techniques
-
-### Examples
-- **`examples/script.sh`** - Working example
-```
-
-**Why good:** Claude knows where to find additional information</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Quick Reference
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Minimal Skill
-
-```
-skill-name/
-└── SKILL.md
-```
-
-Good for: Simple knowledge, no complex resources needed
-
-### Standard Skill (Recommended)
-
-```
-skill-name/
-├── SKILL.md
+├── SKILL.md (1,800 words - core essentials)
 ├── references/
-│   └── detailed-guide.md
-└── examples/
-    └── working-example.sh
-```
-
-Good for: Most plugin skills with detailed documentation
-
-### Complete Skill
-
-```
-skill-name/
-├── SKILL.md
-├── references/
-│   ├── patterns.md
-│   └── advanced.md
+│   ├── patterns.md (2,500 words)
+│   └── advanced.md (3,700 words)
 ├── examples/
-│   ├── example1.sh
-│   └── example2.json
+│   └── example-script.sh
 └── scripts/
     └── validate.sh
-```
 
-Good for: Complex domains with validation utilities</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Best Practices Summary
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">✅ **DO:**
-- Use third-person in description (&quot;This skill should be used when...&quot;)
-- Include specific trigger phrases (&quot;create X&quot;, &quot;configure Y&quot;)
-- Keep SKILL.md lean (1,500-2,000 words)
-- Use progressive disclosure (move details to references/)
-- Write in imperative/infinitive form
-- Reference supporting files clearly
-- Provide working examples
-- Create utility scripts for common operations
-- Study plugin-dev&#039;s skills as templates
-
-❌ **DON&#039;T:**
-- Use second person anywhere
-- Have vague trigger conditions
-- Put everything in SKILL.md (&gt;3,000 words without references/)
-- Write in second person (&quot;You should...&quot;)
-- Leave resources unreferenced
-- Include broken or incomplete examples
-- Skip validation</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Additional Resources
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Study These Skills
-
-Plugin-dev&#039;s skills demonstrate best practices:
-- `../hook-development/` - Progressive disclosure, utilities
-- `../agent-development/` - AI-assisted creation, references
-- `../mcp-integration/` - Comprehensive references
-- `../plugin-settings/` - Real-world examples
-- `../command-development/` - Clear critical concepts
-- `../plugin-structure/` - Good organization
-
-### Reference Files
-
-For complete skill-creator methodology:
-- **`references/skill-creator-original.md`** - Full original skill-creator content</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Implementation Workflow
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">To create a skill for your plugin:
-
-1. **Understand use cases**: Identify concrete examples of skill usage
-2. **Plan resources**: Determine what scripts/references/examples needed
-3. **Create structure**: `mkdir -p skills/skill-name/{references,examples,scripts}`
-4. **Write SKILL.md**:
-   - Frontmatter with third-person description and trigger phrases
-   - Lean body (1,500-2,000 words) in imperative form
-   - Reference supporting files
-5. **Add resources**: Create references/, examples/, scripts/ as needed
-6. **Validate**: Check description, writing style, organization
-7. **Test**: Verify skill loads on expected triggers
-8. **Iterate**: Improve based on usage
-
-Focus on strong trigger descriptions, progressive disclosure, and imperative writing style for effective skills that load when needed and provide targeted guidance.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: skill-development
-description: This skill should be used when the user wants to &quot;create a skill&quot;, &quot;add a skill to plugin&quot;, &quot;write a new skill&quot;, &quot;improve skill description&quot;, &quot;organize skill content&quot;, or needs guidance on skill structure, progressive disclosure, or skill development best practices for Claude Code plugins.
+# SKILL.md示例
+---
+name: hook-development
+description: This skill should be used when the user asks to "create a hook", "add a PreToolUse hook", "validate tool use", or mentions hook events.
 version: 0.1.0
 ---
 
-# Skill Development for Claude Code Plugins
+# Hook Development
 
-This skill provides guidance for creating effective skills for Claude Code plugins.
+Create and configure Claude Code hooks.
 
-## About Skills
+## Core Concepts
+Hooks intercept tool calls at specific points...
 
-Skills are modular, self-contained packages that extend Claude&#039;s capabilities by providing
-specialized knowledge, workflows, and tools. Think of them as &quot;onboarding guides&quot; for specific
-domains or tasks—they transform Claude from a general-purpose agent into a specialized agent
-equipped with procedural knowledge that no model can fully possess.
-
-### What Skills Provide
-
-1. Specialized workflows - Multi-step procedures for specific domains
-2. Tool integrations - Instructions for working with specific file formats or APIs
-3. Domain expertise - Company-specific knowledge, schemas, business logic
-4. Bundled resources - Scripts, references, and assets for complex and repetitive tasks
-
-### Anatomy of a Skill
-
-Every skill consists of a required SKILL.md file and optional bundled resources:
-
-```
-skill-name/
-├── SKILL.md (required)
-│   ├── YAML frontmatter metadata (required)
-│   │   ├── name: (required)
-│   │   └── description: (required)
-│   └── Markdown instructions (required)
-└── Bundled Resources (optional)
-    ├── scripts/          - Executable code (Python/Bash/etc.)
-    ├── references/       - Documentation intended to be loaded into context as needed
-    └── assets/           - Files used in output (templates, icons, fonts, etc.)
-```
-
-#### SKILL.md (required)
-
-**Metadata Quality:** The `name` and `description` in YAML frontmatter determine when Claude will use the skill. Be specific about what the skill does and when to use it. Use the third-person (e.g. &quot;This skill should be used when...&quot; instead of &quot;Use this skill when...&quot;).
-
-#### Bundled Resources (optional)
-
-##### Scripts (`scripts/`)
-
-Executable code (Python/Bash/etc.) for tasks that require deterministic reliability or are repeatedly rewritten.
-
-- **When to include**: When the same code is being rewritten repeatedly or deterministic reliability is needed
-- **Example**: `scripts/rotate_pdf.py` for PDF rotation tasks
-- **Benefits**: Token efficient, deterministic, may be executed without loading into context
-- **Note**: Scripts may still need to be read by Claude for patching or environment-specific adjustments
-
-##### References (`references/`)
-
-Documentation and reference material intended to be loaded as needed into context to inform Claude&#039;s process and thinking.
-
-- **When to include**: For documentation that Claude should reference while working
-- **Examples**: `references/finance.md` for financial schemas, `references/mnda.md` for company NDA template, `references/policies.md` for company policies, `references/api_docs.md` for API specifications
-- **Use cases**: Database schemas, API documentation, domain knowledge, company policies, detailed workflow guides
-- **Benefits**: Keeps SKILL.md lean, loaded only when Claude determines it&#039;s needed
-- **Best practice**: If files are large (&gt;10k words), include grep search patterns in SKILL.md
-- **Avoid duplication**: Information should live in either SKILL.md or references files, not both. Prefer references files for detailed information unless it&#039;s truly core to the skill—this keeps SKILL.md lean while making information discoverable without hogging the context window. Keep only essential procedural instructions and workflow guidance in SKILL.md; move detailed reference material, schemas, and examples to references files.
-
-##### Assets (`assets/`)
-
-Files not intended to be loaded into context, but rather used within the output Claude produces.
-
-- **When to include**: When the skill needs files that will be used in the final output
-- **Examples**: `assets/logo.png` for brand assets, `assets/slides.pptx` for PowerPoint templates, `assets/frontend-template/` for HTML/React boilerplate, `assets/font.ttf` for typography
-- **Use cases**: Templates, images, icons, boilerplate code, fonts, sample documents that get copied or modified
-- **Benefits**: Separates output resources from documentation, enables Claude to use files without loading them into context
-
-### Progressive Disclosure Design Principle
-
-Skills use a three-level loading system to manage context efficiently:
-
-1. **Metadata (name + description)** - Always in context (~100 words)
-2. **SKILL.md body** - When skill triggers (&lt;5k words)
-3. **Bundled resources** - As needed by Claude (Unlimited*)
-
-*Unlimited because scripts can be executed without reading into context window.
-
-## Skill Creation Process
-
-To create a skill, follow the &quot;Skill Creation Process&quot; in order, skipping steps only if there is a clear reason why they are not applicable.
-
-### Step 1: Understanding the Skill with Concrete Examples
-
-Skip this step only when the skill&#039;s usage patterns are already clearly understood. It remains valuable even when working with an existing skill.
-
-To create an effective skill, clearly understand concrete examples of how the skill will be used. This understanding can come from either direct user examples or generated examples that are validated with user feedback.
-
-For example, when building an image-editor skill, relevant questions include:
-
-- &quot;What functionality should the image-editor skill support? Editing, rotating, anything else?&quot;
-- &quot;Can you give some examples of how this skill would be used?&quot;
-- &quot;I can imagine users asking for things like &#039;Remove the red-eye from this image&#039; or &#039;Rotate this image&#039;. Are there other ways you imagine this skill being used?&quot;
-- &quot;What would a user say that should trigger this skill?&quot;
-
-To avoid overwhelming users, avoid asking too many questions in a single message. Start with the most important questions and follow up as needed for better effectiveness.
-
-Conclude this step when there is a clear sense of the functionality the skill should support.
-
-### Step 2: Planning the Reusable Skill Contents
-
-To turn concrete examples into an effective skill, analyze each example by:
-
-1. Considering how to execute on the example from scratch
-2. Identifying what scripts, references, and assets would be helpful when executing these workflows repeatedly
-
-Example: When building a `pdf-editor` skill to handle queries like &quot;Help me rotate this PDF,&quot; the analysis shows:
-
-1. Rotating a PDF requires re-writing the same code each time
-2. A `scripts/rotate_pdf.py` script would be helpful to store in the skill
-
-Example: When designing a `frontend-webapp-builder` skill for queries like &quot;Build me a todo app&quot; or &quot;Build me a dashboard to track my steps,&quot; the analysis shows:
-
-1. Writing a frontend webapp requires the same boilerplate HTML/React each time
-2. An `assets/hello-world/` template containing the boilerplate HTML/React project files would be helpful to store in the skill
-
-Example: When building a `big-query` skill to handle queries like &quot;How many users have logged in today?&quot; the analysis shows:
-
-1. Querying BigQuery requires re-discovering the table schemas and relationships each time
-2. A `references/schema.md` file documenting the table schemas would be helpful to store in the skill
-
-**For Claude Code plugins:** When building a hooks skill, the analysis shows:
-1. Developers repeatedly need to validate hooks.json and test hook scripts
-2. `scripts/validate-hook-schema.sh` and `scripts/test-hook.sh` utilities would be helpful
-3. `references/patterns.md` for detailed hook patterns to avoid bloating SKILL.md
-
-To establish the skill&#039;s contents, analyze each concrete example to create a list of the reusable resources to include: scripts, references, and assets.
-
-### Step 3: Create Skill Structure
-
-For Claude Code plugins, create the skill directory structure:
-
-```bash
-mkdir -p plugin-name/skills/skill-name/{references,examples,scripts}
-touch plugin-name/skills/skill-name/SKILL.md
-```
-
-**Note:** Unlike the generic skill-creator which uses `init_skill.py`, plugin skills are created directly in the plugin&#039;s `skills/` directory with a simpler manual structure.
-
-### Step 4: Edit the Skill
-
-When editing the (newly-created or existing) skill, remember that the skill is being created for another instance of Claude to use. Focus on including information that would be beneficial and non-obvious to Claude. Consider what procedural knowledge, domain-specific details, or reusable assets would help another Claude instance execute these tasks more effectively.
-
-#### Start with Reusable Skill Contents
-
-To begin implementation, start with the reusable resources identified above: `scripts/`, `references/`, and `assets/` files. Note that this step may require user input. For example, when implementing a `brand-guidelines` skill, the user may need to provide brand assets or templates to store in `assets/`, or documentation to store in `references/`.
-
-Also, delete any example files and directories not needed for the skill. Create only the directories you actually need (references/, examples/, scripts/).
-
-#### Update SKILL.md
-
-**Writing Style:** Write the entire skill using **imperative/infinitive form** (verb-first instructions), not second person. Use objective, instructional language (e.g., &quot;To accomplish X, do Y&quot; rather than &quot;You should do X&quot; or &quot;If you need to do X&quot;). This maintains consistency and clarity for AI consumption.
-
-**Description (Frontmatter):** Use third-person format with specific trigger phrases:
-
-```yaml
----
-name: Skill Name
-description: This skill should be used when the user asks to &quot;specific phrase 1&quot;, &quot;specific phrase 2&quot;, &quot;specific phrase 3&quot;. Include exact phrases users would say that should trigger this skill. Be concrete and specific.
-version: 0.1.0
----
-```
-
-**Good description examples:**
-```yaml
-description: This skill should be used when the user asks to &quot;create a hook&quot;, &quot;add a PreToolUse hook&quot;, &quot;validate tool use&quot;, &quot;implement prompt-based hooks&quot;, or mentions hook events (PreToolUse, PostToolUse, Stop).
-```
-
-**Bad description examples:**
-```yaml
-description: Use this skill when working with hooks.  # Wrong person, vague
-description: Load when user needs hook help.  # Not third person
-description: Provides hook guidance.  # No trigger phrases
-```
-
-To complete SKILL.md body, answer the following questions:
-
-1. What is the purpose of the skill, in a few sentences?
-2. When should the skill be used? (Include this in frontmatter description with specific triggers)
-3. In practice, how should Claude use the skill? All reusable skill contents developed above should be referenced so that Claude knows how to use them.
-
-**Keep SKILL.md lean:** Target 1,500-2,000 words for the body. Move detailed content to references/:
-- Detailed patterns → `references/patterns.md`
-- Advanced techniques → `references/advanced.md`
-- Migration guides → `references/migration.md`
-- API references → `references/api-reference.md`
-
-**Reference resources in SKILL.md:**
-```markdown
-## Additional Resources
-
-### Reference Files
-
-For detailed patterns and techniques, consult:
-- **`references/patterns.md`** - Common patterns
-- **`references/advanced.md`** - Advanced use cases
-
-### Example Files
-
-Working examples in `examples/`:
-- **`example-script.sh`** - Working example
-```
-
-### Step 5: Validate and Test
-
-**For plugin skills, validation is different from generic skills:**
-
-1. **Check structure**: Skill directory in `plugin-name/skills/skill-name/`
-2. **Validate SKILL.md**: Has frontmatter with name and description
-3. **Check trigger phrases**: Description includes specific user queries
-4. **Verify writing style**: Body uses imperative/infinitive form, not second person
-5. **Test progressive disclosure**: SKILL.md is lean (~1,500-2,000 words), detailed content in references/
-6. **Check references**: All referenced files exist
-7. **Validate examples**: Examples are complete and correct
-8. **Test scripts**: Scripts are executable and work correctly
-
-**Use the skill-reviewer agent:**
-```
-Ask: &quot;Review my skill and check if it follows best practices&quot;
-```
-
-The skill-reviewer agent will check description quality, content organization, and progressive disclosure.
-
-### Step 6: Iterate
-
-After testing the skill, users may request improvements. Often this happens right after using the skill, with fresh context of how the skill performed.
-
-**Iteration workflow:**
-1. Use the skill on real tasks
-2. Notice struggles or inefficiencies
-3. Identify how SKILL.md or bundled resources should be updated
-4. Implement changes and test again
-
-**Common improvements:**
-- Strengthen trigger phrases in description
-- Move long sections from SKILL.md to references/
-- Add missing examples or scripts
-- Clarify ambiguous instructions
-- Add edge case handling
-
-## Plugin-Specific Considerations
-
-### Skill Location in Plugins
-
-Plugin skills live in the plugin&#039;s `skills/` directory:
-
-```
-my-plugin/
-├── .claude-plugin/
-│   └── plugin.json
-├── commands/
-├── agents/
-└── skills/
-    └── my-skill/
-        ├── SKILL.md
-        ├── references/
-        ├── examples/
-        └── scripts/
-```
-
-### Auto-Discovery
-
-Claude Code automatically discovers skills:
-- Scans `skills/` directory
-- Finds subdirectories containing `SKILL.md`
-- Loads skill metadata (name + description) always
-- Loads SKILL.md body when skill triggers
-- Loads references/examples when needed
-
-### No Packaging Needed
-
-Plugin skills are distributed as part of the plugin, not as separate ZIP files. Users get skills when they install the plugin.
-
-### Testing in Plugins
-
-Test skills by installing plugin locally:
-
-```bash
-# Test with --plugin-dir
-cc --plugin-dir /path/to/plugin
-
-# Ask questions that should trigger the skill
-# Verify skill loads correctly
-```
-
-## Examples from Plugin-Dev
-
-Study the skills in this plugin as examples of best practices:
-
-**hook-development skill:**
-- Excellent trigger phrases: &quot;create a hook&quot;, &quot;add a PreToolUse hook&quot;, etc.
-- Lean SKILL.md (1,651 words)
-- 3 references/ files for detailed content
-- 3 examples/ of working hooks
-- 3 scripts/ utilities
-
-**agent-development skill:**
-- Strong triggers: &quot;create an agent&quot;, &quot;agent frontmatter&quot;, etc.
-- Focused SKILL.md (1,438 words)
-- References include the AI generation prompt from Claude Code
-- Complete agent examples
-
-**plugin-settings skill:**
-- Specific triggers: &quot;plugin settings&quot;, &quot;.local.md files&quot;, &quot;YAML frontmatter&quot;
-- References show real implementations (multi-agent-swarm, ralph-loop)
-- Working parsing scripts
-
-Each demonstrates progressive disclosure and strong triggering.
-
-## Progressive Disclosure in Practice
-
-### What Goes in SKILL.md
-
-**Include (always loaded when skill triggers):**
-- Core concepts and overview
-- Essential procedures and workflows
-- Quick reference tables
-- Pointers to references/examples/scripts
-- Most common use cases
-
-**Keep under 3,000 words, ideally 1,500-2,000 words**
-
-### What Goes in references/
-
-**Move to references/ (loaded as needed):**
-- Detailed patterns and advanced techniques
-- Comprehensive API documentation
-- Migration guides
-- Edge cases and troubleshooting
-- Extensive examples and walkthroughs
-
-**Each reference file can be large (2,000-5,000+ words)**
-
-### What Goes in examples/
-
-**Working code examples:**
-- Complete, runnable scripts
-- Configuration files
-- Template files
-- Real-world usage examples
-
-**Users can copy and adapt these directly**
-
-### What Goes in scripts/
-
-**Utility scripts:**
-- Validation tools
-- Testing helpers
-- Parsing utilities
-- Automation scripts
-
-**Should be executable and documented**
-
-## Writing Style Requirements
-
-### Imperative/Infinitive Form
-
-Write using verb-first instructions, not second person:
-
-**Correct (imperative):**
-```
-To create a hook, define the event type.
-Configure the MCP server with authentication.
-Validate settings before use.
-```
-
-**Incorrect (second person):**
-```
-You should create a hook by defining the event type.
-You need to configure the MCP server.
-You must validate settings before use.
-```
-
-### Third-Person in Description
-
-The frontmatter description must use third person:
-
-**Correct:**
-```yaml
-description: This skill should be used when the user asks to &quot;create X&quot;, &quot;configure Y&quot;...
-```
-
-**Incorrect:**
-```yaml
-description: Use this skill when you want to create X...
-description: Load this skill when user asks...
-```
-
-### Objective, Instructional Language
-
-Focus on what to do, not who should do it:
-
-**Correct:**
-```
-Parse the frontmatter using sed.
-Extract fields with grep.
-Validate values before use.
-```
-
-**Incorrect:**
-```
-You can parse the frontmatter...
-Claude should extract fields...
-The user might validate values...
-```
-
-## Validation Checklist
-
-Before finalizing a skill:
-
-**Structure:**
-- [ ] SKILL.md file exists with valid YAML frontmatter
-- [ ] Frontmatter has `name` and `description` fields
-- [ ] Markdown body is present and substantial
-- [ ] Referenced files actually exist
-
-**Description Quality:**
-- [ ] Uses third person (&quot;This skill should be used when...&quot;)
-- [ ] Includes specific trigger phrases users would say
-- [ ] Lists concrete scenarios (&quot;create X&quot;, &quot;configure Y&quot;)
-- [ ] Not vague or generic
-
-**Content Quality:**
-- [ ] SKILL.md body uses imperative/infinitive form
-- [ ] Body is focused and lean (1,500-2,000 words ideal, &lt;5k max)
-- [ ] Detailed content moved to references/
-- [ ] Examples are complete and working
-- [ ] Scripts are executable and documented
-
-**Progressive Disclosure:**
-- [ ] Core concepts in SKILL.md
-- [ ] Detailed docs in references/
-- [ ] Working code in examples/
-- [ ] Utilities in scripts/
-- [ ] SKILL.md references these resources
-
-**Testing:**
-- [ ] Skill triggers on expected user queries
-- [ ] Content is helpful for intended tasks
-- [ ] No duplicated information across files
-- [ ] References load when needed
-
-## Common Mistakes to Avoid
-
-### Mistake 1: Weak Trigger Description
-
-❌ **Bad:**
-```yaml
-description: Provides guidance for working with hooks.
-```
-
-**Why bad:** Vague, no specific trigger phrases, not third person
-
-✅ **Good:**
-```yaml
-description: This skill should be used when the user asks to &quot;create a hook&quot;, &quot;add a PreToolUse hook&quot;, &quot;validate tool use&quot;, or mentions hook events. Provides comprehensive hooks API guidance.
-```
-
-**Why good:** Third person, specific phrases, concrete scenarios
-
-### Mistake 2: Too Much in SKILL.md
-
-❌ **Bad:**
-```
-skill-name/
-└── SKILL.md  (8,000 words - everything in one file)
-```
-
-**Why bad:** Bloats context when skill loads, detailed content always loaded
-
-✅ **Good:**
-```
-skill-name/
-├── SKILL.md  (1,800 words - core essentials)
-└── references/
-    ├── patterns.md (2,500 words)
-    └── advanced.md (3,700 words)
-```
-
-**Why good:** Progressive disclosure, detailed content loaded only when needed
-
-### Mistake 3: Second Person Writing
-
-❌ **Bad:**
-```markdown
-You should start by reading the configuration file.
-You need to validate the input.
-You can use the grep tool to search.
-```
-
-**Why bad:** Second person, not imperative form
-
-✅ **Good:**
-```markdown
-Start by reading the configuration file.
-Validate the input before processing.
-Use the grep tool to search for patterns.
-```
-
-**Why good:** Imperative form, direct instructions
-
-### Mistake 4: Missing Resource References
-
-❌ **Bad:**
-```markdown
-# SKILL.md
-
-[Core content]
-
-[No mention of references/ or examples/]
-```
-
-**Why bad:** Claude doesn&#039;t know references exist
-
-✅ **Good:**
-```markdown
-# SKILL.md
-
-[Core content]
-
-## Additional Resources
-
-### Reference Files
-- **`references/patterns.md`** - Detailed patterns
-- **`references/advanced.md`** - Advanced techniques
-
-### Examples
-- **`examples/script.sh`** - Working example
-```
-
-**Why good:** Claude knows where to find additional information
-
-## Quick Reference
-
-### Minimal Skill
-
-```
-skill-name/
-└── SKILL.md
-```
-
-Good for: Simple knowledge, no complex resources needed
-
-### Standard Skill (Recommended)
-
-```
-skill-name/
-├── SKILL.md
-├── references/
-│   └── detailed-guide.md
-└── examples/
-    └── working-example.sh
-```
-
-Good for: Most plugin skills with detailed documentation
-
-### Complete Skill
-
-```
-skill-name/
-├── SKILL.md
-├── references/
-│   ├── patterns.md
-│   └── advanced.md
-├── examples/
-│   ├── example1.sh
-│   └── example2.json
-└── scripts/
-    └── validate.sh
-```
-
-Good for: Complex domains with validation utilities
-
-## Best Practices Summary
-
-✅ **DO:**
-- Use third-person in description (&quot;This skill should be used when...&quot;)
-- Include specific trigger phrases (&quot;create X&quot;, &quot;configure Y&quot;)
-- Keep SKILL.md lean (1,500-2,000 words)
-- Use progressive disclosure (move details to references/)
-- Write in imperative/infinitive form
-- Reference supporting files clearly
-- Provide working examples
-- Create utility scripts for common operations
-- Study plugin-dev&#039;s skills as templates
-
-❌ **DON&#039;T:**
-- Use second person anywhere
-- Have vague trigger conditions
-- Put everything in SKILL.md (&gt;3,000 words without references/)
-- Write in second person (&quot;You should...&quot;)
-- Leave resources unreferenced
-- Include broken or incomplete examples
-- Skip validation
-
-## Additional Resources
-
-### Study These Skills
-
-Plugin-dev&#039;s skills demonstrate best practices:
-- `../hook-development/` - Progressive disclosure, utilities
-- `../agent-development/` - AI-assisted creation, references
-- `../mcp-integration/` - Comprehensive references
-- `../plugin-settings/` - Real-world examples
-- `../command-development/` - Clear critical concepts
-- `../plugin-structure/` - Good organization
-
-### Reference Files
-
-For complete skill-creator methodology:
-- **`references/skill-creator-original.md`** - Full original skill-creator content
-
-## Implementation Workflow
-
-To create a skill for your plugin:
-
-1. **Understand use cases**: Identify concrete examples of skill usage
-2. **Plan resources**: Determine what scripts/references/examples needed
-3. **Create structure**: `mkdir -p skills/skill-name/{references,examples,scripts}`
-4. **Write SKILL.md**:
-   - Frontmatter with third-person description and trigger phrases
-   - Lean body (1,500-2,000 words) in imperative form
-   - Reference supporting files
-5. **Add resources**: Create references/, examples/, scripts/ as needed
-6. **Validate**: Check description, writing style, organization
-7. **Test**: Verify skill loads on expected triggers
-8. **Iterate**: Improve based on usage
-
-Focus on strong trigger descriptions, progressive disclosure, and imperative writing style for effective skills that load when needed and provide targeted guidance.
-</pre>
+## Scripts
+- `scripts/validate-hook.sh`: Validate hook configuration</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
+            <div class="nav-card" onclick="location.href='../skills.html'">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
+                <div class="nav-title">Skills 列表</div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

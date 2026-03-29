@@ -8,7 +8,7 @@
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,56 +26,38 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #14b8a6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #14b8a6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(20, 184, 166, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #14b8a6, #0d9488); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #14b8a6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(20, 184, 166, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(20, 184, 166, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(20, 184, 166, 0.1); border: 1px solid rgba(20, 184, 166, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #14b8a6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
         <span class="breadcrumb-current">插件结构</span>
     </nav>
@@ -83,509 +65,190 @@
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3h7zM7 9H4V5h3v4zm10 6h3v4h-3v-4zm0-10h3v4h-3V5z"/></svg>
             </div>
             <h1 class="detail-title">插件结构</h1>
-            <p class="detail-subtitle">插件结构指南，了解插件的组织结构</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    plugin-dev
-                </div>
+            <p class="detail-subtitle">Claude Code插件标准化目录结构，支持自动组件发现和便携路径引用</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Architecture Skill
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">plugin-dev</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                概述
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">Claude Code plugins follow a standardized directory structure with automatic component discovery. Understanding this structure enables creating well-organized, maintainable plugins that integrate seamlessly with Claude Code.
+                <p>插件结构Skill 定义Claude Code插件的标准目录布局，支持自动发现和组件加载。</p>
 
-**Key concepts:**
-- Conventional directory layout for automatic discovery
-- Manifest-driven configuration in `.claude-plugin/plugin.json`
-- Component-based organization (commands, agents, skills, hooks)
-- Portable path references using `${CLAUDE_PLUGIN_ROOT}`
-- Explicit vs. auto-discovered component loading</pre>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">自动发现机制</h4>
+                            <p class="feature-desc">扫描commands/、agents/、skills/目录自动加载组件</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">清单驱动配置</h4>
+                            <p class="feature-desc">.claude-plugin/plugin.json定义元数据和自定义路径</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">便携路径引用</h4>
+                            <p class="feature-desc">${CLAUDE_PLUGIN_ROOT}环境变量确保跨平台兼容</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">组件化组织</h4>
+                            <p class="feature-desc">Commands、Agents、Skills、Hooks、MCP各司其职</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Directory Structure
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">Every Claude Code plugin follows this organizational pattern:
+                <p>Claude Code插件遵循约定优于配置原则，标准目录结构自动触发组件发现。</p>
 
-```
+                <p style="margin-top:20px"><strong>关键规则</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>清单位置</strong>: plugin.json必须在.claude-plugin/目录</li>
+                    <li><strong>组件位置</strong>: 所有组件目录在插件根级别，不在.claude-plugin/内</li>
+                    <li><strong>可选组件</strong>: 只创建插件实际使用的目录</li>
+                    <li><strong>命名约定</strong>: 所有目录和文件使用kebab-case</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>组件类型</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>Commands</strong>: commands/目录，.md文件，集成为斜杠命令</li>
+                    <li><strong>Agents</strong>: agents/目录，.md文件，手动或自动调用</li>
+                    <li><strong>Skills</strong>: skills/目录，SKILL.md文件，自主激活</li>
+                    <li><strong>Hooks</strong>: hooks/hooks.json，响应Claude Code事件</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <p>创建插件时遵循标准目录结构：</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">目录结构与清单配置</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 标准插件目录结构
 plugin-name/
 ├── .claude-plugin/
-│   └── plugin.json          # Required: Plugin manifest
-├── commands/                 # Slash commands (.md files)
-├── agents/                   # Subagent definitions (.md files)
-├── skills/                   # Agent skills (subdirectories)
+│   └── plugin.json          # 必需：插件清单
+├── commands/                 # 斜杠命令 (.md文件)
+├── agents/                   # 子代理定义 (.md文件)
+├── skills/                   # Agent技能 (子目录)
 │   └── skill-name/
-│       └── SKILL.md         # Required for each skill
+│       └── SKILL.md         # 每个技能必需
 ├── hooks/
-│   └── hooks.json           # Event handler configuration
-├── .mcp.json                # MCP server definitions
-└── scripts/                 # Helper scripts and utilities
-```
+│   └── hooks.json           # 事件处理器配置
+├── .mcp.json                # MCP服务器定义
+└── scripts/                 # 辅助脚本和工具
 
-**Critical rules:**
-
-1. **Manifest location**: The `plugin.json` manifest MUST be in `.claude-plugin/` directory
-2. **Component locations**: All component directories (commands, agents, skills, hooks) MUST be at plugin root level, NOT nested inside `.claude-plugin/`
-3. **Optional components**: Only create directories for components the plugin actually uses
-4. **Naming convention**: Use kebab-case for all directory and file names</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Plugin Manifest (plugin.json)
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">The manifest defines plugin metadata and configuration. Located at `.claude-plugin/plugin.json`:
-
-### Required Fields
-
-```json
+# .claude-plugin/plugin.json
 {
-  &quot;name&quot;: &quot;plugin-name&quot;
+  "name": "plugin-name",
+  "version": "1.0.0",
+  "description": "Brief explanation",
+  "commands": "./custom-commands",  # 自定义路径
+  "agents": ["./agents", "./specialized-agents"]
 }
-```
 
-**Name requirements:**
-- Use kebab-case format (lowercase with hyphens)
-- Must be unique across installed plugins
-- No spaces or special characters
-- Example: `code-review-assistant`, `test-runner`, `api-docs`
-
-### Recommended Metadata
-
-```json
+# Hook中使用${CLAUDE_PLUGIN_ROOT}
 {
-  &quot;name&quot;: &quot;plugin-name&quot;,
-  &quot;version&quot;: &quot;1.0.0&quot;,
-  &quot;description&quot;: &quot;Brief explanation of plugin purpose&quot;,
-  &quot;author&quot;: {
-    &quot;name&quot;: &quot;Author Name&quot;,
-    &quot;email&quot;: &quot;author@example.com&quot;,
-    &quot;url&quot;: &quot;https://example.com&quot;
-  },
-  &quot;homepage&quot;: &quot;https://docs.example.com&quot;,
-  &quot;repository&quot;: &quot;https://github.com/user/plugin-name&quot;,
-  &quot;license&quot;: &quot;MIT&quot;,
-  &quot;keywords&quot;: [&quot;testing&quot;, &quot;automation&quot;, &quot;ci-cd&quot;]
-}
-```
-
-**Version format**: Follow semantic versioning (MAJOR.MINOR.PATCH)
-**Keywords**: Use for plugin discovery and categorization
-
-### Component Path Configuration
-
-Specify custom paths for components (supplements default directories):
-
-```json
-{
-  &quot;name&quot;: &quot;plugin-name&quot;,
-  &quot;commands&quot;: &quot;./custom-commands&quot;,
-  &quot;agents&quot;: [&quot;./agents&quot;, &quot;./specialized-agents&quot;],
-  &quot;hooks&quot;: &quot;./config/hooks.json&quot;,
-  &quot;mcpServers&quot;: &quot;./.mcp.json&quot;
-}
-```
-
-**Important**: Custom paths supplement defaults—they don&#039;t replace them. Components in both default directories and custom paths will load.
-
-**Path rules:**
-- Must be relative to plugin root
-- Must start with `./`
-- Cannot use absolute paths
-- Support arrays for multiple locations</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Component Organization
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Commands
-
-**Location**: `commands/` directory
-**Format**: Markdown files with YAML frontmatter
-**Auto-discovery**: All `.md` files in `commands/` load automatically
-
-**Example structure**:
-```
-commands/
-├── review.md        # /review command
-├── test.md          # /test command
-└── deploy.md        # /deploy command
-```
-
-**File format**:
-```markdown
----
-name: command-name
-description: Command description
----
-
-Command implementation instructions...
-```
-
-**Usage**: Commands integrate as native slash commands in Claude Code
-
-### Agents
-
-**Location**: `agents/` directory
-**Format**: Markdown files with YAML frontmatter
-**Auto-discovery**: All `.md` files in `agents/` load automatically
-
-**Example structure**:
-```
-agents/
-├── code-reviewer.md
-├── test-generator.md
-└── refactorer.md
-```
-
-**File format**:
-```markdown
----
-description: Agent role and expertise
-capabilities:
-  - Specific task 1
-  - Specific task 2
----
-
-Detailed agent instructions and knowledge...
-```
-
-**Usage**: Users can invoke agents manually, or Claude Code selects them automatically based on task context
-
-### Skills
-
-**Location**: `skills/` directory with subdirectories per skill
-**Format**: Each skill in its own directory with `SKILL.md` file
-**Auto-discovery**: All `SKILL.md` files in skill subdirectories load automatically
-
-**Example structure**:
-```
-skills/
-├── api-testing/
-│   ├── SKILL.md
-│   ├── scripts/
-│   │   └── test-runner.py
-│   └── references/
-│       └── api-spec.md
-└── database-migrations/
-    ├── SKILL.md
-    └── examples/
-        └── migration-template.sql
-```
-
-**SKILL.md format**:
-```markdown
----
-name: Skill Name
-description: When to use this skill
-version: 1.0.0
----
-
-Skill instructions and guidance...
-```
-
-**Supporting files**: Skills can include scripts, references, examples, or assets in subdirectories
-
-**Usage**: Claude Code autonomously activates skills based on task context matching the description
-
-### Hooks
-
-**Location**: `hooks/hooks.json` or inline in `plugin.json`
-**Format**: JSON configuration defining event handlers
-**Registration**: Hooks register automatically when plugin enables
-
-**Example structure**:
-```
-hooks/
-├── hooks.json           # Hook configuration
-└── scripts/
-    ├── validate.sh      # Hook script
-    └── check-style.sh   # Hook script
-```
-
-**Configuration format**:
-```json
-{
-  &quot;PreToolUse&quot;: [{
-    &quot;matcher&quot;: &quot;Write|Edit&quot;,
-    &quot;hooks&quot;: [{
-      &quot;type&quot;: &quot;command&quot;,
-      &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate.sh&quot;,
-      &quot;timeout&quot;: 30
+  "PreToolUse": [{
+    "matcher": "Write|Edit",
+    "hooks": [{
+      "type": "command",
+      "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate.sh"
     }]
   }]
-}
-```
-
-**Available events**: PreToolUse, PostToolUse, Stop, SubagentStop, SessionStart, SessionEnd, UserPromptSubmit, PreCompact, Notification
-
-**Usage**: Hooks execute automatically in response to Claude Code events
-
-### MCP Servers
-
-**Location**: `.mcp.json` at plugin root or inline in `plugin.json`
-**Format**: JSON configuration for MCP server definitions
-**Auto-start**: Servers start automatically when plugin enables
-
-**Example format**:
-```json
-{
-  &quot;mcpServers&quot;: {
-    &quot;server-name&quot;: {
-      &quot;command&quot;: &quot;node&quot;,
-      &quot;args&quot;: [&quot;${CLAUDE_PLUGIN_ROOT}/servers/server.js&quot;],
-      &quot;env&quot;: {
-        &quot;API_KEY&quot;: &quot;${API_KEY}&quot;
-      }
-    }
-  }
-}
-```
-
-**Usage**: MCP servers integrate seamlessly with Claude Code&#039;s tool system</pre>
+}</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Portable Path References
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">### ${CLAUDE_PLUGIN_ROOT}
-
-Use `${CLAUDE_PLUGIN_ROOT}` environment variable for all intra-plugin path references:
-
-```json
-{
-  &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/scripts/run.sh&quot;
-}
-```
-
-**Why it matters**: Plugins install in different locations depending on:
-- User installation method (marketplace, local, npm)
-- Operating system conventions
-- User preferences
-
-**Where to use it**:
-- Hook command paths
-- MCP server command arguments
-- Script execution references
-- Resource file paths
-
-**Never use**:
-- Hardcoded absolute paths (`/Users/name/plugins/...`)
-- Relative paths from working directory (`./scripts/...` in commands)
-- Home directory shortcuts (`~/plugins/...`)
-
-### Path Resolution Rules
-
-**In manifest JSON fields** (hooks, MCP servers):
-```json
-&quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/scripts/tool.sh&quot;
-```
-
-**In component files** (commands, agents, skills):
-```markdown
-Reference scripts at: ${CLAUDE_PLUGIN_ROOT}/scripts/helper.py
-```
-
-**In executed scripts**:
-```bash
-#!/bin/bash
-# ${CLAUDE_PLUGIN_ROOT} available as environment variable
-source &quot;${CLAUDE_PLUGIN_ROOT}/lib/common.sh&quot;
-```</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>保持清单简洁</strong> - 只在必要时指定自定义路径，依赖自动发现</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>始终使用变量</strong> - 永远使用${CLAUDE_PLUGIN_ROOT}，避免硬编码路径</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>逻辑分组</strong> - 将相关组件放在一起，scripts/使用子目录</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>包含README</strong> - 插件根目录和组件目录都应有文档</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                File Naming Conventions
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Component Files
-
-**Commands**: Use kebab-case `.md` files
-- `code-review.md` → `/code-review`
-- `run-tests.md` → `/run-tests`
-- `api-docs.md` → `/api-docs`
-
-**Agents**: Use kebab-case `.md` files describing role
-- `test-generator.md`
-- `code-reviewer.md`
-- `performance-analyzer.md`
-
-**Skills**: Use kebab-case directory names
-- `api-testing/`
-- `database-migrations/`
-- `error-handling/`
-
-### Supporting Files
-
-**Scripts**: Use descriptive kebab-case names with appropriate extensions
-- `validate-input.sh`
-- `generate-report.py`
-- `process-data.js`
-
-**Documentation**: Use kebab-case markdown files
-- `api-reference.md`
-- `migration-guide.md`
-- `best-practices.md`
-
-**Configuration**: Use standard names
-- `hooks.json`
-- `.mcp.json`
-- `plugin.json`</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Auto-Discovery Mechanism
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Claude Code automatically discovers and loads components:
-
-1. **Plugin manifest**: Reads `.claude-plugin/plugin.json` when plugin enables
-2. **Commands**: Scans `commands/` directory for `.md` files
-3. **Agents**: Scans `agents/` directory for `.md` files
-4. **Skills**: Scans `skills/` for subdirectories containing `SKILL.md`
-5. **Hooks**: Loads configuration from `hooks/hooks.json` or manifest
-6. **MCP servers**: Loads configuration from `.mcp.json` or manifest
-
-**Discovery timing**:
-- Plugin installation: Components register with Claude Code
-- Plugin enable: Components become available for use
-- No restart required: Changes take effect on next Claude Code session
-
-**Override behavior**: Custom paths in `plugin.json` supplement (not replace) default directories</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                最佳实践
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Organization
-
-1. **Logical grouping**: Group related components together
-   - Put test-related commands, agents, and skills together
-   - Create subdirectories in `scripts/` for different purposes
-
-2. **Minimal manifest**: Keep `plugin.json` lean
-   - Only specify custom paths when necessary
-   - Rely on auto-discovery for standard layouts
-   - Use inline configuration only for simple cases
-
-3. **Documentation**: Include README files
-   - Plugin root: Overall purpose and usage
-   - Component directories: Specific guidance
-   - Script directories: Usage and requirements
-
-### Naming
-
-1. **Consistency**: Use consistent naming across components
-   - If command is `test-runner`, name related agent `test-runner-agent`
-   - Match skill directory names to their purpose
-
-2. **Clarity**: Use descriptive names that indicate purpose
-   - Good: `api-integration-testing/`, `code-quality-checker.md`
-   - Avoid: `utils/`, `misc.md`, `temp.sh`
-
-3. **Length**: Balance brevity with clarity
-   - Commands: 2-3 words (`review-pr`, `run-ci`)
-   - Agents: Describe role clearly (`code-reviewer`, `test-generator`)
-   - Skills: Topic-focused (`error-handling`, `api-design`)
-
-### Portability
-
-1. **Always use ${CLAUDE_PLUGIN_ROOT}**: Never hardcode paths
-2. **Test on multiple systems**: Verify on macOS, Linux, Windows
-3. **Document dependencies**: List required tools and versions
-4. **Avoid system-specific features**: Use portable bash/Python constructs
-
-### Maintenance
-
-1. **Version consistently**: Update version in plugin.json for releases
-2. **Deprecate gracefully**: Mark old components clearly before removal
-3. **Document breaking changes**: Note changes affecting existing users
-4. **Test thoroughly**: Verify all components work after changes</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Common Patterns
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Minimal Plugin
-
-Single command with no dependencies:
-```
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">常见插件模式</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 最小插件 (单个命令)
 my-plugin/
 ├── .claude-plugin/
-│   └── plugin.json    # Just name field
+│   └── plugin.json    # 只需name字段
 └── commands/
-    └── hello.md       # Single command
-```
+    └── hello.md       # 单个命令
 
-### Full-Featured Plugin
-
-Complete plugin with all component types:
-```
+# 完整功能插件
 my-plugin/
 ├── .claude-plugin/
 │   └── plugin.json
-├── commands/          # User-facing commands
-├── agents/            # Specialized subagents
-├── skills/            # Auto-activating skills
-├── hooks/             # Event handlers
+├── commands/          # 用户命令
+├── agents/            # 专用子代理
+├── skills/            # 自动激活技能
+├── hooks/             # 事件处理器
 │   ├── hooks.json
 │   └── scripts/
-├── .mcp.json          # External integrations
-└── scripts/           # Shared utilities
-```
+├── .mcp.json          # 外部集成
+└── scripts/           # 共享工具
 
-### Skill-Focused Plugin
-
-Plugin providing only skills:
-```
+# 技能专用插件
 my-plugin/
 ├── .claude-plugin/
 │   └── plugin.json
@@ -593,540 +256,32 @@ my-plugin/
     ├── skill-one/
     │   └── SKILL.md
     └── skill-two/
-        └── SKILL.md
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                故障排查
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">**Component not loading**:
-- Verify file is in correct directory with correct extension
-- Check YAML frontmatter syntax (commands, agents, skills)
-- Ensure skill has `SKILL.md` (not `README.md` or other name)
-- Confirm plugin is enabled in Claude Code settings
-
-**Path resolution errors**:
-- Replace all hardcoded paths with `${CLAUDE_PLUGIN_ROOT}`
-- Verify paths are relative and start with `./` in manifest
-- Check that referenced files exist at specified paths
-- Test with `echo $CLAUDE_PLUGIN_ROOT` in hook scripts
-
-**Auto-discovery not working**:
-- Confirm directories are at plugin root (not in `.claude-plugin/`)
-- Check file naming follows conventions (kebab-case, correct extensions)
-- Verify custom paths in manifest are correct
-- Restart Claude Code to reload plugin configuration
-
-**Conflicts between plugins**:
-- Use unique, descriptive component names
-- Namespace commands with plugin name if needed
-- Document potential conflicts in plugin README
-- Consider command prefixes for related functionality
-
----
-
-For detailed examples and advanced patterns, see files in `references/` and `examples/` directories.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: plugin-structure
-description: This skill should be used when the user asks to &quot;create a plugin&quot;, &quot;scaffold a plugin&quot;, &quot;understand plugin structure&quot;, &quot;organize plugin components&quot;, &quot;set up plugin.json&quot;, &quot;use ${CLAUDE_PLUGIN_ROOT}&quot;, &quot;add commands/agents/skills/hooks&quot;, &quot;configure auto-discovery&quot;, or needs guidance on plugin directory layout, manifest configuration, component organization, file naming conventions, or Claude Code plugin architecture best practices.
-version: 0.1.0
----
-
-# Plugin Structure for Claude Code
-
-## Overview
-
-Claude Code plugins follow a standardized directory structure with automatic component discovery. Understanding this structure enables creating well-organized, maintainable plugins that integrate seamlessly with Claude Code.
-
-**Key concepts:**
-- Conventional directory layout for automatic discovery
-- Manifest-driven configuration in `.claude-plugin/plugin.json`
-- Component-based organization (commands, agents, skills, hooks)
-- Portable path references using `${CLAUDE_PLUGIN_ROOT}`
-- Explicit vs. auto-discovered component loading
-
-## Directory Structure
-
-Every Claude Code plugin follows this organizational pattern:
-
-```
-plugin-name/
-├── .claude-plugin/
-│   └── plugin.json          # Required: Plugin manifest
-├── commands/                 # Slash commands (.md files)
-├── agents/                   # Subagent definitions (.md files)
-├── skills/                   # Agent skills (subdirectories)
-│   └── skill-name/
-│       └── SKILL.md         # Required for each skill
-├── hooks/
-│   └── hooks.json           # Event handler configuration
-├── .mcp.json                # MCP server definitions
-└── scripts/                 # Helper scripts and utilities
-```
-
-**Critical rules:**
-
-1. **Manifest location**: The `plugin.json` manifest MUST be in `.claude-plugin/` directory
-2. **Component locations**: All component directories (commands, agents, skills, hooks) MUST be at plugin root level, NOT nested inside `.claude-plugin/`
-3. **Optional components**: Only create directories for components the plugin actually uses
-4. **Naming convention**: Use kebab-case for all directory and file names
-
-## Plugin Manifest (plugin.json)
-
-The manifest defines plugin metadata and configuration. Located at `.claude-plugin/plugin.json`:
-
-### Required Fields
-
-```json
-{
-  &quot;name&quot;: &quot;plugin-name&quot;
-}
-```
-
-**Name requirements:**
-- Use kebab-case format (lowercase with hyphens)
-- Must be unique across installed plugins
-- No spaces or special characters
-- Example: `code-review-assistant`, `test-runner`, `api-docs`
-
-### Recommended Metadata
-
-```json
-{
-  &quot;name&quot;: &quot;plugin-name&quot;,
-  &quot;version&quot;: &quot;1.0.0&quot;,
-  &quot;description&quot;: &quot;Brief explanation of plugin purpose&quot;,
-  &quot;author&quot;: {
-    &quot;name&quot;: &quot;Author Name&quot;,
-    &quot;email&quot;: &quot;author@example.com&quot;,
-    &quot;url&quot;: &quot;https://example.com&quot;
-  },
-  &quot;homepage&quot;: &quot;https://docs.example.com&quot;,
-  &quot;repository&quot;: &quot;https://github.com/user/plugin-name&quot;,
-  &quot;license&quot;: &quot;MIT&quot;,
-  &quot;keywords&quot;: [&quot;testing&quot;, &quot;automation&quot;, &quot;ci-cd&quot;]
-}
-```
-
-**Version format**: Follow semantic versioning (MAJOR.MINOR.PATCH)
-**Keywords**: Use for plugin discovery and categorization
-
-### Component Path Configuration
-
-Specify custom paths for components (supplements default directories):
-
-```json
-{
-  &quot;name&quot;: &quot;plugin-name&quot;,
-  &quot;commands&quot;: &quot;./custom-commands&quot;,
-  &quot;agents&quot;: [&quot;./agents&quot;, &quot;./specialized-agents&quot;],
-  &quot;hooks&quot;: &quot;./config/hooks.json&quot;,
-  &quot;mcpServers&quot;: &quot;./.mcp.json&quot;
-}
-```
-
-**Important**: Custom paths supplement defaults—they don&#039;t replace them. Components in both default directories and custom paths will load.
-
-**Path rules:**
-- Must be relative to plugin root
-- Must start with `./`
-- Cannot use absolute paths
-- Support arrays for multiple locations
-
-## Component Organization
-
-### Commands
-
-**Location**: `commands/` directory
-**Format**: Markdown files with YAML frontmatter
-**Auto-discovery**: All `.md` files in `commands/` load automatically
-
-**Example structure**:
-```
-commands/
-├── review.md        # /review command
-├── test.md          # /test command
-└── deploy.md        # /deploy command
-```
-
-**File format**:
-```markdown
----
-name: command-name
-description: Command description
----
-
-Command implementation instructions...
-```
-
-**Usage**: Commands integrate as native slash commands in Claude Code
-
-### Agents
-
-**Location**: `agents/` directory
-**Format**: Markdown files with YAML frontmatter
-**Auto-discovery**: All `.md` files in `agents/` load automatically
-
-**Example structure**:
-```
-agents/
-├── code-reviewer.md
-├── test-generator.md
-└── refactorer.md
-```
-
-**File format**:
-```markdown
----
-description: Agent role and expertise
-capabilities:
-  - Specific task 1
-  - Specific task 2
----
-
-Detailed agent instructions and knowledge...
-```
-
-**Usage**: Users can invoke agents manually, or Claude Code selects them automatically based on task context
-
-### Skills
-
-**Location**: `skills/` directory with subdirectories per skill
-**Format**: Each skill in its own directory with `SKILL.md` file
-**Auto-discovery**: All `SKILL.md` files in skill subdirectories load automatically
-
-**Example structure**:
-```
-skills/
-├── api-testing/
-│   ├── SKILL.md
-│   ├── scripts/
-│   │   └── test-runner.py
-│   └── references/
-│       └── api-spec.md
-└── database-migrations/
-    ├── SKILL.md
-    └── examples/
-        └── migration-template.sql
-```
-
-**SKILL.md format**:
-```markdown
----
-name: Skill Name
-description: When to use this skill
-version: 1.0.0
----
-
-Skill instructions and guidance...
-```
-
-**Supporting files**: Skills can include scripts, references, examples, or assets in subdirectories
-
-**Usage**: Claude Code autonomously activates skills based on task context matching the description
-
-### Hooks
-
-**Location**: `hooks/hooks.json` or inline in `plugin.json`
-**Format**: JSON configuration defining event handlers
-**Registration**: Hooks register automatically when plugin enables
-
-**Example structure**:
-```
-hooks/
-├── hooks.json           # Hook configuration
-└── scripts/
-    ├── validate.sh      # Hook script
-    └── check-style.sh   # Hook script
-```
-
-**Configuration format**:
-```json
-{
-  &quot;PreToolUse&quot;: [{
-    &quot;matcher&quot;: &quot;Write|Edit&quot;,
-    &quot;hooks&quot;: [{
-      &quot;type&quot;: &quot;command&quot;,
-      &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate.sh&quot;,
-      &quot;timeout&quot;: 30
-    }]
-  }]
-}
-```
-
-**Available events**: PreToolUse, PostToolUse, Stop, SubagentStop, SessionStart, SessionEnd, UserPromptSubmit, PreCompact, Notification
-
-**Usage**: Hooks execute automatically in response to Claude Code events
-
-### MCP Servers
-
-**Location**: `.mcp.json` at plugin root or inline in `plugin.json`
-**Format**: JSON configuration for MCP server definitions
-**Auto-start**: Servers start automatically when plugin enables
-
-**Example format**:
-```json
-{
-  &quot;mcpServers&quot;: {
-    &quot;server-name&quot;: {
-      &quot;command&quot;: &quot;node&quot;,
-      &quot;args&quot;: [&quot;${CLAUDE_PLUGIN_ROOT}/servers/server.js&quot;],
-      &quot;env&quot;: {
-        &quot;API_KEY&quot;: &quot;${API_KEY}&quot;
-      }
-    }
-  }
-}
-```
-
-**Usage**: MCP servers integrate seamlessly with Claude Code&#039;s tool system
-
-## Portable Path References
-
-### ${CLAUDE_PLUGIN_ROOT}
-
-Use `${CLAUDE_PLUGIN_ROOT}` environment variable for all intra-plugin path references:
-
-```json
-{
-  &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/scripts/run.sh&quot;
-}
-```
-
-**Why it matters**: Plugins install in different locations depending on:
-- User installation method (marketplace, local, npm)
-- Operating system conventions
-- User preferences
-
-**Where to use it**:
-- Hook command paths
-- MCP server command arguments
-- Script execution references
-- Resource file paths
-
-**Never use**:
-- Hardcoded absolute paths (`/Users/name/plugins/...`)
-- Relative paths from working directory (`./scripts/...` in commands)
-- Home directory shortcuts (`~/plugins/...`)
-
-### Path Resolution Rules
-
-**In manifest JSON fields** (hooks, MCP servers):
-```json
-&quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/scripts/tool.sh&quot;
-```
-
-**In component files** (commands, agents, skills):
-```markdown
-Reference scripts at: ${CLAUDE_PLUGIN_ROOT}/scripts/helper.py
-```
-
-**In executed scripts**:
-```bash
-#!/bin/bash
-# ${CLAUDE_PLUGIN_ROOT} available as environment variable
-source &quot;${CLAUDE_PLUGIN_ROOT}/lib/common.sh&quot;
-```
-
-## File Naming Conventions
-
-### Component Files
-
-**Commands**: Use kebab-case `.md` files
-- `code-review.md` → `/code-review`
-- `run-tests.md` → `/run-tests`
-- `api-docs.md` → `/api-docs`
-
-**Agents**: Use kebab-case `.md` files describing role
-- `test-generator.md`
-- `code-reviewer.md`
-- `performance-analyzer.md`
-
-**Skills**: Use kebab-case directory names
-- `api-testing/`
-- `database-migrations/`
-- `error-handling/`
-
-### Supporting Files
-
-**Scripts**: Use descriptive kebab-case names with appropriate extensions
-- `validate-input.sh`
-- `generate-report.py`
-- `process-data.js`
-
-**Documentation**: Use kebab-case markdown files
-- `api-reference.md`
-- `migration-guide.md`
-- `best-practices.md`
-
-**Configuration**: Use standard names
-- `hooks.json`
-- `.mcp.json`
-- `plugin.json`
-
-## Auto-Discovery Mechanism
-
-Claude Code automatically discovers and loads components:
-
-1. **Plugin manifest**: Reads `.claude-plugin/plugin.json` when plugin enables
-2. **Commands**: Scans `commands/` directory for `.md` files
-3. **Agents**: Scans `agents/` directory for `.md` files
-4. **Skills**: Scans `skills/` for subdirectories containing `SKILL.md`
-5. **Hooks**: Loads configuration from `hooks/hooks.json` or manifest
-6. **MCP servers**: Loads configuration from `.mcp.json` or manifest
-
-**Discovery timing**:
-- Plugin installation: Components register with Claude Code
-- Plugin enable: Components become available for use
-- No restart required: Changes take effect on next Claude Code session
-
-**Override behavior**: Custom paths in `plugin.json` supplement (not replace) default directories
-
-## Best Practices
-
-### Organization
-
-1. **Logical grouping**: Group related components together
-   - Put test-related commands, agents, and skills together
-   - Create subdirectories in `scripts/` for different purposes
-
-2. **Minimal manifest**: Keep `plugin.json` lean
-   - Only specify custom paths when necessary
-   - Rely on auto-discovery for standard layouts
-   - Use inline configuration only for simple cases
-
-3. **Documentation**: Include README files
-   - Plugin root: Overall purpose and usage
-   - Component directories: Specific guidance
-   - Script directories: Usage and requirements
-
-### Naming
-
-1. **Consistency**: Use consistent naming across components
-   - If command is `test-runner`, name related agent `test-runner-agent`
-   - Match skill directory names to their purpose
-
-2. **Clarity**: Use descriptive names that indicate purpose
-   - Good: `api-integration-testing/`, `code-quality-checker.md`
-   - Avoid: `utils/`, `misc.md`, `temp.sh`
-
-3. **Length**: Balance brevity with clarity
-   - Commands: 2-3 words (`review-pr`, `run-ci`)
-   - Agents: Describe role clearly (`code-reviewer`, `test-generator`)
-   - Skills: Topic-focused (`error-handling`, `api-design`)
-
-### Portability
-
-1. **Always use ${CLAUDE_PLUGIN_ROOT}**: Never hardcode paths
-2. **Test on multiple systems**: Verify on macOS, Linux, Windows
-3. **Document dependencies**: List required tools and versions
-4. **Avoid system-specific features**: Use portable bash/Python constructs
-
-### Maintenance
-
-1. **Version consistently**: Update version in plugin.json for releases
-2. **Deprecate gracefully**: Mark old components clearly before removal
-3. **Document breaking changes**: Note changes affecting existing users
-4. **Test thoroughly**: Verify all components work after changes
-
-## Common Patterns
-
-### Minimal Plugin
-
-Single command with no dependencies:
-```
-my-plugin/
-├── .claude-plugin/
-│   └── plugin.json    # Just name field
-└── commands/
-    └── hello.md       # Single command
-```
-
-### Full-Featured Plugin
-
-Complete plugin with all component types:
-```
-my-plugin/
-├── .claude-plugin/
-│   └── plugin.json
-├── commands/          # User-facing commands
-├── agents/            # Specialized subagents
-├── skills/            # Auto-activating skills
-├── hooks/             # Event handlers
-│   ├── hooks.json
-│   └── scripts/
-├── .mcp.json          # External integrations
-└── scripts/           # Shared utilities
-```
-
-### Skill-Focused Plugin
-
-Plugin providing only skills:
-```
-my-plugin/
-├── .claude-plugin/
-│   └── plugin.json
-└── skills/
-    ├── skill-one/
-    │   └── SKILL.md
-    └── skill-two/
-        └── SKILL.md
-```
-
-## Troubleshooting
-
-**Component not loading**:
-- Verify file is in correct directory with correct extension
-- Check YAML frontmatter syntax (commands, agents, skills)
-- Ensure skill has `SKILL.md` (not `README.md` or other name)
-- Confirm plugin is enabled in Claude Code settings
-
-**Path resolution errors**:
-- Replace all hardcoded paths with `${CLAUDE_PLUGIN_ROOT}`
-- Verify paths are relative and start with `./` in manifest
-- Check that referenced files exist at specified paths
-- Test with `echo $CLAUDE_PLUGIN_ROOT` in hook scripts
-
-**Auto-discovery not working**:
-- Confirm directories are at plugin root (not in `.claude-plugin/`)
-- Check file naming follows conventions (kebab-case, correct extensions)
-- Verify custom paths in manifest are correct
-- Restart Claude Code to reload plugin configuration
-
-**Conflicts between plugins**:
-- Use unique, descriptive component names
-- Namespace commands with plugin name if needed
-- Document potential conflicts in plugin README
-- Consider command prefixes for related functionality
-
----
-
-For detailed examples and advanced patterns, see files in `references/` and `examples/` directories.
-</pre>
+        └── SKILL.md</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
+            <div class="nav-card" onclick="location.href='plugin-settings.html'">
+                <div class="nav-label">上一个</div>
+                <div class="nav-title">plugin-settings</div>
+            </div>
+            <div class="nav-card" onclick="location.href='../skills.html'">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
+                <div class="nav-title">Skills 列表</div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

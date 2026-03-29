@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>loop - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #eab308; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #eab308; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(234, 179, 8, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #eab308, #ca8a04); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #eab308; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(234, 179, 8, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(234, 179, 8, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #eab308; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">loop</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 18c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L4.24 9.74C3.7 11.03 3 12.57 3 14c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+            </div>
+            <h1 class="detail-title">loop</h1>
+            <p class="detail-subtitle">循环执行 Skill，按设定间隔重复运行命令或提示</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Automation Skill
+            </div>
+        </header>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
+            </h2>
+            <div class="section-content">
+                <p>loop Skill 用于按设定间隔重复运行命令或提示。适用于轮询状态、定期检查部署、重复执行任务等场景。默认间隔为 10 分钟。</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">定时轮询</h4>
+                            <p class="feature-desc">按设定间隔自动执行命令，如每 5 分钟检查部署状态</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Slash 命令支持</h4>
+                            <p class="feature-desc">可以循环执行任何 slash 命令或自定义 prompt</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">灵活间隔</h4>
+                            <p class="feature-desc">支持分钟、小时等时间单位，可自定义执行频率</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">状态监控</h4>
+                            <p class="feature-desc">持续监控任务状态，直到满足条件或手动停止</p>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
+            </h2>
+            <div class="section-content">
+                <p>loop Skill 的核心原理是<strong>定时任务调度</strong>。通过配置时间间隔，系统会自动重复执行指定的命令或 prompt，无需人工干预。</p>
+
+                <p style="margin-top:20px"><strong>时间格式</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>/loop 5m /foo</strong> - 每 5 分钟执行</li>
+                    <li><strong>/loop 1h /bar</strong> - 每 1 小时执行</li>
+                    <li><strong>/loop /baz</strong> - 默认每 10 分钟执行</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>典型应用场景</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>"check the deploy every 5 minutes"</li>
+                    <li>"keep polling until the server is ready"</li>
+                    <li>"run health check every 10 minutes"</li>
+                    <li>"monitor the queue status periodically"</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>停止条件</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>手动取消</li>
+                    <li>满足预设条件时自动停止</li>
+                    <li>达到最大执行次数</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <p>当用户需要设置重复任务或轮询状态时触发此 Skill。</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景与调用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 触发场景
+1. "check the deploy every 5 minutes"
+2. "keep polling until the server is ready"
+3. "run /health-check every 10 minutes"
+4. "monitor the queue status periodically"
+
+// 通过 Skill 工具调用
+/loop [interval] [command]
+
+// 示例：每 5 分钟检查部署状态
+/loop 5m /check-deploy-status
+
+// 示例：每 1 小时运行健康检查
+/loop 1h /health-check
+
+// 示例：默认 10 分钟间隔
+/loop /my-custom-command
+
+// 示例：轮询直到条件满足
+/loop 2m "check if server is ready, stop when status=healthy"</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>设置停止条件</strong> - 明确何时停止轮询，避免无限循环</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>合理间隔</strong> - 根据任务性质设置间隔，避免资源浪费</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>日志记录</strong> - 记录每次执行结果便于追踪</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>组合命令</strong> - 可与其他 Skill 组合使用</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">loop Output</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Loop Execution Report
+
+## Task: Check Deploy Status
+## Interval: 5 minutes
+## Started: 2026-03-29 10:00:00
+
+---
+
+### Execution 1 (10:00)
+Status: Deploying...
+Progress: 45%
+Action: Continue polling
+
+### Execution 2 (10:05)
+Status: Deploying...
+Progress: 78%
+Action: Continue polling
+
+### Execution 3 (10:10)
+Status: Deploying...
+Progress: 95%
+Action: Continue polling
+
+### Execution 4 (10:15)
+Status: ✓ Deployed
+Progress: 100%
+Action: Loop completed
+
+---
+
+## Summary
+- Total executions: 4
+- Duration: 15 minutes
+- Final status: Success
+- Stopped reason: Condition met (status=deployed)</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
+</body>
+</html>

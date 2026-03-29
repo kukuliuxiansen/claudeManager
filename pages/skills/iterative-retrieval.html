@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>迭代检索 - Everything Claude Code</title>
+    <title>Iterative Retrieval - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,58 +26,48 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #6d28d9); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        .cycle-diagram { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 12px; margin: 20px 0; flex-wrap: wrap; }
+        .cycle-step { padding: 12px 18px; background: linear-gradient(135deg, #8b5cf6, #6d28d9); border-radius: 10px; color: white; font-size: 14px; font-weight: 600; }
+        .cycle-arrow { color: rgba(255,255,255,0.5); font-size: 20px; }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; }
+        .nav-card:hover { border-color: rgba(139, 92, 246, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .cycle-diagram { flex-direction: column; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">迭代检索</span>
+        <span class="breadcrumb-current">iterative-retrieval</span>
     </nav>
 
     <div class="detail-container">
@@ -85,151 +75,111 @@
             <div class="detail-icon">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">迭代检索</h1>
-            <p class="detail-subtitle">迭代检索策略，通过多轮检索逐步完善信息收集</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    local
-                </div>
+            <h1 class="detail-title">iterative-retrieval</h1>
+            <p class="detail-subtitle">迭代检索模式，解决子代理上下文问题，通过多轮检索逐步完善信息收集</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Agent Skill
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">local</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                When to Activate
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Spawning subagents that need codebase context they cannot predict upfront
-- Building multi-agent workflows where context is progressively refined
-- Encountering &quot;context too large&quot; or &quot;missing context&quot; failures in agent tasks
-- Designing RAG-like retrieval pipelines for code exploration
-- Optimizing token usage in agent orchestration</pre>
+                <p>iterative-retrieval 是解决多代理工作流中"上下文问题"的模式，子代理在开始工作时不知道需要什么上下文，通过迭代检索逐步完善。</p>
+
+                <div class="cycle-diagram">
+                    <span class="cycle-step">DISPATCH</span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">EVALUATE</span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">REFINE</span>
+                    <span class="cycle-arrow">→</span>
+                    <span class="cycle-step">LOOP</span>
+                </div>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">DISPATCH 阶段</h4>
+                            <p class="feature-desc">初始广泛查询，收集候选文件，从高层意图开始</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">EVALUATE 阶段</h4>
+                            <p class="feature-desc">评估检索内容的相关性，识别缺失上下文</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">REFINE 阶段</h4>
+                            <p class="feature-desc">根据评估更新搜索条件，添加新关键词和模式</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">LOOP 阶段</h4>
+                            <p class="feature-desc">最多3轮迭代，足够上下文时提前返回</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                The Problem
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">Subagents are spawned with limited context. They don&#039;t know:
-- Which files contain relevant code
-- What patterns exist in the codebase
-- What terminology the project uses
+                <p>子代理在启动时上下文有限，不知道哪些文件包含相关代码、代码库使用什么模式或术语。迭代检索通过<strong>4阶段循环</strong>解决这一问题。</p>
 
-Standard approaches fail:
-- **Send everything**: Exceeds context limits
-- **Send nothing**: Agent lacks critical information
-- **Guess what&#039;s needed**: Often wrong</pre>
+                <p style="margin-top:20px"><strong>问题</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>发送全部</strong>: 超出上下文限制</li>
+                    <li><strong>不发送</strong>: 代理缺乏关键信息</li>
+                    <li><strong>猜测需要</strong>: 经常出错</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>相关性评分标准</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>高 (0.8-1.0)</strong>: 直接实现目标功能</li>
+                    <li><strong>中 (0.5-0.7)</strong>: 包含相关模式或类型</li>
+                    <li><strong>低 (0.2-0.4)</strong>: 间接相关</li>
+                    <li><strong>无 (0-0.2)</strong>: 不相关，排除</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                The Solution: Iterative Retrieval
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">A 4-phase loop that progressively refines context:
+                <p>iterative-retrieval 适用于启动需要代码库上下文的子代理、构建上下文逐步完善的多代理工作流等场景。</p>
 
-```
-┌─────────────────────────────────────────────┐
-│                                             │
-│   ┌──────────┐      ┌──────────┐            │
-│   │ DISPATCH │─────▶│ EVALUATE │            │
-│   └──────────┘      └──────────┘            │
-│        ▲                  │                 │
-│        │                  ▼                 │
-│   ┌──────────┐      ┌──────────┐            │
-│   │   LOOP   │◀─────│  REFINE  │            │
-│   └──────────┘      └──────────┘            │
-│                                             │
-│        Max 3 cycles, then proceed           │
-└─────────────────────────────────────────────┘
-```
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景与实现</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 主动触发条件
+1. 启动需要代码库上下文的子代理
+2. 构建上下文逐步完善的多代理工作流
+3. 遇到"上下文太大"或"缺失上下文"错误
+4. 设计代码探索的类 RAG 检索管道
+5. 优化代理编排中的 token 使用
 
-### Phase 1: DISPATCH
-
-Initial broad query to gather candidate files:
-
-```javascript
-// Start with high-level intent
-const initialQuery = {
-  patterns: [&#039;src/**/*.ts&#039;, &#039;lib/**/*.ts&#039;],
-  keywords: [&#039;authentication&#039;, &#039;user&#039;, &#039;session&#039;],
-  excludes: [&#039;*.test.ts&#039;, &#039;*.spec.ts&#039;]
-};
-
-// Dispatch to retrieval agent
-const candidates = await retrieveFiles(initialQuery);
-```
-
-### Phase 2: EVALUATE
-
-Assess retrieved content for relevance:
-
-```javascript
-function evaluateRelevance(files, task) {
-  return files.map(file =&gt; ({
-    path: file.path,
-    relevance: scoreRelevance(file.content, task),
-    reason: explainRelevance(file.content, task),
-    missingContext: identifyGaps(file.content, task)
-  }));
-}
-```
-
-Scoring criteria:
-- **High (0.8-1.0)**: Directly implements target functionality
-- **Medium (0.5-0.7)**: Contains related patterns or types
-- **Low (0.2-0.4)**: Tangentially related
-- **None (0-0.2)**: Not relevant, exclude
-
-### Phase 3: REFINE
-
-Update search criteria based on evaluation:
-
-```javascript
-function refineQuery(evaluation, previousQuery) {
-  return {
-    // Add new patterns discovered in high-relevance files
-    patterns: [...previousQuery.patterns, ...extractPatterns(evaluation)],
-
-    // Add terminology found in codebase
-    keywords: [...previousQuery.keywords, ...extractKeywords(evaluation)],
-
-    // Exclude confirmed irrelevant paths
-    excludes: [...previousQuery.excludes, ...evaluation
-      .filter(e =&gt; e.relevance &lt; 0.2)
-      .map(e =&gt; e.path)
-    ],
-
-    // Target specific gaps
-    focusAreas: evaluation
-      .flatMap(e =&gt; e.missingContext)
-      .filter(unique)
-  };
-}
-```
-
-### Phase 4: LOOP
-
-Repeat with refined criteria (max 3 cycles):
-
-```javascript
+// 迭代检索实现
 async function iterativeRetrieve(task, maxCycles = 3) {
   let query = createInitialQuery(task);
   let bestContext = [];
@@ -238,345 +188,154 @@ async function iterativeRetrieve(task, maxCycles = 3) {
     const candidates = await retrieveFiles(query);
     const evaluation = evaluateRelevance(candidates, task);
 
-    // Check if we have sufficient context
+    // 检查是否有足够上下文
     const highRelevance = evaluation.filter(e =&gt; e.relevance &gt;= 0.7);
-    if (highRelevance.length &gt;= 3 &amp;&amp; !hasCriticalGaps(evaluation)) {
+    if (highRelevance.length &gt;= 3 && !hasCriticalGaps(evaluation)) {
       return highRelevance;
     }
 
-    // Refine and continue
+    // 优化并继续
     query = refineQuery(evaluation, query);
     bestContext = mergeContext(bestContext, highRelevance);
   }
 
   return bestContext;
 }
-```</pre>
-            </div>
-        </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Practical Examples
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Example 1: Bug Fix Context
-
-```
-Task: &quot;Fix the authentication token expiry bug&quot;
+// 示例: Bug修复上下文
+Task: "Fix the authentication token expiry bug"
 
 Cycle 1:
-  DISPATCH: Search for &quot;token&quot;, &quot;auth&quot;, &quot;expiry&quot; in src/**
-  EVALUATE: Found auth.ts (0.9), tokens.ts (0.8), user.ts (0.3)
-  REFINE: Add &quot;refresh&quot;, &quot;jwt&quot; keywords; exclude user.ts
+  DISPATCH: 搜索 "token", "auth", "expiry"
+  EVALUATE: auth.ts (0.9), tokens.ts (0.8), user.ts (0.3)
+  REFINE: 添加 "refresh", "jwt" 关键词
 
 Cycle 2:
-  DISPATCH: Search refined terms
-  EVALUATE: Found session-manager.ts (0.95), jwt-utils.ts (0.85)
-  REFINE: Sufficient context (2 high-relevance files)
+  DISPATCH: 搜索优化后的术语
+  EVALUATE: session-manager.ts (0.95), jwt-utils.ts (0.85)
+  REFINE: 足够上下文 (2个高相关文件)
 
-Result: auth.ts, tokens.ts, session-manager.ts, jwt-utils.ts
-```
-
-### Example 2: Feature Implementation
-
-```
-Task: &quot;Add rate limiting to API endpoints&quot;
-
-Cycle 1:
-  DISPATCH: Search &quot;rate&quot;, &quot;limit&quot;, &quot;api&quot; in routes/**
-  EVALUATE: No matches - codebase uses &quot;throttle&quot; terminology
-  REFINE: Add &quot;throttle&quot;, &quot;middleware&quot; keywords
-
-Cycle 2:
-  DISPATCH: Search refined terms
-  EVALUATE: Found throttle.ts (0.9), middleware/index.ts (0.7)
-  REFINE: Need router patterns
-
-Cycle 3:
-  DISPATCH: Search &quot;router&quot;, &quot;express&quot; patterns
-  EVALUATE: Found router-setup.ts (0.8)
-  REFINE: Sufficient context
-
-Result: throttle.ts, middleware/index.ts, router-setup.ts
-```</pre>
+Result: auth.ts, tokens.ts, session-manager.ts, jwt-utils.ts</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Integration with Agents
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">Use in agent prompts:
-
-```markdown
-When retrieving context for this task:
-1. Start with broad keyword search
-2. Evaluate each file&#039;s relevance (0-1 scale)
-3. Identify what context is still missing
-4. Refine search criteria and repeat (max 3 cycles)
-5. Return files with relevance &gt;= 0.7
-```</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>从宽到窄</strong> - 不要过度指定初始查询，逐步缩小</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>学习术语</strong> - 第一轮通常揭示命名约定</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>跟踪缺失</strong> - 明确的差距识别驱动优化</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>足够即止</strong> - 3个高相关文件优于10个平庸的</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <p class="tip-text"><strong>果断排除</strong> - 低相关文件不会变得相关</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                最佳实践
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">1. **Start broad, narrow progressively** - Don&#039;t over-specify initial queries
-2. **Learn codebase terminology** - First cycle often reveals naming conventions
-3. **Track what&#039;s missing** - Explicit gap identification drives refinement
-4. **Stop at &quot;good enough&quot;** - 3 high-relevance files beats 10 mediocre ones
-5. **Exclude confidently** - Low-relevance files won&#039;t become relevant</pre>
-            </div>
-        </section>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Iterative Retrieval Report</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Iterative Retrieval Report
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                相关
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Subagent orchestration section
-- `continuous-learning` skill - For patterns that improve over time
-- Agent definitions bundled with ECC (manual install path: `agents/`)</pre>
-            </div>
-        </section>
+## Task: "Add rate limiting to API endpoints"
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: iterative-retrieval
-description: Pattern for progressively refining context retrieval to solve the subagent context problem
-origin: ECC
 ---
 
-# Iterative Retrieval Pattern
+### Cycle 1
+**Query**: "rate", "limit", "api" in routes/**
 
-Solves the &quot;context problem&quot; in multi-agent workflows where subagents don&#039;t know what context they need until they start working.
+**Results**:
+| File | Relevance | Reason |
+|------|-----------|--------|
+| api/index.ts | 0.3 | Generic API setup |
+| routes/users.ts | 0.2 | User routes only |
 
-## When to Activate
+**Gap Identified**: Codebase uses "throttle" terminology
 
-- Spawning subagents that need codebase context they cannot predict upfront
-- Building multi-agent workflows where context is progressively refined
-- Encountering &quot;context too large&quot; or &quot;missing context&quot; failures in agent tasks
-- Designing RAG-like retrieval pipelines for code exploration
-- Optimizing token usage in agent orchestration
+---
 
-## The Problem
+### Cycle 2
+**Query**: "throttle", "middleware", "router"
 
-Subagents are spawned with limited context. They don&#039;t know:
-- Which files contain relevant code
-- What patterns exist in the codebase
-- What terminology the project uses
+**Results**:
+| File | Relevance | Reason |
+|------|-----------|--------|
+| middleware/throttle.ts | 0.9 | Core throttle implementation |
+| middleware/index.ts | 0.7 | Middleware registration |
 
-Standard approaches fail:
-- **Send everything**: Exceeds context limits
-- **Send nothing**: Agent lacks critical information
-- **Guess what&#039;s needed**: Often wrong
+**Gap Identified**: Need router setup patterns
 
-## The Solution: Iterative Retrieval
+---
 
-A 4-phase loop that progressively refines context:
+### Cycle 3
+**Query**: "router", "express" patterns
 
-```
-┌─────────────────────────────────────────────┐
-│                                             │
-│   ┌──────────┐      ┌──────────┐            │
-│   │ DISPATCH │─────▶│ EVALUATE │            │
-│   └──────────┘      └──────────┘            │
-│        ▲                  │                 │
-│        │                  ▼                 │
-│   ┌──────────┐      ┌──────────┐            │
-│   │   LOOP   │◀─────│  REFINE  │            │
-│   └──────────┘      └──────────┘            │
-│                                             │
-│        Max 3 cycles, then proceed           │
-└─────────────────────────────────────────────┘
-```
+**Results**:
+| File | Relevance | Reason |
+|------|-----------|--------|
+| router-setup.ts | 0.8 | Router configuration |
 
-### Phase 1: DISPATCH
+**Decision**: Sufficient context (3 files >= 0.7)
 
-Initial broad query to gather candidate files:
+---
 
-```javascript
-// Start with high-level intent
-const initialQuery = {
-  patterns: [&#039;src/**/*.ts&#039;, &#039;lib/**/*.ts&#039;],
-  keywords: [&#039;authentication&#039;, &#039;user&#039;, &#039;session&#039;],
-  excludes: [&#039;*.test.ts&#039;, &#039;*.spec.ts&#039;]
-};
+## Final Context
+1. middleware/throttle.ts (0.9)
+2. middleware/index.ts (0.7)
+3. router-setup.ts (0.8)
 
-// Dispatch to retrieval agent
-const candidates = await retrieveFiles(initialQuery);
-```
-
-### Phase 2: EVALUATE
-
-Assess retrieved content for relevance:
-
-```javascript
-function evaluateRelevance(files, task) {
-  return files.map(file =&gt; ({
-    path: file.path,
-    relevance: scoreRelevance(file.content, task),
-    reason: explainRelevance(file.content, task),
-    missingContext: identifyGaps(file.content, task)
-  }));
-}
-```
-
-Scoring criteria:
-- **High (0.8-1.0)**: Directly implements target functionality
-- **Medium (0.5-0.7)**: Contains related patterns or types
-- **Low (0.2-0.4)**: Tangentially related
-- **None (0-0.2)**: Not relevant, exclude
-
-### Phase 3: REFINE
-
-Update search criteria based on evaluation:
-
-```javascript
-function refineQuery(evaluation, previousQuery) {
-  return {
-    // Add new patterns discovered in high-relevance files
-    patterns: [...previousQuery.patterns, ...extractPatterns(evaluation)],
-
-    // Add terminology found in codebase
-    keywords: [...previousQuery.keywords, ...extractKeywords(evaluation)],
-
-    // Exclude confirmed irrelevant paths
-    excludes: [...previousQuery.excludes, ...evaluation
-      .filter(e =&gt; e.relevance &lt; 0.2)
-      .map(e =&gt; e.path)
-    ],
-
-    // Target specific gaps
-    focusAreas: evaluation
-      .flatMap(e =&gt; e.missingContext)
-      .filter(unique)
-  };
-}
-```
-
-### Phase 4: LOOP
-
-Repeat with refined criteria (max 3 cycles):
-
-```javascript
-async function iterativeRetrieve(task, maxCycles = 3) {
-  let query = createInitialQuery(task);
-  let bestContext = [];
-
-  for (let cycle = 0; cycle &lt; maxCycles; cycle++) {
-    const candidates = await retrieveFiles(query);
-    const evaluation = evaluateRelevance(candidates, task);
-
-    // Check if we have sufficient context
-    const highRelevance = evaluation.filter(e =&gt; e.relevance &gt;= 0.7);
-    if (highRelevance.length &gt;= 3 &amp;&amp; !hasCriticalGaps(evaluation)) {
-      return highRelevance;
-    }
-
-    // Refine and continue
-    query = refineQuery(evaluation, query);
-    bestContext = mergeContext(bestContext, highRelevance);
-  }
-
-  return bestContext;
-}
-```
-
-## Practical Examples
-
-### Example 1: Bug Fix Context
-
-```
-Task: &quot;Fix the authentication token expiry bug&quot;
-
-Cycle 1:
-  DISPATCH: Search for &quot;token&quot;, &quot;auth&quot;, &quot;expiry&quot; in src/**
-  EVALUATE: Found auth.ts (0.9), tokens.ts (0.8), user.ts (0.3)
-  REFINE: Add &quot;refresh&quot;, &quot;jwt&quot; keywords; exclude user.ts
-
-Cycle 2:
-  DISPATCH: Search refined terms
-  EVALUATE: Found session-manager.ts (0.95), jwt-utils.ts (0.85)
-  REFINE: Sufficient context (2 high-relevance files)
-
-Result: auth.ts, tokens.ts, session-manager.ts, jwt-utils.ts
-```
-
-### Example 2: Feature Implementation
-
-```
-Task: &quot;Add rate limiting to API endpoints&quot;
-
-Cycle 1:
-  DISPATCH: Search &quot;rate&quot;, &quot;limit&quot;, &quot;api&quot; in routes/**
-  EVALUATE: No matches - codebase uses &quot;throttle&quot; terminology
-  REFINE: Add &quot;throttle&quot;, &quot;middleware&quot; keywords
-
-Cycle 2:
-  DISPATCH: Search refined terms
-  EVALUATE: Found throttle.ts (0.9), middleware/index.ts (0.7)
-  REFINE: Need router patterns
-
-Cycle 3:
-  DISPATCH: Search &quot;router&quot;, &quot;express&quot; patterns
-  EVALUATE: Found router-setup.ts (0.8)
-  REFINE: Sufficient context
-
-Result: throttle.ts, middleware/index.ts, router-setup.ts
-```
-
-## Integration with Agents
-
-Use in agent prompts:
-
-```markdown
-When retrieving context for this task:
-1. Start with broad keyword search
-2. Evaluate each file&#039;s relevance (0-1 scale)
-3. Identify what context is still missing
-4. Refine search criteria and repeat (max 3 cycles)
-5. Return files with relevance &gt;= 0.7
-```
-
-## Best Practices
-
-1. **Start broad, narrow progressively** - Don&#039;t over-specify initial queries
-2. **Learn codebase terminology** - First cycle often reveals naming conventions
-3. **Track what&#039;s missing** - Explicit gap identification drives refinement
-4. **Stop at &quot;good enough&quot;** - 3 high-relevance files beats 10 mediocre ones
-5. **Exclude confidently** - Low-relevance files won&#039;t become relevant
-
-## Related
-
-- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Subagent orchestration section
-- `continuous-learning` skill - For patterns that improve over time
-- Agent definitions bundled with ECC (manual install path: `agents/`)
-</pre>
+**Total iterations**: 3
+**Files retrieved**: 3 high-relevance</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
+            <div class="nav-card" onclick="location.href='frontend-patterns.html'">
+                <div class="nav-label">上一个</div>
+                <div class="nav-title">frontend-patterns</div>
+            </div>
+            <div class="nav-card" onclick="location.href='../skills.html'">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
+                <div class="nav-title">Skills 列表</div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

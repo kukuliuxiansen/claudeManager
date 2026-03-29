@@ -8,7 +8,7 @@
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,56 +26,38 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #4facfe; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #4facfe; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(79, 172, 254, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #4facfe, #00f2fe); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #4facfe; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(79, 172, 254, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(79, 172, 254, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(79, 172, 254, 0.1); border: 1px solid rgba(79, 172, 254, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #4facfe; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #000; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
         <span class="breadcrumb-current">蓝图</span>
     </nav>
@@ -86,276 +68,175 @@
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
             <h1 class="detail-title">蓝图</h1>
-            <p class="detail-subtitle">蓝图技能，快速生成项目架构蓝图</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    everything-claude-code
-                </div>
+            <p class="detail-subtitle">将单行目标转换为多会话、多代理工程项目的分步构建计划</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: 规划工具
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                何时使用
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Breaking a large feature into multiple PRs with clear dependency order
-- Planning a refactor or migration that spans multiple sessions
-- Coordinating parallel workstreams across sub-agents
-- Any task where context loss between sessions would cause rework
-
-**Do not use** for tasks completable in a single PR, fewer than 3 tool calls, or when the user says &quot;just do it.&quot;</pre>
+                <p>应用蓝图技能，生成可被全新代理冷启动执行的构建计划。</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">5阶段管道</div>
+                            <div class="feature-desc">研究->设计->起草->审查->注册，每个步骤都有明确的输入输出和验证标准</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">冷启动执行</div>
+                            <div class="feature-desc">每个步骤包含自包含的上下文简报，无需先验上下文即可执行</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">对抗性审查门</div>
+                            <div class="feature-desc">每个计划由最强模型子代理审查，检查完整性和反模式检测</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">并行步骤检测</div>
+                            <div class="feature-desc">依赖图识别无共享文件或输出依赖的步骤，支持并行执行</div>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                How It Works
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">Blueprint runs a 5-phase pipeline:
-
-1. **Research** — Pre-flight checks (git, gh auth, remote, default branch), then reads project structure, existing plans, and memory files to gather context.
-2. **Design** — Breaks the objective into one-PR-sized steps (3–12 typical). Assigns dependency edges, parallel/serial ordering, model tier (strongest vs default), and rollback strategy per step.
-3. **Draft** — Writes a self-contained Markdown plan file to `plans/`. Every step includes a context brief, task list, verification commands, and exit criteria — so a fresh agent can execute any step without reading prior steps.
-4. **Review** — Delegates adversarial review to a strongest-model sub-agent (e.g., Opus) against a checklist and anti-pattern catalog. Fixes all critical findings before finalizing.
-5. **Register** — Saves the plan, updates memory index, and presents the step count and parallelism summary to the user.
-
-Blueprint detects git/gh availability automatically. With git + GitHub CLI, it generates full branch/PR/CI workflow plans. Without them, it switches to direct mode (edit-in-place, no branches).</pre>
+                <p><strong>何时使用</strong></p>
+                <p>将大型功能分解为多个PR、规划跨会话的重构、协调并行工作流、任何上下文丢失会导致返工的任务。</p>
+                <p><strong>何时不使用</strong></p>
+                <p>单个PR可完成的任务、少于3次工具调用、用户说"直接做"。</p>
+                <p><strong>步骤分解</strong></p>
+                <p>目标分解为单PR大小的步骤（3-12个典型），分配依赖边、并行/串行顺序、模型层级和回滚策略。</p>
+                <p><strong>计划变异协议</strong></p>
+                <p>步骤可以拆分、插入、跳过、重新排序或放弃，带有正式协议和审计跟踪。</p>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                示例
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Basic usage
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">蓝图调用示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 基本用法
+/blueprint myapp "migrate database to PostgreSQL"
 
-```
-/blueprint myapp &quot;migrate database to PostgreSQL&quot;
-```
+# 生成 plans/myapp-migrate-database-to-postgresql.md
+# 包含步骤如：
+# - Step 1: Add PostgreSQL driver and connection config
+# - Step 2: Create migration scripts for each table
+# - Step 3: Update repository layer to use new driver
+# - Step 4: Add integration tests against PostgreSQL
+# - Step 5: Remove old database code and config
 
-Produces `plans/myapp-migrate-database-to-postgresql.md` with steps like:
-- Step 1: Add PostgreSQL driver and connection config
-- Step 2: Create migration scripts for each table
-- Step 3: Update repository layer to use new driver
-- Step 4: Add integration tests against PostgreSQL
-- Step 5: Remove old database code and config
+# 多代理项目
+/blueprint chatbot "extract LLM providers into a plugin system"
 
-### Multi-agent project
-
-```
-/blueprint chatbot &quot;extract LLM providers into a plugin system&quot;
-```
-
-Produces a plan with parallel steps where possible (e.g., &quot;implement Anthropic plugin&quot; and &quot;implement OpenAI plugin&quot; run in parallel after the plugin interface step is done), model tier assignments (strongest for the interface design step, default for implementation), and invariants verified after every step (e.g., &quot;all existing tests pass&quot;, &quot;no provider imports in core&quot;).</pre>
+# 生成带有并行步骤的计划
+# 如"implement Anthropic plugin"和"implement OpenAI plugin"
+# 在插件接口步骤完成后并行执行</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Key Features
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">- **Cold-start execution** — Every step includes a self-contained context brief. No prior context needed.
-- **Adversarial review gate** — Every plan is reviewed by a strongest-model sub-agent against a checklist covering completeness, dependency correctness, and anti-pattern detection.
-- **Branch/PR/CI workflow** — Built into every step. Degrades gracefully to direct mode when git/gh is absent.
-- **Parallel step detection** — Dependency graph identifies steps with no shared files or output dependencies.
-- **Plan mutation protocol** — Steps can be split, inserted, skipped, reordered, or abandoned with formal protocols and audit trail.
-- **Zero runtime risk** — Pure Markdown skill. The entire repository contains only `.md` files — no hooks, no shell scripts, no executable code, no `package.json`, no build step. Nothing runs on install or invocation beyond Claude Code&#039;s native Markdown skill loader.</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <div class="tip-text">确保git和gh可用，以获得完整的分支/PR/CI工作流计划</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <div class="tip-text">每个步骤都包含自包含的上下文简报，确保冷启动可执行</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <div class="tip-text">依赖图自动识别可并行执行的步骤，优化执行效率</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <div class="tip-text">计划变异协议支持步骤的拆分、插入、跳过和重新排序</div>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                安装
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">This skill ships with Everything Claude Code. No separate installation is needed when ECC is installed.
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">计划文件结构</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># plans/myapp-migrate-database.md
 
-### Full ECC install
+## Step 1: Add PostgreSQL driver
+**Context Brief:** [Self-contained context]
+**Tasks:**
+- [ ] Install pg driver
+- [ ] Add connection config
+**Verification:** `npm test` passes
+**Exit Criteria:** Driver installed, config added
 
-If you are working from the ECC repository checkout, verify the skill is present with:
+## Step 2: Create migration scripts
+**Dependencies:** Step 1
+**Context Brief:** [Self-contained context]
+**Tasks:**
+- [ ] Create migration for users table
+- [ ] Create migration for orders table
+**Verification:** `npm run migrate:dry-run` succeeds
+**Exit Criteria:** All migrations created
 
-```bash
-test -f skills/blueprint/SKILL.md
-```
-
-To update later, review the ECC diff before updating:
-
-```bash
-cd /path/to/everything-claude-code
-git fetch origin main
-git log --oneline HEAD..origin/main       # review new commits before updating
-git checkout &lt;reviewed-full-sha&gt;          # pin to a specific reviewed commit
-```
-
-### Vendored standalone install
-
-If you are vendoring only this skill outside the full ECC install, copy the reviewed file from the ECC repository into `~/.claude/skills/blueprint/SKILL.md`. Vendored copies do not have a git remote, so update them by re-copying the file from a reviewed ECC commit rather than running `git pull`.</pre>
+## Step 3: Update repository layer
+**Dependencies:** Step 2
+...</code></pre>
+                </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                要求
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- Claude Code (for `/blueprint` slash command)
-- Git + GitHub CLI (optional — enables full branch/PR/CI workflow; Blueprint detects absence and auto-switches to direct mode)</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Source
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Inspired by antbotlab/blueprint — upstream project and reference design.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: blueprint
-description: &gt;-
-  Turn a one-line objective into a step-by-step construction plan for
-  multi-session, multi-agent engineering projects. Each step has a
-  self-contained context brief so a fresh agent can execute it cold.
-  Includes adversarial review gate, dependency graph, parallel step
-  detection, anti-pattern catalog, and plan mutation protocol.
-  TRIGGER when: user requests a plan, blueprint, or roadmap for a
-  complex multi-PR task, or describes work that needs multiple sessions.
-  DO NOT TRIGGER when: task is completable in a single PR or fewer
-  than 3 tool calls, or user says &quot;just do it&quot;.
-origin: community
----
-
-# Blueprint — Construction Plan Generator
-
-Turn a one-line objective into a step-by-step construction plan that any coding agent can execute cold.
-
-## When to Use
-
-- Breaking a large feature into multiple PRs with clear dependency order
-- Planning a refactor or migration that spans multiple sessions
-- Coordinating parallel workstreams across sub-agents
-- Any task where context loss between sessions would cause rework
-
-**Do not use** for tasks completable in a single PR, fewer than 3 tool calls, or when the user says &quot;just do it.&quot;
-
-## How It Works
-
-Blueprint runs a 5-phase pipeline:
-
-1. **Research** — Pre-flight checks (git, gh auth, remote, default branch), then reads project structure, existing plans, and memory files to gather context.
-2. **Design** — Breaks the objective into one-PR-sized steps (3–12 typical). Assigns dependency edges, parallel/serial ordering, model tier (strongest vs default), and rollback strategy per step.
-3. **Draft** — Writes a self-contained Markdown plan file to `plans/`. Every step includes a context brief, task list, verification commands, and exit criteria — so a fresh agent can execute any step without reading prior steps.
-4. **Review** — Delegates adversarial review to a strongest-model sub-agent (e.g., Opus) against a checklist and anti-pattern catalog. Fixes all critical findings before finalizing.
-5. **Register** — Saves the plan, updates memory index, and presents the step count and parallelism summary to the user.
-
-Blueprint detects git/gh availability automatically. With git + GitHub CLI, it generates full branch/PR/CI workflow plans. Without them, it switches to direct mode (edit-in-place, no branches).
-
-## Examples
-
-### Basic usage
-
-```
-/blueprint myapp &quot;migrate database to PostgreSQL&quot;
-```
-
-Produces `plans/myapp-migrate-database-to-postgresql.md` with steps like:
-- Step 1: Add PostgreSQL driver and connection config
-- Step 2: Create migration scripts for each table
-- Step 3: Update repository layer to use new driver
-- Step 4: Add integration tests against PostgreSQL
-- Step 5: Remove old database code and config
-
-### Multi-agent project
-
-```
-/blueprint chatbot &quot;extract LLM providers into a plugin system&quot;
-```
-
-Produces a plan with parallel steps where possible (e.g., &quot;implement Anthropic plugin&quot; and &quot;implement OpenAI plugin&quot; run in parallel after the plugin interface step is done), model tier assignments (strongest for the interface design step, default for implementation), and invariants verified after every step (e.g., &quot;all existing tests pass&quot;, &quot;no provider imports in core&quot;).
-
-## Key Features
-
-- **Cold-start execution** — Every step includes a self-contained context brief. No prior context needed.
-- **Adversarial review gate** — Every plan is reviewed by a strongest-model sub-agent against a checklist covering completeness, dependency correctness, and anti-pattern detection.
-- **Branch/PR/CI workflow** — Built into every step. Degrades gracefully to direct mode when git/gh is absent.
-- **Parallel step detection** — Dependency graph identifies steps with no shared files or output dependencies.
-- **Plan mutation protocol** — Steps can be split, inserted, skipped, reordered, or abandoned with formal protocols and audit trail.
-- **Zero runtime risk** — Pure Markdown skill. The entire repository contains only `.md` files — no hooks, no shell scripts, no executable code, no `package.json`, no build step. Nothing runs on install or invocation beyond Claude Code&#039;s native Markdown skill loader.
-
-## Installation
-
-This skill ships with Everything Claude Code. No separate installation is needed when ECC is installed.
-
-### Full ECC install
-
-If you are working from the ECC repository checkout, verify the skill is present with:
-
-```bash
-test -f skills/blueprint/SKILL.md
-```
-
-To update later, review the ECC diff before updating:
-
-```bash
-cd /path/to/everything-claude-code
-git fetch origin main
-git log --oneline HEAD..origin/main       # review new commits before updating
-git checkout &lt;reviewed-full-sha&gt;          # pin to a specific reviewed commit
-```
-
-### Vendored standalone install
-
-If you are vendoring only this skill outside the full ECC install, copy the reviewed file from the ECC repository into `~/.claude/skills/blueprint/SKILL.md`. Vendored copies do not have a git remote, so update them by re-copying the file from a reviewed ECC commit rather than running `git pull`.
-
-## Requirements
-
-- Claude Code (for `/blueprint` slash command)
-- Git + GitHub CLI (optional — enables full branch/PR/CI workflow; Blueprint detects absence and auto-switches to direct mode)
-
-## Source
-
-Inspired by antbotlab/blueprint — upstream project and reference design.
-</pre>
-            </div>
-        </section>
-
-        <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
-                <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

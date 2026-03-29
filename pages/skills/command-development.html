@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>命令开发 - Everything Claude Code</title>
+    <title>Command Development - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,1945 +26,260 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card:hover { border-color: rgba(139, 92, 246, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">命令开发</span>
+        <span class="breadcrumb-current">Command Development</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
             </div>
-            <h1 class="detail-title">命令开发</h1>
-            <p class="detail-subtitle">命令开发指南，帮助开发新的命令</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    plugin-dev
-                </div>
+            <h1 class="detail-title">Command Development</h1>
+            <p class="detail-subtitle">命令开发指南，帮助开发新的斜杠命令和可复用工作流</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Plugin Development
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">plugin-dev</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                概述
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">Slash commands are frequently-used prompts defined as Markdown files that Claude executes during interactive sessions. Understanding command structure, frontmatter options, and dynamic features enables creating powerful, reusable workflows.
+                <p>Command Development Skill 是 Claude Code 斜杠命令开发的专业指南。命令是频繁使用的提示词，定义为 Markdown 文件，在交互会话中由 Claude 执行。</p>
 
-**Key concepts:**
-
-- Markdown file format for commands
-- YAML frontmatter for configuration
-- Dynamic arguments and file references
-- Bash execution for context
-- Command organization and namespacing</pre>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">可复用性</h4>
+                            <p class="feature-desc">定义一次，重复使用。标准化常见工作流程，提高效率</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">YAML 配置</h4>
+                            <p class="feature-desc">使用 YAML frontmatter 配置描述、允许工具、模型选择等</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">动态参数</h4>
+                            <p class="feature-desc">支持 $ARGUMENTS、$1、$2 等动态参数，以及 @ 文件引用语法</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">命令组织</h4>
+                            <p class="feature-desc">支持项目命令、个人命令、插件命令，以及命名空间组织</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Command Basics
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">### What is a Slash Command?
+                <p><strong>命令是为 Claude 编写的指令</strong>，不是给用户的消息。当用户调用 /command-name 时，命令内容成为 Claude 的指令。</p>
 
-A slash command is a Markdown file containing a prompt that Claude executes when invoked. Commands provide:
+                <p style="margin-top:20px"><strong>命令位置</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>项目命令</strong>: .claude/commands/ - 团队共享</li>
+                    <li><strong>个人命令</strong>: ~/.claude/commands/ - 全局可用</li>
+                    <li><strong>插件命令</strong>: plugin-name/commands/ - 随插件安装</li>
+                </ul>
 
-- **Reusability**: Define once, use repeatedly
-- **Consistency**: Standardize common workflows
-- **Sharing**: Distribute across team or projects
-- **Efficiency**: Quick access to complex prompts
-
-### Critical: Commands are Instructions FOR Claude
-
-**Commands are written for agent consumption, not human consumption.**
-
-When a user invokes `/command-name`, the command content becomes Claude&#039;s instructions. Write commands as directives TO Claude about what to do, not as messages TO the user.
-
-**Correct approach (instructions for Claude):**
-
-```markdown
-Review this code for security vulnerabilities including:
-
-- SQL injection
-- XSS attacks
-- Authentication issues
-
-Provide specific line numbers and severity ratings.
-```
-
-**Incorrect approach (messages to user):**
-
-```markdown
-This command will review your code for security issues.
-You&#039;ll receive a report with vulnerability details.
-```
-
-The first example tells Claude what to do. The second tells the user what will happen but doesn&#039;t instruct Claude. Always use the first approach.
-
-### Command Locations
-
-**Project commands** (shared with team):
-
-- Location: `.claude/commands/`
-- Scope: Available in specific project
-- Label: Shown as &quot;(project)&quot; in `/help`
-- Use for: Team workflows, project-specific tasks
-
-**Personal commands** (available everywhere):
-
-- Location: `~/.claude/commands/`
-- Scope: Available in all projects
-- Label: Shown as &quot;(user)&quot; in `/help`
-- Use for: Personal workflows, cross-project utilities
-
-**Plugin commands** (bundled with plugins):
-
-- Location: `plugin-name/commands/`
-- Scope: Available when plugin installed
-- Label: Shown as &quot;(plugin-name)&quot; in `/help`
-- Use for: Plugin-specific functionality</pre>
+                <p style="margin-top:20px"><strong>关键原则</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>单一职责：一个命令，一个任务</li>
+                    <li>清晰描述：在 /help 中自解释</li>
+                    <li>显式依赖：使用 allowed-tools 明确工具</li>
+                    <li>文档参数：始终提供 argument-hint</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                File Format
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Basic Structure
-
-Commands are Markdown files with `.md` extension:
-
-```
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">命令示例与调用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 基础命令结构
 .claude/commands/
-├── review.md           # /review command
-├── test.md             # /test command
-└── deploy.md           # /deploy command
-```
+├── review.md           # /review 命令
+├── test.md             # /test 命令
+└── deploy.md           # /deploy 命令
 
-**Simple command:**
-
-```markdown
-Review this code for security vulnerabilities including:
-
-- SQL injection
-- XSS attacks
-- Authentication bypass
-- Insecure data handling
-```
-
-No frontmatter needed for basic commands.
-
-### With YAML Frontmatter
-
-Add configuration using YAML frontmatter:
-
-```markdown
+# 带 YAML frontmatter 的命令
 ---
 description: Review code for security issues
 allowed-tools: Read, Grep, Bash(git:*)
 model: sonnet
----
-
-Review this code for security vulnerabilities...
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                YAML Frontmatter Fields
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### description
-
-**Purpose:** Brief description shown in `/help`
-**Type:** String
-**Default:** First line of command prompt
-
-```yaml
----
-description: Review pull request for code quality
----
-```
-
-**Best practice:** Clear, actionable description (under 60 characters)
-
-### allowed-tools
-
-**Purpose:** Specify which tools command can use
-**Type:** String or Array
-**Default:** Inherits from conversation
-
-```yaml
----
-allowed-tools: Read, Write, Edit, Bash(git:*)
----
-```
-
-**Patterns:**
-
-- `Read, Write, Edit` - Specific tools
-- `Bash(git:*)` - Bash with git commands only
-- `*` - All tools (rarely needed)
-
-**Use when:** Command requires specific tool access
-
-### model
-
-**Purpose:** Specify model for command execution
-**Type:** String (sonnet, opus, haiku)
-**Default:** Inherits from conversation
-
-```yaml
----
-model: haiku
----
-```
-
-**Use cases:**
-
-- `haiku` - Fast, simple commands
-- `sonnet` - Standard workflows
-- `opus` - Complex analysis
-
-### argument-hint
-
-**Purpose:** Document expected arguments for autocomplete
-**Type:** String
-**Default:** None
-
-```yaml
----
-argument-hint: [pr-number] [priority] [assignee]
----
-```
-
-**Benefits:**
-
-- Helps users understand command arguments
-- Improves command discovery
-- Documents command interface
-
-### disable-model-invocation
-
-**Purpose:** Prevent SlashCommand tool from programmatically calling command
-**Type:** Boolean
-**Default:** false
-
-```yaml
----
-disable-model-invocation: true
----
-```
-
-**Use when:** Command should only be manually invoked</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Dynamic Arguments
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Using $ARGUMENTS
-
-Capture all arguments as single string:
-
-```markdown
----
-description: Fix issue by number
-argument-hint: [issue-number]
----
-
-Fix issue #$ARGUMENTS following our coding standards and best practices.
-```
-
-**Usage:**
-
-```
-&gt; /fix-issue 123
-&gt; /fix-issue 456
-```
-
-**Expands to:**
-
-```
-Fix issue #123 following our coding standards...
-Fix issue #456 following our coding standards...
-```
-
-### Using Positional Arguments
-
-Capture individual arguments with `$1`, `$2`, `$3`, etc.:
-
-```markdown
----
-description: Review PR with priority and assignee
-argument-hint: [pr-number] [priority] [assignee]
+argument-hint: [pr-number] [priority]
 ---
 
 Review pull request #$1 with priority level $2.
-After review, assign to $3 for follow-up.
-```
 
-**Usage:**
+# 使用动态参数
+$ARGUMENTS  # 捕获所有参数
+$1, $2, $3  # 位置参数
 
-```
-&gt; /review-pr 123 high alice
-```
+# 文件引用
+Review @$1 for code quality  # 读取文件内容
 
-**Expands to:**
-
-```
-Review pull request #123 with priority level high.
-After review, assign to alice for follow-up.
-```
-
-### Combining Arguments
-
-Mix positional and remaining arguments:
-
-```markdown
-Deploy $1 to $2 environment with options: $3
-```
-
-**Usage:**
-
-```
-&gt; /deploy api staging --force --skip-tests
-```
-
-**Expands to:**
-
-```
-Deploy api to staging environment with options: --force --skip-tests
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                File References
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Using @ Syntax
-
-Include file contents in command:
-
-```markdown
----
-description: Review specific file
-argument-hint: [file-path]
----
-
-Review @$1 for:
-
-- Code quality
-- Best practices
-- Potential bugs
-```
-
-**Usage:**
-
-```
-&gt; /review-file src/api/users.ts
-```
-
-**Effect:** Claude reads `src/api/users.ts` before processing command
-
-### Multiple File References
-
-Reference multiple files:
-
-```markdown
-Compare @src/old-version.js with @src/new-version.js
-
-Identify:
-
-- Breaking changes
-- New features
-- Bug fixes
-```
-
-### Static File References
-
-Reference known files without arguments:
-
-```markdown
-Review @package.json and @tsconfig.json for consistency
-
-Ensure:
-
-- TypeScript version matches
-- Dependencies are aligned
-- Build configuration is correct
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Bash Execution in Commands
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Commands can execute bash commands inline to dynamically gather context before Claude processes the command. This is useful for including repository state, environment information, or project-specific context.
-
-**When to use:**
-
-- Include dynamic context (git status, environment vars, etc.)
-- Gather project/repository state
-- Build context-aware workflows
-
-**Implementation details:**
-For complete syntax, examples, and best practices, see `references/plugin-features-reference.md` section on bash execution. The reference includes the exact syntax and multiple working examples to avoid execution issues</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Command Organization
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Flat Structure
-
-Simple organization for small command sets:
-
-```
-.claude/commands/
-├── build.md
-├── test.md
-├── deploy.md
-├── review.md
-└── docs.md
-```
-
-**Use when:** 5-15 commands, no clear categories
-
-### Namespaced Structure
-
-Organize commands in subdirectories:
-
-```
-.claude/commands/
-├── ci/
-│   ├── build.md        # /build (project:ci)
-│   ├── test.md         # /test (project:ci)
-│   └── lint.md         # /lint (project:ci)
-├── git/
-│   ├── commit.md       # /commit (project:git)
-│   └── pr.md           # /pr (project:git)
-└── docs/
-    ├── generate.md     # /generate (project:docs)
-    └── publish.md      # /publish (project:docs)
-```
-
-**Benefits:**
-
-- Logical grouping by category
-- Namespace shown in `/help`
-- Easier to find related commands
-
-**Use when:** 15+ commands, clear categories</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                最佳实践
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Command Design
-
-1. **Single responsibility:** One command, one task
-2. **Clear descriptions:** Self-explanatory in `/help`
-3. **Explicit dependencies:** Use `allowed-tools` when needed
-4. **Document arguments:** Always provide `argument-hint`
-5. **Consistent naming:** Use verb-noun pattern (review-pr, fix-issue)
-
-### Argument Handling
-
-1. **Validate arguments:** Check for required arguments in prompt
-2. **Provide defaults:** Suggest defaults when arguments missing
-3. **Document format:** Explain expected argument format
-4. **Handle edge cases:** Consider missing or invalid arguments
-
-```markdown
----
-argument-hint: [pr-number]
----
-
-$IF($1,
-Review PR #$1,
-Please provide a PR number. Usage: /review-pr [number]
-)
-```
-
-### File References
-
-1. **Explicit paths:** Use clear file paths
-2. **Check existence:** Handle missing files gracefully
-3. **Relative paths:** Use project-relative paths
-4. **Glob support:** Consider using Glob tool for patterns
-
-### Bash Commands
-
-1. **Limit scope:** Use `Bash(git:*)` not `Bash(*)`
-2. **Safe commands:** Avoid destructive operations
-3. **Handle errors:** Consider command failures
-4. **Keep fast:** Long-running commands slow invocation
-
-### Documentation
-
-1. **Add comments:** Explain complex logic
-2. **Provide examples:** Show usage in comments
-3. **List requirements:** Document dependencies
-4. **Version commands:** Note breaking changes
-
-```markdown
----
-description: Deploy application to environment
-argument-hint: [environment] [version]
----
-
-&lt;!--
-Usage: /deploy [staging|production] [version]
-Requires: AWS credentials configured
-Example: /deploy staging v1.2.3
---&gt;
-
-Deploy application to $1 environment using version $2...
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Common Patterns
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Review Pattern
-
-```markdown
----
-description: Review code changes
-allowed-tools: Read, Bash(git:*)
----
-
+# Bash 执行
 Files changed: !`git diff --name-only`
 
-Review each file for:
+# 调用命令
+/review-pr 123 high
+/deploy api staging --force</code></pre>
+                </div>
+            </div>
+        </section>
 
-1. Code quality and style
-2. Potential bugs or issues
-3. Test coverage
-4. Documentation needs
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>单一职责</strong> - 一个命令只做一件事，保持简单专注</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>验证参数</strong> - 检查必需参数，提供默认值和错误提示</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>限制 Bash</strong> - 使用 Bash(git:*) 而非 Bash(*)，保持安全</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>添加注释</strong> - 解释复杂逻辑，提供使用示例</p>
+                </div>
+            </div>
+        </section>
 
-Provide specific feedback for each file.
-```
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Command Development Output</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Created: .claude/commands/review-pr.md
 
-### Testing Pattern
-
-```markdown
 ---
-description: Run tests for specific file
-argument-hint: [test-file]
-allowed-tools: Bash(npm:*)
+description: Review pull request with comprehensive checks
+allowed-tools: Read, Bash(git:*), Bash(gh:*)
+argument-hint: [pr-number] [priority]
 ---
 
-Run tests: !`npm test $1`
-
-Analyze results and suggest fixes for failures.
-```
-
-### Documentation Pattern
-
-```markdown
----
-description: Generate documentation for file
-argument-hint: [source-file]
----
-
-Generate comprehensive documentation for @$1 including:
-
-- Function/class descriptions
-- Parameter documentation
-- Return value descriptions
-- Usage examples
-- Edge cases and errors
-```
-
-### Workflow Pattern
-
-```markdown
----
-description: Complete PR workflow
-argument-hint: [pr-number]
-allowed-tools: Bash(gh:*), Read
----
-
-PR #$1 Workflow:
+PR #$1 Review Workflow:
 
 1. Fetch PR: !`gh pr view $1`
-2. Review changes
-3. Run checks
-4. Approve or request changes
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                故障排查
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">**Command not appearing:**
-
-- Check file is in correct directory
-- Verify `.md` extension present
-- Ensure valid Markdown format
-- Restart Claude Code
-
-**Arguments not working:**
-
-- Verify `$1`, `$2` syntax correct
-- Check `argument-hint` matches usage
-- Ensure no extra spaces
-
-**Bash execution failing:**
-
-- Check `allowed-tools` includes Bash
-- Verify command syntax in backticks
-- Test command in terminal first
-- Check for required permissions
-
-**File references not working:**
-
-- Verify `@` syntax correct
-- Check file path is valid
-- Ensure Read tool allowed
-- Use absolute or project-relative paths</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Plugin-Specific Features
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### CLAUDE_PLUGIN_ROOT Variable
-
-Plugin commands have access to `${CLAUDE_PLUGIN_ROOT}`, an environment variable that resolves to the plugin&#039;s absolute path.
-
-**Purpose:**
-
-- Reference plugin files portably
-- Execute plugin scripts
-- Load plugin configuration
-- Access plugin templates
-
-**Basic usage:**
-
-```markdown
----
-description: Analyze using plugin script
-allowed-tools: Bash(node:*)
----
-
-Run analysis: !`node ${CLAUDE_PLUGIN_ROOT}/scripts/analyze.js $1`
-
-Review results and report findings.
-```
-
-**Common patterns:**
-
-```markdown
-# Execute plugin script
-
-!`bash ${CLAUDE_PLUGIN_ROOT}/scripts/script.sh`
-
-# Load plugin configuration
-
-@${CLAUDE_PLUGIN_ROOT}/config/settings.json
-
-# Use plugin template
-
-@${CLAUDE_PLUGIN_ROOT}/templates/report.md
-
-# Access plugin resources
-
-@${CLAUDE_PLUGIN_ROOT}/docs/reference.md
-```
-
-**Why use it:**
-
-- Works across all installations
-- Portable between systems
-- No hardcoded paths needed
-- Essential for multi-file plugins
-
-### Plugin Command Organization
-
-Plugin commands discovered automatically from `commands/` directory:
-
-```
-plugin-name/
-├── commands/
-│   ├── foo.md              # /foo (plugin:plugin-name)
-│   ├── bar.md              # /bar (plugin:plugin-name)
-│   └── utils/
-│       └── helper.md       # /helper (plugin:plugin-name:utils)
-└── plugin.json
-```
-
-**Namespace benefits:**
-
-- Logical command grouping
-- Shown in `/help` output
-- Avoid name conflicts
-- Organize related commands
-
-**Naming conventions:**
-
-- Use descriptive action names
-- Avoid generic names (test, run)
-- Consider plugin-specific prefix
-- Use hyphens for multi-word names
-
-### Plugin Command Patterns
-
-**Configuration-based pattern:**
-
-```markdown
----
-description: Deploy using plugin configuration
-argument-hint: [environment]
-allowed-tools: Read, Bash(*)
----
-
-Load configuration: @${CLAUDE_PLUGIN_ROOT}/config/$1-deploy.json
-
-Deploy to $1 using configuration settings.
-Monitor deployment and report status.
-```
-
-**Template-based pattern:**
-
-```markdown
----
-description: Generate docs from template
-argument-hint: [component]
----
-
-Template: @${CLAUDE_PLUGIN_ROOT}/templates/docs.md
-
-Generate documentation for $1 following template structure.
-```
-
-**Multi-script pattern:**
-
-```markdown
----
-description: Complete build workflow
-allowed-tools: Bash(*)
----
-
-Build: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/build.sh`
-Test: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/test.sh`
-Package: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/package.sh`
-
-Review outputs and report workflow status.
-```
-
-**See `references/plugin-features-reference.md` for detailed patterns.**</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Integration with Plugin Components
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Commands can integrate with other plugin components for powerful workflows.
-
-### Agent Integration
-
-Launch plugin agents for complex tasks:
-
-```markdown
----
-description: Deep code review
-argument-hint: [file-path]
----
-
-Initiate comprehensive review of @$1 using the code-reviewer agent.
-
-The agent will analyze:
-
-- Code structure
-- Security issues
-- Performance
-- Best practices
-
-Agent uses plugin resources:
-
-- ${CLAUDE_PLUGIN_ROOT}/config/rules.json
-- ${CLAUDE_PLUGIN_ROOT}/checklists/review.md
-```
-
-**Key points:**
-
-- Agent must exist in `plugin/agents/` directory
-- Claude uses Task tool to launch agent
-- Document agent capabilities
-- Reference plugin resources agent uses
-
-### Skill Integration
-
-Leverage plugin skills for specialized knowledge:
-
-```markdown
----
-description: Document API with standards
-argument-hint: [api-file]
----
-
-Document API in @$1 following plugin standards.
-
-Use the api-docs-standards skill to ensure:
-
-- Complete endpoint documentation
-- Consistent formatting
-- Example quality
-- Error documentation
-
-Generate production-ready API docs.
-```
-
-**Key points:**
-
-- Skill must exist in `plugin/skills/` directory
-- Mention skill name to trigger invocation
-- Document skill purpose
-- Explain what skill provides
-
-### Hook Coordination
-
-Design commands that work with plugin hooks:
-
-- Commands can prepare state for hooks to process
-- Hooks execute automatically on tool events
-- Commands should document expected hook behavior
-- Guide Claude on interpreting hook output
-
-See `references/plugin-features-reference.md` for examples of commands that coordinate with hooks
-
-### Multi-Component Workflows
-
-Combine agents, skills, and scripts:
-
-```markdown
----
-description: Comprehensive review workflow
-argument-hint: [file]
-allowed-tools: Bash(node:*), Read
----
-
-Target: @$1
-
-Phase 1 - Static Analysis:
-!`node ${CLAUDE_PLUGIN_ROOT}/scripts/lint.js $1`
-
-Phase 2 - Deep Review:
-Launch code-reviewer agent for detailed analysis.
-
-Phase 3 - Standards Check:
-Use coding-standards skill for validation.
-
-Phase 4 - Report:
-Template: @${CLAUDE_PLUGIN_ROOT}/templates/review.md
-
-Compile findings into report following template.
-```
-
-**When to use:**
-
-- Complex multi-step workflows
-- Leverage multiple plugin capabilities
-- Require specialized analysis
-- Need structured outputs</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Validation Patterns
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Commands should validate inputs and resources before processing.
-
-### Argument Validation
-
-```markdown
----
-description: Deploy with validation
-argument-hint: [environment]
----
-
-Validate environment: !`echo &quot;$1&quot; | grep -E &quot;^(dev|staging|prod)$&quot; || echo &quot;INVALID&quot;`
-
-If $1 is valid environment:
-Deploy to $1
-Otherwise:
-Explain valid environments: dev, staging, prod
-Show usage: /deploy [environment]
-```
-
-### File Existence Checks
-
-```markdown
----
-description: Process configuration
-argument-hint: [config-file]
----
-
-Check file exists: !`test -f $1 &amp;&amp; echo &quot;EXISTS&quot; || echo &quot;MISSING&quot;`
-
-If file exists:
-Process configuration: @$1
-Otherwise:
-Explain where to place config file
-Show expected format
-Provide example configuration
-```
-
-### Plugin Resource Validation
-
-```markdown
----
-description: Run plugin analyzer
-allowed-tools: Bash(test:*)
----
-
-Validate plugin setup:
-
-- Script: !`test -x ${CLAUDE_PLUGIN_ROOT}/bin/analyze &amp;&amp; echo &quot;✓&quot; || echo &quot;✗&quot;`
-- Config: !`test -f ${CLAUDE_PLUGIN_ROOT}/config.json &amp;&amp; echo &quot;✓&quot; || echo &quot;✗&quot;`
-
-If all checks pass, run analysis.
-Otherwise, report missing components.
-```
-
-### Error Handling
-
-```markdown
----
-description: Build with error handling
-allowed-tools: Bash(*)
----
-
-Execute build: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/build.sh 2&gt;&amp;1 || echo &quot;BUILD_FAILED&quot;`
-
-If build succeeded:
-Report success and output location
-If build failed:
-Analyze error output
-Suggest likely causes
-Provide troubleshooting steps
-```
-
-**Best practices:**
-
-- Validate early in command
-- Provide helpful error messages
-- Suggest corrective actions
-- Handle edge cases gracefully
-
----
-
-For detailed frontmatter field specifications, see `references/frontmatter-reference.md`.
-For plugin-specific features and patterns, see `references/plugin-features-reference.md`.
-For command pattern examples, see `examples/` directory.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: command-development
-description: This skill should be used when the user asks to &quot;create a slash command&quot;, &quot;add a command&quot;, &quot;write a custom command&quot;, &quot;define command arguments&quot;, &quot;use command frontmatter&quot;, &quot;organize commands&quot;, &quot;create command with file references&quot;, &quot;interactive command&quot;, &quot;use AskUserQuestion in command&quot;, or needs guidance on slash command structure, YAML frontmatter fields, dynamic arguments, bash execution in commands, user interaction patterns, or command development best practices for Claude Code.
-version: 0.2.0
----
-
-# Command Development for Claude Code
-
-&gt; **Note:** The `.claude/commands/` directory is a legacy format. For new skills, use the `.claude/skills/&lt;name&gt;/SKILL.md` directory format. Both are loaded identically — the only difference is file layout. See the `skill-development` skill for the preferred format.
-
-## Overview
-
-Slash commands are frequently-used prompts defined as Markdown files that Claude executes during interactive sessions. Understanding command structure, frontmatter options, and dynamic features enables creating powerful, reusable workflows.
-
-**Key concepts:**
-
-- Markdown file format for commands
-- YAML frontmatter for configuration
-- Dynamic arguments and file references
-- Bash execution for context
-- Command organization and namespacing
-
-## Command Basics
-
-### What is a Slash Command?
-
-A slash command is a Markdown file containing a prompt that Claude executes when invoked. Commands provide:
-
-- **Reusability**: Define once, use repeatedly
-- **Consistency**: Standardize common workflows
-- **Sharing**: Distribute across team or projects
-- **Efficiency**: Quick access to complex prompts
-
-### Critical: Commands are Instructions FOR Claude
-
-**Commands are written for agent consumption, not human consumption.**
-
-When a user invokes `/command-name`, the command content becomes Claude&#039;s instructions. Write commands as directives TO Claude about what to do, not as messages TO the user.
-
-**Correct approach (instructions for Claude):**
-
-```markdown
-Review this code for security vulnerabilities including:
-
-- SQL injection
-- XSS attacks
-- Authentication issues
-
-Provide specific line numbers and severity ratings.
-```
-
-**Incorrect approach (messages to user):**
-
-```markdown
-This command will review your code for security issues.
-You&#039;ll receive a report with vulnerability details.
-```
-
-The first example tells Claude what to do. The second tells the user what will happen but doesn&#039;t instruct Claude. Always use the first approach.
-
-### Command Locations
-
-**Project commands** (shared with team):
-
-- Location: `.claude/commands/`
-- Scope: Available in specific project
-- Label: Shown as &quot;(project)&quot; in `/help`
-- Use for: Team workflows, project-specific tasks
-
-**Personal commands** (available everywhere):
-
-- Location: `~/.claude/commands/`
-- Scope: Available in all projects
-- Label: Shown as &quot;(user)&quot; in `/help`
-- Use for: Personal workflows, cross-project utilities
-
-**Plugin commands** (bundled with plugins):
-
-- Location: `plugin-name/commands/`
-- Scope: Available when plugin installed
-- Label: Shown as &quot;(plugin-name)&quot; in `/help`
-- Use for: Plugin-specific functionality
-
-## File Format
-
-### Basic Structure
-
-Commands are Markdown files with `.md` extension:
-
-```
-.claude/commands/
-├── review.md           # /review command
-├── test.md             # /test command
-└── deploy.md           # /deploy command
-```
-
-**Simple command:**
-
-```markdown
-Review this code for security vulnerabilities including:
-
-- SQL injection
-- XSS attacks
-- Authentication bypass
-- Insecure data handling
-```
-
-No frontmatter needed for basic commands.
-
-### With YAML Frontmatter
-
-Add configuration using YAML frontmatter:
-
-```markdown
----
-description: Review code for security issues
-allowed-tools: Read, Grep, Bash(git:*)
-model: sonnet
----
-
-Review this code for security vulnerabilities...
-```
-
-## YAML Frontmatter Fields
-
-### description
-
-**Purpose:** Brief description shown in `/help`
-**Type:** String
-**Default:** First line of command prompt
-
-```yaml
----
-description: Review pull request for code quality
----
-```
-
-**Best practice:** Clear, actionable description (under 60 characters)
-
-### allowed-tools
-
-**Purpose:** Specify which tools command can use
-**Type:** String or Array
-**Default:** Inherits from conversation
-
-```yaml
----
-allowed-tools: Read, Write, Edit, Bash(git:*)
----
-```
-
-**Patterns:**
-
-- `Read, Write, Edit` - Specific tools
-- `Bash(git:*)` - Bash with git commands only
-- `*` - All tools (rarely needed)
-
-**Use when:** Command requires specific tool access
-
-### model
-
-**Purpose:** Specify model for command execution
-**Type:** String (sonnet, opus, haiku)
-**Default:** Inherits from conversation
-
-```yaml
----
-model: haiku
----
-```
-
-**Use cases:**
-
-- `haiku` - Fast, simple commands
-- `sonnet` - Standard workflows
-- `opus` - Complex analysis
-
-### argument-hint
-
-**Purpose:** Document expected arguments for autocomplete
-**Type:** String
-**Default:** None
-
-```yaml
----
-argument-hint: [pr-number] [priority] [assignee]
----
-```
-
-**Benefits:**
-
-- Helps users understand command arguments
-- Improves command discovery
-- Documents command interface
-
-### disable-model-invocation
-
-**Purpose:** Prevent SlashCommand tool from programmatically calling command
-**Type:** Boolean
-**Default:** false
-
-```yaml
----
-disable-model-invocation: true
----
-```
-
-**Use when:** Command should only be manually invoked
-
-## Dynamic Arguments
-
-### Using $ARGUMENTS
-
-Capture all arguments as single string:
-
-```markdown
----
-description: Fix issue by number
-argument-hint: [issue-number]
----
-
-Fix issue #$ARGUMENTS following our coding standards and best practices.
-```
-
-**Usage:**
-
-```
-&gt; /fix-issue 123
-&gt; /fix-issue 456
-```
-
-**Expands to:**
-
-```
-Fix issue #123 following our coding standards...
-Fix issue #456 following our coding standards...
-```
-
-### Using Positional Arguments
-
-Capture individual arguments with `$1`, `$2`, `$3`, etc.:
-
-```markdown
----
-description: Review PR with priority and assignee
-argument-hint: [pr-number] [priority] [assignee]
----
-
-Review pull request #$1 with priority level $2.
-After review, assign to $3 for follow-up.
-```
-
-**Usage:**
-
-```
-&gt; /review-pr 123 high alice
-```
-
-**Expands to:**
-
-```
-Review pull request #123 with priority level high.
-After review, assign to alice for follow-up.
-```
-
-### Combining Arguments
-
-Mix positional and remaining arguments:
-
-```markdown
-Deploy $1 to $2 environment with options: $3
-```
-
-**Usage:**
-
-```
-&gt; /deploy api staging --force --skip-tests
-```
-
-**Expands to:**
-
-```
-Deploy api to staging environment with options: --force --skip-tests
-```
-
-## File References
-
-### Using @ Syntax
-
-Include file contents in command:
-
-```markdown
----
-description: Review specific file
-argument-hint: [file-path]
----
-
-Review @$1 for:
-
-- Code quality
-- Best practices
-- Potential bugs
-```
-
-**Usage:**
-
-```
-&gt; /review-file src/api/users.ts
-```
-
-**Effect:** Claude reads `src/api/users.ts` before processing command
-
-### Multiple File References
-
-Reference multiple files:
-
-```markdown
-Compare @src/old-version.js with @src/new-version.js
-
-Identify:
-
-- Breaking changes
-- New features
-- Bug fixes
-```
-
-### Static File References
-
-Reference known files without arguments:
-
-```markdown
-Review @package.json and @tsconfig.json for consistency
-
-Ensure:
-
-- TypeScript version matches
-- Dependencies are aligned
-- Build configuration is correct
-```
-
-## Bash Execution in Commands
-
-Commands can execute bash commands inline to dynamically gather context before Claude processes the command. This is useful for including repository state, environment information, or project-specific context.
-
-**When to use:**
-
-- Include dynamic context (git status, environment vars, etc.)
-- Gather project/repository state
-- Build context-aware workflows
-
-**Implementation details:**
-For complete syntax, examples, and best practices, see `references/plugin-features-reference.md` section on bash execution. The reference includes the exact syntax and multiple working examples to avoid execution issues
-
-## Command Organization
-
-### Flat Structure
-
-Simple organization for small command sets:
-
-```
-.claude/commands/
-├── build.md
-├── test.md
-├── deploy.md
-├── review.md
-└── docs.md
-```
-
-**Use when:** 5-15 commands, no clear categories
-
-### Namespaced Structure
-
-Organize commands in subdirectories:
-
-```
-.claude/commands/
-├── ci/
-│   ├── build.md        # /build (project:ci)
-│   ├── test.md         # /test (project:ci)
-│   └── lint.md         # /lint (project:ci)
-├── git/
-│   ├── commit.md       # /commit (project:git)
-│   └── pr.md           # /pr (project:git)
-└── docs/
-    ├── generate.md     # /generate (project:docs)
-    └── publish.md      # /publish (project:docs)
-```
-
-**Benefits:**
-
-- Logical grouping by category
-- Namespace shown in `/help`
-- Easier to find related commands
-
-**Use when:** 15+ commands, clear categories
-
-## Best Practices
-
-### Command Design
-
-1. **Single responsibility:** One command, one task
-2. **Clear descriptions:** Self-explanatory in `/help`
-3. **Explicit dependencies:** Use `allowed-tools` when needed
-4. **Document arguments:** Always provide `argument-hint`
-5. **Consistent naming:** Use verb-noun pattern (review-pr, fix-issue)
-
-### Argument Handling
-
-1. **Validate arguments:** Check for required arguments in prompt
-2. **Provide defaults:** Suggest defaults when arguments missing
-3. **Document format:** Explain expected argument format
-4. **Handle edge cases:** Consider missing or invalid arguments
-
-```markdown
----
-argument-hint: [pr-number]
----
-
-$IF($1,
-Review PR #$1,
-Please provide a PR number. Usage: /review-pr [number]
-)
-```
-
-### File References
-
-1. **Explicit paths:** Use clear file paths
-2. **Check existence:** Handle missing files gracefully
-3. **Relative paths:** Use project-relative paths
-4. **Glob support:** Consider using Glob tool for patterns
-
-### Bash Commands
-
-1. **Limit scope:** Use `Bash(git:*)` not `Bash(*)`
-2. **Safe commands:** Avoid destructive operations
-3. **Handle errors:** Consider command failures
-4. **Keep fast:** Long-running commands slow invocation
-
-### Documentation
-
-1. **Add comments:** Explain complex logic
-2. **Provide examples:** Show usage in comments
-3. **List requirements:** Document dependencies
-4. **Version commands:** Note breaking changes
-
-```markdown
----
-description: Deploy application to environment
-argument-hint: [environment] [version]
----
-
-&lt;!--
-Usage: /deploy [staging|production] [version]
-Requires: AWS credentials configured
-Example: /deploy staging v1.2.3
---&gt;
-
-Deploy application to $1 environment using version $2...
-```
-
-## Common Patterns
-
-### Review Pattern
-
-```markdown
----
-description: Review code changes
-allowed-tools: Read, Bash(git:*)
----
-
-Files changed: !`git diff --name-only`
-
-Review each file for:
-
-1. Code quality and style
-2. Potential bugs or issues
-3. Test coverage
-4. Documentation needs
-
-Provide specific feedback for each file.
-```
-
-### Testing Pattern
-
-```markdown
----
-description: Run tests for specific file
-argument-hint: [test-file]
-allowed-tools: Bash(npm:*)
----
-
-Run tests: !`npm test $1`
-
-Analyze results and suggest fixes for failures.
-```
-
-### Documentation Pattern
-
-```markdown
----
-description: Generate documentation for file
-argument-hint: [source-file]
----
-
-Generate comprehensive documentation for @$1 including:
-
-- Function/class descriptions
-- Parameter documentation
-- Return value descriptions
-- Usage examples
-- Edge cases and errors
-```
-
-### Workflow Pattern
-
-```markdown
----
-description: Complete PR workflow
-argument-hint: [pr-number]
-allowed-tools: Bash(gh:*), Read
----
-
-PR #$1 Workflow:
-
-1. Fetch PR: !`gh pr view $1`
-2. Review changes
-3. Run checks
-4. Approve or request changes
-```
-
-## Troubleshooting
-
-**Command not appearing:**
-
-- Check file is in correct directory
-- Verify `.md` extension present
-- Ensure valid Markdown format
-- Restart Claude Code
-
-**Arguments not working:**
-
-- Verify `$1`, `$2` syntax correct
-- Check `argument-hint` matches usage
-- Ensure no extra spaces
-
-**Bash execution failing:**
-
-- Check `allowed-tools` includes Bash
-- Verify command syntax in backticks
-- Test command in terminal first
-- Check for required permissions
-
-**File references not working:**
-
-- Verify `@` syntax correct
-- Check file path is valid
-- Ensure Read tool allowed
-- Use absolute or project-relative paths
-
-## Plugin-Specific Features
-
-### CLAUDE_PLUGIN_ROOT Variable
-
-Plugin commands have access to `${CLAUDE_PLUGIN_ROOT}`, an environment variable that resolves to the plugin&#039;s absolute path.
-
-**Purpose:**
-
-- Reference plugin files portably
-- Execute plugin scripts
-- Load plugin configuration
-- Access plugin templates
-
-**Basic usage:**
-
-```markdown
----
-description: Analyze using plugin script
-allowed-tools: Bash(node:*)
----
-
-Run analysis: !`node ${CLAUDE_PLUGIN_ROOT}/scripts/analyze.js $1`
-
-Review results and report findings.
-```
-
-**Common patterns:**
-
-```markdown
-# Execute plugin script
-
-!`bash ${CLAUDE_PLUGIN_ROOT}/scripts/script.sh`
-
-# Load plugin configuration
-
-@${CLAUDE_PLUGIN_ROOT}/config/settings.json
-
-# Use plugin template
-
-@${CLAUDE_PLUGIN_ROOT}/templates/report.md
-
-# Access plugin resources
-
-@${CLAUDE_PLUGIN_ROOT}/docs/reference.md
-```
-
-**Why use it:**
-
-- Works across all installations
-- Portable between systems
-- No hardcoded paths needed
-- Essential for multi-file plugins
-
-### Plugin Command Organization
-
-Plugin commands discovered automatically from `commands/` directory:
-
-```
-plugin-name/
-├── commands/
-│   ├── foo.md              # /foo (plugin:plugin-name)
-│   ├── bar.md              # /bar (plugin:plugin-name)
-│   └── utils/
-│       └── helper.md       # /helper (plugin:plugin-name:utils)
-└── plugin.json
-```
-
-**Namespace benefits:**
-
-- Logical command grouping
-- Shown in `/help` output
-- Avoid name conflicts
-- Organize related commands
-
-**Naming conventions:**
-
-- Use descriptive action names
-- Avoid generic names (test, run)
-- Consider plugin-specific prefix
-- Use hyphens for multi-word names
-
-### Plugin Command Patterns
-
-**Configuration-based pattern:**
-
-```markdown
----
-description: Deploy using plugin configuration
-argument-hint: [environment]
-allowed-tools: Read, Bash(*)
----
-
-Load configuration: @${CLAUDE_PLUGIN_ROOT}/config/$1-deploy.json
-
-Deploy to $1 using configuration settings.
-Monitor deployment and report status.
-```
-
-**Template-based pattern:**
-
-```markdown
----
-description: Generate docs from template
-argument-hint: [component]
----
-
-Template: @${CLAUDE_PLUGIN_ROOT}/templates/docs.md
-
-Generate documentation for $1 following template structure.
-```
-
-**Multi-script pattern:**
-
-```markdown
----
-description: Complete build workflow
-allowed-tools: Bash(*)
----
-
-Build: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/build.sh`
-Test: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/test.sh`
-Package: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/package.sh`
-
-Review outputs and report workflow status.
-```
-
-**See `references/plugin-features-reference.md` for detailed patterns.**
-
-## Integration with Plugin Components
-
-Commands can integrate with other plugin components for powerful workflows.
-
-### Agent Integration
-
-Launch plugin agents for complex tasks:
-
-```markdown
----
-description: Deep code review
-argument-hint: [file-path]
----
-
-Initiate comprehensive review of @$1 using the code-reviewer agent.
-
-The agent will analyze:
-
-- Code structure
-- Security issues
-- Performance
-- Best practices
-
-Agent uses plugin resources:
-
-- ${CLAUDE_PLUGIN_ROOT}/config/rules.json
-- ${CLAUDE_PLUGIN_ROOT}/checklists/review.md
-```
-
-**Key points:**
-
-- Agent must exist in `plugin/agents/` directory
-- Claude uses Task tool to launch agent
-- Document agent capabilities
-- Reference plugin resources agent uses
-
-### Skill Integration
-
-Leverage plugin skills for specialized knowledge:
-
-```markdown
----
-description: Document API with standards
-argument-hint: [api-file]
----
-
-Document API in @$1 following plugin standards.
-
-Use the api-docs-standards skill to ensure:
-
-- Complete endpoint documentation
-- Consistent formatting
-- Example quality
-- Error documentation
-
-Generate production-ready API docs.
-```
-
-**Key points:**
-
-- Skill must exist in `plugin/skills/` directory
-- Mention skill name to trigger invocation
-- Document skill purpose
-- Explain what skill provides
-
-### Hook Coordination
-
-Design commands that work with plugin hooks:
-
-- Commands can prepare state for hooks to process
-- Hooks execute automatically on tool events
-- Commands should document expected hook behavior
-- Guide Claude on interpreting hook output
-
-See `references/plugin-features-reference.md` for examples of commands that coordinate with hooks
-
-### Multi-Component Workflows
-
-Combine agents, skills, and scripts:
-
-```markdown
----
-description: Comprehensive review workflow
-argument-hint: [file]
-allowed-tools: Bash(node:*), Read
----
-
-Target: @$1
-
-Phase 1 - Static Analysis:
-!`node ${CLAUDE_PLUGIN_ROOT}/scripts/lint.js $1`
-
-Phase 2 - Deep Review:
-Launch code-reviewer agent for detailed analysis.
-
-Phase 3 - Standards Check:
-Use coding-standards skill for validation.
-
-Phase 4 - Report:
-Template: @${CLAUDE_PLUGIN_ROOT}/templates/review.md
-
-Compile findings into report following template.
-```
-
-**When to use:**
-
-- Complex multi-step workflows
-- Leverage multiple plugin capabilities
-- Require specialized analysis
-- Need structured outputs
-
-## Validation Patterns
-
-Commands should validate inputs and resources before processing.
-
-### Argument Validation
-
-```markdown
----
-description: Deploy with validation
-argument-hint: [environment]
----
-
-Validate environment: !`echo &quot;$1&quot; | grep -E &quot;^(dev|staging|prod)$&quot; || echo &quot;INVALID&quot;`
-
-If $1 is valid environment:
-Deploy to $1
-Otherwise:
-Explain valid environments: dev, staging, prod
-Show usage: /deploy [environment]
-```
-
-### File Existence Checks
-
-```markdown
----
-description: Process configuration
-argument-hint: [config-file]
----
-
-Check file exists: !`test -f $1 &amp;&amp; echo &quot;EXISTS&quot; || echo &quot;MISSING&quot;`
-
-If file exists:
-Process configuration: @$1
-Otherwise:
-Explain where to place config file
-Show expected format
-Provide example configuration
-```
-
-### Plugin Resource Validation
-
-```markdown
----
-description: Run plugin analyzer
-allowed-tools: Bash(test:*)
----
-
-Validate plugin setup:
-
-- Script: !`test -x ${CLAUDE_PLUGIN_ROOT}/bin/analyze &amp;&amp; echo &quot;✓&quot; || echo &quot;✗&quot;`
-- Config: !`test -f ${CLAUDE_PLUGIN_ROOT}/config.json &amp;&amp; echo &quot;✓&quot; || echo &quot;✗&quot;`
-
-If all checks pass, run analysis.
-Otherwise, report missing components.
-```
-
-### Error Handling
-
-```markdown
----
-description: Build with error handling
-allowed-tools: Bash(*)
----
-
-Execute build: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/build.sh 2&gt;&amp;1 || echo &quot;BUILD_FAILED&quot;`
-
-If build succeeded:
-Report success and output location
-If build failed:
-Analyze error output
-Suggest likely causes
-Provide troubleshooting steps
-```
-
-**Best practices:**
-
-- Validate early in command
-- Provide helpful error messages
-- Suggest corrective actions
-- Handle edge cases gracefully
-
----
-
-For detailed frontmatter field specifications, see `references/frontmatter-reference.md`.
-For plugin-specific features and patterns, see `references/plugin-features-reference.md`.
-For command pattern examples, see `examples/` directory.
-</pre>
+2. Review changes:
+   - Code quality and style
+   - Security vulnerabilities
+   - Test coverage
+   - Documentation
+3. Check CI status: !`gh pr checks $1`
+4. Provide feedback with severity ratings
+
+---
+
+# Command registered successfully
+# Available via: /review-pr [pr-number] [priority]
+# Example: /review-pr 123 high
+
+# Registered commands:
+┌─────────────────┬─────────────────────────┬──────────┐
+│ Command         │ Description             │ Location │
+├─────────────────┼─────────────────────────┼──────────┤
+│ /review-pr      │ Review pull request     │ project  │
+│ /deploy         │ Deploy application      │ project  │
+│ /test           │ Run tests               │ user     │
+└─────────────────┴─────────────────────────┴──────────┘</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
             <a class="nav-card" href="../skills.html">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
+                <div class="nav-title">Skills 列表</div>
             </a>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

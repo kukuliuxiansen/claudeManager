@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>调试优化LCP - Everything Claude Code</title>
+    <title>Debug Optimize LCP - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,370 +26,237 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #06b6d4; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #06b6d4; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(6, 182, 212, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #06b6d4, #0891b2); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #06b6d4; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(6, 182, 212, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(6, 182, 212, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #06b6d4; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card:hover { border-color: rgba(6, 182, 212, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">调试优化LCP</span>
+        <span class="breadcrumb-current">Debug Optimize LCP</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             </div>
-            <h1 class="detail-title">调试优化LCP</h1>
-            <p class="detail-subtitle">调试优化LCP，优化页面加载性能</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    chrome-devtools-mcp
-                </div>
+            <h1 class="detail-title">Debug Optimize LCP</h1>
+            <p class="detail-subtitle">使用 Chrome DevTools MCP 调试和优化 Largest Contentful Paint</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Performance Skill
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">chrome-devtools-mcp</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                What is LCP and why it matters
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">Largest Contentful Paint (LCP) measures how quickly a page&#039;s main content becomes visible. It&#039;s the time from navigation start until the largest image or text block renders in the viewport.
+                <p>Debug Optimize LCP Skill 是 Largest Contentful Paint 性能调试的专业技能，帮助识别和优化页面加载性能瓶颈。</p>
 
-- **Good**: 2.5 seconds or less
-- **Needs improvement**: 2.5–4.0 seconds
-- **Poor**: greater than 4.0 seconds
-
-LCP is a Core Web Vital that directly affects user experience and search ranking. On 73% of mobile pages, the LCP element is an image.</pre>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">LCP 四子部分分析</h4>
+                            <p class="feature-desc">TTFB、Resource Load Delay、Resource Load Duration、Element Render Delay</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Performance Trace</h4>
+                            <p class="feature-desc">使用 performance_start_trace 捕获完整页面加载，包括 LCP 时间</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">LCP Insights 分析</h4>
+                            <p class="feature-desc">LCPBreakdown、DocumentLatency、RenderBlocking、LCPDiscovery 深度洞察</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">优化策略</h4>
+                            <p class="feature-desc">消除资源加载延迟、元素渲染延迟、减少资源加载时间和 TTFB</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                LCP Subparts Breakdown
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">Every page&#039;s LCP breaks down into four sequential subparts with no gaps or overlaps. Understanding which subpart is the bottleneck is the key to effective optimization.
+                <p><strong>LCP 四子部分分解</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>TTFB (~40%)</strong> - 导航开始到收到 HTML 第一个字节</li>
+                    <li><strong>Resource Load Delay (&lt;10%)</strong> - TTFB 到浏览器开始加载 LCP 资源</li>
+                    <li><strong>Resource Load Duration (~40%)</strong> - 下载 LCP 资源的时间</li>
+                    <li><strong>Element Render Delay (&lt;10%)</strong> - LCP 资源下载完成到元素渲染</li>
+                </ul>
 
-| Subpart                       | Ideal % of LCP | What it measures                               |
-| ----------------------------- | -------------- | ---------------------------------------------- |
-| **Time to First Byte (TTFB)** | ~40%           | Navigation start → first byte of HTML received |
-| **Resource load delay**       | &lt;10%           | TTFB → browser starts loading the LCP resource |
-| **Resource load duration**    | ~40%           | Time to download the LCP resource              |
-| **Element render delay**      | &lt;10%           | LCP resource downloaded → LCP element rendered |
+                <p style="margin-top:20px"><strong>性能标准</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>Good</strong>: 2.5 秒或更少</li>
+                    <li><strong>Needs improvement</strong>: 2.5-4.0 秒</li>
+                    <li><strong>Poor</strong>: 大于 4.0 秒</li>
+                </ul>
 
-The &quot;delay&quot; subparts should be as close to zero as possible. If either delay subpart is large relative to the total LCP, that&#039;s the first place to optimize.
-
-**Common Pitfall**: Optimizing one subpart (like compressing an image to reduce load duration) without checking others. If render delay is the real bottleneck, a smaller image won&#039;t help — the saved time just shifts to render delay.</pre>
+                <p style="margin-top:20px"><strong>常见陷阱</strong>: 优化一个子部分而不检查其他子部分。如果渲染延迟是真正的瓶颈，更小的图片不会帮助 - 节省的时间只是转移到渲染延迟。</p>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Debugging Workflow
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">Follow these steps in order. Each step builds on the previous one.
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">LCP 调试工作流</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Step 1: 记录性能追踪
+navigate_page to the target URL
+performance_start_trace with reload: true and autoStop: true
 
-### Step 1: Record a Performance Trace
+# Step 2: 分析 LCP Insights
+performance_analyze_insight with insight name and insight set ID:
+- LCPBreakdown - 显示四个 LCP 子部分及时间
+- DocumentLatency - 影响 TTFB 的服务器响应时间
+- RenderBlocking - 阻塞 LCP 元素渲染的资源
+- LCPDiscovery - LCP 资源是否早期可发现
 
-Navigate to the page, then record a trace with reload to capture the full page load including LCP:
+# Step 3: 识别 LCP 元素
+evaluate_script with "Identify LCP Element" snippet
 
-1. `navigate_page` to the target URL.
-2. `performance_start_trace` with `reload: true` and `autoStop: true`.
+# Step 4: 检查网络瀑布图
+list_network_requests filtered by resourceTypes: ["Image", "Font"]
+get_network_request with the LCP resource's request ID
 
-The trace results will include LCP timing and available insight sets. Note the insight set IDs from the output — you&#039;ll need them in the next step.
-
-### Step 2: Analyze LCP Insights
-
-Use `performance_analyze_insight` to drill into LCP-specific insights. Look for these insight names in the trace results:
-
-- **LCPBreakdown** — Shows the four LCP subparts with timing for each.
-- **DocumentLatency** — Server response time issues affecting TTFB.
-- **RenderBlocking** — Resources blocking the LCP element from rendering.
-- **LCPDiscovery** — Whether the LCP resource was discoverable early.
-
-Call `performance_analyze_insight` with the insight name and the insight set ID from the trace results.
-
-### Step 3: Identify the LCP Element
-
-Use `evaluate_script` with the **&quot;Identify LCP Element&quot; snippet** found in [references/lcp-snippets.md](references/lcp-snippets.md) to reveal the LCP element&#039;s tag, resource URL, and raw timing data.
-
-The `url` field tells you what resource to look for in the network waterfall. If `url` is empty, the LCP element is text-based (no resource to load).
-
-### Step 4: Check the Network Waterfall
-
-Use `list_network_requests` to see when the LCP resource loaded relative to other resources:
-
-- Call `list_network_requests` filtered by `resourceTypes: [&quot;Image&quot;, &quot;Font&quot;]` (adjust based on Step 3).
-- Then use `get_network_request` with the LCP resource&#039;s request ID for full details.
-
-**Key Checks:**
-
-- **Start Time**: Compare against the HTML document and the first resource. If the LCP resource starts much later than the first resource, there&#039;s resource load delay to eliminate.
-- **Duration**: A large resource load duration suggests the file is too big or the server is slow.
-
-### Step 5: Inspect HTML for Common Issues
-
-Use `evaluate_script` with the **&quot;Audit Common Issues&quot; snippet** found in [references/lcp-snippets.md](references/lcp-snippets.md) to check for lazy-loaded images in the viewport, missing fetchpriority, and render-blocking scripts.</pre>
+# Step 5: 检查 HTML 常见问题
+evaluate_script with "Audit Common Issues" snippet</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Optimization Strategies
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">After identifying the bottleneck subpart, apply these prioritized fixes.
-
-### 1. Eliminate Resource Load Delay (target: &lt;10%)
-
-The most common bottleneck. The LCP resource should start loading immediately.
-
-- **Root Cause**: LCP image loaded via JS/CSS, `data-src` usage, or `loading=&quot;lazy&quot;`.
-- **Fix**: Use standard `&lt;img&gt;` with `src`. **Never** lazy-load the LCP image.
-- **Fix**: Add `&lt;link rel=&quot;preload&quot; fetchpriority=&quot;high&quot;&gt;` if the image isn&#039;t discoverable in HTML.
-- **Fix**: Add `fetchpriority=&quot;high&quot;` to the LCP `&lt;img&gt;` tag.
-
-### 2. Eliminate Element Render Delay (target: &lt;10%)
-
-The element should render immediately after loading.
-
-- **Root Cause**: Large stylesheets, synchronous scripts in `&lt;head&gt;`, or main thread blocking.
-- **Fix**: Inline critical CSS, defer non-critical CSS/JS.
-- **Fix**: Break up long tasks blocking the main thread.
-- **Fix**: Use Server-Side Rendering (SSR) so the element exists in initial HTML.
-
-### 3. Reduce Resource Load Duration (target: ~40%)
-
-Make the resource smaller or faster to deliver.
-
-- **Fix**: Use modern formats (WebP, AVIF) and responsive images (`srcset`).
-- **Fix**: Serve from a CDN.
-- **Fix**: Set `Cache-Control` headers.
-- **Fix**: Use `font-display: swap` if LCP is text blocked by a web font.
-
-### 4. Reduce TTFB (target: ~40%)
-
-The HTML document itself takes too long to arrive.
-
-- **Fix**: Minimize redirects and optimize server response time.
-- **Fix**: Cache HTML at the edge (CDN).
-- **Fix**: Ensure pages are eligible for back/forward cache (bfcache).</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>永不懒加载 LCP 图片</strong> - 使用标准 &lt;img&gt; 加 src，添加 fetchpriority="high"</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>预加载关键资源</strong> - 添加 &lt;link rel="preload" fetchpriority="high"&gt; 提前加载</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>消除延迟子部分</strong> - 资源加载延迟和元素渲染延迟应接近零</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>使用模拟测试</strong> - emulate with Fast 3G 和 cpuThrottlingRate: 4 测试慢速场景</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Verifying Fixes & Emulation
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">- **Verification**: Re-run the trace (`performance_start_trace` with `reload: true`) and compare the new subpart breakdown. The bottleneck should shrink.
-- **Emulation**: Lab measurements differ from real-world experience. Use `emulate` to test under constraints:
-  - `emulate` with `networkConditions: &quot;Fast 3G&quot;` and `cpuThrottlingRate: 4`.
-  - This surfaces issues visible only on slower connections/devices.</pre>
-            </div>
-        </section>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">LCP Optimization Strategies</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 1. 消除资源加载延迟 (目标: &lt;10%)
+- Root Cause: LCP 图片通过 JS/CSS 加载, data-src, loading="lazy"
+- Fix: 使用标准 &lt;img&gt; 加 src, 添加 fetchpriority="high"
+- Fix: 添加 &lt;link rel="preload" fetchpriority="high"&gt;
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: debug-optimize-lcp
-description: Guides debugging and optimizing Largest Contentful Paint (LCP) using Chrome DevTools MCP tools. Use this skill whenever the user asks about LCP performance, slow page loads, Core Web Vitals optimization, or wants to understand why their page&#039;s main content takes too long to appear. Also use when the user mentions &quot;largest contentful paint&quot;, &quot;page load speed&quot;, &quot;CWV&quot;, or wants to improve how fast their hero image or main content renders.
----
+# 2. 消除元素渲染延迟 (目标: &lt;10%)
+- Root Cause: 大样式表, &lt;head&gt; 中同步脚本, 主线程阻塞
+- Fix: 内联关键 CSS, 延迟非关键 CSS/JS
+- Fix: 使用 SSR 让元素存在于初始 HTML
 
-## What is LCP and why it matters
+# 3. 减少资源加载时间 (目标: ~40%)
+- Fix: 使用现代格式 (WebP, AVIF) 和响应式图片
+- Fix: 从 CDN 提供服务, 设置 Cache-Control
+- Fix: 使用 font-display: swap 避免 Web 字体阻塞
 
-Largest Contentful Paint (LCP) measures how quickly a page&#039;s main content becomes visible. It&#039;s the time from navigation start until the largest image or text block renders in the viewport.
-
-- **Good**: 2.5 seconds or less
-- **Needs improvement**: 2.5–4.0 seconds
-- **Poor**: greater than 4.0 seconds
-
-LCP is a Core Web Vital that directly affects user experience and search ranking. On 73% of mobile pages, the LCP element is an image.
-
-## LCP Subparts Breakdown
-
-Every page&#039;s LCP breaks down into four sequential subparts with no gaps or overlaps. Understanding which subpart is the bottleneck is the key to effective optimization.
-
-| Subpart                       | Ideal % of LCP | What it measures                               |
-| ----------------------------- | -------------- | ---------------------------------------------- |
-| **Time to First Byte (TTFB)** | ~40%           | Navigation start → first byte of HTML received |
-| **Resource load delay**       | &lt;10%           | TTFB → browser starts loading the LCP resource |
-| **Resource load duration**    | ~40%           | Time to download the LCP resource              |
-| **Element render delay**      | &lt;10%           | LCP resource downloaded → LCP element rendered |
-
-The &quot;delay&quot; subparts should be as close to zero as possible. If either delay subpart is large relative to the total LCP, that&#039;s the first place to optimize.
-
-**Common Pitfall**: Optimizing one subpart (like compressing an image to reduce load duration) without checking others. If render delay is the real bottleneck, a smaller image won&#039;t help — the saved time just shifts to render delay.
-
-## Debugging Workflow
-
-Follow these steps in order. Each step builds on the previous one.
-
-### Step 1: Record a Performance Trace
-
-Navigate to the page, then record a trace with reload to capture the full page load including LCP:
-
-1. `navigate_page` to the target URL.
-2. `performance_start_trace` with `reload: true` and `autoStop: true`.
-
-The trace results will include LCP timing and available insight sets. Note the insight set IDs from the output — you&#039;ll need them in the next step.
-
-### Step 2: Analyze LCP Insights
-
-Use `performance_analyze_insight` to drill into LCP-specific insights. Look for these insight names in the trace results:
-
-- **LCPBreakdown** — Shows the four LCP subparts with timing for each.
-- **DocumentLatency** — Server response time issues affecting TTFB.
-- **RenderBlocking** — Resources blocking the LCP element from rendering.
-- **LCPDiscovery** — Whether the LCP resource was discoverable early.
-
-Call `performance_analyze_insight` with the insight name and the insight set ID from the trace results.
-
-### Step 3: Identify the LCP Element
-
-Use `evaluate_script` with the **&quot;Identify LCP Element&quot; snippet** found in [references/lcp-snippets.md](references/lcp-snippets.md) to reveal the LCP element&#039;s tag, resource URL, and raw timing data.
-
-The `url` field tells you what resource to look for in the network waterfall. If `url` is empty, the LCP element is text-based (no resource to load).
-
-### Step 4: Check the Network Waterfall
-
-Use `list_network_requests` to see when the LCP resource loaded relative to other resources:
-
-- Call `list_network_requests` filtered by `resourceTypes: [&quot;Image&quot;, &quot;Font&quot;]` (adjust based on Step 3).
-- Then use `get_network_request` with the LCP resource&#039;s request ID for full details.
-
-**Key Checks:**
-
-- **Start Time**: Compare against the HTML document and the first resource. If the LCP resource starts much later than the first resource, there&#039;s resource load delay to eliminate.
-- **Duration**: A large resource load duration suggests the file is too big or the server is slow.
-
-### Step 5: Inspect HTML for Common Issues
-
-Use `evaluate_script` with the **&quot;Audit Common Issues&quot; snippet** found in [references/lcp-snippets.md](references/lcp-snippets.md) to check for lazy-loaded images in the viewport, missing fetchpriority, and render-blocking scripts.
-
-## Optimization Strategies
-
-After identifying the bottleneck subpart, apply these prioritized fixes.
-
-### 1. Eliminate Resource Load Delay (target: &lt;10%)
-
-The most common bottleneck. The LCP resource should start loading immediately.
-
-- **Root Cause**: LCP image loaded via JS/CSS, `data-src` usage, or `loading=&quot;lazy&quot;`.
-- **Fix**: Use standard `&lt;img&gt;` with `src`. **Never** lazy-load the LCP image.
-- **Fix**: Add `&lt;link rel=&quot;preload&quot; fetchpriority=&quot;high&quot;&gt;` if the image isn&#039;t discoverable in HTML.
-- **Fix**: Add `fetchpriority=&quot;high&quot;` to the LCP `&lt;img&gt;` tag.
-
-### 2. Eliminate Element Render Delay (target: &lt;10%)
-
-The element should render immediately after loading.
-
-- **Root Cause**: Large stylesheets, synchronous scripts in `&lt;head&gt;`, or main thread blocking.
-- **Fix**: Inline critical CSS, defer non-critical CSS/JS.
-- **Fix**: Break up long tasks blocking the main thread.
-- **Fix**: Use Server-Side Rendering (SSR) so the element exists in initial HTML.
-
-### 3. Reduce Resource Load Duration (target: ~40%)
-
-Make the resource smaller or faster to deliver.
-
-- **Fix**: Use modern formats (WebP, AVIF) and responsive images (`srcset`).
-- **Fix**: Serve from a CDN.
-- **Fix**: Set `Cache-Control` headers.
-- **Fix**: Use `font-display: swap` if LCP is text blocked by a web font.
-
-### 4. Reduce TTFB (target: ~40%)
-
-The HTML document itself takes too long to arrive.
-
-- **Fix**: Minimize redirects and optimize server response time.
-- **Fix**: Cache HTML at the edge (CDN).
-- **Fix**: Ensure pages are eligible for back/forward cache (bfcache).
-
-## Verifying Fixes &amp; Emulation
-
-- **Verification**: Re-run the trace (`performance_start_trace` with `reload: true`) and compare the new subpart breakdown. The bottleneck should shrink.
-- **Emulation**: Lab measurements differ from real-world experience. Use `emulate` to test under constraints:
-  - `emulate` with `networkConditions: &quot;Fast 3G&quot;` and `cpuThrottlingRate: 4`.
-  - This surfaces issues visible only on slower connections/devices.
-</pre>
+# 4. 减少 TTFB (目标: ~40%)
+- Fix: 最小化重定向, 优化服务器响应时间
+- Fix: 在边缘缓存 HTML (CDN)
+- Fix: 确保页面符合 bfcache 条件</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
             <a class="nav-card" href="../skills.html">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
+                <div class="nav-title">Skills 列表</div>
             </a>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

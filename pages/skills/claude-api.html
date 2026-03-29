@@ -26,845 +26,300 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(0, 212, 170, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #00d4aa, #00a888); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #00d4aa; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(0, 212, 170, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(0, 212, 170, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #00d4aa; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card:hover { border-color: rgba(0, 212, 170, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Claude API</span>
+        <span class="breadcrumb-current">claude-api</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
             </div>
-            <h1 class="detail-title">Claude API</h1>
-            <p class="detail-subtitle">Claude API，使用Claude API</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    local
-                </div>
+            <h1 class="detail-title">claude-api</h1>
+            <p class="detail-subtitle">Anthropic Claude API 模式，支持 Python 和 TypeScript SDK</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: API Skill
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">local</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                When to Activate
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Building applications that call the Claude API
-- Code imports `anthropic` (Python) or `@anthropic-ai/sdk` (TypeScript)
-- User asks about Claude API patterns, tool use, streaming, or vision
-- Implementing agent workflows with Claude Agent SDK
-- Optimizing API costs, token usage, or latency</pre>
+                <p>claude-api Skill 提供完整的 Claude API 使用指南，涵盖 Messages API、Tool Use、Vision、Extended Thinking 等核心功能，帮助开发者快速构建 AI 应用。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Messages API</h4>
+                            <p class="feature-desc">支持基本消息、流式响应、系统提示等核心对话功能</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3c-1.09-1.09-2.81-1.09-3.9 0l-1.4 1.4c-.78.78-.78 2.05 0 2.83l.7.7-1.4 1.4c-.78.78-.78 2.05 0 2.83l.7.7c.78.78 2.05.78 2.83 0l1.4-1.4c.78-.78.78-2.05 0-2.83l-.7-.7 1.4-1.4c.78-.78.78-2.05 0-2.83z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Tool Use</h4>
+                            <p class="feature-desc">定义工具让 Claude 调用，实现 Agent 工作流和多步骤任务</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Vision</h4>
+                            <p class="feature-desc">发送图片进行分析，支持多模态理解和描述</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Extended Thinking</h4>
+                            <p class="feature-desc">复杂推理任务，预留思考预算进行深度分析</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Model Selection
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">| Model | ID | Best For |
-|-------|-----|----------|
-| Opus 4.1 | `claude-opus-4-1` | Complex reasoning, architecture, research |
-| Sonnet 4 | `claude-sonnet-4-0` | Balanced coding, most development tasks |
-| Haiku 3.5 | `claude-3-5-haiku-latest` | Fast responses, high-volume, cost-sensitive |
+                <p>Claude API 基于 Anthropic 的 Messages API，支持多种模型选择和高级功能。核心模型包括 Opus 4.1（复杂推理）、Sonnet 4（平衡开发）、Haiku 3.5（快速响应）。</p>
 
-Default to Sonnet 4 unless the task requires deep reasoning (Opus) or speed/cost optimization (Haiku). For production, prefer pinned snapshot IDs over aliases.</pre>
+                <p style="margin-top:20px"><strong>模型选择策略</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>Opus 4.1</strong>: 复杂推理、架构设计、研究分析</li>
+                    <li><strong>Sonnet 4</strong>: 平衡开发、大多数开发任务</li>
+                    <li><strong>Haiku 3.5</strong>: 快速响应、高并发、成本敏感场景</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>成本优化策略</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>Prompt Caching: 缓存可达 90% 成本节省</li>
+                    <li>Batches API: 批量处理节省 50%</li>
+                    <li>Haiku 替代 Sonnet: 简单任务节省约 75%</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Python SDK
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Installation
+                <p>claude-api Skill 在构建 Claude API 应用或使用 Anthropic SDK 时触发：</p>
 
-```bash
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Python SDK 基础使用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 安装 SDK
 pip install anthropic
-```
 
-### Basic Message
-
-```python
+# 基本消息
 import anthropic
 
-client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
+client = anthropic.Anthropic()  # 自动读取 ANTHROPIC_API_KEY
 
 message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
+    model="claude-sonnet-4-0",
     max_tokens=1024,
     messages=[
-        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain async/await in Python&quot;}
+        {"role": "user", "content": "解释 async/await"}
     ]
 )
 print(message.content[0].text)
-```
 
-### Streaming
-
-```python
+# 流式响应
 with client.messages.stream(
-    model=&quot;claude-sonnet-4-0&quot;,
+    model="claude-sonnet-4-0",
     max_tokens=1024,
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Write a haiku about coding&quot;}]
+    messages=[{"role": "user", "content": "写一首诗"}]
 ) as stream:
     for text in stream.text_stream:
-        print(text, end=&quot;&quot;, flush=True)
-```
+        print(text, end="", flush=True)
 
-### System Prompt
-
-```python
-message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=1024,
-    system=&quot;You are a senior Python developer. Be concise.&quot;,
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Review this function&quot;}]
-)
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                TypeScript SDK
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Installation
-
-```bash
-npm install @anthropic-ai/sdk
-```
-
-### Basic Message
-
-```typescript
-import Anthropic from &quot;@anthropic-ai/sdk&quot;;
-
-const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env
-
-const message = await client.messages.create({
-  model: &quot;claude-sonnet-4-0&quot;,
-  max_tokens: 1024,
-  messages: [
-    { role: &quot;user&quot;, content: &quot;Explain async/await in TypeScript&quot; }
-  ],
-});
-console.log(message.content[0].text);
-```
-
-### Streaming
-
-```typescript
-const stream = client.messages.stream({
-  model: &quot;claude-sonnet-4-0&quot;,
-  max_tokens: 1024,
-  messages: [{ role: &quot;user&quot;, content: &quot;Write a haiku&quot; }],
-});
-
-for await (const event of stream) {
-  if (event.type === &quot;content_block_delta&quot; &amp;&amp; event.delta.type === &quot;text_delta&quot;) {
-    process.stdout.write(event.delta.text);
-  }
-}
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Tool Use
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Define tools and let Claude call them:
-
-```python
-tools = [
-    {
-        &quot;name&quot;: &quot;get_weather&quot;,
-        &quot;description&quot;: &quot;Get current weather for a location&quot;,
-        &quot;input_schema&quot;: {
-            &quot;type&quot;: &quot;object&quot;,
-            &quot;properties&quot;: {
-                &quot;location&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;City name&quot;},
-                &quot;unit&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;enum&quot;: [&quot;celsius&quot;, &quot;fahrenheit&quot;]}
-            },
-            &quot;required&quot;: [&quot;location&quot;]
-        }
-    }
-]
-
-message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=1024,
-    tools=tools,
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What&#039;s the weather in SF?&quot;}]
-)
-
-# Handle tool use response
-for block in message.content:
-    if block.type == &quot;tool_use&quot;:
-        # Execute the tool with block.input
-        result = get_weather(**block.input)
-        # Send result back
-        follow_up = client.messages.create(
-            model=&quot;claude-sonnet-4-0&quot;,
-            max_tokens=1024,
-            tools=tools,
-            messages=[
-                {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What&#039;s the weather in SF?&quot;},
-                {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: message.content},
-                {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: [
-                    {&quot;type&quot;: &quot;tool_result&quot;, &quot;tool_use_id&quot;: block.id, &quot;content&quot;: str(result)}
-                ]}
-            ]
-        )
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Vision
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Send images for analysis:
-
-```python
-import base64
-
-with open(&quot;diagram.png&quot;, &quot;rb&quot;) as f:
-    image_data = base64.standard_b64encode(f.read()).decode(&quot;utf-8&quot;)
-
-message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=1024,
-    messages=[{
-        &quot;role&quot;: &quot;user&quot;,
-        &quot;content&quot;: [
-            {&quot;type&quot;: &quot;image&quot;, &quot;source&quot;: {&quot;type&quot;: &quot;base64&quot;, &quot;media_type&quot;: &quot;image/png&quot;, &quot;data&quot;: image_data}},
-            {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;Describe this diagram&quot;}
-        ]
-    }]
-)
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Extended Thinking
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">For complex reasoning tasks:
-
-```python
-message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=16000,
-    thinking={
-        &quot;type&quot;: &quot;enabled&quot;,
-        &quot;budget_tokens&quot;: 10000
-    },
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Solve this math problem step by step...&quot;}]
-)
-
-for block in message.content:
-    if block.type == &quot;thinking&quot;:
-        print(f&quot;Thinking: {block.thinking}&quot;)
-    elif block.type == &quot;text&quot;:
-        print(f&quot;Answer: {block.text}&quot;)
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Prompt Caching
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Cache large system prompts or context to reduce costs:
-
-```python
-message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=1024,
-    system=[
-        {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: large_system_prompt, &quot;cache_control&quot;: {&quot;type&quot;: &quot;ephemeral&quot;}}
-    ],
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Question about the cached context&quot;}]
-)
-# Check cache usage
-print(f&quot;Cache read: {message.usage.cache_read_input_tokens}&quot;)
-print(f&quot;Cache creation: {message.usage.cache_creation_input_tokens}&quot;)
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Batches API
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Process large volumes asynchronously at 50% cost reduction:
-
-```python
-import time
-
-batch = client.messages.batches.create(
-    requests=[
-        {
-            &quot;custom_id&quot;: f&quot;request-{i}&quot;,
-            &quot;params&quot;: {
-                &quot;model&quot;: &quot;claude-sonnet-4-0&quot;,
-                &quot;max_tokens&quot;: 1024,
-                &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}]
-            }
-        }
-        for i, prompt in enumerate(prompts)
-    ]
-)
-
-# Poll for completion
-while True:
-    status = client.messages.batches.retrieve(batch.id)
-    if status.processing_status == &quot;ended&quot;:
-        break
-    time.sleep(30)
-
-# Get results
-for result in client.messages.batches.results(batch.id):
-    print(result.result.message.content[0].text)
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Claude Agent SDK
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Build multi-step agents:
-
-```python
-# Note: Agent SDK API surface may change — check official docs
-import anthropic
-
-# Define tools as functions
+# Tool Use 示例
 tools = [{
-    &quot;name&quot;: &quot;search_codebase&quot;,
-    &quot;description&quot;: &quot;Search the codebase for relevant code&quot;,
-    &quot;input_schema&quot;: {
-        &quot;type&quot;: &quot;object&quot;,
-        &quot;properties&quot;: {&quot;query&quot;: {&quot;type&quot;: &quot;string&quot;}},
-        &quot;required&quot;: [&quot;query&quot;]
+    "name": "get_weather",
+    "description": "获取天气信息",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "location": {"type": "string"}
+        },
+        "required": ["location"]
     }
 }]
 
-# Run an agentic loop with tool use
-client = anthropic.Anthropic()
-messages = [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Review the auth module for security issues&quot;}]
-
-while True:
-    response = client.messages.create(
-        model=&quot;claude-sonnet-4-0&quot;,
-        max_tokens=4096,
-        tools=tools,
-        messages=messages,
-    )
-    if response.stop_reason == &quot;end_turn&quot;:
-        break
-    # Handle tool calls and continue the loop
-    messages.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: response.content})
-    # ... execute tools and append tool_result messages
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Cost Optimization
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">| Strategy | Savings | When to Use |
-|----------|---------|-------------|
-| Prompt caching | Up to 90% on cached tokens | Repeated system prompts or context |
-| Batches API | 50% | Non-time-sensitive bulk processing |
-| Haiku instead of Sonnet | ~75% | Simple tasks, classification, extraction |
-| Shorter max_tokens | Variable | When you know output will be short |
-| Streaming | None (same cost) | Better UX, same price |</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                错误处理
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```python
-import time
-
-from anthropic import APIError, RateLimitError, APIConnectionError
-
-try:
-    message = client.messages.create(...)
-except RateLimitError:
-    # Back off and retry
-    time.sleep(60)
-except APIConnectionError:
-    # Network issue, retry with backoff
-    pass
-except APIError as e:
-    print(f&quot;API error {e.status_code}: {e.message}&quot;)
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Environment Setup
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```bash
-# Required
-export ANTHROPIC_API_KEY=&quot;your-api-key-here&quot;
-
-# Optional: set default model
-export ANTHROPIC_MODEL=&quot;claude-sonnet-4-0&quot;
-```
-
-Never hardcode API keys. Always use environment variables.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: claude-api
-description: Anthropic Claude API patterns for Python and TypeScript. Covers Messages API, streaming, tool use, vision, extended thinking, batches, prompt caching, and Claude Agent SDK. Use when building applications with the Claude API or Anthropic SDKs.
-origin: ECC
----
-
-# Claude API
-
-Build applications with the Anthropic Claude API and SDKs.
-
-## When to Activate
-
-- Building applications that call the Claude API
-- Code imports `anthropic` (Python) or `@anthropic-ai/sdk` (TypeScript)
-- User asks about Claude API patterns, tool use, streaming, or vision
-- Implementing agent workflows with Claude Agent SDK
-- Optimizing API costs, token usage, or latency
-
-## Model Selection
-
-| Model | ID | Best For |
-|-------|-----|----------|
-| Opus 4.1 | `claude-opus-4-1` | Complex reasoning, architecture, research |
-| Sonnet 4 | `claude-sonnet-4-0` | Balanced coding, most development tasks |
-| Haiku 3.5 | `claude-3-5-haiku-latest` | Fast responses, high-volume, cost-sensitive |
-
-Default to Sonnet 4 unless the task requires deep reasoning (Opus) or speed/cost optimization (Haiku). For production, prefer pinned snapshot IDs over aliases.
-
-## Python SDK
-
-### Installation
-
-```bash
-pip install anthropic
-```
-
-### Basic Message
-
-```python
-import anthropic
-
-client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
-
 message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=1024,
-    messages=[
-        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain async/await in Python&quot;}
-    ]
-)
-print(message.content[0].text)
-```
-
-### Streaming
-
-```python
-with client.messages.stream(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=1024,
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Write a haiku about coding&quot;}]
-) as stream:
-    for text in stream.text_stream:
-        print(text, end=&quot;&quot;, flush=True)
-```
-
-### System Prompt
-
-```python
-message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=1024,
-    system=&quot;You are a senior Python developer. Be concise.&quot;,
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Review this function&quot;}]
-)
-```
-
-## TypeScript SDK
-
-### Installation
-
-```bash
-npm install @anthropic-ai/sdk
-```
-
-### Basic Message
-
-```typescript
-import Anthropic from &quot;@anthropic-ai/sdk&quot;;
-
-const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env
-
-const message = await client.messages.create({
-  model: &quot;claude-sonnet-4-0&quot;,
-  max_tokens: 1024,
-  messages: [
-    { role: &quot;user&quot;, content: &quot;Explain async/await in TypeScript&quot; }
-  ],
-});
-console.log(message.content[0].text);
-```
-
-### Streaming
-
-```typescript
-const stream = client.messages.stream({
-  model: &quot;claude-sonnet-4-0&quot;,
-  max_tokens: 1024,
-  messages: [{ role: &quot;user&quot;, content: &quot;Write a haiku&quot; }],
-});
-
-for await (const event of stream) {
-  if (event.type === &quot;content_block_delta&quot; &amp;&amp; event.delta.type === &quot;text_delta&quot;) {
-    process.stdout.write(event.delta.text);
-  }
-}
-```
-
-## Tool Use
-
-Define tools and let Claude call them:
-
-```python
-tools = [
-    {
-        &quot;name&quot;: &quot;get_weather&quot;,
-        &quot;description&quot;: &quot;Get current weather for a location&quot;,
-        &quot;input_schema&quot;: {
-            &quot;type&quot;: &quot;object&quot;,
-            &quot;properties&quot;: {
-                &quot;location&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;City name&quot;},
-                &quot;unit&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;enum&quot;: [&quot;celsius&quot;, &quot;fahrenheit&quot;]}
-            },
-            &quot;required&quot;: [&quot;location&quot;]
-        }
-    }
-]
-
-message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
+    model="claude-sonnet-4-0",
     max_tokens=1024,
     tools=tools,
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What&#039;s the weather in SF?&quot;}]
+    messages=[{"role": "user", "content": "北京天气如何？"}]
 )
 
-# Handle tool use response
+# 处理 tool_use 响应
 for block in message.content:
-    if block.type == &quot;tool_use&quot;:
-        # Execute the tool with block.input
+    if block.type == "tool_use":
         result = get_weather(**block.input)
-        # Send result back
-        follow_up = client.messages.create(
-            model=&quot;claude-sonnet-4-0&quot;,
-            max_tokens=1024,
-            tools=tools,
-            messages=[
-                {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What&#039;s the weather in SF?&quot;},
-                {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: message.content},
-                {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: [
-                    {&quot;type&quot;: &quot;tool_result&quot;, &quot;tool_use_id&quot;: block.id, &quot;content&quot;: str(result)}
-                ]}
-            ]
+        # 发送结果回 Claude</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>Prompt Caching</strong> - 缓存重复的系统提示，节省 API 成本</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>环境变量</strong> - 使用 ANTHROPIC_API_KEY，切勿硬编码密钥</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>错误处理</strong> - 处理 RateLimitError、APIConnectionError 等异常</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>并行执行</strong> - 使用 Promise.all 并行调用多个独立请求</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Claude API Response</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Messages API 响应结构
+Message(
+    id='msg_01ABC...',
+    type='message',
+    role='assistant',
+    content=[
+        TextBlock(
+            type='text',
+            text='这是 Claude 的回复内容...'
         )
-```
-
-## Vision
-
-Send images for analysis:
-
-```python
-import base64
-
-with open(&quot;diagram.png&quot;, &quot;rb&quot;) as f:
-    image_data = base64.standard_b64encode(f.read()).decode(&quot;utf-8&quot;)
-
-message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=1024,
-    messages=[{
-        &quot;role&quot;: &quot;user&quot;,
-        &quot;content&quot;: [
-            {&quot;type&quot;: &quot;image&quot;, &quot;source&quot;: {&quot;type&quot;: &quot;base64&quot;, &quot;media_type&quot;: &quot;image/png&quot;, &quot;data&quot;: image_data}},
-            {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;Describe this diagram&quot;}
-        ]
-    }]
-)
-```
-
-## Extended Thinking
-
-For complex reasoning tasks:
-
-```python
-message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=16000,
-    thinking={
-        &quot;type&quot;: &quot;enabled&quot;,
-        &quot;budget_tokens&quot;: 10000
-    },
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Solve this math problem step by step...&quot;}]
-)
-
-for block in message.content:
-    if block.type == &quot;thinking&quot;:
-        print(f&quot;Thinking: {block.thinking}&quot;)
-    elif block.type == &quot;text&quot;:
-        print(f&quot;Answer: {block.text}&quot;)
-```
-
-## Prompt Caching
-
-Cache large system prompts or context to reduce costs:
-
-```python
-message = client.messages.create(
-    model=&quot;claude-sonnet-4-0&quot;,
-    max_tokens=1024,
-    system=[
-        {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: large_system_prompt, &quot;cache_control&quot;: {&quot;type&quot;: &quot;ephemeral&quot;}}
     ],
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Question about the cached context&quot;}]
+    model='claude-sonnet-4-0',
+    stop_reason='end_turn',
+    usage={
+        'input_tokens': 25,
+        'output_tokens': 150,
+        'cache_read_input_tokens': 0,
+        'cache_creation_input_tokens': 0
+    }
 )
-# Check cache usage
-print(f&quot;Cache read: {message.usage.cache_read_input_tokens}&quot;)
-print(f&quot;Cache creation: {message.usage.cache_creation_input_tokens}&quot;)
-```
 
-## Batches API
-
-Process large volumes asynchronously at 50% cost reduction:
-
-```python
-import time
-
-batch = client.messages.batches.create(
-    requests=[
-        {
-            &quot;custom_id&quot;: f&quot;request-{i}&quot;,
-            &quot;params&quot;: {
-                &quot;model&quot;: &quot;claude-sonnet-4-0&quot;,
-                &quot;max_tokens&quot;: 1024,
-                &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}]
-            }
-        }
-        for i, prompt in enumerate(prompts)
+# Tool Use 响应
+Message(
+    content=[
+        ToolUseBlock(
+            type='tool_use',
+            id='toolu_01...',
+            name='get_weather',
+            input={'location': '北京'}
+        )
     ]
 )
 
-# Poll for completion
-while True:
-    status = client.messages.batches.retrieve(batch.id)
-    if status.processing_status == &quot;ended&quot;:
-        break
-    time.sleep(30)
-
-# Get results
-for result in client.messages.batches.results(batch.id):
-    print(result.result.message.content[0].text)
-```
-
-## Claude Agent SDK
-
-Build multi-step agents:
-
-```python
-# Note: Agent SDK API surface may change — check official docs
-import anthropic
-
-# Define tools as functions
-tools = [{
-    &quot;name&quot;: &quot;search_codebase&quot;,
-    &quot;description&quot;: &quot;Search the codebase for relevant code&quot;,
-    &quot;input_schema&quot;: {
-        &quot;type&quot;: &quot;object&quot;,
-        &quot;properties&quot;: {&quot;query&quot;: {&quot;type&quot;: &quot;string&quot;}},
-        &quot;required&quot;: [&quot;query&quot;]
-    }
-}]
-
-# Run an agentic loop with tool use
-client = anthropic.Anthropic()
-messages = [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Review the auth module for security issues&quot;}]
-
-while True:
-    response = client.messages.create(
-        model=&quot;claude-sonnet-4-0&quot;,
-        max_tokens=4096,
-        tools=tools,
-        messages=messages,
-    )
-    if response.stop_reason == &quot;end_turn&quot;:
-        break
-    # Handle tool calls and continue the loop
-    messages.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: response.content})
-    # ... execute tools and append tool_result messages
-```
-
-## Cost Optimization
-
-| Strategy | Savings | When to Use |
-|----------|---------|-------------|
-| Prompt caching | Up to 90% on cached tokens | Repeated system prompts or context |
-| Batches API | 50% | Non-time-sensitive bulk processing |
-| Haiku instead of Sonnet | ~75% | Simple tasks, classification, extraction |
-| Shorter max_tokens | Variable | When you know output will be short |
-| Streaming | None (same cost) | Better UX, same price |
-
-## Error Handling
-
-```python
-import time
-
-from anthropic import APIError, RateLimitError, APIConnectionError
-
-try:
-    message = client.messages.create(...)
-except RateLimitError:
-    # Back off and retry
-    time.sleep(60)
-except APIConnectionError:
-    # Network issue, retry with backoff
-    pass
-except APIError as e:
-    print(f&quot;API error {e.status_code}: {e.message}&quot;)
-```
-
-## Environment Setup
-
-```bash
-# Required
-export ANTHROPIC_API_KEY=&quot;your-api-key-here&quot;
-
-# Optional: set default model
-export ANTHROPIC_MODEL=&quot;claude-sonnet-4-0&quot;
-```
-
-Never hardcode API keys. Always use environment variables.
-</pre>
+# Extended Thinking 响应
+Message(
+    content=[
+        ThinkingBlock(
+            type='thinking',
+            thinking='让我逐步分析这个问题...'
+        ),
+        TextBlock(
+            type='text',
+            text='最终答案：...'
+        )
+    ]
+)</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
+            <div class="nav-card" onclick="location.href='claude-md-improver.html'">
+                <div class="nav-label">下一个</div>
+                <div class="nav-title">claude-md-improver</div>
+            </div>
+            <div class="nav-card" onclick="location.href='../skills.html'">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
+                <div class="nav-title">Skills 列表</div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

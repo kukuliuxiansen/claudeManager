@@ -8,7 +8,7 @@
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,56 +26,38 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #38ef7d; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #38ef7d; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(56, 239, 125, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #11998e, #38ef7d); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #38ef7d; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(56, 239, 125, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(56, 239, 125, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(56, 239, 125, 0.1); border: 1px solid rgba(56, 239, 125, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #38ef7d; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #000; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
         <span class="breadcrumb-current">后端开发模式</span>
     </nav>
@@ -86,66 +68,88 @@
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
             <h1 class="detail-title">后端开发模式</h1>
-            <p class="detail-subtitle">后端开发模式和架构模式，包括服务层、数据访问层、业务逻辑层的设计</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    local
-                </div>
+            <p class="detail-subtitle">后端架构模式，包括服务层、数据访问层、缓存策略和中间件设计</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: 架构模式
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">local</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                When to Activate
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Designing REST or GraphQL API endpoints
-- Implementing repository, service, or controller layers
-- Optimizing database queries (N+1, indexing, connection pooling)
-- Adding caching (Redis, in-memory, HTTP cache headers)
-- Setting up background jobs or async processing
-- Structuring error handling and validation for APIs
-- Building middleware (auth, logging, rate limiting)</pre>
+                <p>应用后端开发模式，构建可扩展、可维护的服务端应用。</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">Repository模式</div>
+                            <div class="feature-desc">抽象数据访问逻辑，定义标准CRUD接口，具体实现对存储机制透明</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">Service层模式</div>
+                            <div class="feature-desc">将业务逻辑与数据访问分离，封装复杂操作，提供清晰的API边界</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">N+1查询预防</div>
+                            <div class="feature-desc">使用批量获取避免循环查询，通过Map关联数据，优化数据库性能</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">Redis缓存策略</div>
+                            <div class="feature-desc">实现Cache-Aside模式，缓存未命中时从数据库获取并更新缓存</div>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                API Design Patterns
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">### RESTful API Structure
+                <p><strong>RESTful API结构</strong></p>
+                <p>资源导向的URL设计，使用正确的HTTP方法，查询参数用于过滤、排序和分页。</p>
+                <p><strong>中间件模式</strong></p>
+                <p>请求/响应处理管道，用于认证、日志、错误处理等横切关注点。</p>
+                <p><strong>事务处理</strong></p>
+                <p>使用数据库事务确保数据一致性，实现原子操作和错误回滚。</p>
+                <p><strong>错误处理</strong></p>
+                <p>集中式错误处理器，区分API错误和验证错误，提供一致的错误响应格式。</p>
+            </div>
+        </section>
 
-```typescript
-// ✅ Resource-based URLs
-GET    /api/markets                 # List resources
-GET    /api/markets/:id             # Get single resource
-POST   /api/markets                 # Create resource
-PUT    /api/markets/:id             # Replace resource
-PATCH  /api/markets/:id             # Update resource
-DELETE /api/markets/:id             # Delete resource
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Repository模式实现</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 适用场景
+- 设计REST或GraphQL API端点
+- 实现Repository、Service、Controller层
+- 优化数据库查询
+- 添加缓存层
 
-// ✅ Query parameters for filtering, sorting, pagination
-GET /api/markets?status=active&amp;sort=volume&amp;limit=20&amp;offset=0
-```
-
-### Repository Pattern
-
-```typescript
-// Abstract data access logic
+# Repository接口定义
 interface MarketRepository {
   findAll(filters?: MarketFilters): Promise&lt;Market[]&gt;
   findById(id: string): Promise&lt;Market | null&gt;
@@ -154,180 +158,52 @@ interface MarketRepository {
   delete(id: string): Promise&lt;void&gt;
 }
 
-class SupabaseMarketRepository implements MarketRepository {
-  async findAll(filters?: MarketFilters): Promise&lt;Market[]&gt; {
-    let query = supabase.from(&#039;markets&#039;).select(&#039;*&#039;)
-
-    if (filters?.status) {
-      query = query.eq(&#039;status&#039;, filters.status)
-    }
-
-    if (filters?.limit) {
-      query = query.limit(filters.limit)
-    }
-
-    const { data, error } = await query
-
-    if (error) throw new Error(error.message)
-    return data
-  }
-
-  // Other methods...
-}
-```
-
-### Service Layer Pattern
-
-```typescript
-// Business logic separated from data access
-class MarketService {
-  constructor(private marketRepo: MarketRepository) {}
-
-  async searchMarkets(query: string, limit: number = 10): Promise&lt;Market[]&gt; {
-    // Business logic
-    const embedding = await generateEmbedding(query)
-    const results = await this.vectorSearch(embedding, limit)
-
-    // Fetch full data
-    const markets = await this.marketRepo.findByIds(results.map(r =&gt; r.id))
-
-    // Sort by similarity
-    return markets.sort((a, b) =&gt; {
-      const scoreA = results.find(r =&gt; r.id === a.id)?.score || 0
-      const scoreB = results.find(r =&gt; r.id === b.id)?.score || 0
-      return scoreA - scoreB
-    })
-  }
-
-  private async vectorSearch(embedding: number[], limit: number) {
-    // Vector search implementation
-  }
-}
-```
-
-### Middleware Pattern
-
-```typescript
-// Request/response processing pipeline
-export function withAuth(handler: NextApiHandler): NextApiHandler {
-  return async (req, res) =&gt; {
-    const token = req.headers.authorization?.replace(&#039;Bearer &#039;, &#039;&#039;)
-
-    if (!token) {
-      return res.status(401).json({ error: &#039;Unauthorized&#039; })
-    }
-
-    try {
-      const user = await verifyToken(token)
-      req.user = user
-      return handler(req, res)
-    } catch (error) {
-      return res.status(401).json({ error: &#039;Invalid token&#039; })
-    }
-  }
-}
-
-// Usage
-export default withAuth(async (req, res) =&gt; {
-  // Handler has access to req.user
-})
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Database Patterns
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Query Optimization
-
-```typescript
-// ✅ GOOD: Select only needed columns
-const { data } = await supabase
-  .from(&#039;markets&#039;)
-  .select(&#039;id, name, status, volume&#039;)
-  .eq(&#039;status&#039;, &#039;active&#039;)
-  .order(&#039;volume&#039;, { ascending: false })
-  .limit(10)
-
-// ❌ BAD: Select everything
-const { data } = await supabase
-  .from(&#039;markets&#039;)
-  .select(&#039;*&#039;)
-```
-
-### N+1 Query Prevention
-
-```typescript
-// ❌ BAD: N+1 query problem
+# 批量获取避免N+1
 const markets = await getMarkets()
-for (const market of markets) {
-  market.creator = await getUser(market.creator_id)  // N queries
-}
-
-// ✅ GOOD: Batch fetch
-const markets = await getMarkets()
-const creatorIds = markets.map(m =&gt; m.creator_id)
+const creatorIds = markets.map(m => m.creator_id)
 const creators = await getUsers(creatorIds)  // 1 query
-const creatorMap = new Map(creators.map(c =&gt; [c.id, c]))
-
-markets.forEach(market =&gt; {
-  market.creator = creatorMap.get(market.creator_id)
-})
-```
-
-### Transaction Pattern
-
-```typescript
-async function createMarketWithPosition(
-  marketData: CreateMarketDto,
-  positionData: CreatePositionDto
-) {
-  // Use Supabase transaction
-  const { data, error } = await supabase.rpc(&#039;create_market_with_position&#039;, {
-    market_data: marketData,
-    position_data: positionData
-  })
-
-  if (error) throw new Error(&#039;Transaction failed&#039;)
-  return data
-}
-
-// SQL function in Supabase
-CREATE OR REPLACE FUNCTION create_market_with_position(
-  market_data jsonb,
-  position_data jsonb
-)
-RETURNS jsonb
-LANGUAGE plpgsql
-AS $$
-BEGIN
-  -- Start transaction automatically
-  INSERT INTO markets VALUES (market_data);
-  INSERT INTO positions VALUES (position_data);
-  RETURN jsonb_build_object(&#039;success&#039;, true);
-EXCEPTION
-  WHEN OTHERS THEN
-    -- Rollback happens automatically
-    RETURN jsonb_build_object(&#039;success&#039;, false, &#039;error&#039;, SQLERRM);
-END;
-$$;
-```</pre>
+const creatorMap = new Map(creators.map(c => [c.id, c]))</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Caching Strategies
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <div class="tip-text">只选择需要的列，避免SELECT *，减少数据传输和内存占用</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <div class="tip-text">使用指数退避重试机制处理临时故障，提高系统容错性</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <div class="tip-text">缓存热点数据，设置合理的TTL，失效后从数据库重新加载</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <div class="tip-text">使用结构化日志记录请求上下文，便于问题排查和监控</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Redis Caching Layer
-
-```typescript
-class CachedMarketRepository implements MarketRepository {
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">缓存层实现</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>class CachedMarketRepository implements MarketRepository {
   constructor(
     private baseRepo: MarketRepository,
     private redis: RedisClient
@@ -336,1033 +212,36 @@ class CachedMarketRepository implements MarketRepository {
   async findById(id: string): Promise&lt;Market | null&gt; {
     // Check cache first
     const cached = await this.redis.get(`market:${id}`)
-
-    if (cached) {
-      return JSON.parse(cached)
-    }
+    if (cached) return JSON.parse(cached)
 
     // Cache miss - fetch from database
     const market = await this.baseRepo.findById(id)
-
     if (market) {
       // Cache for 5 minutes
       await this.redis.setex(`market:${id}`, 300, JSON.stringify(market))
     }
-
     return market
   }
 
   async invalidateCache(id: string): Promise&lt;void&gt; {
     await this.redis.del(`market:${id}`)
   }
-}
-```
-
-### Cache-Aside Pattern
-
-```typescript
-async function getMarketWithCache(id: string): Promise&lt;Market&gt; {
-  const cacheKey = `market:${id}`
-
-  // Try cache
-  const cached = await redis.get(cacheKey)
-  if (cached) return JSON.parse(cached)
-
-  // Cache miss - fetch from DB
-  const market = await db.markets.findUnique({ where: { id } })
-
-  if (!market) throw new Error(&#039;Market not found&#039;)
-
-  // Update cache
-  await redis.setex(cacheKey, 300, JSON.stringify(market))
-
-  return market
-}
-```</pre>
+}</code></pre>
+                </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Error Handling Patterns
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Centralized Error Handler
-
-```typescript
-class ApiError extends Error {
-  constructor(
-    public statusCode: number,
-    public message: string,
-    public isOperational = true
-  ) {
-    super(message)
-    Object.setPrototypeOf(this, ApiError.prototype)
-  }
-}
-
-export function errorHandler(error: unknown, req: Request): Response {
-  if (error instanceof ApiError) {
-    return NextResponse.json({
-      success: false,
-      error: error.message
-    }, { status: error.statusCode })
-  }
-
-  if (error instanceof z.ZodError) {
-    return NextResponse.json({
-      success: false,
-      error: &#039;Validation failed&#039;,
-      details: error.errors
-    }, { status: 400 })
-  }
-
-  // Log unexpected errors
-  console.error(&#039;Unexpected error:&#039;, error)
-
-  return NextResponse.json({
-    success: false,
-    error: &#039;Internal server error&#039;
-  }, { status: 500 })
-}
-
-// Usage
-export async function GET(request: Request) {
-  try {
-    const data = await fetchData()
-    return NextResponse.json({ success: true, data })
-  } catch (error) {
-    return errorHandler(error, request)
-  }
-}
-```
-
-### Retry with Exponential Backoff
-
-```typescript
-async function fetchWithRetry&lt;T&gt;(
-  fn: () =&gt; Promise&lt;T&gt;,
-  maxRetries = 3
-): Promise&lt;T&gt; {
-  let lastError: Error
-
-  for (let i = 0; i &lt; maxRetries; i++) {
-    try {
-      return await fn()
-    } catch (error) {
-      lastError = error as Error
-
-      if (i &lt; maxRetries - 1) {
-        // Exponential backoff: 1s, 2s, 4s
-        const delay = Math.pow(2, i) * 1000
-        await new Promise(resolve =&gt; setTimeout(resolve, delay))
-      }
-    }
-  }
-
-  throw lastError!
-}
-
-// Usage
-const data = await fetchWithRetry(() =&gt; fetchFromAPI())
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Authentication & Authorization
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### JWT Token Validation
-
-```typescript
-import jwt from &#039;jsonwebtoken&#039;
-
-interface JWTPayload {
-  userId: string
-  email: string
-  role: &#039;admin&#039; | &#039;user&#039;
-}
-
-export function verifyToken(token: string): JWTPayload {
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload
-    return payload
-  } catch (error) {
-    throw new ApiError(401, &#039;Invalid token&#039;)
-  }
-}
-
-export async function requireAuth(request: Request) {
-  const token = request.headers.get(&#039;authorization&#039;)?.replace(&#039;Bearer &#039;, &#039;&#039;)
-
-  if (!token) {
-    throw new ApiError(401, &#039;Missing authorization token&#039;)
-  }
-
-  return verifyToken(token)
-}
-
-// Usage in API route
-export async function GET(request: Request) {
-  const user = await requireAuth(request)
-
-  const data = await getDataForUser(user.userId)
-
-  return NextResponse.json({ success: true, data })
-}
-```
-
-### Role-Based Access Control
-
-```typescript
-type Permission = &#039;read&#039; | &#039;write&#039; | &#039;delete&#039; | &#039;admin&#039;
-
-interface User {
-  id: string
-  role: &#039;admin&#039; | &#039;moderator&#039; | &#039;user&#039;
-}
-
-const rolePermissions: Record&lt;User[&#039;role&#039;], Permission[]&gt; = {
-  admin: [&#039;read&#039;, &#039;write&#039;, &#039;delete&#039;, &#039;admin&#039;],
-  moderator: [&#039;read&#039;, &#039;write&#039;, &#039;delete&#039;],
-  user: [&#039;read&#039;, &#039;write&#039;]
-}
-
-export function hasPermission(user: User, permission: Permission): boolean {
-  return rolePermissions[user.role].includes(permission)
-}
-
-export function requirePermission(permission: Permission) {
-  return (handler: (request: Request, user: User) =&gt; Promise&lt;Response&gt;) =&gt; {
-    return async (request: Request) =&gt; {
-      const user = await requireAuth(request)
-
-      if (!hasPermission(user, permission)) {
-        throw new ApiError(403, &#039;Insufficient permissions&#039;)
-      }
-
-      return handler(request, user)
-    }
-  }
-}
-
-// Usage - HOF wraps the handler
-export const DELETE = requirePermission(&#039;delete&#039;)(
-  async (request: Request, user: User) =&gt; {
-    // Handler receives authenticated user with verified permission
-    return new Response(&#039;Deleted&#039;, { status: 200 })
-  }
-)
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Rate Limiting
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Simple In-Memory Rate Limiter
-
-```typescript
-class RateLimiter {
-  private requests = new Map&lt;string, number[]&gt;()
-
-  async checkLimit(
-    identifier: string,
-    maxRequests: number,
-    windowMs: number
-  ): Promise&lt;boolean&gt; {
-    const now = Date.now()
-    const requests = this.requests.get(identifier) || []
-
-    // Remove old requests outside window
-    const recentRequests = requests.filter(time =&gt; now - time &lt; windowMs)
-
-    if (recentRequests.length &gt;= maxRequests) {
-      return false  // Rate limit exceeded
-    }
-
-    // Add current request
-    recentRequests.push(now)
-    this.requests.set(identifier, recentRequests)
-
-    return true
-  }
-}
-
-const limiter = new RateLimiter()
-
-export async function GET(request: Request) {
-  const ip = request.headers.get(&#039;x-forwarded-for&#039;) || &#039;unknown&#039;
-
-  const allowed = await limiter.checkLimit(ip, 100, 60000)  // 100 req/min
-
-  if (!allowed) {
-    return NextResponse.json({
-      error: &#039;Rate limit exceeded&#039;
-    }, { status: 429 })
-  }
-
-  // Continue with request
-}
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Background Jobs & Queues
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Simple Queue Pattern
-
-```typescript
-class JobQueue&lt;T&gt; {
-  private queue: T[] = []
-  private processing = false
-
-  async add(job: T): Promise&lt;void&gt; {
-    this.queue.push(job)
-
-    if (!this.processing) {
-      this.process()
-    }
-  }
-
-  private async process(): Promise&lt;void&gt; {
-    this.processing = true
-
-    while (this.queue.length &gt; 0) {
-      const job = this.queue.shift()!
-
-      try {
-        await this.execute(job)
-      } catch (error) {
-        console.error(&#039;Job failed:&#039;, error)
-      }
-    }
-
-    this.processing = false
-  }
-
-  private async execute(job: T): Promise&lt;void&gt; {
-    // Job execution logic
-  }
-}
-
-// Usage for indexing markets
-interface IndexJob {
-  marketId: string
-}
-
-const indexQueue = new JobQueue&lt;IndexJob&gt;()
-
-export async function POST(request: Request) {
-  const { marketId } = await request.json()
-
-  // Add to queue instead of blocking
-  await indexQueue.add({ marketId })
-
-  return NextResponse.json({ success: true, message: &#039;Job queued&#039; })
-}
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Logging & Monitoring
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Structured Logging
-
-```typescript
-interface LogContext {
-  userId?: string
-  requestId?: string
-  method?: string
-  path?: string
-  [key: string]: unknown
-}
-
-class Logger {
-  log(level: &#039;info&#039; | &#039;warn&#039; | &#039;error&#039;, message: string, context?: LogContext) {
-    const entry = {
-      timestamp: new Date().toISOString(),
-      level,
-      message,
-      ...context
-    }
-
-    console.log(JSON.stringify(entry))
-  }
-
-  info(message: string, context?: LogContext) {
-    this.log(&#039;info&#039;, message, context)
-  }
-
-  warn(message: string, context?: LogContext) {
-    this.log(&#039;warn&#039;, message, context)
-  }
-
-  error(message: string, error: Error, context?: LogContext) {
-    this.log(&#039;error&#039;, message, {
-      ...context,
-      error: error.message,
-      stack: error.stack
-    })
-  }
-}
-
-const logger = new Logger()
-
-// Usage
-export async function GET(request: Request) {
-  const requestId = crypto.randomUUID()
-
-  logger.info(&#039;Fetching markets&#039;, {
-    requestId,
-    method: &#039;GET&#039;,
-    path: &#039;/api/markets&#039;
-  })
-
-  try {
-    const markets = await fetchMarkets()
-    return NextResponse.json({ success: true, data: markets })
-  } catch (error) {
-    logger.error(&#039;Failed to fetch markets&#039;, error as Error, { requestId })
-    return NextResponse.json({ error: &#039;Internal error&#039; }, { status: 500 })
-  }
-}
-```
-
-**Remember**: Backend patterns enable scalable, maintainable server-side applications. Choose patterns that fit your complexity level.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: backend-patterns
-description: Backend architecture patterns, API design, database optimization, and server-side best practices for Node.js, Express, and Next.js API routes.
-origin: ECC
----
-
-# Backend Development Patterns
-
-Backend architecture patterns and best practices for scalable server-side applications.
-
-## When to Activate
-
-- Designing REST or GraphQL API endpoints
-- Implementing repository, service, or controller layers
-- Optimizing database queries (N+1, indexing, connection pooling)
-- Adding caching (Redis, in-memory, HTTP cache headers)
-- Setting up background jobs or async processing
-- Structuring error handling and validation for APIs
-- Building middleware (auth, logging, rate limiting)
-
-## API Design Patterns
-
-### RESTful API Structure
-
-```typescript
-// ✅ Resource-based URLs
-GET    /api/markets                 # List resources
-GET    /api/markets/:id             # Get single resource
-POST   /api/markets                 # Create resource
-PUT    /api/markets/:id             # Replace resource
-PATCH  /api/markets/:id             # Update resource
-DELETE /api/markets/:id             # Delete resource
-
-// ✅ Query parameters for filtering, sorting, pagination
-GET /api/markets?status=active&amp;sort=volume&amp;limit=20&amp;offset=0
-```
-
-### Repository Pattern
-
-```typescript
-// Abstract data access logic
-interface MarketRepository {
-  findAll(filters?: MarketFilters): Promise&lt;Market[]&gt;
-  findById(id: string): Promise&lt;Market | null&gt;
-  create(data: CreateMarketDto): Promise&lt;Market&gt;
-  update(id: string, data: UpdateMarketDto): Promise&lt;Market&gt;
-  delete(id: string): Promise&lt;void&gt;
-}
-
-class SupabaseMarketRepository implements MarketRepository {
-  async findAll(filters?: MarketFilters): Promise&lt;Market[]&gt; {
-    let query = supabase.from(&#039;markets&#039;).select(&#039;*&#039;)
-
-    if (filters?.status) {
-      query = query.eq(&#039;status&#039;, filters.status)
-    }
-
-    if (filters?.limit) {
-      query = query.limit(filters.limit)
-    }
-
-    const { data, error } = await query
-
-    if (error) throw new Error(error.message)
-    return data
-  }
-
-  // Other methods...
-}
-```
-
-### Service Layer Pattern
-
-```typescript
-// Business logic separated from data access
-class MarketService {
-  constructor(private marketRepo: MarketRepository) {}
-
-  async searchMarkets(query: string, limit: number = 10): Promise&lt;Market[]&gt; {
-    // Business logic
-    const embedding = await generateEmbedding(query)
-    const results = await this.vectorSearch(embedding, limit)
-
-    // Fetch full data
-    const markets = await this.marketRepo.findByIds(results.map(r =&gt; r.id))
-
-    // Sort by similarity
-    return markets.sort((a, b) =&gt; {
-      const scoreA = results.find(r =&gt; r.id === a.id)?.score || 0
-      const scoreB = results.find(r =&gt; r.id === b.id)?.score || 0
-      return scoreA - scoreB
-    })
-  }
-
-  private async vectorSearch(embedding: number[], limit: number) {
-    // Vector search implementation
-  }
-}
-```
-
-### Middleware Pattern
-
-```typescript
-// Request/response processing pipeline
-export function withAuth(handler: NextApiHandler): NextApiHandler {
-  return async (req, res) =&gt; {
-    const token = req.headers.authorization?.replace(&#039;Bearer &#039;, &#039;&#039;)
-
-    if (!token) {
-      return res.status(401).json({ error: &#039;Unauthorized&#039; })
-    }
-
-    try {
-      const user = await verifyToken(token)
-      req.user = user
-      return handler(req, res)
-    } catch (error) {
-      return res.status(401).json({ error: &#039;Invalid token&#039; })
-    }
-  }
-}
-
-// Usage
-export default withAuth(async (req, res) =&gt; {
-  // Handler has access to req.user
-})
-```
-
-## Database Patterns
-
-### Query Optimization
-
-```typescript
-// ✅ GOOD: Select only needed columns
-const { data } = await supabase
-  .from(&#039;markets&#039;)
-  .select(&#039;id, name, status, volume&#039;)
-  .eq(&#039;status&#039;, &#039;active&#039;)
-  .order(&#039;volume&#039;, { ascending: false })
-  .limit(10)
-
-// ❌ BAD: Select everything
-const { data } = await supabase
-  .from(&#039;markets&#039;)
-  .select(&#039;*&#039;)
-```
-
-### N+1 Query Prevention
-
-```typescript
-// ❌ BAD: N+1 query problem
-const markets = await getMarkets()
-for (const market of markets) {
-  market.creator = await getUser(market.creator_id)  // N queries
-}
-
-// ✅ GOOD: Batch fetch
-const markets = await getMarkets()
-const creatorIds = markets.map(m =&gt; m.creator_id)
-const creators = await getUsers(creatorIds)  // 1 query
-const creatorMap = new Map(creators.map(c =&gt; [c.id, c]))
-
-markets.forEach(market =&gt; {
-  market.creator = creatorMap.get(market.creator_id)
-})
-```
-
-### Transaction Pattern
-
-```typescript
-async function createMarketWithPosition(
-  marketData: CreateMarketDto,
-  positionData: CreatePositionDto
-) {
-  // Use Supabase transaction
-  const { data, error } = await supabase.rpc(&#039;create_market_with_position&#039;, {
-    market_data: marketData,
-    position_data: positionData
-  })
-
-  if (error) throw new Error(&#039;Transaction failed&#039;)
-  return data
-}
-
-// SQL function in Supabase
-CREATE OR REPLACE FUNCTION create_market_with_position(
-  market_data jsonb,
-  position_data jsonb
-)
-RETURNS jsonb
-LANGUAGE plpgsql
-AS $$
-BEGIN
-  -- Start transaction automatically
-  INSERT INTO markets VALUES (market_data);
-  INSERT INTO positions VALUES (position_data);
-  RETURN jsonb_build_object(&#039;success&#039;, true);
-EXCEPTION
-  WHEN OTHERS THEN
-    -- Rollback happens automatically
-    RETURN jsonb_build_object(&#039;success&#039;, false, &#039;error&#039;, SQLERRM);
-END;
-$$;
-```
-
-## Caching Strategies
-
-### Redis Caching Layer
-
-```typescript
-class CachedMarketRepository implements MarketRepository {
-  constructor(
-    private baseRepo: MarketRepository,
-    private redis: RedisClient
-  ) {}
-
-  async findById(id: string): Promise&lt;Market | null&gt; {
-    // Check cache first
-    const cached = await this.redis.get(`market:${id}`)
-
-    if (cached) {
-      return JSON.parse(cached)
-    }
-
-    // Cache miss - fetch from database
-    const market = await this.baseRepo.findById(id)
-
-    if (market) {
-      // Cache for 5 minutes
-      await this.redis.setex(`market:${id}`, 300, JSON.stringify(market))
-    }
-
-    return market
-  }
-
-  async invalidateCache(id: string): Promise&lt;void&gt; {
-    await this.redis.del(`market:${id}`)
-  }
-}
-```
-
-### Cache-Aside Pattern
-
-```typescript
-async function getMarketWithCache(id: string): Promise&lt;Market&gt; {
-  const cacheKey = `market:${id}`
-
-  // Try cache
-  const cached = await redis.get(cacheKey)
-  if (cached) return JSON.parse(cached)
-
-  // Cache miss - fetch from DB
-  const market = await db.markets.findUnique({ where: { id } })
-
-  if (!market) throw new Error(&#039;Market not found&#039;)
-
-  // Update cache
-  await redis.setex(cacheKey, 300, JSON.stringify(market))
-
-  return market
-}
-```
-
-## Error Handling Patterns
-
-### Centralized Error Handler
-
-```typescript
-class ApiError extends Error {
-  constructor(
-    public statusCode: number,
-    public message: string,
-    public isOperational = true
-  ) {
-    super(message)
-    Object.setPrototypeOf(this, ApiError.prototype)
-  }
-}
-
-export function errorHandler(error: unknown, req: Request): Response {
-  if (error instanceof ApiError) {
-    return NextResponse.json({
-      success: false,
-      error: error.message
-    }, { status: error.statusCode })
-  }
-
-  if (error instanceof z.ZodError) {
-    return NextResponse.json({
-      success: false,
-      error: &#039;Validation failed&#039;,
-      details: error.errors
-    }, { status: 400 })
-  }
-
-  // Log unexpected errors
-  console.error(&#039;Unexpected error:&#039;, error)
-
-  return NextResponse.json({
-    success: false,
-    error: &#039;Internal server error&#039;
-  }, { status: 500 })
-}
-
-// Usage
-export async function GET(request: Request) {
-  try {
-    const data = await fetchData()
-    return NextResponse.json({ success: true, data })
-  } catch (error) {
-    return errorHandler(error, request)
-  }
-}
-```
-
-### Retry with Exponential Backoff
-
-```typescript
-async function fetchWithRetry&lt;T&gt;(
-  fn: () =&gt; Promise&lt;T&gt;,
-  maxRetries = 3
-): Promise&lt;T&gt; {
-  let lastError: Error
-
-  for (let i = 0; i &lt; maxRetries; i++) {
-    try {
-      return await fn()
-    } catch (error) {
-      lastError = error as Error
-
-      if (i &lt; maxRetries - 1) {
-        // Exponential backoff: 1s, 2s, 4s
-        const delay = Math.pow(2, i) * 1000
-        await new Promise(resolve =&gt; setTimeout(resolve, delay))
-      }
-    }
-  }
-
-  throw lastError!
-}
-
-// Usage
-const data = await fetchWithRetry(() =&gt; fetchFromAPI())
-```
-
-## Authentication &amp; Authorization
-
-### JWT Token Validation
-
-```typescript
-import jwt from &#039;jsonwebtoken&#039;
-
-interface JWTPayload {
-  userId: string
-  email: string
-  role: &#039;admin&#039; | &#039;user&#039;
-}
-
-export function verifyToken(token: string): JWTPayload {
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload
-    return payload
-  } catch (error) {
-    throw new ApiError(401, &#039;Invalid token&#039;)
-  }
-}
-
-export async function requireAuth(request: Request) {
-  const token = request.headers.get(&#039;authorization&#039;)?.replace(&#039;Bearer &#039;, &#039;&#039;)
-
-  if (!token) {
-    throw new ApiError(401, &#039;Missing authorization token&#039;)
-  }
-
-  return verifyToken(token)
-}
-
-// Usage in API route
-export async function GET(request: Request) {
-  const user = await requireAuth(request)
-
-  const data = await getDataForUser(user.userId)
-
-  return NextResponse.json({ success: true, data })
-}
-```
-
-### Role-Based Access Control
-
-```typescript
-type Permission = &#039;read&#039; | &#039;write&#039; | &#039;delete&#039; | &#039;admin&#039;
-
-interface User {
-  id: string
-  role: &#039;admin&#039; | &#039;moderator&#039; | &#039;user&#039;
-}
-
-const rolePermissions: Record&lt;User[&#039;role&#039;], Permission[]&gt; = {
-  admin: [&#039;read&#039;, &#039;write&#039;, &#039;delete&#039;, &#039;admin&#039;],
-  moderator: [&#039;read&#039;, &#039;write&#039;, &#039;delete&#039;],
-  user: [&#039;read&#039;, &#039;write&#039;]
-}
-
-export function hasPermission(user: User, permission: Permission): boolean {
-  return rolePermissions[user.role].includes(permission)
-}
-
-export function requirePermission(permission: Permission) {
-  return (handler: (request: Request, user: User) =&gt; Promise&lt;Response&gt;) =&gt; {
-    return async (request: Request) =&gt; {
-      const user = await requireAuth(request)
-
-      if (!hasPermission(user, permission)) {
-        throw new ApiError(403, &#039;Insufficient permissions&#039;)
-      }
-
-      return handler(request, user)
-    }
-  }
-}
-
-// Usage - HOF wraps the handler
-export const DELETE = requirePermission(&#039;delete&#039;)(
-  async (request: Request, user: User) =&gt; {
-    // Handler receives authenticated user with verified permission
-    return new Response(&#039;Deleted&#039;, { status: 200 })
-  }
-)
-```
-
-## Rate Limiting
-
-### Simple In-Memory Rate Limiter
-
-```typescript
-class RateLimiter {
-  private requests = new Map&lt;string, number[]&gt;()
-
-  async checkLimit(
-    identifier: string,
-    maxRequests: number,
-    windowMs: number
-  ): Promise&lt;boolean&gt; {
-    const now = Date.now()
-    const requests = this.requests.get(identifier) || []
-
-    // Remove old requests outside window
-    const recentRequests = requests.filter(time =&gt; now - time &lt; windowMs)
-
-    if (recentRequests.length &gt;= maxRequests) {
-      return false  // Rate limit exceeded
-    }
-
-    // Add current request
-    recentRequests.push(now)
-    this.requests.set(identifier, recentRequests)
-
-    return true
-  }
-}
-
-const limiter = new RateLimiter()
-
-export async function GET(request: Request) {
-  const ip = request.headers.get(&#039;x-forwarded-for&#039;) || &#039;unknown&#039;
-
-  const allowed = await limiter.checkLimit(ip, 100, 60000)  // 100 req/min
-
-  if (!allowed) {
-    return NextResponse.json({
-      error: &#039;Rate limit exceeded&#039;
-    }, { status: 429 })
-  }
-
-  // Continue with request
-}
-```
-
-## Background Jobs &amp; Queues
-
-### Simple Queue Pattern
-
-```typescript
-class JobQueue&lt;T&gt; {
-  private queue: T[] = []
-  private processing = false
-
-  async add(job: T): Promise&lt;void&gt; {
-    this.queue.push(job)
-
-    if (!this.processing) {
-      this.process()
-    }
-  }
-
-  private async process(): Promise&lt;void&gt; {
-    this.processing = true
-
-    while (this.queue.length &gt; 0) {
-      const job = this.queue.shift()!
-
-      try {
-        await this.execute(job)
-      } catch (error) {
-        console.error(&#039;Job failed:&#039;, error)
-      }
-    }
-
-    this.processing = false
-  }
-
-  private async execute(job: T): Promise&lt;void&gt; {
-    // Job execution logic
-  }
-}
-
-// Usage for indexing markets
-interface IndexJob {
-  marketId: string
-}
-
-const indexQueue = new JobQueue&lt;IndexJob&gt;()
-
-export async function POST(request: Request) {
-  const { marketId } = await request.json()
-
-  // Add to queue instead of blocking
-  await indexQueue.add({ marketId })
-
-  return NextResponse.json({ success: true, message: &#039;Job queued&#039; })
-}
-```
-
-## Logging &amp; Monitoring
-
-### Structured Logging
-
-```typescript
-interface LogContext {
-  userId?: string
-  requestId?: string
-  method?: string
-  path?: string
-  [key: string]: unknown
-}
-
-class Logger {
-  log(level: &#039;info&#039; | &#039;warn&#039; | &#039;error&#039;, message: string, context?: LogContext) {
-    const entry = {
-      timestamp: new Date().toISOString(),
-      level,
-      message,
-      ...context
-    }
-
-    console.log(JSON.stringify(entry))
-  }
-
-  info(message: string, context?: LogContext) {
-    this.log(&#039;info&#039;, message, context)
-  }
-
-  warn(message: string, context?: LogContext) {
-    this.log(&#039;warn&#039;, message, context)
-  }
-
-  error(message: string, error: Error, context?: LogContext) {
-    this.log(&#039;error&#039;, message, {
-      ...context,
-      error: error.message,
-      stack: error.stack
-    })
-  }
-}
-
-const logger = new Logger()
-
-// Usage
-export async function GET(request: Request) {
-  const requestId = crypto.randomUUID()
-
-  logger.info(&#039;Fetching markets&#039;, {
-    requestId,
-    method: &#039;GET&#039;,
-    path: &#039;/api/markets&#039;
-  })
-
-  try {
-    const markets = await fetchMarkets()
-    return NextResponse.json({ success: true, data: markets })
-  } catch (error) {
-    logger.error(&#039;Failed to fetch markets&#039;, error as Error, { requestId })
-    return NextResponse.json({ error: &#039;Internal error&#039; }, { status: 500 })
-  }
-}
-```
-
-**Remember**: Backend patterns enable scalable, maintainable server-side applications. Choose patterns that fit your complexity level.
-</pre>
-            </div>
-        </section>
-
-        <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
-                <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

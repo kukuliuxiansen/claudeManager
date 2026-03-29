@@ -8,7 +8,7 @@
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,321 +26,218 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; }
+        .nav-card:hover { border-color: rgba(139, 92, 246, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Rules Distill</span>
+        <span class="breadcrumb-current">rules-distill</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
             </div>
-            <h1 class="detail-title">Rules Distill</h1>
-            <p class="detail-subtitle">技能模块，提供专业领域的自动化处理能力</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    everything-claude-code
-                </div>
+            <h1 class="detail-title">rules-distill</h1>
+            <p class="detail-subtitle">技能到规则的提炼工具，从多个技能中提取通用原则并生成规则文件</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Rule Management
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                何时使用
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Periodic rules maintenance (monthly or after installing new skills)
-- After a skill-stocktake reveals patterns that should be rules
-- When rules feel incomplete relative to the skills being used</pre>
+                <p>rules-distill Skill 是规则提炼的专业工具，能够扫描所有已安装的技能，自动提取跨技能的通用原则，并将其提炼为可执行的规则文件。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">自动技能扫描</h4>
+                            <p class="feature-desc">确定性收集所有技能文件，确保不会遗漏任何潜在的规则来源</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">智能原则提取</h4>
+                            <p class="feature-desc">使用 LLM 判断提取跨技能的通用原则，确保规则的可操作性</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">规则判决系统</h4>
+                            <p class="feature-desc">支持 Append、Revise、New Section、New File 等多种规则更新方式</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">用户审核确认</h4>
+                            <p class="feature-desc">所有规则变更都需要用户明确批准，确保不会自动修改规则文件</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                How It Works
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">The rules distillation process follows three phases:
+                <p>规则提炼遵循<strong>"确定性收集 + LLM 判断"</strong>原则。脚本保证穷尽性扫描，LLM 保证上下文理解。确保提取的原则符合以下标准：</p>
 
-### Phase 1: Inventory (Deterministic Collection)
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7); margin-top:15px">
+                    <li><strong>出现在 2+ 技能</strong>: 单技能特有的原则应保留在该技能中</li>
+                    <li><strong>可执行的行为变更</strong>: 可以写成"做 X"或"不做 Y"</li>
+                    <li><strong>清晰的违规风险</strong>: 忽略该原则会导致什么问题</li>
+                    <li><strong>不与现有规则重复</strong>: 检查是否存在相同概念的不同表述</li>
+                </ul>
 
-#### 1a. Collect skill inventory
-
-```bash
-bash ~/.claude/skills/rules-distill/scripts/scan-skills.sh
-```
-
-#### 1b. Collect rules index
-
-```bash
-bash ~/.claude/skills/rules-distill/scripts/scan-rules.sh
-```
-
-#### 1c. Present to user
-
-```
-Rules Distillation — Phase 1: Inventory
-────────────────────────────────────────
-Skills: {N} files scanned
-Rules:  {M} files ({K} headings indexed)
-
-Proceeding to cross-read analysis...
-```
-
-### Phase 2: Cross-read, Match &amp; Verdict (LLM Judgment)
-
-Extraction and matching are unified in a single pass. Rules files are small enough (~800 lines total) that the full text can be provided to the LLM — no grep pre-filtering needed.
-
-#### Batching
-
-Group skills into **thematic clusters** based on their descriptions. Analyze each cluster in a subagent with the full rules text.
-
-#### Cross-batch Merge
-
-After all batches complete, merge candidates across batches:
-- Deduplicate candidates with the same or overlapping principles
-- Re-check the &quot;2+ skills&quot; requirement using evidence from **all** batches combined — a principle found in 1 skill per batch but 2+ skills total is valid
-
-#### Subagent Prompt
-
-Launch a general-purpose Agent with the following prompt:
-
-````
-You are an analyst who cross-reads skills to extract principles that should be promoted to rules.
-
-## Input
-- Skills: {full text of skills in this batch}
-- Existing rules: {full text of all rule files}
-
-## Extraction Criteria
-
-Include a candidate ONLY if ALL of these are true:
-
-1. **Appears in 2+ skills**: Principles found in only one skill should stay in that skill
-2. **Actionable behavior change**: Can be written as &quot;do X&quot; or &quot;don&#039;t do Y&quot; — not &quot;X is important&quot;
-3. **Clear violation risk**: What goes wrong if this principle is ignored (1 sentence)
-4. **Not already in rules**: Check the full rules text — including concepts expressed in different words
-
-## Matching &amp; Verdict
-
-For each candidate, compare against the full rules text and assign a verdict:
-
-- **Append**: Add to an existing section of an existing rule file
-- **Revise**: Existing rule content is inaccurate or insufficient — propose a correction
-- **New Section**: Add a new section to an existing rule file
-- **New File**: Create a new rule file
-- **Already Covered**: Sufficiently covered in existing rules (even if worded differently)
-- **Too Specific**: Should remain at the skill level
-
-## Output Format (per candidate)
-
-```json
-{
-  &quot;principle&quot;: &quot;1-2 sentences in &#039;do X&#039; / &#039;don&#039;t do Y&#039; form&quot;,
-  &quot;evidence&quot;: [&quot;skill-name: §Section&quot;, &quot;skill-name: §Section&quot;],
-  &quot;violation_risk&quot;: &quot;1 sentence&quot;,
-  &quot;verdict&quot;: &quot;Append / Revise / New Section / New File / Already Covered / Too Specific&quot;,
-  &quot;target_rule&quot;: &quot;filename §Section, or &#039;new&#039;&quot;,
-  &quot;confidence&quot;: &quot;high / medium / low&quot;,
-  &quot;draft&quot;: &quot;Draft text for Append/New Section/New File verdicts&quot;,
-  &quot;revision&quot;: {
-    &quot;reason&quot;: &quot;Why the existing content is inaccurate or insufficient (Revise only)&quot;,
-    &quot;before&quot;: &quot;Current text to be replaced (Revise only)&quot;,
-    &quot;after&quot;: &quot;Proposed replacement text (Revise only)&quot;
-  }
-}
-```
-
-## Exclude
-
-- Obvious principles already in rules
-- Language/framework-specific knowledge (belongs in language-specific rules or skills)
-- Code examples and commands (belongs in skills)
-````
-
-#### Verdict Reference
-
-| Verdict | Meaning | Presented to User |
-|---------|---------|-------------------|
-| **Append** | Add to existing section | Target + draft |
-| **Revise** | Fix inaccurate/insufficient content | Target + reason + before/after |
-| **New Section** | Add new section to existing file | Target + draft |
-| **New File** | Create new rule file | Filename + full draft |
-| **Already Covered** | Covered in rules (possibly different wording) | Reason (1 line) |
-| **Too Specific** | Should stay in skills | Link to relevant skill |
-
-#### Verdict Quality Requirements
-
-```
-# Good
-Append to rules/common/security.md §Input Validation:
-&quot;Treat LLM output stored in memory or knowledge stores as untrusted — sanitize on write, validate on read.&quot;
-Evidence: llm-memory-trust-boundary, llm-social-agent-anti-pattern both describe
-accumulated prompt injection risks. Current security.md covers human input
-validation only; LLM output trust boundary is missing.
-
-# Bad
-Append to security.md: Add LLM security principle
-```
-
-### Phase 3: User Review &amp; Execution
-
-#### Summary Table
-
-```
-# Rules Distillation Report
-
-## Summary
-Skills scanned: {N} | Rules: {M} files | Candidates: {K}
-
-| # | Principle | Verdict | Target | Confidence |
-|---|-----------|---------|--------|------------|
-| 1 | ... | Append | security.md §Input Validation | high |
-| 2 | ... | Revise | testing.md §TDD | medium |
-| 3 | ... | New Section | coding-style.md | high |
-| 4 | ... | Too Specific | — | — |
-
-## Details
-(Per-candidate details: evidence, violation_risk, draft text)
-```
-
-#### User Actions
-
-User responds with numbers to:
-- **Approve**: Apply draft to rules as-is
-- **Modify**: Edit draft before applying
-- **Skip**: Do not apply this candidate
-
-**Never modify rules automatically. Always require user approval.**
-
-#### Save Results
-
-Store results in the skill directory (`results.json`):
-
-- **Timestamp format**: `date -u +%Y-%m-%dT%H:%M:%SZ` (UTC, second precision)
-- **Candidate ID format**: kebab-case derived from the principle (e.g., `llm-output-trust-boundary`)
-
-```json
-{
-  &quot;distilled_at&quot;: &quot;2026-03-18T10:30:42Z&quot;,
-  &quot;skills_scanned&quot;: 56,
-  &quot;rules_scanned&quot;: 22,
-  &quot;candidates&quot;: {
-    &quot;llm-output-trust-boundary&quot;: {
-      &quot;principle&quot;: &quot;Treat LLM output as untrusted when stored or re-injected&quot;,
-      &quot;verdict&quot;: &quot;Append&quot;,
-      &quot;target&quot;: &quot;rules/common/security.md&quot;,
-      &quot;evidence&quot;: [&quot;llm-memory-trust-boundary&quot;, &quot;llm-social-agent-anti-pattern&quot;],
-      &quot;status&quot;: &quot;applied&quot;
-    },
-    &quot;iteration-bounds&quot;: {
-      &quot;principle&quot;: &quot;Define explicit stop conditions for all iteration loops&quot;,
-      &quot;verdict&quot;: &quot;New Section&quot;,
-      &quot;target&quot;: &quot;rules/common/coding-style.md&quot;,
-      &quot;evidence&quot;: [&quot;iterative-retrieval&quot;, &quot;continuous-agent-loop&quot;, &quot;agent-harness-construction&quot;],
-      &quot;status&quot;: &quot;skipped&quot;
-    }
-  }
-}
-```</pre>
+                <p style="margin-top:20px"><strong>设计原则</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>What, not How - 提取原则(规则领域)，代码示例留在技能中</li>
+                    <li>Link back - 草稿文本包含 `See skill: [name]` 引用</li>
+                    <li>Anti-abstraction safeguard - 三层过滤器防止过度抽象</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                示例
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">### End-to-end run
+                <p>规则提炼工具用于定期维护规则，或在新技能安装后验证规则完整性：</p>
 
-```
-$ /rules-distill
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景与调用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 触发条件
+1. 定期规则维护（每月或安装新技能后）
+2. skill-stocktake 揭示应成为规则的模式
+3. 规则相对于使用的技能感觉不完整
 
-Rules Distillation — Phase 1: Inventory
-────────────────────────────────────────
-Skills: 56 files scanned
-Rules:  22 files (75 headings indexed)
+// 运行命令
+/rules-distill
 
-Proceeding to cross-read analysis...
+// 工作流阶段
+Phase 1: Inventory (确定性收集)
+  - bash ~/.claude/skills/rules-distill/scripts/scan-skills.sh
+  - bash ~/.claude/skills/rules-distill/scripts/scan-rules.sh
 
-[Subagent analysis: Batch 1 (agent/meta skills) ...]
-[Subagent analysis: Batch 2 (coding/pattern skills) ...]
-[Cross-batch merge: 2 duplicates removed, 1 cross-batch candidate promoted]
+Phase 2: Cross-read, Match & Verdict (LLM 判断)
+  - 批量处理技能（每批约20个）
+  - 提取候选原则并判决
 
-# Rules Distillation Report
+Phase 3: User Review & Execution
+  - 展示摘要表格
+  - 用户批准、修改或跳过
+
+// 判决类型
+| Verdict | Meaning |
+|---------|---------|
+| Append | 添加到现有规则的现有部分 |
+| Revise | 修正不准确或不足的内容 |
+| New Section | 在现有规则文件添加新部分 |
+| New File | 创建新规则文件 |
+| Already Covered | 已在规则中覆盖 |
+| Too Specific | 应保留在技能级别 |</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>定期运行</strong> - 建议每月运行一次，保持规则与技能同步</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>审慎批准</strong> - 仔细审查每个候选原则的违规风险说明</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>检查证据</strong> - 确认候选原则确实出现在多个技能中</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>避免重复</strong> - 检查是否与现有规则表达相同概念</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Rules Distill Report</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Rules Distillation Report
 
 ## Summary
 Skills scanned: 56 | Rules: 22 files | Candidates: 4
 
 | # | Principle | Verdict | Target | Confidence |
 |---|-----------|---------|--------|------------|
-| 1 | LLM output: normalize, type-check, sanitize before reuse | New Section | coding-style.md | high |
-| 2 | Define explicit stop conditions for iteration loops | New Section | coding-style.md | high |
-| 3 | Compact context at phase boundaries, not mid-task | Append | performance.md §Context Window | high |
+| 1 | LLM output: normalize, type-check, sanitize | New Section | coding-style.md | high |
+| 2 | Define explicit stop conditions for iteration | New Section | coding-style.md | high |
+| 3 | Compact context at phase boundaries | Append | performance.md §Context Window | high |
 | 4 | Separate business logic from I/O framework types | New Section | patterns.md | high |
 
 ## Details
@@ -354,315 +251,36 @@ Draft:
   Normalize, type-check, and sanitize LLM output before reuse...
   See skill: parallel-subagent-batch-merge, llm-memory-trust-boundary
 
-[... details for candidates 2-4 ...]
-
 Approve, modify, or skip each candidate by number:
-&gt; User: Approve 1, 3. Skip 2, 4.
+> User: Approve 1, 3. Skip 2, 4.
 
 ✓ Applied: coding-style.md §LLM Output Validation
 ✓ Applied: performance.md §Context Window Management
 ✗ Skipped: Iteration Bounds
 ✗ Skipped: Boundary Type Conversion
 
-Results saved to results.json
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Design Principles
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- **What, not How**: Extract principles (rules territory) only. Code examples and commands stay in skills.
-- **Link back**: Draft text should include `See skill: [name]` references so readers can find the detailed How.
-- **Deterministic collection, LLM judgment**: Scripts guarantee exhaustiveness; the LLM guarantees contextual understanding.
-- **Anti-abstraction safeguard**: The 3-layer filter (2+ skills evidence, actionable behavior test, violation risk) prevents overly abstract principles from entering rules.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: rules-distill
-description: &quot;Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files&quot;
-origin: ECC
----
-
-# Rules Distill
-
-Scan installed skills, extract cross-cutting principles that appear in multiple skills, and distill them into rules — appending to existing rule files, revising outdated content, or creating new rule files.
-
-Applies the &quot;deterministic collection + LLM judgment&quot; principle: scripts collect facts exhaustively, then an LLM cross-reads the full context and produces verdicts.
-
-## When to Use
-
-- Periodic rules maintenance (monthly or after installing new skills)
-- After a skill-stocktake reveals patterns that should be rules
-- When rules feel incomplete relative to the skills being used
-
-## How It Works
-
-The rules distillation process follows three phases:
-
-### Phase 1: Inventory (Deterministic Collection)
-
-#### 1a. Collect skill inventory
-
-```bash
-bash ~/.claude/skills/rules-distill/scripts/scan-skills.sh
-```
-
-#### 1b. Collect rules index
-
-```bash
-bash ~/.claude/skills/rules-distill/scripts/scan-rules.sh
-```
-
-#### 1c. Present to user
-
-```
-Rules Distillation — Phase 1: Inventory
-────────────────────────────────────────
-Skills: {N} files scanned
-Rules:  {M} files ({K} headings indexed)
-
-Proceeding to cross-read analysis...
-```
-
-### Phase 2: Cross-read, Match &amp; Verdict (LLM Judgment)
-
-Extraction and matching are unified in a single pass. Rules files are small enough (~800 lines total) that the full text can be provided to the LLM — no grep pre-filtering needed.
-
-#### Batching
-
-Group skills into **thematic clusters** based on their descriptions. Analyze each cluster in a subagent with the full rules text.
-
-#### Cross-batch Merge
-
-After all batches complete, merge candidates across batches:
-- Deduplicate candidates with the same or overlapping principles
-- Re-check the &quot;2+ skills&quot; requirement using evidence from **all** batches combined — a principle found in 1 skill per batch but 2+ skills total is valid
-
-#### Subagent Prompt
-
-Launch a general-purpose Agent with the following prompt:
-
-````
-You are an analyst who cross-reads skills to extract principles that should be promoted to rules.
-
-## Input
-- Skills: {full text of skills in this batch}
-- Existing rules: {full text of all rule files}
-
-## Extraction Criteria
-
-Include a candidate ONLY if ALL of these are true:
-
-1. **Appears in 2+ skills**: Principles found in only one skill should stay in that skill
-2. **Actionable behavior change**: Can be written as &quot;do X&quot; or &quot;don&#039;t do Y&quot; — not &quot;X is important&quot;
-3. **Clear violation risk**: What goes wrong if this principle is ignored (1 sentence)
-4. **Not already in rules**: Check the full rules text — including concepts expressed in different words
-
-## Matching &amp; Verdict
-
-For each candidate, compare against the full rules text and assign a verdict:
-
-- **Append**: Add to an existing section of an existing rule file
-- **Revise**: Existing rule content is inaccurate or insufficient — propose a correction
-- **New Section**: Add a new section to an existing rule file
-- **New File**: Create a new rule file
-- **Already Covered**: Sufficiently covered in existing rules (even if worded differently)
-- **Too Specific**: Should remain at the skill level
-
-## Output Format (per candidate)
-
-```json
-{
-  &quot;principle&quot;: &quot;1-2 sentences in &#039;do X&#039; / &#039;don&#039;t do Y&#039; form&quot;,
-  &quot;evidence&quot;: [&quot;skill-name: §Section&quot;, &quot;skill-name: §Section&quot;],
-  &quot;violation_risk&quot;: &quot;1 sentence&quot;,
-  &quot;verdict&quot;: &quot;Append / Revise / New Section / New File / Already Covered / Too Specific&quot;,
-  &quot;target_rule&quot;: &quot;filename §Section, or &#039;new&#039;&quot;,
-  &quot;confidence&quot;: &quot;high / medium / low&quot;,
-  &quot;draft&quot;: &quot;Draft text for Append/New Section/New File verdicts&quot;,
-  &quot;revision&quot;: {
-    &quot;reason&quot;: &quot;Why the existing content is inaccurate or insufficient (Revise only)&quot;,
-    &quot;before&quot;: &quot;Current text to be replaced (Revise only)&quot;,
-    &quot;after&quot;: &quot;Proposed replacement text (Revise only)&quot;
-  }
-}
-```
-
-## Exclude
-
-- Obvious principles already in rules
-- Language/framework-specific knowledge (belongs in language-specific rules or skills)
-- Code examples and commands (belongs in skills)
-````
-
-#### Verdict Reference
-
-| Verdict | Meaning | Presented to User |
-|---------|---------|-------------------|
-| **Append** | Add to existing section | Target + draft |
-| **Revise** | Fix inaccurate/insufficient content | Target + reason + before/after |
-| **New Section** | Add new section to existing file | Target + draft |
-| **New File** | Create new rule file | Filename + full draft |
-| **Already Covered** | Covered in rules (possibly different wording) | Reason (1 line) |
-| **Too Specific** | Should stay in skills | Link to relevant skill |
-
-#### Verdict Quality Requirements
-
-```
-# Good
-Append to rules/common/security.md §Input Validation:
-&quot;Treat LLM output stored in memory or knowledge stores as untrusted — sanitize on write, validate on read.&quot;
-Evidence: llm-memory-trust-boundary, llm-social-agent-anti-pattern both describe
-accumulated prompt injection risks. Current security.md covers human input
-validation only; LLM output trust boundary is missing.
-
-# Bad
-Append to security.md: Add LLM security principle
-```
-
-### Phase 3: User Review &amp; Execution
-
-#### Summary Table
-
-```
-# Rules Distillation Report
-
-## Summary
-Skills scanned: {N} | Rules: {M} files | Candidates: {K}
-
-| # | Principle | Verdict | Target | Confidence |
-|---|-----------|---------|--------|------------|
-| 1 | ... | Append | security.md §Input Validation | high |
-| 2 | ... | Revise | testing.md §TDD | medium |
-| 3 | ... | New Section | coding-style.md | high |
-| 4 | ... | Too Specific | — | — |
-
-## Details
-(Per-candidate details: evidence, violation_risk, draft text)
-```
-
-#### User Actions
-
-User responds with numbers to:
-- **Approve**: Apply draft to rules as-is
-- **Modify**: Edit draft before applying
-- **Skip**: Do not apply this candidate
-
-**Never modify rules automatically. Always require user approval.**
-
-#### Save Results
-
-Store results in the skill directory (`results.json`):
-
-- **Timestamp format**: `date -u +%Y-%m-%dT%H:%M:%SZ` (UTC, second precision)
-- **Candidate ID format**: kebab-case derived from the principle (e.g., `llm-output-trust-boundary`)
-
-```json
-{
-  &quot;distilled_at&quot;: &quot;2026-03-18T10:30:42Z&quot;,
-  &quot;skills_scanned&quot;: 56,
-  &quot;rules_scanned&quot;: 22,
-  &quot;candidates&quot;: {
-    &quot;llm-output-trust-boundary&quot;: {
-      &quot;principle&quot;: &quot;Treat LLM output as untrusted when stored or re-injected&quot;,
-      &quot;verdict&quot;: &quot;Append&quot;,
-      &quot;target&quot;: &quot;rules/common/security.md&quot;,
-      &quot;evidence&quot;: [&quot;llm-memory-trust-boundary&quot;, &quot;llm-social-agent-anti-pattern&quot;],
-      &quot;status&quot;: &quot;applied&quot;
-    },
-    &quot;iteration-bounds&quot;: {
-      &quot;principle&quot;: &quot;Define explicit stop conditions for all iteration loops&quot;,
-      &quot;verdict&quot;: &quot;New Section&quot;,
-      &quot;target&quot;: &quot;rules/common/coding-style.md&quot;,
-      &quot;evidence&quot;: [&quot;iterative-retrieval&quot;, &quot;continuous-agent-loop&quot;, &quot;agent-harness-construction&quot;],
-      &quot;status&quot;: &quot;skipped&quot;
-    }
-  }
-}
-```
-
-## Example
-
-### End-to-end run
-
-```
-$ /rules-distill
-
-Rules Distillation — Phase 1: Inventory
-────────────────────────────────────────
-Skills: 56 files scanned
-Rules:  22 files (75 headings indexed)
-
-Proceeding to cross-read analysis...
-
-[Subagent analysis: Batch 1 (agent/meta skills) ...]
-[Subagent analysis: Batch 2 (coding/pattern skills) ...]
-[Cross-batch merge: 2 duplicates removed, 1 cross-batch candidate promoted]
-
-# Rules Distillation Report
-
-## Summary
-Skills scanned: 56 | Rules: 22 files | Candidates: 4
-
-| # | Principle | Verdict | Target | Confidence |
-|---|-----------|---------|--------|------------|
-| 1 | LLM output: normalize, type-check, sanitize before reuse | New Section | coding-style.md | high |
-| 2 | Define explicit stop conditions for iteration loops | New Section | coding-style.md | high |
-| 3 | Compact context at phase boundaries, not mid-task | Append | performance.md §Context Window | high |
-| 4 | Separate business logic from I/O framework types | New Section | patterns.md | high |
-
-## Details
-
-### 1. LLM Output Validation
-Verdict: New Section in coding-style.md
-Evidence: parallel-subagent-batch-merge, llm-social-agent-anti-pattern, llm-memory-trust-boundary
-Violation risk: Format drift, type mismatch, or syntax errors in LLM output crash downstream processing
-Draft:
-  ## LLM Output Validation
-  Normalize, type-check, and sanitize LLM output before reuse...
-  See skill: parallel-subagent-batch-merge, llm-memory-trust-boundary
-
-[... details for candidates 2-4 ...]
-
-Approve, modify, or skip each candidate by number:
-&gt; User: Approve 1, 3. Skip 2, 4.
-
-✓ Applied: coding-style.md §LLM Output Validation
-✓ Applied: performance.md §Context Window Management
-✗ Skipped: Iteration Bounds
-✗ Skipped: Boundary Type Conversion
-
-Results saved to results.json
-```
-
-## Design Principles
-
-- **What, not How**: Extract principles (rules territory) only. Code examples and commands stay in skills.
-- **Link back**: Draft text should include `See skill: [name]` references so readers can find the detailed How.
-- **Deterministic collection, LLM judgment**: Scripts guarantee exhaustiveness; the LLM guarantees contextual understanding.
-- **Anti-abstraction safeguard**: The 3-layer filter (2+ skills evidence, actionable behavior test, violation risk) prevents overly abstract principles from entering rules.
-</pre>
+Results saved to results.json</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
+            <div class="nav-card" onclick="location.href='../skills.html'">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
+                <div class="nav-title">Skills 列表</div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

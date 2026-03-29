@@ -8,7 +8,7 @@
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,56 +26,38 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #10b981; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #10b981; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(16, 185, 129, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #10b981; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(16, 185, 129, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(16, 185, 129, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #10b981; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
         <span class="breadcrumb-current">端到端测试</span>
     </nav>
@@ -83,748 +65,248 @@
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
             </div>
-            <h1 class="detail-title">端到端测试</h1>
-            <p class="detail-subtitle">端到端测试专家，使用Playwright进行关键用户流程的自动化测试</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    local
-                </div>
+            <h1 class="detail-title">端到端测试 (E2E Testing)</h1>
+            <p class="detail-subtitle">使用Playwright进行关键用户流程的自动化测试，确保应用端到端质量</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Testing Skill
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">local</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                测试文件组织
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">```
-tests/
-├── e2e/
-│   ├── auth/
-│   │   ├── login.spec.ts
-│   │   ├── logout.spec.ts
-│   │   └── register.spec.ts
-│   ├── features/
-│   │   ├── browse.spec.ts
-│   │   ├── search.spec.ts
-│   │   └── create.spec.ts
-│   └── api/
-│       └── endpoints.spec.ts
-├── fixtures/
-│   ├── auth.ts
-│   └── data.ts
-└── playwright.config.ts
-```</pre>
+                <p>E2E Testing Skill 是端到端测试专家，使用Playwright进行关键用户流程的自动化测试，确保应用在真实浏览器环境中的质量。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Page Object Model</h4>
+                            <p class="feature-desc">封装页面元素和操作，提高测试代码可维护性和可复用性</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">多浏览器支持</h4>
+                            <p class="feature-desc">支持Chromium、Firefox、WebKit以及移动设备模拟器</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">自动等待机制</h4>
+                            <p class="feature-desc">智能等待元素状态，避免竞态条件和脆弱测试</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">CI/CD集成</h4>
+                            <p class="feature-desc">与GitHub Actions等CI平台无缝集成，生成HTML和JSON报告</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Page Object Model (POM)
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">```typescript
-import { Page, Locator } from &#039;@playwright/test&#039;
+                <p>E2E测试模拟真实用户行为，在真实浏览器中验证完整的用户流程。</p>
+
+                <p style="margin-top:20px"><strong>Playwright核心特性</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>自动等待</strong>: 智能等待元素可交互，无需手动sleep</li>
+                    <li><strong>网络拦截</strong>: 模拟API响应，测试边界情况</li>
+                    <li><strong>并行执行</strong>: 多测试并行运行，加速反馈周期</li>
+                    <li><strong>追踪调试</strong>: 自动截图、录像、trace文件</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>反模式警示</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>避免任意超时：使用waitForResponse替代waitForTimeout</li>
+                    <li>避免脆弱选择器：优先使用data-testid属性</li>
+                    <li>避免测试依赖：每个测试应独立运行</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <p>E2E Testing Skill 在开发关键功能、验证用户流程、集成测试时主动触发：</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景与调用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// Page Object Model示例
+// pages/ItemsPage.ts
+import { Page, Locator } from '@playwright/test'
 
 export class ItemsPage {
   readonly page: Page
   readonly searchInput: Locator
   readonly itemCards: Locator
-  readonly createButton: Locator
 
   constructor(page: Page) {
     this.page = page
-    this.searchInput = page.locator(&#039;[data-testid=&quot;search-input&quot;]&#039;)
-    this.itemCards = page.locator(&#039;[data-testid=&quot;item-card&quot;]&#039;)
-    this.createButton = page.locator(&#039;[data-testid=&quot;create-btn&quot;]&#039;)
+    this.searchInput = page.locator('[data-testid="search-input"]')
+    this.itemCards = page.locator('[data-testid="item-card"]')
   }
 
   async goto() {
-    await this.page.goto(&#039;/items&#039;)
-    await this.page.waitForLoadState(&#039;networkidle&#039;)
+    await this.page.goto('/items')
+    await this.page.waitForLoadState('networkidle')
   }
 
   async search(query: string) {
     await this.searchInput.fill(query)
-    await this.page.waitForResponse(resp =&gt; resp.url().includes(&#039;/api/search&#039;))
-    await this.page.waitForLoadState(&#039;networkidle&#039;)
-  }
-
-  async getItemCount() {
-    return await this.itemCards.count()
+    await this.page.waitForResponse(resp =>
+      resp.url().includes('/api/search')
+    )
   }
 }
-```</pre>
+
+// 测试文件
+// tests/e2e/search.spec.ts
+import { test, expect } from '@playwright/test'
+import { ItemsPage } from '../pages/ItemsPage'
+
+test('should search by keyword', async ({ page }) => {
+  const itemsPage = new ItemsPage(page)
+  await itemsPage.goto()
+  await itemsPage.search('test')
+
+  const count = await itemsPage.itemCards.count()
+  expect(count).toBeGreaterThan(0)
+})</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Test Structure
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">```typescript
-import { test, expect } from &#039;@playwright/test&#039;
-import { ItemsPage } from &#039;../../pages/ItemsPage&#039;
-
-test.describe(&#039;Item Search&#039;, () =&gt; {
-  let itemsPage: ItemsPage
-
-  test.beforeEach(async ({ page }) =&gt; {
-    itemsPage = new ItemsPage(page)
-    await itemsPage.goto()
-  })
-
-  test(&#039;should search by keyword&#039;, async ({ page }) =&gt; {
-    await itemsPage.search(&#039;test&#039;)
-
-    const count = await itemsPage.getItemCount()
-    expect(count).toBeGreaterThan(0)
-
-    await expect(itemsPage.itemCards.first()).toContainText(/test/i)
-    await page.screenshot({ path: &#039;artifacts/search-results.png&#039; })
-  })
-
-  test(&#039;should handle no results&#039;, async ({ page }) =&gt; {
-    await itemsPage.search(&#039;xyznonexistent123&#039;)
-
-    await expect(page.locator(&#039;[data-testid=&quot;no-results&quot;]&#039;)).toBeVisible()
-    expect(await itemsPage.getItemCount()).toBe(0)
-  })
-})
-```</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>使用data-testid</strong> - 为测试元素添加稳定的测试ID，避免依赖易变的CSS类名</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>等待特定条件</strong> - 使用waitForResponse替代waitForTimeout，确保网络请求完成</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>隔离测试数据</strong> - 每个测试使用独立的测试数据，避免测试间相互影响</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>保留失败证据</strong> - 配置screenshot和video在失败时保留，便于调试</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Playwright Configuration
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">```typescript
-import { defineConfig, devices } from &#039;@playwright/test&#039;
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Playwright配置与测试报告</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># E2E Test Report
 
-export default defineConfig({
-  testDir: &#039;./tests/e2e&#039;,
-  fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: [
-    [&#039;html&#039;, { outputFolder: &#039;playwright-report&#039; }],
-    [&#039;junit&#039;, { outputFile: &#039;playwright-results.xml&#039; }],
-    [&#039;json&#039;, { outputFile: &#039;playwright-results.json&#039; }]
-  ],
-  use: {
-    baseURL: process.env.BASE_URL || &#039;http://localhost:3000&#039;,
-    trace: &#039;on-first-retry&#039;,
-    screenshot: &#039;only-on-failure&#039;,
-    video: &#039;retain-on-failure&#039;,
-    actionTimeout: 10000,
-    navigationTimeout: 30000,
-  },
-  projects: [
-    { name: &#039;chromium&#039;, use: { ...devices[&#039;Desktop Chrome&#039;] } },
-    { name: &#039;firefox&#039;, use: { ...devices[&#039;Desktop Firefox&#039;] } },
-    { name: &#039;webkit&#039;, use: { ...devices[&#039;Desktop Safari&#039;] } },
-    { name: &#039;mobile-chrome&#039;, use: { ...devices[&#039;Pixel 5&#039;] } },
-  ],
-  webServer: {
-    command: &#039;npm run dev&#039;,
-    url: &#039;http://localhost:3000&#039;,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
-})
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Flaky Test Patterns
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Quarantine
-
-```typescript
-test(&#039;flaky: complex search&#039;, async ({ page }) =&gt; {
-  test.fixme(true, &#039;Flaky - Issue #123&#039;)
-  // test code...
-})
-
-test(&#039;conditional skip&#039;, async ({ page }) =&gt; {
-  test.skip(process.env.CI, &#039;Flaky in CI - Issue #123&#039;)
-  // test code...
-})
-```
-
-### Identify Flakiness
-
-```bash
-npx playwright test tests/search.spec.ts --repeat-each=10
-npx playwright test tests/search.spec.ts --retries=3
-```
-
-### Common Causes &amp; Fixes
-
-**Race conditions:**
-```typescript
-// Bad: assumes element is ready
-await page.click(&#039;[data-testid=&quot;button&quot;]&#039;)
-
-// Good: auto-wait locator
-await page.locator(&#039;[data-testid=&quot;button&quot;]&#039;).click()
-```
-
-**Network timing:**
-```typescript
-// Bad: arbitrary timeout
-await page.waitForTimeout(5000)
-
-// Good: wait for specific condition
-await page.waitForResponse(resp =&gt; resp.url().includes(&#039;/api/data&#039;))
-```
-
-**Animation timing:**
-```typescript
-// Bad: click during animation
-await page.click(&#039;[data-testid=&quot;menu-item&quot;]&#039;)
-
-// Good: wait for stability
-await page.locator(&#039;[data-testid=&quot;menu-item&quot;]&#039;).waitFor({ state: &#039;visible&#039; })
-await page.waitForLoadState(&#039;networkidle&#039;)
-await page.locator(&#039;[data-testid=&quot;menu-item&quot;]&#039;).click()
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Artifact Management
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Screenshots
-
-```typescript
-await page.screenshot({ path: &#039;artifacts/after-login.png&#039; })
-await page.screenshot({ path: &#039;artifacts/full-page.png&#039;, fullPage: true })
-await page.locator(&#039;[data-testid=&quot;chart&quot;]&#039;).screenshot({ path: &#039;artifacts/chart.png&#039; })
-```
-
-### Traces
-
-```typescript
-await browser.startTracing(page, {
-  path: &#039;artifacts/trace.json&#039;,
-  screenshots: true,
-  snapshots: true,
-})
-// ... test actions ...
-await browser.stopTracing()
-```
-
-### Video
-
-```typescript
-// In playwright.config.ts
-use: {
-  video: &#039;retain-on-failure&#039;,
-  videosPath: &#039;artifacts/videos/&#039;
-}
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                CI/CD Integration
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```yaml
-# .github/workflows/e2e.yml
-name: E2E Tests
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npx playwright install --with-deps
-      - run: npx playwright test
-        env:
-          BASE_URL: ${{ vars.STAGING_URL }}
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Test Report Template
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```markdown
-# E2E Test Report
-
-**Date:** YYYY-MM-DD HH:MM
-**Duration:** Xm Ys
-**Status:** PASSING / FAILING
+**Date:** 2026-03-29 15:30
+**Duration:** 2m 45s
+**Status:** PASSING
 
 ## Summary
-- Total: X | Passed: Y (Z%) | Failed: A | Flaky: B | Skipped: C
+- Total: 24 | Passed: 22 (92%) | Failed: 0 | Skipped: 2
 
-## Failed Tests
-
-### test-name
-**File:** `tests/e2e/feature.spec.ts:45`
-**Error:** Expected element to be visible
-**Screenshot:** artifacts/failed.png
-**Recommended Fix:** [description]
+## Test Results by Browser
+| Browser | Passed | Failed | Duration |
+|---------|--------|--------|----------|
+| Chromium | 22 | 0 | 45s |
+| Firefox | 22 | 0 | 52s |
+| WebKit | 22 | 0 | 48s |
 
 ## Artifacts
 - HTML Report: playwright-report/index.html
 - Screenshots: artifacts/*.png
 - Videos: artifacts/videos/*.webm
-- Traces: artifacts/*.zip
-```</pre>
-            </div>
-        </section>
+- Traces: artifacts/traces/*.zip
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Wallet / Web3 Testing
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```typescript
-test(&#039;wallet connection&#039;, async ({ page, context }) =&gt; {
-  // Mock wallet provider
-  await context.addInitScript(() =&gt; {
-    window.ethereum = {
-      isMetaMask: true,
-      request: async ({ method }) =&gt; {
-        if (method === &#039;eth_requestAccounts&#039;)
-          return [&#039;0x1234567890123456789012345678901234567890&#039;]
-        if (method === &#039;eth_chainId&#039;) return &#039;0x1&#039;
-      }
-    }
-  })
-
-  await page.goto(&#039;/&#039;)
-  await page.locator(&#039;[data-testid=&quot;connect-wallet&quot;]&#039;).click()
-  await expect(page.locator(&#039;[data-testid=&quot;wallet-address&quot;]&#039;)).toContainText(&#039;0x1234&#039;)
-})
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Financial / Critical Flow Testing
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```typescript
-test(&#039;trade execution&#039;, async ({ page }) =&gt; {
-  // Skip on production — real money
-  test.skip(process.env.NODE_ENV === &#039;production&#039;, &#039;Skip on production&#039;)
-
-  await page.goto(&#039;/markets/test-market&#039;)
-  await page.locator(&#039;[data-testid=&quot;position-yes&quot;]&#039;).click()
-  await page.locator(&#039;[data-testid=&quot;trade-amount&quot;]&#039;).fill(&#039;1.0&#039;)
-
-  // Verify preview
-  const preview = page.locator(&#039;[data-testid=&quot;trade-preview&quot;]&#039;)
-  await expect(preview).toContainText(&#039;1.0&#039;)
-
-  // Confirm and wait for blockchain
-  await page.locator(&#039;[data-testid=&quot;confirm-trade&quot;]&#039;).click()
-  await page.waitForResponse(
-    resp =&gt; resp.url().includes(&#039;/api/trade&#039;) &amp;&amp; resp.status() === 200,
-    { timeout: 30000 }
-  )
-
-  await expect(page.locator(&#039;[data-testid=&quot;trade-success&quot;]&#039;)).toBeVisible()
-})
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: e2e-testing
-description: Playwright E2E testing patterns, Page Object Model, configuration, CI/CD integration, artifact management, and flaky test strategies.
-origin: ECC
----
-
-# E2E Testing Patterns
-
-Comprehensive Playwright patterns for building stable, fast, and maintainable E2E test suites.
-
-## Test File Organization
-
-```
-tests/
-├── e2e/
-│   ├── auth/
-│   │   ├── login.spec.ts
-│   │   ├── logout.spec.ts
-│   │   └── register.spec.ts
-│   ├── features/
-│   │   ├── browse.spec.ts
-│   │   ├── search.spec.ts
-│   │   └── create.spec.ts
-│   └── api/
-│       └── endpoints.spec.ts
-├── fixtures/
-│   ├── auth.ts
-│   └── data.ts
-└── playwright.config.ts
-```
-
-## Page Object Model (POM)
-
+## Playwright配置示例
 ```typescript
-import { Page, Locator } from &#039;@playwright/test&#039;
-
-export class ItemsPage {
-  readonly page: Page
-  readonly searchInput: Locator
-  readonly itemCards: Locator
-  readonly createButton: Locator
-
-  constructor(page: Page) {
-    this.page = page
-    this.searchInput = page.locator(&#039;[data-testid=&quot;search-input&quot;]&#039;)
-    this.itemCards = page.locator(&#039;[data-testid=&quot;item-card&quot;]&#039;)
-    this.createButton = page.locator(&#039;[data-testid=&quot;create-btn&quot;]&#039;)
-  }
-
-  async goto() {
-    await this.page.goto(&#039;/items&#039;)
-    await this.page.waitForLoadState(&#039;networkidle&#039;)
-  }
-
-  async search(query: string) {
-    await this.searchInput.fill(query)
-    await this.page.waitForResponse(resp =&gt; resp.url().includes(&#039;/api/search&#039;))
-    await this.page.waitForLoadState(&#039;networkidle&#039;)
-  }
-
-  async getItemCount() {
-    return await this.itemCards.count()
-  }
-}
-```
-
-## Test Structure
-
-```typescript
-import { test, expect } from &#039;@playwright/test&#039;
-import { ItemsPage } from &#039;../../pages/ItemsPage&#039;
-
-test.describe(&#039;Item Search&#039;, () =&gt; {
-  let itemsPage: ItemsPage
-
-  test.beforeEach(async ({ page }) =&gt; {
-    itemsPage = new ItemsPage(page)
-    await itemsPage.goto()
-  })
-
-  test(&#039;should search by keyword&#039;, async ({ page }) =&gt; {
-    await itemsPage.search(&#039;test&#039;)
-
-    const count = await itemsPage.getItemCount()
-    expect(count).toBeGreaterThan(0)
-
-    await expect(itemsPage.itemCards.first()).toContainText(/test/i)
-    await page.screenshot({ path: &#039;artifacts/search-results.png&#039; })
-  })
-
-  test(&#039;should handle no results&#039;, async ({ page }) =&gt; {
-    await itemsPage.search(&#039;xyznonexistent123&#039;)
-
-    await expect(page.locator(&#039;[data-testid=&quot;no-results&quot;]&#039;)).toBeVisible()
-    expect(await itemsPage.getItemCount()).toBe(0)
-  })
-})
-```
-
-## Playwright Configuration
-
-```typescript
-import { defineConfig, devices } from &#039;@playwright/test&#039;
+import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
-  testDir: &#039;./tests/e2e&#039;,
+  testDir: './tests/e2e',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
   reporter: [
-    [&#039;html&#039;, { outputFolder: &#039;playwright-report&#039; }],
-    [&#039;junit&#039;, { outputFile: &#039;playwright-results.xml&#039; }],
-    [&#039;json&#039;, { outputFile: &#039;playwright-results.json&#039; }]
+    ['html', { outputFolder: 'playwright-report' }],
+    ['json', { outputFile: 'playwright-results.json' }]
   ],
   use: {
-    baseURL: process.env.BASE_URL || &#039;http://localhost:3000&#039;,
-    trace: &#039;on-first-retry&#039;,
-    screenshot: &#039;only-on-failure&#039;,
-    video: &#039;retain-on-failure&#039;,
-    actionTimeout: 10000,
-    navigationTimeout: 30000,
+    baseURL: 'http://localhost:3000',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure'
   },
   projects: [
-    { name: &#039;chromium&#039;, use: { ...devices[&#039;Desktop Chrome&#039;] } },
-    { name: &#039;firefox&#039;, use: { ...devices[&#039;Desktop Firefox&#039;] } },
-    { name: &#039;webkit&#039;, use: { ...devices[&#039;Desktop Safari&#039;] } },
-    { name: &#039;mobile-chrome&#039;, use: { ...devices[&#039;Pixel 5&#039;] } },
-  ],
-  webServer: {
-    command: &#039;npm run dev&#039;,
-    url: &#039;http://localhost:3000&#039;,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } }
+  ]
 })
-```
-
-## Flaky Test Patterns
-
-### Quarantine
-
-```typescript
-test(&#039;flaky: complex search&#039;, async ({ page }) =&gt; {
-  test.fixme(true, &#039;Flaky - Issue #123&#039;)
-  // test code...
-})
-
-test(&#039;conditional skip&#039;, async ({ page }) =&gt; {
-  test.skip(process.env.CI, &#039;Flaky in CI - Issue #123&#039;)
-  // test code...
-})
-```
-
-### Identify Flakiness
-
-```bash
-npx playwright test tests/search.spec.ts --repeat-each=10
-npx playwright test tests/search.spec.ts --retries=3
-```
-
-### Common Causes &amp; Fixes
-
-**Race conditions:**
-```typescript
-// Bad: assumes element is ready
-await page.click(&#039;[data-testid=&quot;button&quot;]&#039;)
-
-// Good: auto-wait locator
-await page.locator(&#039;[data-testid=&quot;button&quot;]&#039;).click()
-```
-
-**Network timing:**
-```typescript
-// Bad: arbitrary timeout
-await page.waitForTimeout(5000)
-
-// Good: wait for specific condition
-await page.waitForResponse(resp =&gt; resp.url().includes(&#039;/api/data&#039;))
-```
-
-**Animation timing:**
-```typescript
-// Bad: click during animation
-await page.click(&#039;[data-testid=&quot;menu-item&quot;]&#039;)
-
-// Good: wait for stability
-await page.locator(&#039;[data-testid=&quot;menu-item&quot;]&#039;).waitFor({ state: &#039;visible&#039; })
-await page.waitForLoadState(&#039;networkidle&#039;)
-await page.locator(&#039;[data-testid=&quot;menu-item&quot;]&#039;).click()
-```
-
-## Artifact Management
-
-### Screenshots
-
-```typescript
-await page.screenshot({ path: &#039;artifacts/after-login.png&#039; })
-await page.screenshot({ path: &#039;artifacts/full-page.png&#039;, fullPage: true })
-await page.locator(&#039;[data-testid=&quot;chart&quot;]&#039;).screenshot({ path: &#039;artifacts/chart.png&#039; })
-```
-
-### Traces
-
-```typescript
-await browser.startTracing(page, {
-  path: &#039;artifacts/trace.json&#039;,
-  screenshots: true,
-  snapshots: true,
-})
-// ... test actions ...
-await browser.stopTracing()
-```
-
-### Video
-
-```typescript
-// In playwright.config.ts
-use: {
-  video: &#039;retain-on-failure&#039;,
-  videosPath: &#039;artifacts/videos/&#039;
-}
-```
-
-## CI/CD Integration
-
-```yaml
-# .github/workflows/e2e.yml
-name: E2E Tests
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npx playwright install --with-deps
-      - run: npx playwright test
-        env:
-          BASE_URL: ${{ vars.STAGING_URL }}
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
-```
-
-## Test Report Template
-
-```markdown
-# E2E Test Report
-
-**Date:** YYYY-MM-DD HH:MM
-**Duration:** Xm Ys
-**Status:** PASSING / FAILING
-
-## Summary
-- Total: X | Passed: Y (Z%) | Failed: A | Flaky: B | Skipped: C
-
-## Failed Tests
-
-### test-name
-**File:** `tests/e2e/feature.spec.ts:45`
-**Error:** Expected element to be visible
-**Screenshot:** artifacts/failed.png
-**Recommended Fix:** [description]
-
-## Artifacts
-- HTML Report: playwright-report/index.html
-- Screenshots: artifacts/*.png
-- Videos: artifacts/videos/*.webm
-- Traces: artifacts/*.zip
-```
-
-## Wallet / Web3 Testing
-
-```typescript
-test(&#039;wallet connection&#039;, async ({ page, context }) =&gt; {
-  // Mock wallet provider
-  await context.addInitScript(() =&gt; {
-    window.ethereum = {
-      isMetaMask: true,
-      request: async ({ method }) =&gt; {
-        if (method === &#039;eth_requestAccounts&#039;)
-          return [&#039;0x1234567890123456789012345678901234567890&#039;]
-        if (method === &#039;eth_chainId&#039;) return &#039;0x1&#039;
-      }
-    }
-  })
-
-  await page.goto(&#039;/&#039;)
-  await page.locator(&#039;[data-testid=&quot;connect-wallet&quot;]&#039;).click()
-  await expect(page.locator(&#039;[data-testid=&quot;wallet-address&quot;]&#039;)).toContainText(&#039;0x1234&#039;)
-})
-```
-
-## Financial / Critical Flow Testing
-
-```typescript
-test(&#039;trade execution&#039;, async ({ page }) =&gt; {
-  // Skip on production — real money
-  test.skip(process.env.NODE_ENV === &#039;production&#039;, &#039;Skip on production&#039;)
-
-  await page.goto(&#039;/markets/test-market&#039;)
-  await page.locator(&#039;[data-testid=&quot;position-yes&quot;]&#039;).click()
-  await page.locator(&#039;[data-testid=&quot;trade-amount&quot;]&#039;).fill(&#039;1.0&#039;)
-
-  // Verify preview
-  const preview = page.locator(&#039;[data-testid=&quot;trade-preview&quot;]&#039;)
-  await expect(preview).toContainText(&#039;1.0&#039;)
-
-  // Confirm and wait for blockchain
-  await page.locator(&#039;[data-testid=&quot;confirm-trade&quot;]&#039;).click()
-  await page.waitForResponse(
-    resp =&gt; resp.url().includes(&#039;/api/trade&#039;) &amp;&amp; resp.status() === 200,
-    { timeout: 30000 }
-  )
-
-  await expect(page.locator(&#039;[data-testid=&quot;trade-success&quot;]&#039;)).toBeVisible()
-})
-```
-</pre>
+```</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
+            <div class="nav-card" onclick="location.href='docker-patterns.html'">
+                <div class="nav-label">上一个</div>
+                <div class="nav-title">docker-patterns</div>
+            </div>
+            <div class="nav-card" onclick="location.href='../skills.html'">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
+                <div class="nav-title">Skills 列表</div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

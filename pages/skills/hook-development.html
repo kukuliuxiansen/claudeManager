@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hook开发 - Everything Claude Code</title>
+    <title>Hook Development - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,58 +26,45 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(0, 212, 170, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #00d4aa, #00a888); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #00d4aa; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(0, 212, 170, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(0, 212, 170, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #00d4aa; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; }
+        .nav-card:hover { border-color: rgba(0, 212, 170, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Hook开发</span>
+        <span class="breadcrumb-current">hook-development</span>
     </nav>
 
     <div class="detail-container">
@@ -85,127 +72,237 @@
             <div class="detail-icon">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">Hook开发</h1>
-            <p class="detail-subtitle">Hook开发指南，帮助开发新的Hook</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    plugin-dev
-                </div>
+            <h1 class="detail-title">hook-development</h1>
+            <p class="detail-subtitle">Claude Code插件Hook开发指南，提供事件驱动自动化脚本的完整开发流程</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: API/Tools Skill
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">plugin-dev</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                概述
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">Hooks are event-driven automation scripts that execute in response to Claude Code events. Use hooks to validate operations, enforce policies, add context, and integrate external tools into workflows.
+                <p>hook-development 是 Claude Code 插件 Hook 开发的完整指南，涵盖 Prompt 驱动 Hook、命令 Hook 和各种事件类型的配置。</p>
 
-**Key capabilities:**
-- Validate tool calls before execution (PreToolUse)
-- React to tool results (PostToolUse)
-- Enforce completion standards (Stop, SubagentStop)
-- Load project context (SessionStart)
-- Automate workflows across the development lifecycle</pre>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Prompt 驱动 Hook</h4>
+                            <p class="feature-desc">LLM 驱动的上下文感知验证，支持自然语言推理</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">命令 Hook</h4>
+                            <p class="feature-desc">Bash 脚本确定性检查，用于快速验证和外部工具集成</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">多事件类型</h4>
+                            <p class="feature-desc">PreToolUse、PostToolUse、Stop、SessionStart 等9种事件</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">安全最佳实践</h4>
+                            <p class="feature-desc">输入验证、路径安全、变量引用、超时设置</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Hook Types
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Prompt-Based Hooks (Recommended)
+                <p>Hook 是响应 Claude Code 事件执行的事件驱动自动化脚本，用于验证操作、执行策略、添加上下文和集成外部工具。</p>
 
-Use LLM-driven decision making for context-aware validation:
+                <p style="margin-top:20px"><strong>Hook 事件类型</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>PreToolUse</strong>: 工具执行前 - 验证、修改</li>
+                    <li><strong>PostToolUse</strong>: 工具完成后 - 反馈、日志</li>
+                    <li><strong>Stop</strong>: 代理停止时 - 完整性检查</li>
+                    <li><strong>SessionStart</strong>: 会话开始 - 上下文加载</li>
+                    <li><strong>UserPromptSubmit</strong>: 用户提交 - 上下文、验证</li>
+                </ul>
 
-```json
-{
-  &quot;type&quot;: &quot;prompt&quot;,
-  &quot;prompt&quot;: &quot;Evaluate if this tool use is appropriate: $TOOL_INPUT&quot;,
-  &quot;timeout&quot;: 30
-}
-```
-
-**Supported events:** Stop, SubagentStop, UserPromptSubmit, PreToolUse
-
-**Benefits:**
-- Context-aware decisions based on natural language reasoning
-- Flexible evaluation logic without bash scripting
-- Better edge case handling
-- Easier to maintain and extend
-
-### Command Hooks
-
-Execute bash commands for deterministic checks:
-
-```json
-{
-  &quot;type&quot;: &quot;command&quot;,
-  &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh&quot;,
-  &quot;timeout&quot;: 60
-}
-```
-
-**Use for:**
-- Fast deterministic validations
-- File system operations
-- External tool integrations
-- Performance-critical checks</pre>
+                <p style="margin-top:20px"><strong>退出码</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>0</strong>: 成功 (stdout 显示在转录中)</li>
+                    <li><strong>2</strong>: 阻塞错误 (stderr 反馈给 Claude)</li>
+                    <li><strong>其他</strong>: 非阻塞错误</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Hook Configuration Formats
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Plugin hooks.json Format
+                <p>hook-development 适用于创建 Hook、添加 PreToolUse/PostToolUse/Stop Hook、验证工具使用等场景。</p>
 
-**For plugin hooks** in `hooks/hooks.json`, use wrapper format:
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Hook 配置示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 主动触发条件
+1. 创建 Hook、添加 PreToolUse/PostToolUse/Stop Hook
+2. 验证工具使用、实现 Prompt 驱动 Hook
+3. 使用 ${CLAUDE_PLUGIN_ROOT}、设置事件驱动自动化
+4. 阻止危险命令、提及 Hook 事件
 
-```json
+// Prompt 驱动 Hook (推荐)
 {
-  &quot;description&quot;: &quot;Brief explanation of hooks (optional)&quot;,
-  &quot;hooks&quot;: {
-    &quot;PreToolUse&quot;: [...],
-    &quot;Stop&quot;: [...],
-    &quot;SessionStart&quot;: [...]
-  }
+  "PreToolUse": [
+    {
+      "matcher": "Write|Edit",
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "验证文件写入安全性。检查：系统路径、凭证、路径遍历、敏感内容。返回 'approve' 或 'deny'。"
+        }
+      ]
+    }
+  ]
 }
-```
 
-**Key points:**
-- `description` field is optional
-- `hooks` field is required wrapper containing actual hook events
-- This is the **plugin-specific format**
+// 命令 Hook
+{
+  "type": "command",
+  "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh",
+  "timeout": 60
+}
 
-**Example:**
+// Stop Hook - 完整性验证
+{
+  "Stop": [
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "验证任务完成：测试运行、构建成功、问题回答。返回 'approve' 停止或 'block' 继续并说明原因。"
+        }
+      ]
+    }
+  ]
+}
+
+// SessionStart Hook - 加载上下文
+{
+  "SessionStart": [
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/load-context.sh",
+          "timeout": 10
+        }
+      ]
+    }
+  ]
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>Prompt 复杂逻辑</strong> - 用 Prompt Hook 处理复杂推理</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>可移植路径</strong> - 使用 ${CLAUDE_PLUGIN_ROOT}</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>验证输入</strong> - 在命令 Hook 中验证所有输入</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>引用变量</strong> - 引用所有 Bash 变量防止注入</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <p class="tip-text"><strong>设置超时</strong> - 命令默认60s，Prompt默认30s</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">6</div>
+                    <p class="tip-text"><strong>并行执行</strong> - 所有匹配 Hook 并行运行</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Hook Development Report</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Hook Implementation Report
+
+## hooks/hooks.json
 ```json
 {
-  &quot;description&quot;: &quot;Validation hooks for code quality&quot;,
-  &quot;hooks&quot;: {
-    &quot;PreToolUse&quot;: [
+  "description": "Validation hooks for code quality",
+  "hooks": {
+    "PreToolUse": [
       {
-        &quot;matcher&quot;: &quot;Write&quot;,
-        &quot;hooks&quot;: [
+        "matcher": "Write|Edit",
+        "hooks": [
           {
-            &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/hooks/validate.sh&quot;
+            "type": "prompt",
+            "prompt": "Validate file write safety..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Verify task completion..."
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/load-context.sh",
+            "timeout": 10
           }
         ]
       }
@@ -214,1343 +311,9 @@ Execute bash commands for deterministic checks:
 }
 ```
 
-### Settings Format (Direct)
-
-**For user settings** in `.claude/settings.json`, use direct format:
-
-```json
-{
-  &quot;PreToolUse&quot;: [...],
-  &quot;Stop&quot;: [...],
-  &quot;SessionStart&quot;: [...]
-}
-```
-
-**Key points:**
-- No wrapper - events directly at top level
-- No description field
-- This is the **settings format**
-
-**Important:** The examples below show the hook event structure that goes inside either format. For plugin hooks.json, wrap these in `{&quot;hooks&quot;: {...}}`.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Hook Events
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### PreToolUse
-
-Execute before any tool runs. Use to approve, deny, or modify tool calls.
-
-**Example (prompt-based):**
-```json
-{
-  &quot;PreToolUse&quot;: [
-    {
-      &quot;matcher&quot;: &quot;Write|Edit&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Validate file write safety. Check: system paths, credentials, path traversal, sensitive content. Return &#039;approve&#039; or &#039;deny&#039;.&quot;
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Output for PreToolUse:**
-```json
-{
-  &quot;hookSpecificOutput&quot;: {
-    &quot;permissionDecision&quot;: &quot;allow|deny|ask&quot;,
-    &quot;updatedInput&quot;: {&quot;field&quot;: &quot;modified_value&quot;}
-  },
-  &quot;systemMessage&quot;: &quot;Explanation for Claude&quot;
-}
-```
-
-### PostToolUse
-
-Execute after tool completes. Use to react to results, provide feedback, or log.
-
-**Example:**
-```json
-{
-  &quot;PostToolUse&quot;: [
-    {
-      &quot;matcher&quot;: &quot;Edit&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Analyze edit result for potential issues: syntax errors, security vulnerabilities, breaking changes. Provide feedback.&quot;
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Output behavior:**
-- Exit 0: stdout shown in transcript
-- Exit 2: stderr fed back to Claude
-- systemMessage included in context
-
-### Stop
-
-Execute when main agent considers stopping. Use to validate completeness.
-
-**Example:**
-```json
-{
-  &quot;Stop&quot;: [
-    {
-      &quot;matcher&quot;: &quot;*&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Verify task completion: tests run, build succeeded, questions answered. Return &#039;approve&#039; to stop or &#039;block&#039; with reason to continue.&quot;
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Decision output:**
-```json
-{
-  &quot;decision&quot;: &quot;approve|block&quot;,
-  &quot;reason&quot;: &quot;Explanation&quot;,
-  &quot;systemMessage&quot;: &quot;Additional context&quot;
-}
-```
-
-### SubagentStop
-
-Execute when subagent considers stopping. Use to ensure subagent completed its task.
-
-Similar to Stop hook, but for subagents.
-
-### UserPromptSubmit
-
-Execute when user submits a prompt. Use to add context, validate, or block prompts.
-
-**Example:**
-```json
-{
-  &quot;UserPromptSubmit&quot;: [
-    {
-      &quot;matcher&quot;: &quot;*&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Check if prompt requires security guidance. If discussing auth, permissions, or API security, return relevant warnings.&quot;
-        }
-      ]
-    }
-  ]
-}
-```
-
-### SessionStart
-
-Execute when Claude Code session begins. Use to load context and set environment.
-
-**Example:**
-```json
-{
-  &quot;SessionStart&quot;: [
-    {
-      &quot;matcher&quot;: &quot;*&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;command&quot;,
-          &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/scripts/load-context.sh&quot;
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Special capability:** Persist environment variables using `$CLAUDE_ENV_FILE`:
-```bash
-echo &quot;export PROJECT_TYPE=nodejs&quot; &gt;&gt; &quot;$CLAUDE_ENV_FILE&quot;
-```
-
-See `examples/load-context.sh` for complete example.
-
-### SessionEnd
-
-Execute when session ends. Use for cleanup, logging, and state preservation.
-
-### PreCompact
-
-Execute before context compaction. Use to add critical information to preserve.
-
-### Notification
-
-Execute when Claude sends notifications. Use to react to user notifications.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Hook Output Format
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Standard Output (All Hooks)
-
-```json
-{
-  &quot;continue&quot;: true,
-  &quot;suppressOutput&quot;: false,
-  &quot;systemMessage&quot;: &quot;Message for Claude&quot;
-}
-```
-
-- `continue`: If false, halt processing (default true)
-- `suppressOutput`: Hide output from transcript (default false)
-- `systemMessage`: Message shown to Claude
-
-### Exit Codes
-
-- `0` - Success (stdout shown in transcript)
-- `2` - Blocking error (stderr fed back to Claude)
-- Other - Non-blocking error</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Hook Input Format
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">All hooks receive JSON via stdin with common fields:
-
-```json
-{
-  &quot;session_id&quot;: &quot;abc123&quot;,
-  &quot;transcript_path&quot;: &quot;/path/to/transcript.txt&quot;,
-  &quot;cwd&quot;: &quot;/current/working/dir&quot;,
-  &quot;permission_mode&quot;: &quot;ask|allow&quot;,
-  &quot;hook_event_name&quot;: &quot;PreToolUse&quot;
-}
-```
-
-**Event-specific fields:**
-
-- **PreToolUse/PostToolUse:** `tool_name`, `tool_input`, `tool_result`
-- **UserPromptSubmit:** `user_prompt`
-- **Stop/SubagentStop:** `reason`
-
-Access fields in prompts using `$TOOL_INPUT`, `$TOOL_RESULT`, `$USER_PROMPT`, etc.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Environment Variables
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Available in all command hooks:
-
-- `$CLAUDE_PROJECT_DIR` - Project root path
-- `$CLAUDE_PLUGIN_ROOT` - Plugin directory (use for portable paths)
-- `$CLAUDE_ENV_FILE` - SessionStart only: persist env vars here
-- `$CLAUDE_CODE_REMOTE` - Set if running in remote context
-
-**Always use ${CLAUDE_PLUGIN_ROOT} in hook commands for portability:**
-
-```json
-{
-  &quot;type&quot;: &quot;command&quot;,
-  &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh&quot;
-}
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Plugin Hook Configuration
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">In plugins, define hooks in `hooks/hooks.json`:
-
-```json
-{
-  &quot;PreToolUse&quot;: [
-    {
-      &quot;matcher&quot;: &quot;Write|Edit&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Validate file write safety&quot;
-        }
-      ]
-    }
-  ],
-  &quot;Stop&quot;: [
-    {
-      &quot;matcher&quot;: &quot;*&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Verify task completion&quot;
-        }
-      ]
-    }
-  ],
-  &quot;SessionStart&quot;: [
-    {
-      &quot;matcher&quot;: &quot;*&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;command&quot;,
-          &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/scripts/load-context.sh&quot;,
-          &quot;timeout&quot;: 10
-        }
-      ]
-    }
-  ]
-}
-```
-
-Plugin hooks merge with user&#039;s hooks and run in parallel.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Matchers
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Tool Name Matching
-
-**Exact match:**
-```json
-&quot;matcher&quot;: &quot;Write&quot;
-```
-
-**Multiple tools:**
-```json
-&quot;matcher&quot;: &quot;Read|Write|Edit&quot;
-```
-
-**Wildcard (all tools):**
-```json
-&quot;matcher&quot;: &quot;*&quot;
-```
-
-**Regex patterns:**
-```json
-&quot;matcher&quot;: &quot;mcp__.*__delete.*&quot;  // All MCP delete tools
-```
-
-**Note:** Matchers are case-sensitive.
-
-### Common Patterns
-
-```json
-// All MCP tools
-&quot;matcher&quot;: &quot;mcp__.*&quot;
-
-// Specific plugin&#039;s MCP tools
-&quot;matcher&quot;: &quot;mcp__plugin_asana_.*&quot;
-
-// All file operations
-&quot;matcher&quot;: &quot;Read|Write|Edit&quot;
-
-// Bash commands only
-&quot;matcher&quot;: &quot;Bash&quot;
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Security Best Practices
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Input Validation
-
-Always validate inputs in command hooks:
-
-```bash
-#!/bin/bash
-set -euo pipefail
-
-input=$(cat)
-tool_name=$(echo &quot;$input&quot; | jq -r &#039;.tool_name&#039;)
-
-# Validate tool name format
-if [[ ! &quot;$tool_name&quot; =~ ^[a-zA-Z0-9_]+$ ]]; then
-  echo &#039;{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Invalid tool name&quot;}&#039; &gt;&amp;2
-  exit 2
-fi
-```
-
-### Path Safety
-
-Check for path traversal and sensitive files:
-
-```bash
-file_path=$(echo &quot;$input&quot; | jq -r &#039;.tool_input.file_path&#039;)
-
-# Deny path traversal
-if [[ &quot;$file_path&quot; == *&quot;..&quot;* ]]; then
-  echo &#039;{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Path traversal detected&quot;}&#039; &gt;&amp;2
-  exit 2
-fi
-
-# Deny sensitive files
-if [[ &quot;$file_path&quot; == *&quot;.env&quot;* ]]; then
-  echo &#039;{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Sensitive file&quot;}&#039; &gt;&amp;2
-  exit 2
-fi
-```
-
-See `examples/validate-write.sh` and `examples/validate-bash.sh` for complete examples.
-
-### Quote All Variables
-
-```bash
-# GOOD: Quoted
-echo &quot;$file_path&quot;
-cd &quot;$CLAUDE_PROJECT_DIR&quot;
-
-# BAD: Unquoted (injection risk)
-echo $file_path
-cd $CLAUDE_PROJECT_DIR
-```
-
-### Set Appropriate Timeouts
-
-```json
-{
-  &quot;type&quot;: &quot;command&quot;,
-  &quot;command&quot;: &quot;bash script.sh&quot;,
-  &quot;timeout&quot;: 10
-}
-```
-
-**Defaults:** Command hooks (60s), Prompt hooks (30s)</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Performance Considerations
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Parallel Execution
-
-All matching hooks run **in parallel**:
-
-```json
-{
-  &quot;PreToolUse&quot;: [
-    {
-      &quot;matcher&quot;: &quot;Write&quot;,
-      &quot;hooks&quot;: [
-        {&quot;type&quot;: &quot;command&quot;, &quot;command&quot;: &quot;check1.sh&quot;},  // Parallel
-        {&quot;type&quot;: &quot;command&quot;, &quot;command&quot;: &quot;check2.sh&quot;},  // Parallel
-        {&quot;type&quot;: &quot;prompt&quot;, &quot;prompt&quot;: &quot;Validate...&quot;}   // Parallel
-      ]
-    }
-  ]
-}
-```
-
-**Design implications:**
-- Hooks don&#039;t see each other&#039;s output
-- Non-deterministic ordering
-- Design for independence
-
-### Optimization
-
-1. Use command hooks for quick deterministic checks
-2. Use prompt hooks for complex reasoning
-3. Cache validation results in temp files
-4. Minimize I/O in hot paths</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Temporarily Active Hooks
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Create hooks that activate conditionally by checking for a flag file or configuration:
-
-**Pattern: Flag file activation**
-```bash
-#!/bin/bash
-# Only active when flag file exists
-FLAG_FILE=&quot;$CLAUDE_PROJECT_DIR/.enable-strict-validation&quot;
-
-if [ ! -f &quot;$FLAG_FILE&quot; ]; then
-  # Flag not present, skip validation
-  exit 0
-fi
-
-# Flag present, run validation
-input=$(cat)
-# ... validation logic ...
-```
-
-**Pattern: Configuration-based activation**
-```bash
-#!/bin/bash
-# Check configuration for activation
-CONFIG_FILE=&quot;$CLAUDE_PROJECT_DIR/.claude/plugin-config.json&quot;
-
-if [ -f &quot;$CONFIG_FILE&quot; ]; then
-  enabled=$(jq -r &#039;.strictMode // false&#039; &quot;$CONFIG_FILE&quot;)
-  if [ &quot;$enabled&quot; != &quot;true&quot; ]; then
-    exit 0  # Not enabled, skip
-  fi
-fi
-
-# Enabled, run hook logic
-input=$(cat)
-# ... hook logic ...
-```
-
-**Use cases:**
-- Enable strict validation only when needed
-- Temporary debugging hooks
-- Project-specific hook behavior
-- Feature flags for hooks
-
-**Best practice:** Document activation mechanism in plugin README so users know how to enable/disable temporary hooks.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Hook Lifecycle and Limitations
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Hooks Load at Session Start
-
-**Important:** Hooks are loaded when Claude Code session starts. Changes to hook configuration require restarting Claude Code.
-
-**Cannot hot-swap hooks:**
-- Editing `hooks/hooks.json` won&#039;t affect current session
-- Adding new hook scripts won&#039;t be recognized
-- Changing hook commands/prompts won&#039;t update
-- Must restart Claude Code: exit and run `claude` again
-
-**To test hook changes:**
-1. Edit hook configuration or scripts
-2. Exit Claude Code session
-3. Restart: `claude` or `cc`
-4. New hook configuration loads
-5. Test hooks with `claude --debug`
-
-### Hook Validation at Startup
-
-Hooks are validated when Claude Code starts:
-- Invalid JSON in hooks.json causes loading failure
-- Missing scripts cause warnings
-- Syntax errors reported in debug mode
-
-Use `/hooks` command to review loaded hooks in current session.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Debugging Hooks
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Enable Debug Mode
-
-```bash
-claude --debug
-```
-
-Look for hook registration, execution logs, input/output JSON, and timing information.
-
-### Test Hook Scripts
-
-Test command hooks directly:
-
-```bash
-echo &#039;{&quot;tool_name&quot;: &quot;Write&quot;, &quot;tool_input&quot;: {&quot;file_path&quot;: &quot;/test&quot;}}&#039; | \
-  bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh
-
-echo &quot;Exit code: $?&quot;
-```
-
-### Validate JSON Output
-
-Ensure hooks output valid JSON:
-
-```bash
-output=$(./your-hook.sh &lt; test-input.json)
-echo &quot;$output&quot; | jq .
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Quick Reference
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Hook Events Summary
-
-| Event | When | Use For |
-|-------|------|---------|
-| PreToolUse | Before tool | Validation, modification |
-| PostToolUse | After tool | Feedback, logging |
-| UserPromptSubmit | User input | Context, validation |
-| Stop | Agent stopping | Completeness check |
-| SubagentStop | Subagent done | Task validation |
-| SessionStart | Session begins | Context loading |
-| SessionEnd | Session ends | Cleanup, logging |
-| PreCompact | Before compact | Preserve context |
-| Notification | User notified | Logging, reactions |
-
-### Best Practices
-
-**DO:**
-- ✅ Use prompt-based hooks for complex logic
-- ✅ Use ${CLAUDE_PLUGIN_ROOT} for portability
-- ✅ Validate all inputs in command hooks
-- ✅ Quote all bash variables
-- ✅ Set appropriate timeouts
-- ✅ Return structured JSON output
-- ✅ Test hooks thoroughly
-
-**DON&#039;T:**
-- ❌ Use hardcoded paths
-- ❌ Trust user input without validation
-- ❌ Create long-running hooks
-- ❌ Rely on hook execution order
-- ❌ Modify global state unpredictably
-- ❌ Log sensitive information</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Additional Resources
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Reference Files
-
-For detailed patterns and advanced techniques, consult:
-
-- **`references/patterns.md`** - Common hook patterns (8+ proven patterns)
-- **`references/migration.md`** - Migrating from basic to advanced hooks
-- **`references/advanced.md`** - Advanced use cases and techniques
-
-### Example Hook Scripts
-
-Working examples in `examples/`:
-
-- **`validate-write.sh`** - File write validation example
-- **`validate-bash.sh`** - Bash command validation example
-- **`load-context.sh`** - SessionStart context loading example
-
-### Utility Scripts
-
-Development tools in `scripts/`:
-
-- **`validate-hook-schema.sh`** - Validate hooks.json structure and syntax
-- **`test-hook.sh`** - Test hooks with sample input before deployment
-- **`hook-linter.sh`** - Check hook scripts for common issues and best practices
-
-### External Resources
-
-- **Official Docs**: https://docs.claude.com/en/docs/claude-code/hooks
-- **Examples**: See security-guidance plugin in marketplace
-- **Testing**: Use `claude --debug` for detailed logs
-- **Validation**: Use `jq` to validate hook JSON output</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Implementation Workflow
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">To implement hooks in a plugin:
-
-1. Identify events to hook into (PreToolUse, Stop, SessionStart, etc.)
-2. Decide between prompt-based (flexible) or command (deterministic) hooks
-3. Write hook configuration in `hooks/hooks.json`
-4. For command hooks, create hook scripts
-5. Use ${CLAUDE_PLUGIN_ROOT} for all file references
-6. Validate configuration with `scripts/validate-hook-schema.sh hooks/hooks.json`
-7. Test hooks with `scripts/test-hook.sh` before deployment
-8. Test in Claude Code with `claude --debug`
-9. Document hooks in plugin README
-
-Focus on prompt-based hooks for most use cases. Reserve command hooks for performance-critical or deterministic checks.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: hook-development
-description: This skill should be used when the user asks to &quot;create a hook&quot;, &quot;add a PreToolUse/PostToolUse/Stop hook&quot;, &quot;validate tool use&quot;, &quot;implement prompt-based hooks&quot;, &quot;use ${CLAUDE_PLUGIN_ROOT}&quot;, &quot;set up event-driven automation&quot;, &quot;block dangerous commands&quot;, or mentions hook events (PreToolUse, PostToolUse, Stop, SubagentStop, SessionStart, SessionEnd, UserPromptSubmit, PreCompact, Notification). Provides comprehensive guidance for creating and implementing Claude Code plugin hooks with focus on advanced prompt-based hooks API.
-version: 0.1.0
 ---
 
-# Hook Development for Claude Code Plugins
-
-## Overview
-
-Hooks are event-driven automation scripts that execute in response to Claude Code events. Use hooks to validate operations, enforce policies, add context, and integrate external tools into workflows.
-
-**Key capabilities:**
-- Validate tool calls before execution (PreToolUse)
-- React to tool results (PostToolUse)
-- Enforce completion standards (Stop, SubagentStop)
-- Load project context (SessionStart)
-- Automate workflows across the development lifecycle
-
-## Hook Types
-
-### Prompt-Based Hooks (Recommended)
-
-Use LLM-driven decision making for context-aware validation:
-
-```json
-{
-  &quot;type&quot;: &quot;prompt&quot;,
-  &quot;prompt&quot;: &quot;Evaluate if this tool use is appropriate: $TOOL_INPUT&quot;,
-  &quot;timeout&quot;: 30
-}
-```
-
-**Supported events:** Stop, SubagentStop, UserPromptSubmit, PreToolUse
-
-**Benefits:**
-- Context-aware decisions based on natural language reasoning
-- Flexible evaluation logic without bash scripting
-- Better edge case handling
-- Easier to maintain and extend
-
-### Command Hooks
-
-Execute bash commands for deterministic checks:
-
-```json
-{
-  &quot;type&quot;: &quot;command&quot;,
-  &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh&quot;,
-  &quot;timeout&quot;: 60
-}
-```
-
-**Use for:**
-- Fast deterministic validations
-- File system operations
-- External tool integrations
-- Performance-critical checks
-
-## Hook Configuration Formats
-
-### Plugin hooks.json Format
-
-**For plugin hooks** in `hooks/hooks.json`, use wrapper format:
-
-```json
-{
-  &quot;description&quot;: &quot;Brief explanation of hooks (optional)&quot;,
-  &quot;hooks&quot;: {
-    &quot;PreToolUse&quot;: [...],
-    &quot;Stop&quot;: [...],
-    &quot;SessionStart&quot;: [...]
-  }
-}
-```
-
-**Key points:**
-- `description` field is optional
-- `hooks` field is required wrapper containing actual hook events
-- This is the **plugin-specific format**
-
-**Example:**
-```json
-{
-  &quot;description&quot;: &quot;Validation hooks for code quality&quot;,
-  &quot;hooks&quot;: {
-    &quot;PreToolUse&quot;: [
-      {
-        &quot;matcher&quot;: &quot;Write&quot;,
-        &quot;hooks&quot;: [
-          {
-            &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/hooks/validate.sh&quot;
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### Settings Format (Direct)
-
-**For user settings** in `.claude/settings.json`, use direct format:
-
-```json
-{
-  &quot;PreToolUse&quot;: [...],
-  &quot;Stop&quot;: [...],
-  &quot;SessionStart&quot;: [...]
-}
-```
-
-**Key points:**
-- No wrapper - events directly at top level
-- No description field
-- This is the **settings format**
-
-**Important:** The examples below show the hook event structure that goes inside either format. For plugin hooks.json, wrap these in `{&quot;hooks&quot;: {...}}`.
-
-## Hook Events
-
-### PreToolUse
-
-Execute before any tool runs. Use to approve, deny, or modify tool calls.
-
-**Example (prompt-based):**
-```json
-{
-  &quot;PreToolUse&quot;: [
-    {
-      &quot;matcher&quot;: &quot;Write|Edit&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Validate file write safety. Check: system paths, credentials, path traversal, sensitive content. Return &#039;approve&#039; or &#039;deny&#039;.&quot;
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Output for PreToolUse:**
-```json
-{
-  &quot;hookSpecificOutput&quot;: {
-    &quot;permissionDecision&quot;: &quot;allow|deny|ask&quot;,
-    &quot;updatedInput&quot;: {&quot;field&quot;: &quot;modified_value&quot;}
-  },
-  &quot;systemMessage&quot;: &quot;Explanation for Claude&quot;
-}
-```
-
-### PostToolUse
-
-Execute after tool completes. Use to react to results, provide feedback, or log.
-
-**Example:**
-```json
-{
-  &quot;PostToolUse&quot;: [
-    {
-      &quot;matcher&quot;: &quot;Edit&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Analyze edit result for potential issues: syntax errors, security vulnerabilities, breaking changes. Provide feedback.&quot;
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Output behavior:**
-- Exit 0: stdout shown in transcript
-- Exit 2: stderr fed back to Claude
-- systemMessage included in context
-
-### Stop
-
-Execute when main agent considers stopping. Use to validate completeness.
-
-**Example:**
-```json
-{
-  &quot;Stop&quot;: [
-    {
-      &quot;matcher&quot;: &quot;*&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Verify task completion: tests run, build succeeded, questions answered. Return &#039;approve&#039; to stop or &#039;block&#039; with reason to continue.&quot;
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Decision output:**
-```json
-{
-  &quot;decision&quot;: &quot;approve|block&quot;,
-  &quot;reason&quot;: &quot;Explanation&quot;,
-  &quot;systemMessage&quot;: &quot;Additional context&quot;
-}
-```
-
-### SubagentStop
-
-Execute when subagent considers stopping. Use to ensure subagent completed its task.
-
-Similar to Stop hook, but for subagents.
-
-### UserPromptSubmit
-
-Execute when user submits a prompt. Use to add context, validate, or block prompts.
-
-**Example:**
-```json
-{
-  &quot;UserPromptSubmit&quot;: [
-    {
-      &quot;matcher&quot;: &quot;*&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Check if prompt requires security guidance. If discussing auth, permissions, or API security, return relevant warnings.&quot;
-        }
-      ]
-    }
-  ]
-}
-```
-
-### SessionStart
-
-Execute when Claude Code session begins. Use to load context and set environment.
-
-**Example:**
-```json
-{
-  &quot;SessionStart&quot;: [
-    {
-      &quot;matcher&quot;: &quot;*&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;command&quot;,
-          &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/scripts/load-context.sh&quot;
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Special capability:** Persist environment variables using `$CLAUDE_ENV_FILE`:
-```bash
-echo &quot;export PROJECT_TYPE=nodejs&quot; &gt;&gt; &quot;$CLAUDE_ENV_FILE&quot;
-```
-
-See `examples/load-context.sh` for complete example.
-
-### SessionEnd
-
-Execute when session ends. Use for cleanup, logging, and state preservation.
-
-### PreCompact
-
-Execute before context compaction. Use to add critical information to preserve.
-
-### Notification
-
-Execute when Claude sends notifications. Use to react to user notifications.
-
-## Hook Output Format
-
-### Standard Output (All Hooks)
-
-```json
-{
-  &quot;continue&quot;: true,
-  &quot;suppressOutput&quot;: false,
-  &quot;systemMessage&quot;: &quot;Message for Claude&quot;
-}
-```
-
-- `continue`: If false, halt processing (default true)
-- `suppressOutput`: Hide output from transcript (default false)
-- `systemMessage`: Message shown to Claude
-
-### Exit Codes
-
-- `0` - Success (stdout shown in transcript)
-- `2` - Blocking error (stderr fed back to Claude)
-- Other - Non-blocking error
-
-## Hook Input Format
-
-All hooks receive JSON via stdin with common fields:
-
-```json
-{
-  &quot;session_id&quot;: &quot;abc123&quot;,
-  &quot;transcript_path&quot;: &quot;/path/to/transcript.txt&quot;,
-  &quot;cwd&quot;: &quot;/current/working/dir&quot;,
-  &quot;permission_mode&quot;: &quot;ask|allow&quot;,
-  &quot;hook_event_name&quot;: &quot;PreToolUse&quot;
-}
-```
-
-**Event-specific fields:**
-
-- **PreToolUse/PostToolUse:** `tool_name`, `tool_input`, `tool_result`
-- **UserPromptSubmit:** `user_prompt`
-- **Stop/SubagentStop:** `reason`
-
-Access fields in prompts using `$TOOL_INPUT`, `$TOOL_RESULT`, `$USER_PROMPT`, etc.
-
-## Environment Variables
-
-Available in all command hooks:
-
-- `$CLAUDE_PROJECT_DIR` - Project root path
-- `$CLAUDE_PLUGIN_ROOT` - Plugin directory (use for portable paths)
-- `$CLAUDE_ENV_FILE` - SessionStart only: persist env vars here
-- `$CLAUDE_CODE_REMOTE` - Set if running in remote context
-
-**Always use ${CLAUDE_PLUGIN_ROOT} in hook commands for portability:**
-
-```json
-{
-  &quot;type&quot;: &quot;command&quot;,
-  &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh&quot;
-}
-```
-
-## Plugin Hook Configuration
-
-In plugins, define hooks in `hooks/hooks.json`:
-
-```json
-{
-  &quot;PreToolUse&quot;: [
-    {
-      &quot;matcher&quot;: &quot;Write|Edit&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Validate file write safety&quot;
-        }
-      ]
-    }
-  ],
-  &quot;Stop&quot;: [
-    {
-      &quot;matcher&quot;: &quot;*&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;prompt&quot;,
-          &quot;prompt&quot;: &quot;Verify task completion&quot;
-        }
-      ]
-    }
-  ],
-  &quot;SessionStart&quot;: [
-    {
-      &quot;matcher&quot;: &quot;*&quot;,
-      &quot;hooks&quot;: [
-        {
-          &quot;type&quot;: &quot;command&quot;,
-          &quot;command&quot;: &quot;bash ${CLAUDE_PLUGIN_ROOT}/scripts/load-context.sh&quot;,
-          &quot;timeout&quot;: 10
-        }
-      ]
-    }
-  ]
-}
-```
-
-Plugin hooks merge with user&#039;s hooks and run in parallel.
-
-## Matchers
-
-### Tool Name Matching
-
-**Exact match:**
-```json
-&quot;matcher&quot;: &quot;Write&quot;
-```
-
-**Multiple tools:**
-```json
-&quot;matcher&quot;: &quot;Read|Write|Edit&quot;
-```
-
-**Wildcard (all tools):**
-```json
-&quot;matcher&quot;: &quot;*&quot;
-```
-
-**Regex patterns:**
-```json
-&quot;matcher&quot;: &quot;mcp__.*__delete.*&quot;  // All MCP delete tools
-```
-
-**Note:** Matchers are case-sensitive.
-
-### Common Patterns
-
-```json
-// All MCP tools
-&quot;matcher&quot;: &quot;mcp__.*&quot;
-
-// Specific plugin&#039;s MCP tools
-&quot;matcher&quot;: &quot;mcp__plugin_asana_.*&quot;
-
-// All file operations
-&quot;matcher&quot;: &quot;Read|Write|Edit&quot;
-
-// Bash commands only
-&quot;matcher&quot;: &quot;Bash&quot;
-```
-
-## Security Best Practices
-
-### Input Validation
-
-Always validate inputs in command hooks:
-
-```bash
-#!/bin/bash
-set -euo pipefail
-
-input=$(cat)
-tool_name=$(echo &quot;$input&quot; | jq -r &#039;.tool_name&#039;)
-
-# Validate tool name format
-if [[ ! &quot;$tool_name&quot; =~ ^[a-zA-Z0-9_]+$ ]]; then
-  echo &#039;{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Invalid tool name&quot;}&#039; &gt;&amp;2
-  exit 2
-fi
-```
-
-### Path Safety
-
-Check for path traversal and sensitive files:
-
-```bash
-file_path=$(echo &quot;$input&quot; | jq -r &#039;.tool_input.file_path&#039;)
-
-# Deny path traversal
-if [[ &quot;$file_path&quot; == *&quot;..&quot;* ]]; then
-  echo &#039;{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Path traversal detected&quot;}&#039; &gt;&amp;2
-  exit 2
-fi
-
-# Deny sensitive files
-if [[ &quot;$file_path&quot; == *&quot;.env&quot;* ]]; then
-  echo &#039;{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Sensitive file&quot;}&#039; &gt;&amp;2
-  exit 2
-fi
-```
-
-See `examples/validate-write.sh` and `examples/validate-bash.sh` for complete examples.
-
-### Quote All Variables
-
-```bash
-# GOOD: Quoted
-echo &quot;$file_path&quot;
-cd &quot;$CLAUDE_PROJECT_DIR&quot;
-
-# BAD: Unquoted (injection risk)
-echo $file_path
-cd $CLAUDE_PROJECT_DIR
-```
-
-### Set Appropriate Timeouts
-
-```json
-{
-  &quot;type&quot;: &quot;command&quot;,
-  &quot;command&quot;: &quot;bash script.sh&quot;,
-  &quot;timeout&quot;: 10
-}
-```
-
-**Defaults:** Command hooks (60s), Prompt hooks (30s)
-
-## Performance Considerations
-
-### Parallel Execution
-
-All matching hooks run **in parallel**:
-
-```json
-{
-  &quot;PreToolUse&quot;: [
-    {
-      &quot;matcher&quot;: &quot;Write&quot;,
-      &quot;hooks&quot;: [
-        {&quot;type&quot;: &quot;command&quot;, &quot;command&quot;: &quot;check1.sh&quot;},  // Parallel
-        {&quot;type&quot;: &quot;command&quot;, &quot;command&quot;: &quot;check2.sh&quot;},  // Parallel
-        {&quot;type&quot;: &quot;prompt&quot;, &quot;prompt&quot;: &quot;Validate...&quot;}   // Parallel
-      ]
-    }
-  ]
-}
-```
-
-**Design implications:**
-- Hooks don&#039;t see each other&#039;s output
-- Non-deterministic ordering
-- Design for independence
-
-### Optimization
-
-1. Use command hooks for quick deterministic checks
-2. Use prompt hooks for complex reasoning
-3. Cache validation results in temp files
-4. Minimize I/O in hot paths
-
-## Temporarily Active Hooks
-
-Create hooks that activate conditionally by checking for a flag file or configuration:
-
-**Pattern: Flag file activation**
-```bash
-#!/bin/bash
-# Only active when flag file exists
-FLAG_FILE=&quot;$CLAUDE_PROJECT_DIR/.enable-strict-validation&quot;
-
-if [ ! -f &quot;$FLAG_FILE&quot; ]; then
-  # Flag not present, skip validation
-  exit 0
-fi
-
-# Flag present, run validation
-input=$(cat)
-# ... validation logic ...
-```
-
-**Pattern: Configuration-based activation**
-```bash
-#!/bin/bash
-# Check configuration for activation
-CONFIG_FILE=&quot;$CLAUDE_PROJECT_DIR/.claude/plugin-config.json&quot;
-
-if [ -f &quot;$CONFIG_FILE&quot; ]; then
-  enabled=$(jq -r &#039;.strictMode // false&#039; &quot;$CONFIG_FILE&quot;)
-  if [ &quot;$enabled&quot; != &quot;true&quot; ]; then
-    exit 0  # Not enabled, skip
-  fi
-fi
-
-# Enabled, run hook logic
-input=$(cat)
-# ... hook logic ...
-```
-
-**Use cases:**
-- Enable strict validation only when needed
-- Temporary debugging hooks
-- Project-specific hook behavior
-- Feature flags for hooks
-
-**Best practice:** Document activation mechanism in plugin README so users know how to enable/disable temporary hooks.
-
-## Hook Lifecycle and Limitations
-
-### Hooks Load at Session Start
-
-**Important:** Hooks are loaded when Claude Code session starts. Changes to hook configuration require restarting Claude Code.
-
-**Cannot hot-swap hooks:**
-- Editing `hooks/hooks.json` won&#039;t affect current session
-- Adding new hook scripts won&#039;t be recognized
-- Changing hook commands/prompts won&#039;t update
-- Must restart Claude Code: exit and run `claude` again
-
-**To test hook changes:**
-1. Edit hook configuration or scripts
-2. Exit Claude Code session
-3. Restart: `claude` or `cc`
-4. New hook configuration loads
-5. Test hooks with `claude --debug`
-
-### Hook Validation at Startup
-
-Hooks are validated when Claude Code starts:
-- Invalid JSON in hooks.json causes loading failure
-- Missing scripts cause warnings
-- Syntax errors reported in debug mode
-
-Use `/hooks` command to review loaded hooks in current session.
-
-## Debugging Hooks
-
-### Enable Debug Mode
-
-```bash
-claude --debug
-```
-
-Look for hook registration, execution logs, input/output JSON, and timing information.
-
-### Test Hook Scripts
-
-Test command hooks directly:
-
-```bash
-echo &#039;{&quot;tool_name&quot;: &quot;Write&quot;, &quot;tool_input&quot;: {&quot;file_path&quot;: &quot;/test&quot;}}&#039; | \
-  bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh
-
-echo &quot;Exit code: $?&quot;
-```
-
-### Validate JSON Output
-
-Ensure hooks output valid JSON:
-
-```bash
-output=$(./your-hook.sh &lt; test-input.json)
-echo &quot;$output&quot; | jq .
-```
-
-## Quick Reference
-
-### Hook Events Summary
-
+## Hook Events Summary
 | Event | When | Use For |
 |-------|------|---------|
 | PreToolUse | Before tool | Validation, modification |
@@ -1559,88 +322,55 @@ echo &quot;$output&quot; | jq .
 | Stop | Agent stopping | Completeness check |
 | SubagentStop | Subagent done | Task validation |
 | SessionStart | Session begins | Context loading |
-| SessionEnd | Session ends | Cleanup, logging |
-| PreCompact | Before compact | Preserve context |
-| Notification | User notified | Logging, reactions |
 
-### Best Practices
+---
 
-**DO:**
-- ✅ Use prompt-based hooks for complex logic
-- ✅ Use ${CLAUDE_PLUGIN_ROOT} for portability
-- ✅ Validate all inputs in command hooks
-- ✅ Quote all bash variables
-- ✅ Set appropriate timeouts
-- ✅ Return structured JSON output
-- ✅ Test hooks thoroughly
+## Security Checklist
+- [ ] Input validation in command hooks
+- [ ] Path traversal checks
+- [ ] Sensitive file protection
+- [ ] Variable quoting
+- [ ] Appropriate timeouts
 
-**DON&#039;T:**
-- ❌ Use hardcoded paths
-- ❌ Trust user input without validation
-- ❌ Create long-running hooks
-- ❌ Rely on hook execution order
-- ❌ Modify global state unpredictably
-- ❌ Log sensitive information
+---
 
-## Additional Resources
+## Testing Commands
+```bash
+# Debug mode
+claude --debug
 
-### Reference Files
+# Test hook script
+echo '{"tool_name": "Write"}' | bash validate.sh
 
-For detailed patterns and advanced techniques, consult:
-
-- **`references/patterns.md`** - Common hook patterns (8+ proven patterns)
-- **`references/migration.md`** - Migrating from basic to advanced hooks
-- **`references/advanced.md`** - Advanced use cases and techniques
-
-### Example Hook Scripts
-
-Working examples in `examples/`:
-
-- **`validate-write.sh`** - File write validation example
-- **`validate-bash.sh`** - Bash command validation example
-- **`load-context.sh`** - SessionStart context loading example
-
-### Utility Scripts
-
-Development tools in `scripts/`:
-
-- **`validate-hook-schema.sh`** - Validate hooks.json structure and syntax
-- **`test-hook.sh`** - Test hooks with sample input before deployment
-- **`hook-linter.sh`** - Check hook scripts for common issues and best practices
-
-### External Resources
-
-- **Official Docs**: https://docs.claude.com/en/docs/claude-code/hooks
-- **Examples**: See security-guidance plugin in marketplace
-- **Testing**: Use `claude --debug` for detailed logs
-- **Validation**: Use `jq` to validate hook JSON output
-
-## Implementation Workflow
-
-To implement hooks in a plugin:
-
-1. Identify events to hook into (PreToolUse, Stop, SessionStart, etc.)
-2. Decide between prompt-based (flexible) or command (deterministic) hooks
-3. Write hook configuration in `hooks/hooks.json`
-4. For command hooks, create hook scripts
-5. Use ${CLAUDE_PLUGIN_ROOT} for all file references
-6. Validate configuration with `scripts/validate-hook-schema.sh hooks/hooks.json`
-7. Test hooks with `scripts/test-hook.sh` before deployment
-8. Test in Claude Code with `claude --debug`
-9. Document hooks in plugin README
-
-Focus on prompt-based hooks for most use cases. Reserve command hooks for performance-critical or deterministic checks.
-</pre>
+# Validate JSON output
+output=$(./hook.sh < input.json)
+echo "$output" | jq .
+```</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
+            <div class="nav-card" onclick="location.href='iterative-retrieval.html'">
+                <div class="nav-label">上一个</div>
+                <div class="nav-title">iterative-retrieval</div>
+            </div>
+            <div class="nav-card" onclick="location.href='../skills.html'">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
+                <div class="nav-title">Skills 列表</div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

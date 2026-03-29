@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>编写规则 - Everything Claude Code</title>
+    <title>writing-rules - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,155 +26,150 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; }
+        .nav-card:hover { border-color: rgba(139, 92, 246, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">编写规则</span>
+        <span class="breadcrumb-current">writing-rules</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2zm8 8h-6v-2h6v2zm0-4h-6v-2h6v2zm0-4h-6V7h6v2z"/></svg>
             </div>
-            <h1 class="detail-title">编写规则</h1>
-            <p class="detail-subtitle">编写规则指南，创建项目规则文件</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    hookify
-                </div>
+            <h1 class="detail-title">writing-rules</h1>
+            <p class="detail-subtitle">Hookify规则编写指南，创建项目自定义钩子规则</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Rule Management
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">hookify</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                概述
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">Hookify rules are markdown files with YAML frontmatter that define patterns to watch for and messages to show when those patterns match. Rules are stored in `.claude/hookify.{rule-name}.local.md` files.</pre>
+                <p>writing-rules Skill 提供Hookify规则编写的完整指南，帮助开发者创建自定义钩子规则监控和拦截特定操作。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">四种事件类型</h4>
+                            <p class="feature-desc">bash（Bash命令）、file（文件编辑）、stop（完成检查）、prompt（用户输入）四种触发事件</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">多条件匹配</h4>
+                            <p class="feature-desc">支持regex_match、contains、equals、not_contains、starts_with、ends_with六种匹配操作符</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">两种动作模式</h4>
+                            <p class="feature-desc">warn（显示警告但允许继续）和block（阻止操作或停止会话）两种处理动作</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">动态加载</h4>
+                            <p class="feature-desc">规则在每次工具使用时动态读取，修改后立即生效无需重启</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Rule File Format
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Basic Structure
+                <p>规则编写遵循<strong>"模式匹配 + 动作执行"</strong>原则。定义正则模式匹配特定操作，触发时显示自定义消息或阻止操作。</p>
 
-```markdown
+                <p style="margin-top:20px"><strong>规则文件结构</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7); margin-top:15px">
+                    <li><strong>位置</strong>: .claude/hookify.{rule-name}.local.md</li>
+                    <li><strong>Frontmatter</strong>: name、enabled、event、pattern/conditions</li>
+                    <li><strong>消息体</strong>: 触发时显示给Claude的Markdown内容</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>字段选项</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>bash事件</strong>: 匹配command字段</li>
+                    <li><strong>file事件</strong>: 匹配file_path、new_text、old_text、content字段</li>
+                    <li><strong>stop事件</strong>: 完成检查清单</li>
+                    <li><strong>prompt事件</strong>: 匹配user_prompt字段</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <p>writing-rules Skill 在需要创建自定义钩子规则时使用：</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">规则示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 最小规则结构
 ---
-name: rule-identifier
+name: my-rule
 enabled: true
-event: bash|file|stop|prompt|all
-pattern: regex-pattern-here
+event: bash
+pattern: dangerous_command
 ---
 
-Message to show Claude when this rule triggers.
-Can include markdown formatting, warnings, suggestions, etc.
-```
+Warning message here
 
-### Frontmatter Fields
-
-**name** (required): Unique identifier for the rule
-- Use kebab-case: `warn-dangerous-rm`, `block-console-log`
-- Be descriptive and action-oriented
-- Start with verb: warn, prevent, block, require, check
-
-**enabled** (required): Boolean to activate/deactivate
-- `true`: Rule is active
-- `false`: Rule is disabled (won&#039;t trigger)
-- Can toggle without deleting rule
-
-**event** (required): Which hook event to trigger on
-- `bash`: Bash tool commands
-- `file`: Edit, Write, MultiEdit tools
-- `stop`: When agent wants to stop
-- `prompt`: When user submits a prompt
-- `all`: All events
-
-**action** (optional): What to do when rule matches
-- `warn`: Show message but allow operation (default)
-- `block`: Prevent operation (PreToolUse) or stop session (Stop events)
-- If omitted, defaults to `warn`
-
-**pattern** (simple format): Regex pattern to match
-- Used for simple single-condition rules
-- Matches against command (bash) or new_text (file)
-- Python regex syntax
-
-**Example:**
-```yaml
-event: bash
-pattern: rm\s+-rf
-```
-
-### Advanced Format (Multiple Conditions)
-
-For complex rules with multiple conditions:
-
-```markdown
+// 多条件规则示例
 ---
 name: warn-env-file-edits
 enabled: true
@@ -188,99 +183,61 @@ conditions:
     pattern: API_KEY
 ---
 
-You&#039;re adding an API key to a .env file. Ensure this file is in .gitignore!
-```
+You're adding an API key to a .env file.
+Ensure this file is in .gitignore!
 
-**Condition fields:**
-- `field`: Which field to check
-  - For bash: `command`
-  - For file: `file_path`, `new_text`, `old_text`, `content`
-- `operator`: How to match
-  - `regex_match`: Regex pattern matching
-  - `contains`: Substring check
-  - `equals`: Exact match
-  - `not_contains`: Substring must NOT be present
-  - `starts_with`: Prefix check
-  - `ends_with`: Suffix check
-- `pattern`: Pattern or string to match
+// 常用模式
+rm\s+-rf         # 危险删除命令
+console\.log\(   # console.log调试代码
+\.env$           # 环境变量文件
+API_KEY\s*=      # API密钥赋值
 
-**All conditions must match for rule to trigger.**</pre>
+// 测试正则
+python3 -c "import re; print(re.search(r'pattern', 'test text'))"</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Message Body
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">The markdown content after frontmatter is shown to Claude when the rule triggers.
-
-**Good messages:**
-- Explain what was detected
-- Explain why it&#039;s problematic
-- Suggest alternatives or best practices
-- Use formatting for clarity (bold, lists, etc.)
-
-**Example:**
-```markdown
-⚠️ **Console.log detected!**
-
-You&#039;re adding console.log to production code.
-
-**Why this matters:**
-- Debug logs shouldn&#039;t ship to production
-- Console.log can expose sensitive data
-- Impacts browser performance
-
-**Alternatives:**
-- Use a proper logging library
-- Remove before committing
-- Use conditional debug builds
-```</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>具体而非宽泛</strong> - pattern: log太宽泛，使用console\.log\(更精确</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>转义特殊字符</strong> - .、(、)等正则元字符需用\.、\(、\)转义</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>消息要有用</strong> - 解释检测到什么、为何有问题、建议替代方案</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>立即测试</strong> - 规则动态加载，修改后下一次工具使用立即生效</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Event Type Guide
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">### bash Events
-
-Match Bash command patterns:
-
-```markdown
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Console.log Warning Rule</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 文件: .claude/hookify.console-log-warning.local.md
 ---
-event: bash
-pattern: sudo\s+|rm\s+-rf|chmod\s+777
----
-
-Dangerous command detected!
-```
-
-**Common patterns:**
-- Dangerous commands: `rm\s+-rf`, `dd\s+if=`, `mkfs`
-- Privilege escalation: `sudo\s+`, `su\s+`
-- Permission issues: `chmod\s+777`, `chown\s+root`
-
-### file Events
-
-Match Edit/Write/MultiEdit operations:
-
-```markdown
----
-event: file
-pattern: console\.log\(|eval\(|innerHTML\s*=
----
-
-Potentially problematic code pattern detected!
-```
-
-**Match on different fields:**
-```markdown
----
+name: console-log-warning
+enabled: true
 event: file
 conditions:
   - field: file_path
@@ -289,634 +246,43 @@ conditions:
   - field: new_text
     operator: regex_match
     pattern: console\.log\(
+action: warn
 ---
 
-Console.log in TypeScript file!
-```
+**Console.log detected!**
 
-**Common patterns:**
-- Debug code: `console\.log\(`, `debugger`, `print\(`
-- Security risks: `eval\(`, `innerHTML\s*=`, `dangerouslySetInnerHTML`
-- Sensitive files: `\.env$`, `credentials`, `\.pem$`
-- Generated files: `node_modules/`, `dist/`, `build/`
-
-### stop Events
-
-Match when agent wants to stop (completion checks):
-
-```markdown
----
-event: stop
-pattern: .*
----
-
-Before stopping, verify:
-- [ ] Tests were run
-- [ ] Build succeeded
-- [ ] Documentation updated
-```
-
-**Use for:**
-- Reminders about required steps
-- Completion checklists
-- Process enforcement
-
-### prompt Events
-
-Match user prompt content (advanced):
-
-```markdown
----
-event: prompt
-conditions:
-  - field: user_prompt
-    operator: contains
-    pattern: deploy to production
----
-
-Production deployment checklist:
-- [ ] Tests passing?
-- [ ] Reviewed by team?
-- [ ] Monitoring ready?
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Pattern Writing Tips
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Regex Basics
-
-**Literal characters:** Most characters match themselves
-- `rm` matches &quot;rm&quot;
-- `console.log` matches &quot;console.log&quot;
-
-**Special characters need escaping:**
-- `.` (any char) → `\.` (literal dot)
-- `(` `)` → `\(` `\)` (literal parens)
-- `[` `]` → `\[` `\]` (literal brackets)
-
-**Common metacharacters:**
-- `\s` - whitespace (space, tab, newline)
-- `\d` - digit (0-9)
-- `\w` - word character (a-z, A-Z, 0-9, _)
-- `.` - any character
-- `+` - one or more
-- `*` - zero or more
-- `?` - zero or one
-- `|` - OR
-
-**Examples:**
-```
-rm\s+-rf         Matches: rm -rf, rm  -rf
-console\.log\(   Matches: console.log(
-(eval|exec)\(    Matches: eval( or exec(
-chmod\s+777      Matches: chmod 777, chmod  777
-API_KEY\s*=      Matches: API_KEY=, API_KEY =
-```
-
-### Testing Patterns
-
-Test regex patterns before using:
-
-```bash
-python3 -c &quot;import re; print(re.search(r&#039;your_pattern&#039;, &#039;test text&#039;))&quot;
-```
-
-Or use online regex testers (regex101.com with Python flavor).
-
-### Common Pitfalls
-
-**Too broad:**
-```yaml
-pattern: log    # Matches &quot;log&quot;, &quot;login&quot;, &quot;dialog&quot;, &quot;catalog&quot;
-```
-Better: `console\.log\(|logger\.`
-
-**Too specific:**
-```yaml
-pattern: rm -rf /tmp  # Only matches exact path
-```
-Better: `rm\s+-rf`
-
-**Escaping issues:**
-- YAML quoted strings: `&quot;pattern&quot;` requires double backslashes `\\s`
-- YAML unquoted: `pattern: \s` works as-is
-- **Recommendation**: Use unquoted patterns in YAML</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                文件组织
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">**Location:** All rules in `.claude/` directory
-**Naming:** `.claude/hookify.{descriptive-name}.local.md`
-**Gitignore:** Add `.claude/*.local.md` to `.gitignore`
-
-**Good names:**
-- `hookify.dangerous-rm.local.md`
-- `hookify.console-log.local.md`
-- `hookify.require-tests.local.md`
-- `hookify.sensitive-files.local.md`
-
-**Bad names:**
-- `hookify.rule1.local.md` (not descriptive)
-- `hookify.md` (missing .local)
-- `danger.local.md` (missing hookify prefix)</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Workflow
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Creating a Rule
-
-1. Identify unwanted behavior
-2. Determine which tool is involved (Bash, Edit, etc.)
-3. Choose event type (bash, file, stop, etc.)
-4. Write regex pattern
-5. Create `.claude/hookify.{name}.local.md` file in project root
-6. Test immediately - rules are read dynamically on next tool use
-
-### Refining a Rule
-
-1. Edit the `.local.md` file
-2. Adjust pattern or message
-3. Test immediately - changes take effect on next tool use
-
-### Disabling a Rule
-
-**Temporary:** Set `enabled: false` in frontmatter
-**Permanent:** Delete the `.local.md` file</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                示例
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">See `${CLAUDE_PLUGIN_ROOT}/examples/` for complete examples:
-- `dangerous-rm.local.md` - Block dangerous rm commands
-- `console-log-warning.local.md` - Warn about console.log
-- `sensitive-files-warning.local.md` - Warn about editing .env files</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Quick Reference
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">**Minimum viable rule:**
-```markdown
----
-name: my-rule
-enabled: true
-event: bash
-pattern: dangerous_command
----
-
-Warning message here
-```
-
-**Rule with conditions:**
-```markdown
----
-name: my-rule
-enabled: true
-event: file
-conditions:
-  - field: file_path
-    operator: regex_match
-    pattern: \.ts$
-  - field: new_text
-    operator: contains
-    pattern: any
----
-
-Warning message
-```
-
-**Event types:**
-- `bash` - Bash commands
-- `file` - File edits
-- `stop` - Completion checks
-- `prompt` - User input
-- `all` - All events
-
-**Field options:**
-- Bash: `command`
-- File: `file_path`, `new_text`, `old_text`, `content`
-- Prompt: `user_prompt`
-
-**Operators:**
-- `regex_match`, `contains`, `equals`, `not_contains`, `starts_with`, `ends_with`</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: writing-hookify-rules
-description: This skill should be used when the user asks to &quot;create a hookify rule&quot;, &quot;write a hook rule&quot;, &quot;configure hookify&quot;, &quot;add a hookify rule&quot;, or needs guidance on hookify rule syntax and patterns.
-version: 0.1.0
----
-
-# Writing Hookify Rules
-
-## Overview
-
-Hookify rules are markdown files with YAML frontmatter that define patterns to watch for and messages to show when those patterns match. Rules are stored in `.claude/hookify.{rule-name}.local.md` files.
-
-## Rule File Format
-
-### Basic Structure
-
-```markdown
----
-name: rule-identifier
-enabled: true
-event: bash|file|stop|prompt|all
-pattern: regex-pattern-here
----
-
-Message to show Claude when this rule triggers.
-Can include markdown formatting, warnings, suggestions, etc.
-```
-
-### Frontmatter Fields
-
-**name** (required): Unique identifier for the rule
-- Use kebab-case: `warn-dangerous-rm`, `block-console-log`
-- Be descriptive and action-oriented
-- Start with verb: warn, prevent, block, require, check
-
-**enabled** (required): Boolean to activate/deactivate
-- `true`: Rule is active
-- `false`: Rule is disabled (won&#039;t trigger)
-- Can toggle without deleting rule
-
-**event** (required): Which hook event to trigger on
-- `bash`: Bash tool commands
-- `file`: Edit, Write, MultiEdit tools
-- `stop`: When agent wants to stop
-- `prompt`: When user submits a prompt
-- `all`: All events
-
-**action** (optional): What to do when rule matches
-- `warn`: Show message but allow operation (default)
-- `block`: Prevent operation (PreToolUse) or stop session (Stop events)
-- If omitted, defaults to `warn`
-
-**pattern** (simple format): Regex pattern to match
-- Used for simple single-condition rules
-- Matches against command (bash) or new_text (file)
-- Python regex syntax
-
-**Example:**
-```yaml
-event: bash
-pattern: rm\s+-rf
-```
-
-### Advanced Format (Multiple Conditions)
-
-For complex rules with multiple conditions:
-
-```markdown
----
-name: warn-env-file-edits
-enabled: true
-event: file
-conditions:
-  - field: file_path
-    operator: regex_match
-    pattern: \.env$
-  - field: new_text
-    operator: contains
-    pattern: API_KEY
----
-
-You&#039;re adding an API key to a .env file. Ensure this file is in .gitignore!
-```
-
-**Condition fields:**
-- `field`: Which field to check
-  - For bash: `command`
-  - For file: `file_path`, `new_text`, `old_text`, `content`
-- `operator`: How to match
-  - `regex_match`: Regex pattern matching
-  - `contains`: Substring check
-  - `equals`: Exact match
-  - `not_contains`: Substring must NOT be present
-  - `starts_with`: Prefix check
-  - `ends_with`: Suffix check
-- `pattern`: Pattern or string to match
-
-**All conditions must match for rule to trigger.**
-
-## Message Body
-
-The markdown content after frontmatter is shown to Claude when the rule triggers.
-
-**Good messages:**
-- Explain what was detected
-- Explain why it&#039;s problematic
-- Suggest alternatives or best practices
-- Use formatting for clarity (bold, lists, etc.)
-
-**Example:**
-```markdown
-⚠️ **Console.log detected!**
-
-You&#039;re adding console.log to production code.
+You're adding console.log to production code.
 
 **Why this matters:**
-- Debug logs shouldn&#039;t ship to production
+- Debug logs shouldn't ship to production
 - Console.log can expose sensitive data
 - Impacts browser performance
 
 **Alternatives:**
 - Use a proper logging library
 - Remove before committing
-- Use conditional debug builds
-```
-
-## Event Type Guide
-
-### bash Events
-
-Match Bash command patterns:
-
-```markdown
----
-event: bash
-pattern: sudo\s+|rm\s+-rf|chmod\s+777
----
-
-Dangerous command detected!
-```
-
-**Common patterns:**
-- Dangerous commands: `rm\s+-rf`, `dd\s+if=`, `mkfs`
-- Privilege escalation: `sudo\s+`, `su\s+`
-- Permission issues: `chmod\s+777`, `chown\s+root`
-
-### file Events
-
-Match Edit/Write/MultiEdit operations:
-
-```markdown
----
-event: file
-pattern: console\.log\(|eval\(|innerHTML\s*=
----
-
-Potentially problematic code pattern detected!
-```
-
-**Match on different fields:**
-```markdown
----
-event: file
-conditions:
-  - field: file_path
-    operator: regex_match
-    pattern: \.tsx?$
-  - field: new_text
-    operator: regex_match
-    pattern: console\.log\(
----
-
-Console.log in TypeScript file!
-```
-
-**Common patterns:**
-- Debug code: `console\.log\(`, `debugger`, `print\(`
-- Security risks: `eval\(`, `innerHTML\s*=`, `dangerouslySetInnerHTML`
-- Sensitive files: `\.env$`, `credentials`, `\.pem$`
-- Generated files: `node_modules/`, `dist/`, `build/`
-
-### stop Events
-
-Match when agent wants to stop (completion checks):
-
-```markdown
----
-event: stop
-pattern: .*
----
-
-Before stopping, verify:
-- [ ] Tests were run
-- [ ] Build succeeded
-- [ ] Documentation updated
-```
-
-**Use for:**
-- Reminders about required steps
-- Completion checklists
-- Process enforcement
-
-### prompt Events
-
-Match user prompt content (advanced):
-
-```markdown
----
-event: prompt
-conditions:
-  - field: user_prompt
-    operator: contains
-    pattern: deploy to production
----
-
-Production deployment checklist:
-- [ ] Tests passing?
-- [ ] Reviewed by team?
-- [ ] Monitoring ready?
-```
-
-## Pattern Writing Tips
-
-### Regex Basics
-
-**Literal characters:** Most characters match themselves
-- `rm` matches &quot;rm&quot;
-- `console.log` matches &quot;console.log&quot;
-
-**Special characters need escaping:**
-- `.` (any char) → `\.` (literal dot)
-- `(` `)` → `\(` `\)` (literal parens)
-- `[` `]` → `\[` `\]` (literal brackets)
-
-**Common metacharacters:**
-- `\s` - whitespace (space, tab, newline)
-- `\d` - digit (0-9)
-- `\w` - word character (a-z, A-Z, 0-9, _)
-- `.` - any character
-- `+` - one or more
-- `*` - zero or more
-- `?` - zero or one
-- `|` - OR
-
-**Examples:**
-```
-rm\s+-rf         Matches: rm -rf, rm  -rf
-console\.log\(   Matches: console.log(
-(eval|exec)\(    Matches: eval( or exec(
-chmod\s+777      Matches: chmod 777, chmod  777
-API_KEY\s*=      Matches: API_KEY=, API_KEY =
-```
-
-### Testing Patterns
-
-Test regex patterns before using:
-
-```bash
-python3 -c &quot;import re; print(re.search(r&#039;your_pattern&#039;, &#039;test text&#039;))&quot;
-```
-
-Or use online regex testers (regex101.com with Python flavor).
-
-### Common Pitfalls
-
-**Too broad:**
-```yaml
-pattern: log    # Matches &quot;log&quot;, &quot;login&quot;, &quot;dialog&quot;, &quot;catalog&quot;
-```
-Better: `console\.log\(|logger\.`
-
-**Too specific:**
-```yaml
-pattern: rm -rf /tmp  # Only matches exact path
-```
-Better: `rm\s+-rf`
-
-**Escaping issues:**
-- YAML quoted strings: `&quot;pattern&quot;` requires double backslashes `\\s`
-- YAML unquoted: `pattern: \s` works as-is
-- **Recommendation**: Use unquoted patterns in YAML
-
-## File Organization
-
-**Location:** All rules in `.claude/` directory
-**Naming:** `.claude/hookify.{descriptive-name}.local.md`
-**Gitignore:** Add `.claude/*.local.md` to `.gitignore`
-
-**Good names:**
-- `hookify.dangerous-rm.local.md`
-- `hookify.console-log.local.md`
-- `hookify.require-tests.local.md`
-- `hookify.sensitive-files.local.md`
-
-**Bad names:**
-- `hookify.rule1.local.md` (not descriptive)
-- `hookify.md` (missing .local)
-- `danger.local.md` (missing hookify prefix)
-
-## Workflow
-
-### Creating a Rule
-
-1. Identify unwanted behavior
-2. Determine which tool is involved (Bash, Edit, etc.)
-3. Choose event type (bash, file, stop, etc.)
-4. Write regex pattern
-5. Create `.claude/hookify.{name}.local.md` file in project root
-6. Test immediately - rules are read dynamically on next tool use
-
-### Refining a Rule
-
-1. Edit the `.local.md` file
-2. Adjust pattern or message
-3. Test immediately - changes take effect on next tool use
-
-### Disabling a Rule
-
-**Temporary:** Set `enabled: false` in frontmatter
-**Permanent:** Delete the `.local.md` file
-
-## Examples
-
-See `${CLAUDE_PLUGIN_ROOT}/examples/` for complete examples:
-- `dangerous-rm.local.md` - Block dangerous rm commands
-- `console-log-warning.local.md` - Warn about console.log
-- `sensitive-files-warning.local.md` - Warn about editing .env files
-
-## Quick Reference
-
-**Minimum viable rule:**
-```markdown
----
-name: my-rule
-enabled: true
-event: bash
-pattern: dangerous_command
----
-
-Warning message here
-```
-
-**Rule with conditions:**
-```markdown
----
-name: my-rule
-enabled: true
-event: file
-conditions:
-  - field: file_path
-    operator: regex_match
-    pattern: \.ts$
-  - field: new_text
-    operator: contains
-    pattern: any
----
-
-Warning message
-```
-
-**Event types:**
-- `bash` - Bash commands
-- `file` - File edits
-- `stop` - Completion checks
-- `prompt` - User input
-- `all` - All events
-
-**Field options:**
-- Bash: `command`
-- File: `file_path`, `new_text`, `old_text`, `content`
-- Prompt: `user_prompt`
-
-**Operators:**
-- `regex_match`, `contains`, `equals`, `not_contains`, `starts_with`, `ends_with`
-</pre>
+- Use conditional debug builds</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
+            <div class="nav-card" onclick="location.href='../skills.html'">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
+                <div class="nav-title">Skills 列表</div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

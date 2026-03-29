@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数据库迁移 - Everything Claude Code</title>
+    <title>Database Migrations - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,1017 +26,252 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #f59e0b; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(245, 158, 11, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #f59e0b; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(245, 158, 11, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(245, 158, 11, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #f59e0b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card:hover { border-color: rgba(245, 158, 11, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">数据库迁移</span>
+        <span class="breadcrumb-current">Database Migrations</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 3C7.58 3 4 4.79 4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7c0-2.21-3.58-4-8-4zm0 2c3.87 0 6 1.5 6 2s-2.13 2-6 2-6-1.5-6-2 2.13-2 6-2zm6 12c0 .5-2.13 2-6 2s-6-1.5-6-2v-2.23c1.61.78 3.72 1.23 6 1.23s4.39-.45 6-1.23V17zm0-5c0 .5-2.13 2-6 2s-6-1.5-6-2V9.77c1.61.78 3.72 1.23 6 1.23s4.39-.45 6-1.23V12z"/></svg>
             </div>
-            <h1 class="detail-title">数据库迁移</h1>
-            <p class="detail-subtitle">数据库迁移，数据库版本管理</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    everything-claude-code
-                </div>
+            <h1 class="detail-title">Database Migrations</h1>
+            <p class="detail-subtitle">数据库迁移最佳实践，支持 schema 变更、数据迁移、零停机部署</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Backend Pattern
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                When to Activate
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Creating or altering database tables
-- Adding/removing columns or indexes
-- Running data migrations (backfill, transform)
-- Planning zero-downtime schema changes
-- Setting up migration tooling for a new project</pre>
+                <p>Database Migrations Skill 是数据库模式变更的专业模式，确保安全、可逆、零停机的 schema 变更。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">安全迁移原则</h4>
+                            <p class="feature-desc">每个变更都是迁移文件，生产环境永不手动修改数据库</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Schema/Data 分离</h4>
+                            <p class="feature-desc">DDL 和 DML 永远分开，避免长事务和难以回滚的问题</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Expand-Contract 模式</h4>
+                            <p class="feature-desc">零停机迁移策略：扩展-迁移-收缩三阶段部署</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">多 ORM 支持</h4>
+                            <p class="feature-desc">Prisma、Drizzle、Kysely、Django、golang-migrate 等</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
                 核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">1. **Every change is a migration** — never alter production databases manually
-2. **Migrations are forward-only in production** — rollbacks use new forward migrations
-3. **Schema and data migrations are separate** — never mix DDL and DML in one migration
-4. **Test migrations against production-sized data** — a migration that works on 100 rows may lock on 10M
-5. **Migrations are immutable once deployed** — never edit a migration that has run in production</pre>
+                <p><strong>五个核心原则</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>每个变更都是迁移</strong> - 永不手动修改生产数据库</li>
+                    <li><strong>生产环境仅向前迁移</strong> - 回滚使用新的向前迁移</li>
+                    <li><strong>Schema 和数据迁移分离</strong> - 永不混合 DDL 和 DML</li>
+                    <li><strong>生产数据测试</strong> - 100 行有效的迁移可能在 10M 行时锁定</li>
+                    <li><strong>迁移不可变</strong> - 部署后永不编辑已运行的迁移</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>迁移安全检查清单</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>有 UP 和 DOWN (或明确标记不可逆)</li>
+                    <li>大表无全表锁 (使用并发操作)</li>
+                    <li>新列有默认值或可空 (永不添加无默认值的 NOT NULL)</li>
+                    <li>索引并发创建 (CREATE INDEX CONCURRENTLY)</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Migration Safety Checklist
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">Before applying any migration:
-
-- [ ] Migration has both UP and DOWN (or is explicitly marked irreversible)
-- [ ] No full table locks on large tables (use concurrent operations)
-- [ ] New columns have defaults or are nullable (never add NOT NULL without default)
-- [ ] Indexes created concurrently (not inline with CREATE TABLE for existing tables)
-- [ ] Data backfill is a separate migration from schema change
-- [ ] Tested against a copy of production data
-- [ ] Rollback plan documented</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                PostgreSQL Patterns
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Adding a Column Safely
-
-```sql
--- GOOD: Nullable column, no lock
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">PostgreSQL 安全迁移模式</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 添加列安全方式
+-- GOOD: 可空列，无锁
 ALTER TABLE users ADD COLUMN avatar_url TEXT;
 
--- GOOD: Column with default (Postgres 11+ is instant, no rewrite)
+-- GOOD: 带默认值 (Postgres 11+ 即时，无重写)
 ALTER TABLE users ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT true;
 
--- BAD: NOT NULL without default on existing table (requires full rewrite)
+-- BAD: 现有表上无默认值的 NOT NULL (需要全表重写)
 ALTER TABLE users ADD COLUMN role TEXT NOT NULL;
--- This locks the table and rewrites every row
-```
 
-### Adding an Index Without Downtime
-
-```sql
--- BAD: Blocks writes on large tables
+# 无停机添加索引
+-- BAD: 阻塞大表写入
 CREATE INDEX idx_users_email ON users (email);
 
--- GOOD: Non-blocking, allows concurrent writes
+-- GOOD: 非阻塞，允许并发写入
 CREATE INDEX CONCURRENTLY idx_users_email ON users (email);
 
--- Note: CONCURRENTLY cannot run inside a transaction block
--- Most migration tools need special handling for this
-```
-
-### Renaming a Column (Zero-Downtime)
-
-Never rename directly in production. Use the expand-contract pattern:
-
-```sql
--- Step 1: Add new column (migration 001)
-ALTER TABLE users ADD COLUMN display_name TEXT;
-
--- Step 2: Backfill data (migration 002, data migration)
-UPDATE users SET display_name = username WHERE display_name IS NULL;
-
--- Step 3: Update application code to read/write both columns
--- Deploy application changes
-
--- Step 4: Stop writing to old column, drop it (migration 003)
-ALTER TABLE users DROP COLUMN username;
-```
-
-### Removing a Column Safely
-
-```sql
--- Step 1: Remove all application references to the column
--- Step 2: Deploy application without the column reference
--- Step 3: Drop column in next migration
-ALTER TABLE orders DROP COLUMN legacy_status;
-
--- For Django: use SeparateDatabaseAndState to remove from model
--- without generating DROP COLUMN (then drop in next migration)
-```
-
-### Large Data Migrations
-
-```sql
--- BAD: Updates all rows in one transaction (locks table)
-UPDATE users SET normalized_email = LOWER(email);
-
--- GOOD: Batch update with progress
+# 大数据迁移批处理
 DO $$
 DECLARE
   batch_size INT := 10000;
   rows_updated INT;
 BEGIN
   LOOP
-    UPDATE users
-    SET normalized_email = LOWER(email)
+    UPDATE users SET normalized_email = LOWER(email)
     WHERE id IN (
-      SELECT id FROM users
-      WHERE normalized_email IS NULL
-      LIMIT batch_size
-      FOR UPDATE SKIP LOCKED
+      SELECT id FROM users WHERE normalized_email IS NULL
+      LIMIT batch_size FOR UPDATE SKIP LOCKED
     );
     GET DIAGNOSTICS rows_updated = ROW_COUNT;
-    RAISE NOTICE &#039;Updated % rows&#039;, rows_updated;
     EXIT WHEN rows_updated = 0;
     COMMIT;
   END LOOP;
-END $$;
-```</pre>
+END $$;</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Prisma (TypeScript/Node.js)
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>Expand-Contract 策略</strong> - 零停机重命名：添加新列 → 回填数据 → 更新代码 → 删除旧列</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>先删代码再删列</strong> - 先部署移除列引用的代码，再在下一个迁移中删除列</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>CONCURRENTLY 无法在事务中</strong> - 大多数迁移工具需要特殊处理并发索引创建</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>生产数据测试</strong> - 在生产数据副本上测试迁移，避免生产锁定</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Workflow
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Prisma 迁移工作流</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Prisma 迁移命令
 
-```bash
-# Create migration from schema changes
+# 从 schema 变更创建迁移
 npx prisma migrate dev --name add_user_avatar
 
-# Apply pending migrations in production
+# 生产环境应用待处理迁移
 npx prisma migrate deploy
 
-# Reset database (dev only)
+# 重置数据库 (仅开发)
 npx prisma migrate reset
 
-# Generate client after schema changes
+# schema 变更后生成客户端
 npx prisma generate
-```
 
-### Schema Example
-
-```prisma
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  avatarUrl String?  @map(&quot;avatar_url&quot;)
-  createdAt DateTime @default(now()) @map(&quot;created_at&quot;)
-  updatedAt DateTime @updatedAt @map(&quot;updated_at&quot;)
-  orders    Order[]
-
-  @@map(&quot;users&quot;)
-  @@index([email])
-}
-```
-
-### Custom SQL Migration
-
-For operations Prisma cannot express (concurrent indexes, data backfills):
-
-```bash
-# Create empty migration, then edit the SQL manually
+# 自定义 SQL 迁移 (Prisma 无法表达的操作)
 npx prisma migrate dev --create-only --name add_email_index
-```
 
-```sql
--- migrations/20240115_add_email_index/migration.sql
--- Prisma cannot generate CONCURRENTLY, so we write it manually
-CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_users_email ON users (email);
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Drizzle (TypeScript/Node.js)
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Workflow
-
-```bash
-# Generate migration from schema changes
-npx drizzle-kit generate
-
-# Apply migrations
-npx drizzle-kit migrate
-
-# Push schema directly (dev only, no migration file)
-npx drizzle-kit push
-```
-
-### Schema Example
-
-```typescript
-import { pgTable, text, timestamp, uuid, boolean } from &quot;drizzle-orm/pg-core&quot;;
-
-export const users = pgTable(&quot;users&quot;, {
-  id: uuid(&quot;id&quot;).primaryKey().defaultRandom(),
-  email: text(&quot;email&quot;).notNull().unique(),
-  name: text(&quot;name&quot;),
-  isActive: boolean(&quot;is_active&quot;).notNull().default(true),
-  createdAt: timestamp(&quot;created_at&quot;).notNull().defaultNow(),
-  updatedAt: timestamp(&quot;updated_at&quot;).notNull().defaultNow(),
-});
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Kysely (TypeScript/Node.js)
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Workflow (kysely-ctl)
-
-```bash
-# Initialize config file (kysely.config.ts)
-kysely init
-
-# Create a new migration file
-kysely migrate make add_user_avatar
-
-# Apply all pending migrations
-kysely migrate latest
-
-# Rollback last migration
-kysely migrate down
-
-# Show migration status
-kysely migrate list
-```
-
-### Migration File
-
-```typescript
-// migrations/2024_01_15_001_create_user_profile.ts
-import { type Kysely, sql } from &#039;kysely&#039;
-
-// IMPORTANT: Always use Kysely&lt;any&gt;, not your typed DB interface.
-// Migrations are frozen in time and must not depend on current schema types.
-export async function up(db: Kysely&lt;any&gt;): Promise&lt;void&gt; {
-  await db.schema
-    .createTable(&#039;user_profile&#039;)
-    .addColumn(&#039;id&#039;, &#039;serial&#039;, (col) =&gt; col.primaryKey())
-    .addColumn(&#039;email&#039;, &#039;varchar(255)&#039;, (col) =&gt; col.notNull().unique())
-    .addColumn(&#039;avatar_url&#039;, &#039;text&#039;)
-    .addColumn(&#039;created_at&#039;, &#039;timestamp&#039;, (col) =&gt;
-      col.defaultTo(sql`now()`).notNull()
-    )
-    .execute()
-
-  await db.schema
-    .createIndex(&#039;idx_user_profile_avatar&#039;)
-    .on(&#039;user_profile&#039;)
-    .column(&#039;avatar_url&#039;)
-    .execute()
-}
-
-export async function down(db: Kysely&lt;any&gt;): Promise&lt;void&gt; {
-  await db.schema.dropTable(&#039;user_profile&#039;).execute()
-}
-```
-
-### Programmatic Migrator
-
-```typescript
-import { Migrator, FileMigrationProvider } from &#039;kysely&#039;
-import { promises as fs } from &#039;fs&#039;
-import * as path from &#039;path&#039;
-// ESM only — CJS can use __dirname directly
-import { fileURLToPath } from &#039;url&#039;
-const migrationFolder = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  &#039;./migrations&#039;,
-)
-
-// `db` is your Kysely&lt;any&gt; database instance
-const migrator = new Migrator({
-  db,
-  provider: new FileMigrationProvider({
-    fs,
-    path,
-    migrationFolder,
-  }),
-  // WARNING: Only enable in development. Disables timestamp-ordering
-  // validation, which can cause schema drift between environments.
-  // allowUnorderedMigrations: true,
-})
-
-const { error, results } = await migrator.migrateToLatest()
-
-results?.forEach((it) =&gt; {
-  if (it.status === &#039;Success&#039;) {
-    console.log(`migration &quot;${it.migrationName}&quot; executed successfully`)
-  } else if (it.status === &#039;Error&#039;) {
-    console.error(`failed to execute migration &quot;${it.migrationName}&quot;`)
-  }
-})
-
-if (error) {
-  console.error(&#039;migration failed&#039;, error)
-  process.exit(1)
-}
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Django (Python)
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Workflow
-
-```bash
-# Generate migration from model changes
-python manage.py makemigrations
-
-# Apply migrations
-python manage.py migrate
-
-# Show migration status
-python manage.py showmigrations
-
-# Generate empty migration for custom SQL
-python manage.py makemigrations --empty app_name -n description
-```
-
-### Data Migration
-
-```python
-from django.db import migrations
-
-def backfill_display_names(apps, schema_editor):
-    User = apps.get_model(&quot;accounts&quot;, &quot;User&quot;)
-    batch_size = 5000
-    users = User.objects.filter(display_name=&quot;&quot;)
-    while users.exists():
-        batch = list(users[:batch_size])
-        for user in batch:
-            user.display_name = user.username
-        User.objects.bulk_update(batch, [&quot;display_name&quot;], batch_size=batch_size)
-
-def reverse_backfill(apps, schema_editor):
-    pass  # Data migration, no reverse needed
-
-class Migration(migrations.Migration):
-    dependencies = [(&quot;accounts&quot;, &quot;0015_add_display_name&quot;)]
-
-    operations = [
-        migrations.RunPython(backfill_display_names, reverse_backfill),
-    ]
-```
-
-### SeparateDatabaseAndState
-
-Remove a column from the Django model without dropping it from the database immediately:
-
-```python
-class Migration(migrations.Migration):
-    operations = [
-        migrations.SeparateDatabaseAndState(
-            state_operations=[
-                migrations.RemoveField(model_name=&quot;user&quot;, name=&quot;legacy_field&quot;),
-            ],
-            database_operations=[],  # Don&#039;t touch the DB yet
-        ),
-    ]
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                golang-migrate (Go)
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Workflow
-
-```bash
-# Create migration pair
-migrate create -ext sql -dir migrations -seq add_user_avatar
-
-# Apply all pending migrations
-migrate -path migrations -database &quot;$DATABASE_URL&quot; up
-
-# Rollback last migration
-migrate -path migrations -database &quot;$DATABASE_URL&quot; down 1
-
-# Force version (fix dirty state)
-migrate -path migrations -database &quot;$DATABASE_URL&quot; force VERSION
-```
-
-### Migration Files
-
-```sql
--- migrations/000003_add_user_avatar.up.sql
-ALTER TABLE users ADD COLUMN avatar_url TEXT;
-CREATE INDEX CONCURRENTLY idx_users_avatar ON users (avatar_url) WHERE avatar_url IS NOT NULL;
-
--- migrations/000003_add_user_avatar.down.sql
-DROP INDEX IF EXISTS idx_users_avatar;
-ALTER TABLE users DROP COLUMN IF EXISTS avatar_url;
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Zero-Downtime Migration Strategy
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">For critical production changes, follow the expand-contract pattern:
-
-```
-Phase 1: EXPAND
-  - Add new column/table (nullable or with default)
-  - Deploy: app writes to BOTH old and new
-  - Backfill existing data
-
-Phase 2: MIGRATE
-  - Deploy: app reads from NEW, writes to BOTH
-  - Verify data consistency
-
-Phase 3: CONTRACT
-  - Deploy: app only uses NEW
-  - Drop old column/table in separate migration
-```
-
-### Timeline Example
-
-```
-Day 1: Migration adds new_status column (nullable)
-Day 1: Deploy app v2 — writes to both status and new_status
-Day 2: Run backfill migration for existing rows
-Day 3: Deploy app v3 — reads from new_status only
-Day 7: Migration drops old status column
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Anti-Patterns
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">| Anti-Pattern | Why It Fails | Better Approach |
-|-------------|-------------|-----------------|
-| Manual SQL in production | No audit trail, unrepeatable | Always use migration files |
-| Editing deployed migrations | Causes drift between environments | Create new migration instead |
-| NOT NULL without default | Locks table, rewrites all rows | Add nullable, backfill, then add constraint |
-| Inline index on large table | Blocks writes during build | CREATE INDEX CONCURRENTLY |
-| Schema + data in one migration | Hard to rollback, long transactions | Separate migrations |
-| Dropping column before removing code | Application errors on missing column | Remove code first, drop column next deploy |</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: database-migrations
-description: Database migration best practices for schema changes, data migrations, rollbacks, and zero-downtime deployments across PostgreSQL, MySQL, and common ORMs (Prisma, Drizzle, Kysely, Django, TypeORM, golang-migrate).
-origin: ECC
----
-
-# Database Migration Patterns
-
-Safe, reversible database schema changes for production systems.
-
-## When to Activate
-
-- Creating or altering database tables
-- Adding/removing columns or indexes
-- Running data migrations (backfill, transform)
-- Planning zero-downtime schema changes
-- Setting up migration tooling for a new project
-
-## Core Principles
-
-1. **Every change is a migration** — never alter production databases manually
-2. **Migrations are forward-only in production** — rollbacks use new forward migrations
-3. **Schema and data migrations are separate** — never mix DDL and DML in one migration
-4. **Test migrations against production-sized data** — a migration that works on 100 rows may lock on 10M
-5. **Migrations are immutable once deployed** — never edit a migration that has run in production
-
-## Migration Safety Checklist
-
-Before applying any migration:
-
-- [ ] Migration has both UP and DOWN (or is explicitly marked irreversible)
-- [ ] No full table locks on large tables (use concurrent operations)
-- [ ] New columns have defaults or are nullable (never add NOT NULL without default)
-- [ ] Indexes created concurrently (not inline with CREATE TABLE for existing tables)
-- [ ] Data backfill is a separate migration from schema change
-- [ ] Tested against a copy of production data
-- [ ] Rollback plan documented
-
-## PostgreSQL Patterns
-
-### Adding a Column Safely
-
-```sql
--- GOOD: Nullable column, no lock
-ALTER TABLE users ADD COLUMN avatar_url TEXT;
-
--- GOOD: Column with default (Postgres 11+ is instant, no rewrite)
-ALTER TABLE users ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT true;
-
--- BAD: NOT NULL without default on existing table (requires full rewrite)
-ALTER TABLE users ADD COLUMN role TEXT NOT NULL;
--- This locks the table and rewrites every row
-```
-
-### Adding an Index Without Downtime
-
-```sql
--- BAD: Blocks writes on large tables
-CREATE INDEX idx_users_email ON users (email);
-
--- GOOD: Non-blocking, allows concurrent writes
-CREATE INDEX CONCURRENTLY idx_users_email ON users (email);
-
--- Note: CONCURRENTLY cannot run inside a transaction block
--- Most migration tools need special handling for this
-```
-
-### Renaming a Column (Zero-Downtime)
-
-Never rename directly in production. Use the expand-contract pattern:
-
-```sql
--- Step 1: Add new column (migration 001)
-ALTER TABLE users ADD COLUMN display_name TEXT;
-
--- Step 2: Backfill data (migration 002, data migration)
-UPDATE users SET display_name = username WHERE display_name IS NULL;
-
--- Step 3: Update application code to read/write both columns
--- Deploy application changes
-
--- Step 4: Stop writing to old column, drop it (migration 003)
-ALTER TABLE users DROP COLUMN username;
-```
-
-### Removing a Column Safely
-
-```sql
--- Step 1: Remove all application references to the column
--- Step 2: Deploy application without the column reference
--- Step 3: Drop column in next migration
-ALTER TABLE orders DROP COLUMN legacy_status;
-
--- For Django: use SeparateDatabaseAndState to remove from model
--- without generating DROP COLUMN (then drop in next migration)
-```
-
-### Large Data Migrations
-
-```sql
--- BAD: Updates all rows in one transaction (locks table)
-UPDATE users SET normalized_email = LOWER(email);
-
--- GOOD: Batch update with progress
-DO $$
-DECLARE
-  batch_size INT := 10000;
-  rows_updated INT;
-BEGIN
-  LOOP
-    UPDATE users
-    SET normalized_email = LOWER(email)
-    WHERE id IN (
-      SELECT id FROM users
-      WHERE normalized_email IS NULL
-      LIMIT batch_size
-      FOR UPDATE SKIP LOCKED
-    );
-    GET DIAGNOSTICS rows_updated = ROW_COUNT;
-    RAISE NOTICE &#039;Updated % rows&#039;, rows_updated;
-    EXIT WHEN rows_updated = 0;
-    COMMIT;
-  END LOOP;
-END $$;
-```
-
-## Prisma (TypeScript/Node.js)
-
-### Workflow
-
-```bash
-# Create migration from schema changes
-npx prisma migrate dev --name add_user_avatar
-
-# Apply pending migrations in production
-npx prisma migrate deploy
-
-# Reset database (dev only)
-npx prisma migrate reset
-
-# Generate client after schema changes
-npx prisma generate
-```
-
-### Schema Example
-
-```prisma
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  avatarUrl String?  @map(&quot;avatar_url&quot;)
-  createdAt DateTime @default(now()) @map(&quot;created_at&quot;)
-  updatedAt DateTime @updatedAt @map(&quot;updated_at&quot;)
-  orders    Order[]
-
-  @@map(&quot;users&quot;)
-  @@index([email])
-}
-```
-
-### Custom SQL Migration
-
-For operations Prisma cannot express (concurrent indexes, data backfills):
-
-```bash
-# Create empty migration, then edit the SQL manually
-npx prisma migrate dev --create-only --name add_email_index
-```
-
-```sql
--- migrations/20240115_add_email_index/migration.sql
--- Prisma cannot generate CONCURRENTLY, so we write it manually
-CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_users_email ON users (email);
-```
-
-## Drizzle (TypeScript/Node.js)
-
-### Workflow
-
-```bash
-# Generate migration from schema changes
-npx drizzle-kit generate
-
-# Apply migrations
-npx drizzle-kit migrate
-
-# Push schema directly (dev only, no migration file)
-npx drizzle-kit push
-```
-
-### Schema Example
-
-```typescript
-import { pgTable, text, timestamp, uuid, boolean } from &quot;drizzle-orm/pg-core&quot;;
-
-export const users = pgTable(&quot;users&quot;, {
-  id: uuid(&quot;id&quot;).primaryKey().defaultRandom(),
-  email: text(&quot;email&quot;).notNull().unique(),
-  name: text(&quot;name&quot;),
-  isActive: boolean(&quot;is_active&quot;).notNull().default(true),
-  createdAt: timestamp(&quot;created_at&quot;).notNull().defaultNow(),
-  updatedAt: timestamp(&quot;updated_at&quot;).notNull().defaultNow(),
-});
-```
-
-## Kysely (TypeScript/Node.js)
-
-### Workflow (kysely-ctl)
-
-```bash
-# Initialize config file (kysely.config.ts)
-kysely init
-
-# Create a new migration file
-kysely migrate make add_user_avatar
-
-# Apply all pending migrations
-kysely migrate latest
-
-# Rollback last migration
-kysely migrate down
-
-# Show migration status
-kysely migrate list
-```
-
-### Migration File
-
-```typescript
-// migrations/2024_01_15_001_create_user_profile.ts
-import { type Kysely, sql } from &#039;kysely&#039;
-
-// IMPORTANT: Always use Kysely&lt;any&gt;, not your typed DB interface.
-// Migrations are frozen in time and must not depend on current schema types.
-export async function up(db: Kysely&lt;any&gt;): Promise&lt;void&gt; {
-  await db.schema
-    .createTable(&#039;user_profile&#039;)
-    .addColumn(&#039;id&#039;, &#039;serial&#039;, (col) =&gt; col.primaryKey())
-    .addColumn(&#039;email&#039;, &#039;varchar(255)&#039;, (col) =&gt; col.notNull().unique())
-    .addColumn(&#039;avatar_url&#039;, &#039;text&#039;)
-    .addColumn(&#039;created_at&#039;, &#039;timestamp&#039;, (col) =&gt;
-      col.defaultTo(sql`now()`).notNull()
-    )
-    .execute()
-
-  await db.schema
-    .createIndex(&#039;idx_user_profile_avatar&#039;)
-    .on(&#039;user_profile&#039;)
-    .column(&#039;avatar_url&#039;)
-    .execute()
-}
-
-export async function down(db: Kysely&lt;any&gt;): Promise&lt;void&gt; {
-  await db.schema.dropTable(&#039;user_profile&#039;).execute()
-}
-```
-
-### Programmatic Migrator
-
-```typescript
-import { Migrator, FileMigrationProvider } from &#039;kysely&#039;
-import { promises as fs } from &#039;fs&#039;
-import * as path from &#039;path&#039;
-// ESM only — CJS can use __dirname directly
-import { fileURLToPath } from &#039;url&#039;
-const migrationFolder = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  &#039;./migrations&#039;,
-)
-
-// `db` is your Kysely&lt;any&gt; database instance
-const migrator = new Migrator({
-  db,
-  provider: new FileMigrationProvider({
-    fs,
-    path,
-    migrationFolder,
-  }),
-  // WARNING: Only enable in development. Disables timestamp-ordering
-  // validation, which can cause schema drift between environments.
-  // allowUnorderedMigrations: true,
-})
-
-const { error, results } = await migrator.migrateToLatest()
-
-results?.forEach((it) =&gt; {
-  if (it.status === &#039;Success&#039;) {
-    console.log(`migration &quot;${it.migrationName}&quot; executed successfully`)
-  } else if (it.status === &#039;Error&#039;) {
-    console.error(`failed to execute migration &quot;${it.migrationName}&quot;`)
-  }
-})
-
-if (error) {
-  console.error(&#039;migration failed&#039;, error)
-  process.exit(1)
-}
-```
-
-## Django (Python)
-
-### Workflow
-
-```bash
-# Generate migration from model changes
-python manage.py makemigrations
-
-# Apply migrations
-python manage.py migrate
-
-# Show migration status
-python manage.py showmigrations
-
-# Generate empty migration for custom SQL
-python manage.py makemigrations --empty app_name -n description
-```
-
-### Data Migration
-
-```python
-from django.db import migrations
-
-def backfill_display_names(apps, schema_editor):
-    User = apps.get_model(&quot;accounts&quot;, &quot;User&quot;)
-    batch_size = 5000
-    users = User.objects.filter(display_name=&quot;&quot;)
-    while users.exists():
-        batch = list(users[:batch_size])
-        for user in batch:
-            user.display_name = user.username
-        User.objects.bulk_update(batch, [&quot;display_name&quot;], batch_size=batch_size)
-
-def reverse_backfill(apps, schema_editor):
-    pass  # Data migration, no reverse needed
-
-class Migration(migrations.Migration):
-    dependencies = [(&quot;accounts&quot;, &quot;0015_add_display_name&quot;)]
-
-    operations = [
-        migrations.RunPython(backfill_display_names, reverse_backfill),
-    ]
-```
-
-### SeparateDatabaseAndState
-
-Remove a column from the Django model without dropping it from the database immediately:
-
-```python
-class Migration(migrations.Migration):
-    operations = [
-        migrations.SeparateDatabaseAndState(
-            state_operations=[
-                migrations.RemoveField(model_name=&quot;user&quot;, name=&quot;legacy_field&quot;),
-            ],
-            database_operations=[],  # Don&#039;t touch the DB yet
-        ),
-    ]
-```
-
-## golang-migrate (Go)
-
-### Workflow
-
-```bash
-# Create migration pair
-migrate create -ext sql -dir migrations -seq add_user_avatar
-
-# Apply all pending migrations
-migrate -path migrations -database &quot;$DATABASE_URL&quot; up
-
-# Rollback last migration
-migrate -path migrations -database &quot;$DATABASE_URL&quot; down 1
-
-# Force version (fix dirty state)
-migrate -path migrations -database &quot;$DATABASE_URL&quot; force VERSION
-```
-
-### Migration Files
-
-```sql
--- migrations/000003_add_user_avatar.up.sql
-ALTER TABLE users ADD COLUMN avatar_url TEXT;
-CREATE INDEX CONCURRENTLY idx_users_avatar ON users (avatar_url) WHERE avatar_url IS NOT NULL;
-
--- migrations/000003_add_user_avatar.down.sql
-DROP INDEX IF EXISTS idx_users_avatar;
-ALTER TABLE users DROP COLUMN IF EXISTS avatar_url;
-```
-
-## Zero-Downtime Migration Strategy
-
-For critical production changes, follow the expand-contract pattern:
-
-```
-Phase 1: EXPAND
-  - Add new column/table (nullable or with default)
-  - Deploy: app writes to BOTH old and new
-  - Backfill existing data
-
-Phase 2: MIGRATE
-  - Deploy: app reads from NEW, writes to BOTH
-  - Verify data consistency
-
-Phase 3: CONTRACT
-  - Deploy: app only uses NEW
-  - Drop old column/table in separate migration
-```
-
-### Timeline Example
-
-```
-Day 1: Migration adds new_status column (nullable)
-Day 1: Deploy app v2 — writes to both status and new_status
-Day 2: Run backfill migration for existing rows
-Day 3: Deploy app v3 — reads from new_status only
-Day 7: Migration drops old status column
-```
-
-## Anti-Patterns
-
-| Anti-Pattern | Why It Fails | Better Approach |
-|-------------|-------------|-----------------|
-| Manual SQL in production | No audit trail, unrepeatable | Always use migration files |
-| Editing deployed migrations | Causes drift between environments | Create new migration instead |
-| NOT NULL without default | Locks table, rewrites all rows | Add nullable, backfill, then add constraint |
-| Inline index on large table | Blocks writes during build | CREATE INDEX CONCURRENTLY |
-| Schema + data in one migration | Hard to rollback, long transactions | Separate migrations |
-| Dropping column before removing code | Application errors on missing column | Remove code first, drop column next deploy |
-</pre>
+# 编辑生成的 SQL 文件
+# migrations/20240115_add_email_index/migration.sql
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_users_email ON users (email);</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
             <a class="nav-card" href="../skills.html">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
+                <div class="nav-title">Skills 列表</div>
             </a>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

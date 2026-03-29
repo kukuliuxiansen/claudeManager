@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>深度研究 - Everything Claude Code</title>
+    <title>Deep Research - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,180 +26,191 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #06b6d4; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #06b6d4; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(6, 182, 212, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #06b6d4, #0891b2); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #06b6d4; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(6, 182, 212, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(6, 182, 212, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #06b6d4; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card:hover { border-color: rgba(6, 182, 212, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">深度研究</span>
+        <span class="breadcrumb-current">Deep Research</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             </div>
-            <h1 class="detail-title">深度研究</h1>
-            <p class="detail-subtitle">深度研究技能，进行多轮搜索和分析，提供全面的调研报告</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    local
-                </div>
+            <h1 class="detail-title">Deep Research</h1>
+            <p class="detail-subtitle">多源深度研究，使用 firecrawl 和 exa MCP 提供带引用的研究报告</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Research Skill
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">local</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                When to Activate
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- User asks to research any topic in depth
-- Competitive analysis, technology evaluation, or market sizing
-- Due diligence on companies, investors, or technologies
-- Any question requiring synthesis from multiple sources
-- User says &quot;research&quot;, &quot;deep dive&quot;, &quot;investigate&quot;, or &quot;what&#039;s the current state of&quot;</pre>
+                <p>Deep Research Skill 是多源深度研究的专业技能，使用 firecrawl 和 exa MCP 工具搜索网页、综合发现、提供带引用的研究报告。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">多源搜索</h4>
+                            <p class="feature-desc">使用 firecrawl_search、web_search_exa 同时搜索多个来源</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">深度阅读</h4>
+                            <p class="feature-desc">firecrawl_scrape、crawling_exa 获取关键源完整内容</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">子问题分解</h4>
+                            <p class="feature-desc">将主题分解为 3-5 个研究子问题，系统化调查</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">引用报告</h4>
+                            <p class="feature-desc">每个声明都有来源，提供带内联引用的综合报告</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                MCP Requirements
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">At least one of:
-- **firecrawl** — `firecrawl_search`, `firecrawl_scrape`, `firecrawl_crawl`
-- **exa** — `web_search_exa`, `web_search_advanced_exa`, `crawling_exa`
+                <p><strong>MCP 要求</strong>: 至少配置 firecrawl 或 exa 之一，两者一起提供最佳覆盖。</p>
 
-Both together give the best coverage. Configure in `~/.claude.json` or `~/.codex/config.toml`.</pre>
+                <p style="margin-top:20px"><strong>研究工作流</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>Step 1</strong>: 理解目标 - 询问 1-2 个快速澄清问题</li>
+                    <li><strong>Step 2</strong>: 计划研究 - 将主题分解为 3-5 个子问题</li>
+                    <li><strong>Step 3</strong>: 多源搜索 - 每个子问题搜索 2-3 个关键词变体</li>
+                    <li><strong>Step 4</strong>: 深度阅读 - 获取 3-5 个关键源完整内容</li>
+                    <li><strong>Step 5</strong>: 综合报告 - 结构化报告，每个声明都有引用</li>
+                    <li><strong>Step 6</strong>: 交付 - 短主题直接发送，长报告保存文件</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>质量规则</strong>: 每个声明都需要来源，交叉验证，优先最近 12 个月的来源，承认信息空白。</p>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Workflow
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Step 1: Understand the Goal
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">多源搜索命令</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 使用 firecrawl 搜索
+firecrawl_search(query: "&lt;sub-question keywords&gt;", limit: 8)
 
-Ask 1-2 quick clarifying questions:
-- &quot;What&#039;s your goal — learning, making a decision, or writing something?&quot;
-- &quot;Any specific angle or depth you want?&quot;
+# 使用 exa 搜索
+web_search_exa(query: "&lt;sub-question keywords&gt;", numResults: 8)
+web_search_advanced_exa(query: "&lt;keywords&gt;", numResults: 5, startPublishedDate: "2025-01-01")
 
-If the user says &quot;just research it&quot; — skip ahead with reasonable defaults.
+# 深度阅读关键源
+firecrawl_scrape(url: "&lt;url&gt;")
+crawling_exa(url: "&lt;url&gt;", tokensNum: 5000)
 
-### Step 2: Plan the Research
+# 搜索策略
+- 每个子问题使用 2-3 个不同关键词变体
+- 混合通用和新闻焦点查询
+- 总共目标 15-30 个唯一来源
+- 优先级: 学术、官方、信誉新闻 &gt; 博客 &gt; 论坛</code></pre>
+                </div>
+            </div>
+        </section>
 
-Break the topic into 3-5 research sub-questions. Example:
-- Topic: &quot;Impact of AI on healthcare&quot;
-  - What are the main AI applications in healthcare today?
-  - What clinical outcomes have been measured?
-  - What are the regulatory challenges?
-  - What companies are leading this space?
-  - What&#039;s the market size and growth trajectory?
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>每个声明都需要来源</strong> - 无未引用的断言，确保所有信息可追溯</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>交叉验证</strong> - 如果只有一个来源说，标记为未验证</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>并行研究</strong> - 使用 Task 工具并行化多个子问题研究</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>承认空白</strong> - 找不到好的信息时，明确说明"数据不足"</p>
+                </div>
+            </div>
+        </section>
 
-### Step 3: Execute Multi-Source Search
-
-For EACH sub-question, search using available MCP tools:
-
-**With firecrawl:**
-```
-firecrawl_search(query: &quot;&lt;sub-question keywords&gt;&quot;, limit: 8)
-```
-
-**With exa:**
-```
-web_search_exa(query: &quot;&lt;sub-question keywords&gt;&quot;, numResults: 8)
-web_search_advanced_exa(query: &quot;&lt;keywords&gt;&quot;, numResults: 5, startPublishedDate: &quot;2025-01-01&quot;)
-```
-
-**Search strategy:**
-- Use 2-3 different keyword variations per sub-question
-- Mix general and news-focused queries
-- Aim for 15-30 unique sources total
-- Prioritize: academic, official, reputable news &gt; blogs &gt; forums
-
-### Step 4: Deep-Read Key Sources
-
-For the most promising URLs, fetch full content:
-
-**With firecrawl:**
-```
-firecrawl_scrape(url: &quot;&lt;url&gt;&quot;)
-```
-
-**With exa:**
-```
-crawling_exa(url: &quot;&lt;url&gt;&quot;, tokensNum: 5000)
-```
-
-Read 3-5 key sources in full for depth. Do not rely only on search snippets.
-
-### Step 5: Synthesize and Write Report
-
-Structure the report:
-
-```markdown
-# [Topic]: Research Report
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Research Report Structure</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># [Topic]: Research Report
 *Generated: [date] | Sources: [N] | Confidence: [High/Medium/Low]*
 
 ## Executive Summary
@@ -222,243 +233,33 @@ Structure the report:
 - [Actionable insight 3]
 
 ## Sources
-1. [Title](url) — [one-line summary]
+1. [Title](url) - [one-line summary]
 2. ...
 
 ## Methodology
 Searched [N] queries across web and news. Analyzed [M] sources.
-Sub-questions investigated: [list]
-```
-
-### Step 6: Deliver
-
-- **Short topics**: Post the full report in chat
-- **Long reports**: Post the executive summary + key takeaways, save full report to a file</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Parallel Research with Subagents
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">For broad topics, use Claude Code&#039;s Task tool to parallelize:
-
-```
-Launch 3 research agents in parallel:
-1. Agent 1: Research sub-questions 1-2
-2. Agent 2: Research sub-questions 3-4
-3. Agent 3: Research sub-question 5 + cross-cutting themes
-```
-
-Each agent searches, reads sources, and returns findings. The main session synthesizes into the final report.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Quality Rules
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">1. **Every claim needs a source.** No unsourced assertions.
-2. **Cross-reference.** If only one source says it, flag it as unverified.
-3. **Recency matters.** Prefer sources from the last 12 months.
-4. **Acknowledge gaps.** If you couldn&#039;t find good info on a sub-question, say so.
-5. **No hallucination.** If you don&#039;t know, say &quot;insufficient data found.&quot;
-6. **Separate fact from inference.** Label estimates, projections, and opinions clearly.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                示例
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```
-&quot;Research the current state of nuclear fusion energy&quot;
-&quot;Deep dive into Rust vs Go for backend services in 2026&quot;
-&quot;Research the best strategies for bootstrapping a SaaS business&quot;
-&quot;What&#039;s happening with the US housing market right now?&quot;
-&quot;Investigate the competitive landscape for AI code editors&quot;
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: deep-research
-description: Multi-source deep research using firecrawl and exa MCPs. Searches the web, synthesizes findings, and delivers cited reports with source attribution. Use when the user wants thorough research on any topic with evidence and citations.
-origin: ECC
----
-
-# Deep Research
-
-Produce thorough, cited research reports from multiple web sources using firecrawl and exa MCP tools.
-
-## When to Activate
-
-- User asks to research any topic in depth
-- Competitive analysis, technology evaluation, or market sizing
-- Due diligence on companies, investors, or technologies
-- Any question requiring synthesis from multiple sources
-- User says &quot;research&quot;, &quot;deep dive&quot;, &quot;investigate&quot;, or &quot;what&#039;s the current state of&quot;
-
-## MCP Requirements
-
-At least one of:
-- **firecrawl** — `firecrawl_search`, `firecrawl_scrape`, `firecrawl_crawl`
-- **exa** — `web_search_exa`, `web_search_advanced_exa`, `crawling_exa`
-
-Both together give the best coverage. Configure in `~/.claude.json` or `~/.codex/config.toml`.
-
-## Workflow
-
-### Step 1: Understand the Goal
-
-Ask 1-2 quick clarifying questions:
-- &quot;What&#039;s your goal — learning, making a decision, or writing something?&quot;
-- &quot;Any specific angle or depth you want?&quot;
-
-If the user says &quot;just research it&quot; — skip ahead with reasonable defaults.
-
-### Step 2: Plan the Research
-
-Break the topic into 3-5 research sub-questions. Example:
-- Topic: &quot;Impact of AI on healthcare&quot;
-  - What are the main AI applications in healthcare today?
-  - What clinical outcomes have been measured?
-  - What are the regulatory challenges?
-  - What companies are leading this space?
-  - What&#039;s the market size and growth trajectory?
-
-### Step 3: Execute Multi-Source Search
-
-For EACH sub-question, search using available MCP tools:
-
-**With firecrawl:**
-```
-firecrawl_search(query: &quot;&lt;sub-question keywords&gt;&quot;, limit: 8)
-```
-
-**With exa:**
-```
-web_search_exa(query: &quot;&lt;sub-question keywords&gt;&quot;, numResults: 8)
-web_search_advanced_exa(query: &quot;&lt;keywords&gt;&quot;, numResults: 5, startPublishedDate: &quot;2025-01-01&quot;)
-```
-
-**Search strategy:**
-- Use 2-3 different keyword variations per sub-question
-- Mix general and news-focused queries
-- Aim for 15-30 unique sources total
-- Prioritize: academic, official, reputable news &gt; blogs &gt; forums
-
-### Step 4: Deep-Read Key Sources
-
-For the most promising URLs, fetch full content:
-
-**With firecrawl:**
-```
-firecrawl_scrape(url: &quot;&lt;url&gt;&quot;)
-```
-
-**With exa:**
-```
-crawling_exa(url: &quot;&lt;url&gt;&quot;, tokensNum: 5000)
-```
-
-Read 3-5 key sources in full for depth. Do not rely only on search snippets.
-
-### Step 5: Synthesize and Write Report
-
-Structure the report:
-
-```markdown
-# [Topic]: Research Report
-*Generated: [date] | Sources: [N] | Confidence: [High/Medium/Low]*
-
-## Executive Summary
-[3-5 sentence overview of key findings]
-
-## 1. [First Major Theme]
-[Findings with inline citations]
-- Key point ([Source Name](url))
-- Supporting data ([Source Name](url))
-
-## 2. [Second Major Theme]
-...
-
-## 3. [Third Major Theme]
-...
-
-## Key Takeaways
-- [Actionable insight 1]
-- [Actionable insight 2]
-- [Actionable insight 3]
-
-## Sources
-1. [Title](url) — [one-line summary]
-2. ...
-
-## Methodology
-Searched [N] queries across web and news. Analyzed [M] sources.
-Sub-questions investigated: [list]
-```
-
-### Step 6: Deliver
-
-- **Short topics**: Post the full report in chat
-- **Long reports**: Post the executive summary + key takeaways, save full report to a file
-
-## Parallel Research with Subagents
-
-For broad topics, use Claude Code&#039;s Task tool to parallelize:
-
-```
-Launch 3 research agents in parallel:
-1. Agent 1: Research sub-questions 1-2
-2. Agent 2: Research sub-questions 3-4
-3. Agent 3: Research sub-question 5 + cross-cutting themes
-```
-
-Each agent searches, reads sources, and returns findings. The main session synthesizes into the final report.
-
-## Quality Rules
-
-1. **Every claim needs a source.** No unsourced assertions.
-2. **Cross-reference.** If only one source says it, flag it as unverified.
-3. **Recency matters.** Prefer sources from the last 12 months.
-4. **Acknowledge gaps.** If you couldn&#039;t find good info on a sub-question, say so.
-5. **No hallucination.** If you don&#039;t know, say &quot;insufficient data found.&quot;
-6. **Separate fact from inference.** Label estimates, projections, and opinions clearly.
-
-## Examples
-
-```
-&quot;Research the current state of nuclear fusion energy&quot;
-&quot;Deep dive into Rust vs Go for backend services in 2026&quot;
-&quot;Research the best strategies for bootstrapping a SaaS business&quot;
-&quot;What&#039;s happening with the US housing market right now?&quot;
-&quot;Investigate the competitive landscape for AI code editors&quot;
-```
-</pre>
+Sub-questions investigated: [list]</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
             <a class="nav-card" href="../skills.html">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
+                <div class="nav-title">Skills 列表</div>
             </a>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

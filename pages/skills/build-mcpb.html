@@ -8,7 +8,7 @@
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,56 +26,38 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #fa709a; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #fa709a; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(250, 112, 154, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #fa709a, #fee140); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #fa709a; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(250, 112, 154, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(250, 112, 154, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(250, 112, 154, 0.1); border: 1px solid rgba(250, 112, 154, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #fa709a; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
         <span class="breadcrumb-current">构建MCPB</span>
     </nav>
@@ -86,471 +68,182 @@
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
             <h1 class="detail-title">构建MCPB</h1>
-            <p class="detail-subtitle">构建MCPB，创建MCPB包</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    mcp-server-dev
-                </div>
+            <p class="detail-subtitle">构建打包的本地MCP服务器，用户无需Node/Python即可安装运行</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: 打包工具
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">mcp-server-dev</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                What an MCPB bundle contains
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">```
-my-server.mcpb              (zip archive)
-├── manifest.json           ← identity, entry point, config schema, compatibility
-├── server/                 ← your MCP server code
-│   ├── index.js
-│   └── node_modules/       ← bundled dependencies (or vendored)
-└── icon.png
-```
-
-The host reads `manifest.json`, launches `server.mcp_config.command` as a **stdio** MCP server, and pipes messages. From your code&#039;s perspective it&#039;s identical to a local stdio server — the only difference is packaging.
-
----</pre>
+                <p>应用MCPB构建技能，创建可分发的本地MCP服务器包。</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">打包运行时</div>
+                            <div class="feature-desc">将MCP服务器与Node/Python运行时一起打包，用户无需安装任何工具链</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">清单配置</div>
+                            <div class="feature-desc">manifest.json定义身份、入口点、配置模式、兼容性和用户配置</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">标准stdio服务器</div>
+                            <div class="feature-desc">服务器代码与本地stdio MCP服务器相同，只是打包方式不同</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <div class="feature-title">UI组件支持</div>
+                            <div class="feature-desc">MCPB服务器可以像远程MCP应用一样提供UI资源，机制与传输无关</div>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Manifest
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">```json
-{
-  &quot;$schema&quot;: &quot;https://raw.githubusercontent.com/anthropics/mcpb/main/schemas/mcpb-manifest-v0.4.schema.json&quot;,
-  &quot;manifest_version&quot;: &quot;0.4&quot;,
-  &quot;name&quot;: &quot;local-files&quot;,
-  &quot;version&quot;: &quot;0.1.0&quot;,
-  &quot;description&quot;: &quot;Read, search, and watch files on the local filesystem.&quot;,
-  &quot;author&quot;: { &quot;name&quot;: &quot;Your Name&quot; },
-  &quot;server&quot;: {
-    &quot;type&quot;: &quot;node&quot;,
-    &quot;entry_point&quot;: &quot;server/index.js&quot;,
-    &quot;mcp_config&quot;: {
-      &quot;command&quot;: &quot;node&quot;,
-      &quot;args&quot;: [&quot;${__dirname}/server/index.js&quot;],
-      &quot;env&quot;: {
-        &quot;ROOT_DIR&quot;: &quot;${user_config.rootDir}&quot;
-      }
-    }
-  },
-  &quot;user_config&quot;: {
-    &quot;rootDir&quot;: {
-      &quot;type&quot;: &quot;directory&quot;,
-      &quot;title&quot;: &quot;Root directory&quot;,
-      &quot;description&quot;: &quot;Directory to expose. Defaults to ~/Documents.&quot;,
-      &quot;default&quot;: &quot;${HOME}/Documents&quot;,
-      &quot;required&quot;: true
-    }
-  },
-  &quot;compatibility&quot;: {
-    &quot;claude_desktop&quot;: &quot;&gt;=1.0.0&quot;,
-    &quot;platforms&quot;: [&quot;darwin&quot;, &quot;win32&quot;, &quot;linux&quot;]
-  }
-}
-```
-
-**`server.type`** — `node`, `python`, or `binary`. Informational; the actual launch comes from `mcp_config`.
-
-**`server.mcp_config`** — the literal command/args/env to spawn. Use `${__dirname}` for bundle-relative paths and `${user_config.&lt;key&gt;}` to substitute install-time config. **There&#039;s no auto-prefix** — the env var names your server reads are exactly what you put in `env`.
-
-**`user_config`** — install-time settings surfaced in the host&#039;s UI. `type: &quot;directory&quot;` renders a native folder picker. `sensitive: true` stores in OS keychain. See `references/manifest-schema.md` for all fields.
-
----</pre>
+                <p><strong>何时使用MCPB</strong></p>
+                <p>服务器必须在用户机器上运行 - 读取本地文件、驱动桌面应用、访问localhost服务、OS级API。</p>
+                <p><strong>何时不使用</strong></p>
+                <p>服务器只访问云API - 应使用远程HTTP服务器，无需承担MCPB打包开销。</p>
+                <p><strong>安全责任</strong></p>
+                <p>MCPB没有沙箱 - 服务器以完全用户权限运行。必须验证路径、拒绝逃逸ROOT、白名单spawn。</p>
+                <p><strong>构建流程</strong></p>
+                <p>Node: npm install + esbuild打包 + mcpb pack。Python: pip安装到vendor目录 + mcpb pack。</p>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Server code: same as local stdio
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">The server itself is a standard stdio MCP server. Nothing MCPB-specific in the tool logic.
-
-```typescript
-import { McpServer } from &quot;@modelcontextprotocol/sdk/server/mcp.js&quot;;
-import { StdioServerTransport } from &quot;@modelcontextprotocol/sdk/server/stdio.js&quot;;
-import { z } from &quot;zod&quot;;
-import { readFile, readdir } from &quot;node:fs/promises&quot;;
-import { join } from &quot;node:path&quot;;
-import { homedir } from &quot;node:os&quot;;
-
-// ROOT_DIR comes from what you put in manifest&#039;s server.mcp_config.env — no auto-prefix
-const ROOT = (process.env.ROOT_DIR ?? join(homedir(), &quot;Documents&quot;));
-
-const server = new McpServer({ name: &quot;local-files&quot;, version: &quot;0.1.0&quot; });
-
-server.registerTool(
-  &quot;list_files&quot;,
-  {
-    description: &quot;List files in a directory under the configured root.&quot;,
-    inputSchema: { path: z.string().default(&quot;.&quot;) },
-    annotations: { readOnlyHint: true },
-  },
-  async ({ path }) =&gt; {
-    const entries = await readdir(join(ROOT, path), { withFileTypes: true });
-    const list = entries.map(e =&gt; ({ name: e.name, dir: e.isDirectory() }));
-    return { content: [{ type: &quot;text&quot;, text: JSON.stringify(list, null, 2) }] };
-  },
-);
-
-server.registerTool(
-  &quot;read_file&quot;,
-  {
-    description: &quot;Read a file&#039;s contents. Path is relative to the configured root.&quot;,
-    inputSchema: { path: z.string() },
-    annotations: { readOnlyHint: true },
-  },
-  async ({ path }) =&gt; {
-    const text = await readFile(join(ROOT, path), &quot;utf8&quot;);
-    return { content: [{ type: &quot;text&quot;, text }] };
-  },
-);
-
-const transport = new StdioServerTransport();
-await server.connect(transport);
-```
-
-**Sandboxing is entirely your job.** There is no manifest-level sandbox — the process runs with full user privileges. Validate paths, refuse to escape `ROOT`, allowlist spawns. See `references/local-security.md`.
-
-Before hardcoding `ROOT` from a config env var, check if the host supports `roots/list` — the spec-native way to get user-approved directories. See `references/local-security.md` for the pattern.
-
----</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Build pipeline
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Node
-
-```bash
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">MCPB构建流程</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Node构建流程
 npm install
 npx esbuild src/index.ts --bundle --platform=node --outfile=server/index.js
-# or: copy node_modules wholesale if native deps resist bundling
 npx @anthropic-ai/mcpb pack
-```
 
-`mcpb pack` zips the directory and validates `manifest.json` against the schema.
-
-### Python
-
-```bash
+# Python构建流程
 pip install -t server/vendor -r requirements.txt
 npx @anthropic-ai/mcpb pack
-```
 
-Vendor dependencies into a subdirectory and prepend it to `sys.path` in your entry script. Native extensions (numpy, etc.) must be built for each target platform — avoid native deps if you can.
-
----</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                MCPB has no sandbox — security is on you
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Unlike mobile app stores, MCPB does NOT enforce permissions. The manifest has no `permissions` block — the server runs with full user privileges. `references/local-security.md` is mandatory reading, not optional. Every path must be validated, every spawn must be allowlisted, because nothing stops you at the platform level.
-
-If you came here expecting filesystem/network scoping from the manifest: it doesn&#039;t exist. Build it yourself in tool handlers.
-
-If your server&#039;s only job is hitting a cloud API, stop — that&#039;s a remote server wearing an MCPB costume. The user gains nothing from running it locally, and you&#039;re taking on local-security burden for no reason.
-
----</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                MCPB + UI widgets
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">MCPB servers can serve UI resources exactly like remote MCP apps — the widget mechanism is transport-agnostic. A local file picker that browses the actual disk, a dialog that controls a native app, etc.
-
-Widget authoring is covered in the **`build-mcp-app`** skill; it works the same here. The only difference is where the server runs.
-
----</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Testing
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```bash
-# Interactive manifest creation (first time)
-npx @anthropic-ai/mcpb init
-
-# Run the server directly over stdio, poke it with the inspector
+# 测试
 npx @modelcontextprotocol/inspector node server/index.js
 
-# Validate manifest against schema, then pack
+# 验证和打包
 npx @anthropic-ai/mcpb validate
 npx @anthropic-ai/mcpb pack
 
-# Sign for distribution
+# 签名分发
 npx @anthropic-ai/mcpb sign dist/local-files.mcpb
 
-# Install: drag the .mcpb file onto Claude Desktop
-```
-
-Test on a machine **without** your dev toolchain before shipping. &quot;Works on my machine&quot; failures in MCPB almost always trace to a dependency that wasn&#039;t actually bundled.
-
----</pre>
+# 安装：将.mcpb文件拖放到Claude Desktop</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Reference files
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">- `references/manifest-schema.md` — full `manifest.json` field reference
-- `references/local-security.md` — path traversal, sandboxing, least privilege</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <div class="tip-text">在分发前在没有开发工具链的机器上测试，避免"在我机器上能运行"问题</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <div class="tip-text">原生依赖必须为每个目标平台构建，尽可能避免使用原生依赖</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <div class="tip-text">每个路径都必须验证，每个spawn都必须白名单，因为平台级别没有任何阻止</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <div class="tip-text">使用${__dirname}引用包内相对路径，使用${user_config.key}替换安装时配置</div>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: build-mcpb
-description: This skill should be used when the user wants to &quot;package an MCP server&quot;, &quot;bundle an MCP&quot;, &quot;make an MCPB&quot;, &quot;ship a local MCP server&quot;, &quot;distribute a local MCP&quot;, discusses &quot;.mcpb files&quot;, mentions bundling a Node or Python runtime with their MCP server, or needs an MCP server that interacts with the local filesystem, desktop apps, or OS and must be installable without the user having Node/Python set up.
-version: 0.1.0
----
-
-# Build an MCPB (Bundled Local MCP Server)
-
-MCPB is a local MCP server **packaged with its runtime**. The user installs one file; it runs without needing Node, Python, or any toolchain on their machine. It&#039;s the sanctioned way to distribute local MCP servers.
-
-**Use MCPB when the server must run on the user&#039;s machine** — reading local files, driving a desktop app, talking to localhost services, OS-level APIs. If your server only hits cloud APIs, you almost certainly want a remote HTTP server instead (see `build-mcp-server`). Don&#039;t pay the MCPB packaging tax for something that could be a URL.
-
----
-
-## What an MCPB bundle contains
-
-```
-my-server.mcpb              (zip archive)
-├── manifest.json           ← identity, entry point, config schema, compatibility
-├── server/                 ← your MCP server code
-│   ├── index.js
-│   └── node_modules/       ← bundled dependencies (or vendored)
-└── icon.png
-```
-
-The host reads `manifest.json`, launches `server.mcp_config.command` as a **stdio** MCP server, and pipes messages. From your code&#039;s perspective it&#039;s identical to a local stdio server — the only difference is packaging.
-
----
-
-## Manifest
-
-```json
-{
-  &quot;$schema&quot;: &quot;https://raw.githubusercontent.com/anthropics/mcpb/main/schemas/mcpb-manifest-v0.4.schema.json&quot;,
-  &quot;manifest_version&quot;: &quot;0.4&quot;,
-  &quot;name&quot;: &quot;local-files&quot;,
-  &quot;version&quot;: &quot;0.1.0&quot;,
-  &quot;description&quot;: &quot;Read, search, and watch files on the local filesystem.&quot;,
-  &quot;author&quot;: { &quot;name&quot;: &quot;Your Name&quot; },
-  &quot;server&quot;: {
-    &quot;type&quot;: &quot;node&quot;,
-    &quot;entry_point&quot;: &quot;server/index.js&quot;,
-    &quot;mcp_config&quot;: {
-      &quot;command&quot;: &quot;node&quot;,
-      &quot;args&quot;: [&quot;${__dirname}/server/index.js&quot;],
-      &quot;env&quot;: {
-        &quot;ROOT_DIR&quot;: &quot;${user_config.rootDir}&quot;
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">manifest.json示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>{
+  "$schema": "https://raw.githubusercontent.com/anthropics/mcpb/main/schemas/mcpb-manifest-v0.4.schema.json",
+  "manifest_version": "0.4",
+  "name": "local-files",
+  "version": "0.1.0",
+  "description": "Read, search, and watch files on the local filesystem.",
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": {
+        "ROOT_DIR": "${user_config.rootDir}"
       }
     }
   },
-  &quot;user_config&quot;: {
-    &quot;rootDir&quot;: {
-      &quot;type&quot;: &quot;directory&quot;,
-      &quot;title&quot;: &quot;Root directory&quot;,
-      &quot;description&quot;: &quot;Directory to expose. Defaults to ~/Documents.&quot;,
-      &quot;default&quot;: &quot;${HOME}/Documents&quot;,
-      &quot;required&quot;: true
+  "user_config": {
+    "rootDir": {
+      "type": "directory",
+      "title": "Root directory",
+      "default": "${HOME}/Documents",
+      "required": true
     }
-  },
-  &quot;compatibility&quot;: {
-    &quot;claude_desktop&quot;: &quot;&gt;=1.0.0&quot;,
-    &quot;platforms&quot;: [&quot;darwin&quot;, &quot;win32&quot;, &quot;linux&quot;]
   }
-}
-```
-
-**`server.type`** — `node`, `python`, or `binary`. Informational; the actual launch comes from `mcp_config`.
-
-**`server.mcp_config`** — the literal command/args/env to spawn. Use `${__dirname}` for bundle-relative paths and `${user_config.&lt;key&gt;}` to substitute install-time config. **There&#039;s no auto-prefix** — the env var names your server reads are exactly what you put in `env`.
-
-**`user_config`** — install-time settings surfaced in the host&#039;s UI. `type: &quot;directory&quot;` renders a native folder picker. `sensitive: true` stores in OS keychain. See `references/manifest-schema.md` for all fields.
-
----
-
-## Server code: same as local stdio
-
-The server itself is a standard stdio MCP server. Nothing MCPB-specific in the tool logic.
-
-```typescript
-import { McpServer } from &quot;@modelcontextprotocol/sdk/server/mcp.js&quot;;
-import { StdioServerTransport } from &quot;@modelcontextprotocol/sdk/server/stdio.js&quot;;
-import { z } from &quot;zod&quot;;
-import { readFile, readdir } from &quot;node:fs/promises&quot;;
-import { join } from &quot;node:path&quot;;
-import { homedir } from &quot;node:os&quot;;
-
-// ROOT_DIR comes from what you put in manifest&#039;s server.mcp_config.env — no auto-prefix
-const ROOT = (process.env.ROOT_DIR ?? join(homedir(), &quot;Documents&quot;));
-
-const server = new McpServer({ name: &quot;local-files&quot;, version: &quot;0.1.0&quot; });
-
-server.registerTool(
-  &quot;list_files&quot;,
-  {
-    description: &quot;List files in a directory under the configured root.&quot;,
-    inputSchema: { path: z.string().default(&quot;.&quot;) },
-    annotations: { readOnlyHint: true },
-  },
-  async ({ path }) =&gt; {
-    const entries = await readdir(join(ROOT, path), { withFileTypes: true });
-    const list = entries.map(e =&gt; ({ name: e.name, dir: e.isDirectory() }));
-    return { content: [{ type: &quot;text&quot;, text: JSON.stringify(list, null, 2) }] };
-  },
-);
-
-server.registerTool(
-  &quot;read_file&quot;,
-  {
-    description: &quot;Read a file&#039;s contents. Path is relative to the configured root.&quot;,
-    inputSchema: { path: z.string() },
-    annotations: { readOnlyHint: true },
-  },
-  async ({ path }) =&gt; {
-    const text = await readFile(join(ROOT, path), &quot;utf8&quot;);
-    return { content: [{ type: &quot;text&quot;, text }] };
-  },
-);
-
-const transport = new StdioServerTransport();
-await server.connect(transport);
-```
-
-**Sandboxing is entirely your job.** There is no manifest-level sandbox — the process runs with full user privileges. Validate paths, refuse to escape `ROOT`, allowlist spawns. See `references/local-security.md`.
-
-Before hardcoding `ROOT` from a config env var, check if the host supports `roots/list` — the spec-native way to get user-approved directories. See `references/local-security.md` for the pattern.
-
----
-
-## Build pipeline
-
-### Node
-
-```bash
-npm install
-npx esbuild src/index.ts --bundle --platform=node --outfile=server/index.js
-# or: copy node_modules wholesale if native deps resist bundling
-npx @anthropic-ai/mcpb pack
-```
-
-`mcpb pack` zips the directory and validates `manifest.json` against the schema.
-
-### Python
-
-```bash
-pip install -t server/vendor -r requirements.txt
-npx @anthropic-ai/mcpb pack
-```
-
-Vendor dependencies into a subdirectory and prepend it to `sys.path` in your entry script. Native extensions (numpy, etc.) must be built for each target platform — avoid native deps if you can.
-
----
-
-## MCPB has no sandbox — security is on you
-
-Unlike mobile app stores, MCPB does NOT enforce permissions. The manifest has no `permissions` block — the server runs with full user privileges. `references/local-security.md` is mandatory reading, not optional. Every path must be validated, every spawn must be allowlisted, because nothing stops you at the platform level.
-
-If you came here expecting filesystem/network scoping from the manifest: it doesn&#039;t exist. Build it yourself in tool handlers.
-
-If your server&#039;s only job is hitting a cloud API, stop — that&#039;s a remote server wearing an MCPB costume. The user gains nothing from running it locally, and you&#039;re taking on local-security burden for no reason.
-
----
-
-## MCPB + UI widgets
-
-MCPB servers can serve UI resources exactly like remote MCP apps — the widget mechanism is transport-agnostic. A local file picker that browses the actual disk, a dialog that controls a native app, etc.
-
-Widget authoring is covered in the **`build-mcp-app`** skill; it works the same here. The only difference is where the server runs.
-
----
-
-## Testing
-
-```bash
-# Interactive manifest creation (first time)
-npx @anthropic-ai/mcpb init
-
-# Run the server directly over stdio, poke it with the inspector
-npx @modelcontextprotocol/inspector node server/index.js
-
-# Validate manifest against schema, then pack
-npx @anthropic-ai/mcpb validate
-npx @anthropic-ai/mcpb pack
-
-# Sign for distribution
-npx @anthropic-ai/mcpb sign dist/local-files.mcpb
-
-# Install: drag the .mcpb file onto Claude Desktop
-```
-
-Test on a machine **without** your dev toolchain before shipping. &quot;Works on my machine&quot; failures in MCPB almost always trace to a dependency that wasn&#039;t actually bundled.
-
----
-
-## Reference files
-
-- `references/manifest-schema.md` — full `manifest.json` field reference
-- `references/local-security.md` — path traversal, sandboxing, least privilege
-</pre>
+}</code></pre>
+                </div>
             </div>
         </section>
 
-        <div class="detail-nav">
-            <a class="nav-card" href="../skills.html">
-                <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust Code Review Report - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #8b5cf6; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #8b5cf640; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #8b5cf6; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Rust Code Review Report</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+            </div>
+            <h1 class="detail-title">Rust Code Review Report</h1>
+            <p class="detail-subtitle">命令脚本，快速执行特定操作的快捷方式</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    Command
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                What This Command Does
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">1. **Verify Automated Checks**: Run `cargo check`, `cargo clippy -- -D warnings`, `cargo fmt --check`, and `cargo test` — stop if any fail
+2. **Identify Rust Changes**: Find modified `.rs` files via `git diff HEAD~1` (or `git diff main...HEAD` for PRs)
+3. **Run Security Audit**: Execute `cargo audit` if available
+4. **Security Scan**: Check for unsafe usage, command injection, hardcoded secrets
+5. **Ownership Review**: Analyze unnecessary clones, lifetime issues, borrowing patterns
+6. **Generate Report**: Categorize issues by severity</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                When To Use
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Use `/rust-review` when:
+- After writing or modifying Rust code
+- Before committing Rust changes
+- Reviewing pull requests with Rust code
+- Onboarding to a new Rust codebase
+- Learning idiomatic Rust patterns</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Review Categories
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### CRITICAL (Must Fix)
+- Unchecked `unwrap()`/`expect()` in production code paths
+- `unsafe` without `// SAFETY:` comment documenting invariants
+- SQL injection via string interpolation in queries
+- Command injection via unvalidated input in `std::process::Command`
+- Hardcoded credentials
+- Use-after-free via raw pointers
+### HIGH (Should Fix)
+- Unnecessary `.clone()` to satisfy borrow checker
+- `String` parameter where `&amp;str` or `impl AsRef&lt;str&gt;` suffices
+- Blocking in async context (`std::thread::sleep`, `std::fs`)
+- Missing `Send`/`Sync` bounds on shared types
+- Wildcard `_ =&gt;` match on business-critical enums
+- Large functions (&gt;50 lines)
+### MEDIUM (Consider)
+- Unnecessary allocation in hot paths
+- Missing `with_capacity` when size is known
+- Suppressed clippy warnings without justification
+- Public API without `///` documentation
+- Consider `#[must_use]` on non-`must_use` return types where ignoring values is likely a bug</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Automated Checks Run
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```bash
+cargo check
+cargo clippy -- -D warnings
+cargo fmt --check
+cargo test
+if command -v cargo-audit &gt;/dev/null; then cargo audit; else echo &quot;cargo-audit not installed&quot;; fi
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Example Usage
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">````text
+User: /rust-review
+Agent:</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Files Reviewed
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- src/service/user.rs (modified)
+- src/handler/api.rs (modified)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Static Analysis Results
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Build: Successful
+- Clippy: No warnings
+- Formatting: Passed
+- Tests: All passing</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Issues Found
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">[CRITICAL] Unchecked unwrap in Production Path
+File: src/service/user.rs:28
+Issue: Using `.unwrap()` on database query result
+```rust
+let user = db.find_by_id(id).unwrap();  // Panics on missing user
+```
+Fix: Propagate error with context
+```rust
+let user = db.find_by_id(id)
+    .context(&quot;failed to fetch user&quot;)?;
+```
+[HIGH] Unnecessary Clone
+File: src/handler/api.rs:45
+Issue: Cloning String to satisfy borrow checker
+```rust
+let name = user.name.clone();
+process(&amp;user, &amp;name);
+```
+Fix: Restructure to avoid clone
+```rust
+let result = process_name(&amp;user.name);
+use_user(&amp;user, result);
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Summary
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- CRITICAL: 1
+- HIGH: 1
+- MEDIUM: 0
+Recommendation: Block merge until CRITICAL issue is fixed
+````</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Approval Criteria
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Status | Condition |
+|--------|-----------|
+| Approve | No CRITICAL or HIGH issues |
+| Warning | Only MEDIUM issues (merge with caution) |
+| Block | CRITICAL or HIGH issues found |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Integration With Other Commands
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Use `/rust-test` first to ensure tests pass
+- Use `/rust-build` if build errors occur
+- Use `/rust-review` before committing
+- Use `/code-review` for non-Rust-specific concerns</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Related
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Agent: `agents/rust-reviewer.md`
+- Skills: `skills/rust-patterns/`, `skills/rust-testing/`</pre>
+            </div>
+        </section>
+        
+
+        <div class="detail-nav">
+            <a class="nav-card" href="rust-build.html">
+                <div class="nav-label">上一个</div>
+                <div class="nav-title">No warnings</div>
+                <div class="nav-type">Command</div>
+            </a>
+            <a class="nav-card" href="rust-test.html">
+                <div class="nav-label">下一个</div>
+                <div class="nav-title">Run without stopping on first failure</div>
+                <div class="nav-type">Command</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

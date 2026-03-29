@@ -8,7 +8,7 @@
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
         .detail-header {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             border-radius: 20px; padding: 50px; margin-bottom: 40px;
             position: relative; overflow: hidden;
         }
@@ -26,56 +26,43 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #00d4aa; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-card:hover { border-color: rgba(139, 92, 246, 0.3); background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <a href="../skills.html" class="breadcrumb-link">Skills</a>
         <span class="breadcrumb-separator">/</span>
         <span class="breadcrumb-current">dmux Workflows</span>
     </nav>
@@ -83,472 +70,195 @@
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/></svg>
             </div>
             <h1 class="detail-title">dmux Workflows</h1>
-            <p class="detail-subtitle">技能模块，提供专业领域的自动化处理能力</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    技能
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    everything-claude-code
-                </div>
+            <p class="detail-subtitle">基于 tmux 的多代理编排工具，支持 Claude Code、Codex、OpenCode 等并行会话</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Workflow Skill
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                When to Activate
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Running multiple agent sessions in parallel
-- Coordinating work across Claude Code, Codex, and other harnesses
-- Complex tasks that benefit from divide-and-conquer parallelism
-- User says &quot;run in parallel&quot;, &quot;split this work&quot;, &quot;use dmux&quot;, or &quot;multi-agent&quot;</pre>
+                <p>dmux Workflows Skill 是多代理编排的专业模式，使用 tmux 管理 AI 代理面板，支持并行代理会话和跨工具协调。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">多代理并行</h4>
+                            <p class="feature-desc">按 'n' 创建新面板，按 'm' 合并输出到主会话</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">跨工具支持</h4>
+                            <p class="feature-desc">Claude Code、Codex、OpenCode、Cline、Gemini、Qwen</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">工作流模式</h4>
+                            <p class="feature-desc">Research+Implement、Multi-File Feature、Test+Fix Loop、Cross-Harness</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Git Worktree 集成</h4>
+                            <p class="feature-desc">每个面板使用独立 worktree，避免文件冲突</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                What is dmux
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">dmux is a tmux-based orchestration tool that manages AI agent panes:
-- Press `n` to create a new pane with a prompt
-- Press `m` to merge pane output back to the main session
-- Supports: Claude Code, Codex, OpenCode, Cline, Gemini, Qwen
+                <p><strong>dmux 是基于 tmux 的编排工具</strong>，管理 AI 代理面板:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>按 <code>n</code> 创建新面板并输入提示</li>
+                    <li>按 <code>m</code> 合并面板输出到主会话</li>
+                    <li>支持: Claude Code、Codex、OpenCode、Cline、Gemini、Qwen</li>
+                </ul>
 
-**Install:** Install dmux from its repository after reviewing the package. See [github.com/standardagents/dmux](https://github.com/standardagents/dmux)</pre>
+                <p style="margin-top:20px"><strong>工作流模式</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>Pattern 1: Research + Implement</strong> - 研究和实现分两条并行轨道</li>
+                    <li><strong>Pattern 2: Multi-File Feature</strong> - 跨独立文件并行工作</li>
+                    <li><strong>Pattern 3: Test + Fix Loop</strong> - 一个面板运行测试，另一个修复</li>
+                    <li><strong>Pattern 4: Cross-Harness</strong> - 不同 AI 工具处理不同任务</li>
+                    <li><strong>Pattern 5: Code Review Pipeline</strong> - 并行审查不同视角</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Quick Start
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">```bash
-# Start dmux session
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">dmux Quick Start</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Start dmux session
 dmux
 
-# Create agent panes (press &#039;n&#039; in dmux, then type prompt)
-# Pane 1: &quot;Implement the auth middleware in src/auth/&quot;
-# Pane 2: &quot;Write tests for the user service&quot;
-# Pane 3: &quot;Update API documentation&quot;
+# Create agent panes (press 'n' in dmux, then type prompt)
+# Pane 1: "Implement the auth middleware in src/auth/"
+# Pane 2: "Write tests for the user service"
+# Pane 3: "Update API documentation"
 
 # Each pane runs its own agent session
-# Press &#039;m&#039; to merge results back
-```</pre>
-            </div>
-        </section>
+# Press 'm' to merge results back
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Workflow Patterns
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Pattern 1: Research + Implement
-
-Split research and implementation into parallel tracks:
-
-```
-Pane 1 (Research): &quot;Research best practices for rate limiting in Node.js.
-  Check current libraries, compare approaches, and write findings to
-  /tmp/rate-limit-research.md&quot;
-
-Pane 2 (Implement): &quot;Implement rate limiting middleware for our Express API.
-  Start with a basic token bucket, we&#039;ll refine after research completes.&quot;
-
-# After Pane 1 completes, merge findings into Pane 2&#039;s context
-```
-
-### Pattern 2: Multi-File Feature
-
-Parallelize work across independent files:
-
-```
-Pane 1: &quot;Create the database schema and migrations for the billing feature&quot;
-Pane 2: &quot;Build the billing API endpoints in src/api/billing/&quot;
-Pane 3: &quot;Create the billing dashboard UI components&quot;
-
-# Merge all, then do integration in main pane
-```
-
-### Pattern 3: Test + Fix Loop
-
-Run tests in one pane, fix in another:
-
-```
-Pane 1 (Watcher): &quot;Run the test suite in watch mode. When tests fail,
-  summarize the failures.&quot;
-
-Pane 2 (Fixer): &quot;Fix failing tests based on the error output from pane 1&quot;
-```
-
-### Pattern 4: Cross-Harness
-
-Use different AI tools for different tasks:
-
-```
-Pane 1 (Claude Code): &quot;Review the security of the auth module&quot;
-Pane 2 (Codex): &quot;Refactor the utility functions for performance&quot;
-Pane 3 (Claude Code): &quot;Write E2E tests for the checkout flow&quot;
-```
-
-### Pattern 5: Code Review Pipeline
-
-Parallel review perspectives:
-
-```
-Pane 1: &quot;Review src/api/ for security vulnerabilities&quot;
-Pane 2: &quot;Review src/api/ for performance issues&quot;
-Pane 3: &quot;Review src/api/ for test coverage gaps&quot;
-
-# Merge all reviews into a single report
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                最佳实践
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">1. **Independent tasks only.** Don&#039;t parallelize tasks that depend on each other&#039;s output.
-2. **Clear boundaries.** Each pane should work on distinct files or concerns.
-3. **Merge strategically.** Review pane output before merging to avoid conflicts.
-4. **Use git worktrees.** For file-conflict-prone work, use separate worktrees per pane.
-5. **Resource awareness.** Each pane uses API tokens — keep total panes under 5-6.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Git Worktree Integration
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">For tasks that touch overlapping files:
-
-```bash
-# Create worktrees for isolation
+# Git Worktree Integration (for overlapping files)
 git worktree add -b feat/auth ../feature-auth HEAD
 git worktree add -b feat/billing ../feature-billing HEAD
 
 # Run agents in separate worktrees
-# Pane 1: cd ../feature-auth &amp;&amp; claude
-# Pane 2: cd ../feature-billing &amp;&amp; claude
+# Pane 1: cd ../feature-auth && claude
+# Pane 2: cd ../feature-billing && claude
 
 # Merge branches when done
 git merge feat/auth
-git merge feat/billing
-```</pre>
+git merge feat/billing</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Complementary Tools
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">| Tool | What It Does | When to Use |
-|------|-------------|-------------|
-| **dmux** | tmux pane management for agents | Parallel agent sessions |
-| **Superset** | Terminal IDE for 10+ parallel agents | Large-scale orchestration |
-| **Claude Code Task tool** | In-process subagent spawning | Programmatic parallelism within a session |
-| **Codex multi-agent** | Built-in agent roles | Codex-specific parallel work |</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>仅独立任务</strong> - 不要并行化相互依赖的任务，确保边界清晰</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>策略合并</strong> - 合并前检查面板输出，避免冲突</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>Git Worktrees</strong> - 文件冲突风险高时，每个面板使用独立 worktree</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>资源意识</strong> - 每个面板消耗 API tokens，保持总数在 5-6 以下</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                ECC Helper
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">ECC now includes a helper for external tmux-pane orchestration with separate git worktrees:
-
-```bash
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">ECC Helper - orchestrate-worktrees.js</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># ECC helper for external tmux-pane orchestration
 node scripts/orchestrate-worktrees.js plan.json --execute
-```
 
-Example `plan.json`:
-
-```json
+# Example plan.json:
 {
-  &quot;sessionName&quot;: &quot;skill-audit&quot;,
-  &quot;baseRef&quot;: &quot;HEAD&quot;,
-  &quot;launcherCommand&quot;: &quot;codex exec --cwd {worktree_path} --task-file {task_file}&quot;,
-  &quot;workers&quot;: [
-    { &quot;name&quot;: &quot;docs-a&quot;, &quot;task&quot;: &quot;Fix skills 1-4 and write handoff notes.&quot; },
-    { &quot;name&quot;: &quot;docs-b&quot;, &quot;task&quot;: &quot;Fix skills 5-8 and write handoff notes.&quot; }
+  "sessionName": "skill-audit",
+  "baseRef": "HEAD",
+  "launcherCommand": "codex exec --cwd {worktree_path} --task-file {task_file}",
+  "workers": [
+    { "name": "docs-a", "task": "Fix skills 1-4 and write handoff notes." },
+    { "name": "docs-b", "task": "Fix skills 5-8 and write handoff notes." }
   ]
 }
-```
 
-The helper:
-- Creates one branch-backed git worktree per worker
-- Optionally overlays selected `seedPaths` from the main checkout into each worker worktree
-- Writes per-worker `task.md`, `handoff.md`, and `status.md` files under `.orchestration/&lt;session&gt;/`
-- Starts a tmux session with one pane per worker
-- Launches each worker command in its own pane
-- Leaves the main pane free for the orchestrator
-
-Use `seedPaths` when workers need access to dirty or untracked local files that are not yet part of `HEAD`, such as local orchestration scripts, draft plans, or docs:
-
-```json
-{
-  &quot;sessionName&quot;: &quot;workflow-e2e&quot;,
-  &quot;seedPaths&quot;: [
-    &quot;scripts/orchestrate-worktrees.js&quot;,
-    &quot;scripts/lib/tmux-worktree-orchestrator.js&quot;,
-    &quot;.claude/plan/workflow-e2e-test.json&quot;
-  ],
-  &quot;launcherCommand&quot;: &quot;bash {repo_root}/scripts/orchestrate-codex-worker.sh {task_file} {handoff_file} {status_file}&quot;,
-  &quot;workers&quot;: [
-    { &quot;name&quot;: &quot;seed-check&quot;, &quot;task&quot;: &quot;Verify seeded files are present before starting work.&quot; }
-  ]
-}
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                故障排查
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- **Pane not responding:** Switch to the pane directly or inspect it with `tmux capture-pane -pt &lt;session&gt;:0.&lt;pane-index&gt;`.
-- **Merge conflicts:** Use git worktrees to isolate file changes per pane.
-- **High token usage:** Reduce number of parallel panes. Each pane is a full agent session.
-- **tmux not found:** Install with `brew install tmux` (macOS) or `apt install tmux` (Linux).</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                完整内容
-            </h2>
-            <div class="section-content">
-                <pre class="section-text full-content-text">---
-name: dmux-workflows
-description: Multi-agent orchestration using dmux (tmux pane manager for AI agents). Patterns for parallel agent workflows across Claude Code, Codex, OpenCode, and other harnesses. Use when running multiple agent sessions in parallel or coordinating multi-agent development workflows.
-origin: ECC
----
-
-# dmux Workflows
-
-Orchestrate parallel AI agent sessions using dmux, a tmux pane manager for agent harnesses.
-
-## When to Activate
-
-- Running multiple agent sessions in parallel
-- Coordinating work across Claude Code, Codex, and other harnesses
-- Complex tasks that benefit from divide-and-conquer parallelism
-- User says &quot;run in parallel&quot;, &quot;split this work&quot;, &quot;use dmux&quot;, or &quot;multi-agent&quot;
-
-## What is dmux
-
-dmux is a tmux-based orchestration tool that manages AI agent panes:
-- Press `n` to create a new pane with a prompt
-- Press `m` to merge pane output back to the main session
-- Supports: Claude Code, Codex, OpenCode, Cline, Gemini, Qwen
-
-**Install:** Install dmux from its repository after reviewing the package. See [github.com/standardagents/dmux](https://github.com/standardagents/dmux)
-
-## Quick Start
-
-```bash
-# Start dmux session
-dmux
-
-# Create agent panes (press &#039;n&#039; in dmux, then type prompt)
-# Pane 1: &quot;Implement the auth middleware in src/auth/&quot;
-# Pane 2: &quot;Write tests for the user service&quot;
-# Pane 3: &quot;Update API documentation&quot;
-
-# Each pane runs its own agent session
-# Press &#039;m&#039; to merge results back
-```
-
-## Workflow Patterns
-
-### Pattern 1: Research + Implement
-
-Split research and implementation into parallel tracks:
-
-```
-Pane 1 (Research): &quot;Research best practices for rate limiting in Node.js.
-  Check current libraries, compare approaches, and write findings to
-  /tmp/rate-limit-research.md&quot;
-
-Pane 2 (Implement): &quot;Implement rate limiting middleware for our Express API.
-  Start with a basic token bucket, we&#039;ll refine after research completes.&quot;
-
-# After Pane 1 completes, merge findings into Pane 2&#039;s context
-```
-
-### Pattern 2: Multi-File Feature
-
-Parallelize work across independent files:
-
-```
-Pane 1: &quot;Create the database schema and migrations for the billing feature&quot;
-Pane 2: &quot;Build the billing API endpoints in src/api/billing/&quot;
-Pane 3: &quot;Create the billing dashboard UI components&quot;
-
-# Merge all, then do integration in main pane
-```
-
-### Pattern 3: Test + Fix Loop
-
-Run tests in one pane, fix in another:
-
-```
-Pane 1 (Watcher): &quot;Run the test suite in watch mode. When tests fail,
-  summarize the failures.&quot;
-
-Pane 2 (Fixer): &quot;Fix failing tests based on the error output from pane 1&quot;
-```
-
-### Pattern 4: Cross-Harness
-
-Use different AI tools for different tasks:
-
-```
-Pane 1 (Claude Code): &quot;Review the security of the auth module&quot;
-Pane 2 (Codex): &quot;Refactor the utility functions for performance&quot;
-Pane 3 (Claude Code): &quot;Write E2E tests for the checkout flow&quot;
-```
-
-### Pattern 5: Code Review Pipeline
-
-Parallel review perspectives:
-
-```
-Pane 1: &quot;Review src/api/ for security vulnerabilities&quot;
-Pane 2: &quot;Review src/api/ for performance issues&quot;
-Pane 3: &quot;Review src/api/ for test coverage gaps&quot;
-
-# Merge all reviews into a single report
-```
-
-## Best Practices
-
-1. **Independent tasks only.** Don&#039;t parallelize tasks that depend on each other&#039;s output.
-2. **Clear boundaries.** Each pane should work on distinct files or concerns.
-3. **Merge strategically.** Review pane output before merging to avoid conflicts.
-4. **Use git worktrees.** For file-conflict-prone work, use separate worktrees per pane.
-5. **Resource awareness.** Each pane uses API tokens — keep total panes under 5-6.
-
-## Git Worktree Integration
-
-For tasks that touch overlapping files:
-
-```bash
-# Create worktrees for isolation
-git worktree add -b feat/auth ../feature-auth HEAD
-git worktree add -b feat/billing ../feature-billing HEAD
-
-# Run agents in separate worktrees
-# Pane 1: cd ../feature-auth &amp;&amp; claude
-# Pane 2: cd ../feature-billing &amp;&amp; claude
-
-# Merge branches when done
-git merge feat/auth
-git merge feat/billing
-```
-
-## Complementary Tools
-
-| Tool | What It Does | When to Use |
-|------|-------------|-------------|
-| **dmux** | tmux pane management for agents | Parallel agent sessions |
-| **Superset** | Terminal IDE for 10+ parallel agents | Large-scale orchestration |
-| **Claude Code Task tool** | In-process subagent spawning | Programmatic parallelism within a session |
-| **Codex multi-agent** | Built-in agent roles | Codex-specific parallel work |
-
-## ECC Helper
-
-ECC now includes a helper for external tmux-pane orchestration with separate git worktrees:
-
-```bash
-node scripts/orchestrate-worktrees.js plan.json --execute
-```
-
-Example `plan.json`:
-
-```json
-{
-  &quot;sessionName&quot;: &quot;skill-audit&quot;,
-  &quot;baseRef&quot;: &quot;HEAD&quot;,
-  &quot;launcherCommand&quot;: &quot;codex exec --cwd {worktree_path} --task-file {task_file}&quot;,
-  &quot;workers&quot;: [
-    { &quot;name&quot;: &quot;docs-a&quot;, &quot;task&quot;: &quot;Fix skills 1-4 and write handoff notes.&quot; },
-    { &quot;name&quot;: &quot;docs-b&quot;, &quot;task&quot;: &quot;Fix skills 5-8 and write handoff notes.&quot; }
-  ]
-}
-```
-
-The helper:
-- Creates one branch-backed git worktree per worker
-- Optionally overlays selected `seedPaths` from the main checkout into each worker worktree
-- Writes per-worker `task.md`, `handoff.md`, and `status.md` files under `.orchestration/&lt;session&gt;/`
-- Starts a tmux session with one pane per worker
-- Launches each worker command in its own pane
-- Leaves the main pane free for the orchestrator
-
-Use `seedPaths` when workers need access to dirty or untracked local files that are not yet part of `HEAD`, such as local orchestration scripts, draft plans, or docs:
-
-```json
-{
-  &quot;sessionName&quot;: &quot;workflow-e2e&quot;,
-  &quot;seedPaths&quot;: [
-    &quot;scripts/orchestrate-worktrees.js&quot;,
-    &quot;scripts/lib/tmux-worktree-orchestrator.js&quot;,
-    &quot;.claude/plan/workflow-e2e-test.json&quot;
-  ],
-  &quot;launcherCommand&quot;: &quot;bash {repo_root}/scripts/orchestrate-codex-worker.sh {task_file} {handoff_file} {status_file}&quot;,
-  &quot;workers&quot;: [
-    { &quot;name&quot;: &quot;seed-check&quot;, &quot;task&quot;: &quot;Verify seeded files are present before starting work.&quot; }
-  ]
-}
-```
-
-## Troubleshooting
-
-- **Pane not responding:** Switch to the pane directly or inspect it with `tmux capture-pane -pt &lt;session&gt;:0.&lt;pane-index&gt;`.
-- **Merge conflicts:** Use git worktrees to isolate file changes per pane.
-- **High token usage:** Reduce number of parallel panes. Each pane is a full agent session.
-- **tmux not found:** Install with `brew install tmux` (macOS) or `apt install tmux` (Linux).
-</pre>
+# The helper:
+# - Creates one branch-backed git worktree per worker
+# - Writes per-worker task.md, handoff.md, status.md files
+# - Starts a tmux session with one pane per worker
+# - Launches each worker command in its own pane
+# - Leaves the main pane free for the orchestrator</code></pre>
+                </div>
             </div>
         </section>
 
         <div class="detail-nav">
             <a class="nav-card" href="../skills.html">
                 <div class="nav-label">返回列表</div>
-                <div class="nav-title">Capabilities 列表</div>
-                <div class="nav-type">技能</div>
+                <div class="nav-title">Skills 列表</div>
             </a>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>
