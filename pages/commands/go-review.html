@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Go Code Review Report - Everything Claude Code</title>
+    <title>Go代码审查报告 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,49 +26,31 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #8b5cf6; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #8b5cf640; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #8b5cf6; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -77,159 +59,209 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../commands.html" class="breadcrumb-link">Commands</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Go Code Review Report</span>
+        <span class="breadcrumb-current">Go代码审查报告</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">Go Code Review Report</h1>
-            <p class="detail-subtitle">命令脚本，快速执行特定操作的快捷方式</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Command
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    everything-claude-code
-                </div>
+            <h1 class="detail-title">Go代码审查报告</h1>
+            <p class="detail-subtitle">多维度审查Go代码质量与安全性</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Command类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                What This Command Does
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">1. **Identify Go Changes**: Find modified `.go` files via `git diff`
-2. **Run Static Analysis**: Execute `go vet`, `staticcheck`, and `golangci-lint`
-3. **Security Scan**: Check for SQL injection, command injection, race conditions
-4. **Concurrency Review**: Analyze goroutine safety, channel usage, mutex patterns
-5. **Idiomatic Go Check**: Verify code follows Go conventions and best practices
-6. **Generate Report**: Categorize issues by severity</pre>
+                <p>对Go代码进行全面审查，覆盖安全、并发、规范等多个维度：</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">静态分析工具扫描</div>
+                            <div class="feature-desc">go vet、staticcheck、golangci-lint 自动检测</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">安全性漏洞检测</div>
+                            <div class="feature-desc">SQL注入、命令注入、竞态条件、硬编码凭据</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">Go规范性检查</div>
+                            <div class="feature-desc">函数命名、错误处理、接口设计、包结构</div>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                When To Use
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">Use `/go-review` when:
-- After writing or modifying Go code
-- Before committing Go changes
-- Reviewing pull requests with Go code
-- Onboarding to a new Go codebase
-- Learning idiomatic Go patterns</pre>
+                <pre class="code-block">
+<div class="code-header">
+    <span class="code-lang">审查维度与流程</span>
+    <button class="code-copy" onclick="copyCode(this)">复制</button>
+</div>
+<code>Step 1: 查找Go变更
+├─ git diff # 查找修改的 .go 文件
+└─ 确定审查范围
+
+Step 2: 运行静态分析
+├─ go vet ./...            # 编译器级检查
+├─ staticcheck ./...       # 高级静态分析
+├─ golangci-lint run       # Lint 检查
+├─ go build -race ./...    # 竞态检测
+└─ govulncheck ./...       # 安全漏洞扫描
+
+Step 3: 代码审查 (人类检查)
+├─ 安全性审查
+│  ├─ SQL/Command 注入
+│  ├─ 竞态条件
+│  ├─ 硬编码凭据
+│  └─ 不安全的指针使用
+├─ 并发性审查
+│  ├─ Goroutine 泄漏
+│  ├─ 通道使用模式
+│  ├─ 互斥锁保护
+│  └─ 上下文传播
+├─ Go风格审查
+│  ├─ 函数命名约定
+│  ├─ 错误处理模式
+│  ├─ 接口设计
+│  └─ 文件组织
+└─ 生成审查报告
+
+Step 4: 按严重性分类
+├─ CRITICAL (必须修复)
+├─ HIGH (应该修复)
+├─ MEDIUM (考虑修复)
+└─ LOW (可选优化)</code>
+</pre>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Review Categories
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">### CRITICAL (Must Fix)
-- SQL/Command injection vulnerabilities
-- Race conditions without synchronization
-- Goroutine leaks
-- Hardcoded credentials
-- Unsafe pointer usage
-- Ignored errors in critical paths
-### HIGH (Should Fix)
-- Missing error wrapping with context
-- Panic instead of error returns
-- Context not propagated
-- Unbuffered channels causing deadlocks
-- Interface not satisfied errors
-- Missing mutex protection
-### MEDIUM (Consider)
-- Non-idiomatic code patterns
-- Missing godoc comments on exports
-- Inefficient string concatenation
-- Slice not preallocated
-- Table-driven tests not used</pre>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景与调用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 在编写或修改 Go 代码后触发
+
+"/go-review"
+格式: 审查 Go 代码质量与安全性
+要求: 运行 /go-review 开始审查
+
+示例用法：
+1. 提交代码前运行审查
+2. MR/PR 审查阶段
+3. 重构后验证代码质量
+
+关键点：
+- 审查所有修改的 .go 文件
+- 并行运行多种分析工具
+- 生成按严重性排序的报告
+- 提供修复建议</code>
+</pre>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Automated Checks Run
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">```bash
-go vet ./...
-staticcheck ./...
-golangci-lint run
-go build -race ./...
-govulncheck ./...
-```</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <div class="tip-text">先运行 `/go-test` 确保测试通过，再进行代码审查</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <div class="tip-text">先运行 `/go-build` 修复编译错误，再审查代码</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <div class="tip-text">重点关注 CRITICAL 级别问题，特别是安全性问题</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <div class="tip-text">审查并发代码时，特别注意互斥锁的正确使用</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <div class="tip-text">确保所有公共函数都有 godoc 注释</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">6</div>
+                    <div class="tip-text">错误处理应该使用 fmt.Errorf 包装上下文</div>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Example Usage
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">```text
-User: /go-review
-Agent:</pre>
-            </div>
-        </section>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Go代码审查报告示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>Go 代码审查报告
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Files Reviewed
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- internal/handler/user.go (modified)
-- internal/service/auth.go (modified)</pre>
-            </div>
-        </section>
+ 审查文件
+- internal/handler/user.go (已修改)
+- internal/service/auth.go (已修改)
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Static Analysis Results
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">✓ go vet: No issues
-✓ staticcheck: No issues</pre>
-            </div>
-        </section>
+ 静态分析结果
+✅ go vet: 未发现问题
+✅ staticcheck: 未发现问题
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Issues Found
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">[CRITICAL] Race Condition
-File: internal/service/auth.go:45
-Issue: Shared map accessed without synchronization
+ 发现的问题
+
+[CRITICAL] 竞态条件
+文件：internal/service/auth.go:45
+问题：共享 map 未同步访问
 ```go
-var cache = map[string]*Session{}  // Concurrent access!
+var cache = map[string]*Session{}  // 并发访问！
 func GetSession(id string) *Session {
-    return cache[id]  // Race condition
+    return cache[id]  // 竞态条件
 }
 ```
-Fix: Use sync.RWMutex or sync.Map
+修复：使用 sync.RWMutex 或 sync.Map
 ```go
 var (
     cache   = map[string]*Session{}
@@ -241,84 +273,59 @@ func GetSession(id string) *Session {
     return cache[id]
 }
 ```
-[HIGH] Missing Error Context
-File: internal/handler/user.go:28
-Issue: Error returned without context
+
+[HIGH] 缺失错误上下文
+文件：internal/handler/user.go:28
+问题：错误返回时缺少上下文
 ```go
-return err  // No context
+return err  // 无上下文
 ```
-Fix: Wrap with context
+修复：使用 fmt.Errorf 包装
 ```go
-return fmt.Errorf(&quot;get user %s: %w&quot;, userID, err)
-```</pre>
+return fmt.Errorf("获取用户 %s: %w", userID, err)
+```
+
+[LOW] 缺少 godoc 注释
+文件：internal/service/user.go
+问题：导出函数缺少文档注释
+```go
+// GetUser 根据ID获取用户信息
+func GetUser(id string) (*User, error) {
+    // ...
+}
+```
+
+ 审查总结
+| 严重性 | 数量 | 说明 |
+|--------|------|------|
+| CRITICAL | 1 | 必须修复 |
+| HIGH | 1 | 应该修复 |
+| MEDIUM | 0 | 考虑修复 |
+| LOW | 1 | 可选 |
+
+ 推荐：❌ 阻止合并，直到 CRITICAL 问题修复
+
+批准标准：
+✅ 通过：无 CRITICAL 或 HIGH 问题
+⚠️ 警告：仅 MEDIUM 问题（谨慎合并）
+❌ 阻止：发现 CRITICAL 或 HIGH 问题</code>
+</pre>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Summary
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- CRITICAL: 1
-- HIGH: 1
-- MEDIUM: 0
-Recommendation: ❌ Block merge until CRITICAL issue is fixed
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Approval Criteria
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">| Status | Condition |
-|--------|-----------|
-| ✅ Approve | No CRITICAL or HIGH issues |
-| ⚠️ Warning | Only MEDIUM issues (merge with caution) |
-| ❌ Block | CRITICAL or HIGH issues found |</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Integration With Other Commands
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- Use `/go-test` first to ensure tests pass
-- Use `/go-build` if build errors occur
-- Use `/go-review` before committing
-- Use `/code-review` for non-Go specific concerns</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Related
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- Agent: `agents/go-reviewer.md`
-- Skills: `skills/golang-patterns/`, `skills/golang-testing/`</pre>
-            </div>
-        </section>
-        
-
-        <div class="detail-nav">
-            <a class="nav-card" href="go-build.html">
-                <div class="nav-label">上一个</div>
-                <div class="nav-title">No issues</div>
-                <div class="nav-type">Command</div>
-            </a>
-            <a class="nav-card" href="go-test.html">
-                <div class="nav-label">下一个</div>
-                <div class="nav-title">With race detection</div>
-                <div class="nav-type">Command</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>simplify - Everything Claude Code</title>
+    <title>简化命令 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -57,9 +57,9 @@
     <nav class="breadcrumb">
         <a href="../../index.html" class="breadcrumb-link">首页</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="../skills.html" class="breadcrumb-link">Skills</a>
+        <a href="../commands.html" class="breadcrumb-link">Commands</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">simplify</span>
+        <span class="breadcrumb-current">简化命令</span>
     </nav>
 
     <div class="detail-container">
@@ -67,11 +67,11 @@
             <div class="detail-icon">
                 <svg viewBox="0 0 24 24"><path d="M6 19h12v2H6v-2zm0-12h12v2H6V7zm4 6h4v2h-4v-2zm-4 0h2v2H6v-2zm12 0h2v2h-2v-2z"/></svg>
             </div>
-            <h1 class="detail-title">simplify</h1>
-            <p class="detail-subtitle">代码简化 Skill，审查变更代码的复用性、质量和效率</p>
+            <h1 class="detail-title">简化命令</h1>
+            <p class="detail-subtitle">审查变更代码的复用性、质量和效率，自动修复问题</p>
             <div class="detail-badge">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                类型: Code Quality Skill
+                类型: Command类
             </div>
         </header>
 
@@ -81,13 +81,13 @@
                 实现效果
             </h2>
             <div class="section-content">
-                <p>simplify Skill 用于审查已变更的代码，检查复用性、代码质量和执行效率，并修复发现的问题。确保代码保持简洁、高效和可维护。</p>
+                <p>简化命令用于审查已变更的代码，检查复用性、代码质量和执行效率，并自动修复发现的问题，确保代码保持简洁、高效和可维护。</p>
                 <div class="feature-list">
                     <li>
                         <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
                         <div class="feature-content">
                             <h4 class="feature-title">代码复用检查</h4>
-                            <p class="feature-desc">识别重复代码，建议提取为公共函数或模块</p>
+                            <p class="feature-desc">识别重复代码模式，建议提取为公共函数或模块</p>
                         </div>
                     </li>
                     <li>
@@ -121,7 +121,7 @@
                 核心原理
             </h2>
             <div class="section-content">
-                <p>simplify Skill 的核心原理是<strong>审查变更并简化</strong>。通过分析 git diff 识别新增和修改的代码，然后检查复用机会、质量问题和效率瓶颈。</p>
+                <p>简化命令的核心原理是<strong>审查变更并简化</strong>。通过分析 git diff 识别新增和修改的代码，然后检查复用机会、质量问题和效率瓶颈。</p>
 
                 <p style="margin-top:20px"><strong>检查维度</strong>:</p>
                 <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
@@ -133,7 +133,7 @@
 
                 <p style="margin-top:20px"><strong>简化原则</strong>:</p>
                 <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
-                    <li>小函数优于大函数（<50 行）</li>
+                    <li>小函数优于大函数（&lt;50 行）</li>
                     <li>单一职责，避免混合逻辑</li>
                     <li>消除不必要的条件分支</li>
                     <li>使用早返回减少嵌套</li>
@@ -147,7 +147,7 @@
                 使用方法
             </h2>
             <div class="section-content">
-                <p>simplify Skill 在代码编写或修改后主动触发，审查变更代码。</p>
+                <p>简化命令在代码编写或修改后自动触发，审查变更代码。</p>
 
                 <div class="code-block">
                     <div class="code-header">

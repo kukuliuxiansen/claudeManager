@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kotlin Code Review Report - Everything Claude Code</title>
+    <title>Kotlin审查命令 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -32,42 +32,29 @@
         .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #8b5cf6; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #8b5cf640; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #8b5cf6; margin-top: 5px; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         @media (max-width: 768px) {
             .detail-container { padding: 20px; }
             .detail-header { padding: 30px; }
             .detail-title { font-size: 28px; }
             .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
+            .tips-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -77,7 +64,7 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../commands.html" class="breadcrumb-link">Commands</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Kotlin Code Review Report</span>
+        <span class="breadcrumb-current">Kotlin审查命令</span>
     </nav>
 
     <div class="detail-container">
@@ -85,12 +72,12 @@
             <div class="detail-icon">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
             </div>
-            <h1 class="detail-title">Kotlin Code Review Report</h1>
-            <p class="detail-subtitle">命令脚本，快速执行特定操作的快捷方式</p>
+            <h1 class="detail-title">Kotlin审查命令</h1>
+            <p class="detail-subtitle">审查Kotlin代码，发现安全问题和潜在错误</p>
             <div class="detail-badges">
                 <div class="detail-badge">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Command
+                    类型: Command类
                 </div>
                 <div class="detail-badge">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
@@ -99,128 +86,193 @@
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                What This Command Does
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">1. **Identify Kotlin Changes**: Find modified `.kt` and `.kts` files via `git diff`
-2. **Run Build &amp; Static Analysis**: Execute `./gradlew build`, `detekt`, `ktlintCheck`
-3. **Security Scan**: Check for SQL injection, command injection, hardcoded secrets
-4. **Null Safety Review**: Analyze `!!` usage, platform type handling, unsafe casts
-5. **Coroutine Review**: Check structured concurrency, dispatcher usage, cancellation
-6. **Generate Report**: Categorize issues by severity</pre>
+                <p>自动化审查Kotlin代码，发现安全漏洞和代码质量问题，生成分类报告。</p>
+                <ul class="feature-list">
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">自动识别变更</div>
+                            <div class="feature-desc">通过git diff识别修改的Kotlin文件</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">多维度审查</div>
+                            <div class="feature-desc">运行构建、静态分析和安全扫描</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">严重性分级</div>
+                            <div class="feature-desc">按CRITICAL/HIGH/MEDIUM分类问题</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">安全审查</div>
+                            <div class="feature-desc">检查SQL注入、命令注入和硬编码凭证</div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                When To Use
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">Use `/kotlin-review` when:
-- After writing or modifying Kotlin code
-- Before committing Kotlin changes
-- Reviewing pull requests with Kotlin code
-- Onboarding to a new Kotlin codebase
-- Learning idiomatic Kotlin patterns</pre>
+                <p>Kotlin审查命令通过多种工具协同工作：</p>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">审查工具链</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 构建和编译检查
+./gradlew build
+
+# 静态分析
+./gradlew detekt
+./gradlew ktlintCheck
+
+# 测试验证
+./gradlew test</code></pre>
+                </div>
+                <p><strong>审查流程：</strong></p>
+                <ol style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-top: 15px;">
+                    <li>识别修改的Kotlin文件（.kt 和 .kts）</li>
+                    <li>运行构建和静态分析工具</li>
+                    <li>安全扫描：检查SQL注入、命令注入、硬编码凭证</li>
+                    <li>空安全审查：检查 !! 用法、平台类型处理</li>
+                    <li>协程审查：检查结构化并发、调度器使用</li>
+                    <li>生成分类报告并给出批准建议</li>
+                </ol>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Review Categories
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">### CRITICAL (Must Fix)
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>/kotlin-review</code></pre>
+                </div>
+                <p><strong>何时使用：</strong></p>
+                <ul style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-top: 15px; padding-left: 20px;">
+                    <li>编写或修改Kotlin代码之后</li>
+                    <li>提交Kotlin代码变更之前</li>
+                    <li>审查包含Kotlin代码的Pull Request</li>
+                    <li>入职新Kotlin代码库时</li>
+                    <li>学习惯用Kotlin模式时</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <div class="tip-text"><strong>使用顺序</strong>：先运行 /kotlin-test 确保测试通过</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <div class="tip-text"><strong>修复优先级</strong>：先修复CRITICAL问题，再处理HIGH问题</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <div class="tip-text"><strong>安全第一</strong>：CRITICAL级别的安全问题必须阻止合并</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <div class="tip-text"><strong>学习用途</strong>：新团队成员可通过审查报告学习惯用模式</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">审查报告结构</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>Files Reviewed:
+- src/main/kotlin/com/example/service/UserService.kt (modified)
+- src/main/kotlin/com/example/routes/UserRoutes.kt (modified)
+
+Static Analysis Results:
+✓ Build: Successful
+✓ detekt: No issues
+⚠ ktlint: 2 formatting warnings</code></pre>
+                </div>
+
+                <div class="code-block" style="margin-top: 20px;">
+                    <div class="code-header">
+                        <span class="code-lang">问题分类</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>### CRITICAL (Must Fix)
 - SQL/Command injection vulnerabilities
-- Force-unwrap `!!` without justification
+- Force-unwrap !! without justification
 - Platform type null safety violations
 - GlobalScope usage (structured concurrency violation)
 - Hardcoded credentials
 - Unsafe deserialization
+
 ### HIGH (Should Fix)
 - Mutable state where immutable suffices
 - Blocking calls inside coroutine context
 - Missing cancellation checks in long loops
-- Non-exhaustive `when` on sealed types
+- Non-exhaustive when on sealed types
 - Large functions (&gt;50 lines)
 - Deep nesting (&gt;4 levels)
+
 ### MEDIUM (Consider)
 - Non-idiomatic Kotlin (Java-style patterns)
 - Missing trailing commas
 - Scope function misuse or nesting
 - Missing sequence for large collection chains
-- Redundant explicit types</pre>
-            </div>
-        </section>
+- Redundant explicit types</code></pre>
+                </div>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Automated Checks Run
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```bash
-./gradlew build
-./gradlew detekt
-./gradlew ktlintCheck
-./gradlew test
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Example Usage
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">````text
-User: /kotlin-review
-Agent:</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Files Reviewed
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- src/main/kotlin/com/example/service/UserService.kt (modified)
-- src/main/kotlin/com/example/routes/UserRoutes.kt (modified)</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Static Analysis Results
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">✓ Build: Successful
-✓ detekt: No issues
-⚠ ktlint: 2 formatting warnings</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Issues Found
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">[CRITICAL] Force-Unwrap Null Safety
+                <div class="code-block" style="margin-top: 20px;">
+                    <div class="code-header">
+                        <span class="code-lang">问题详情示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>[CRITICAL] Force-Unwrap Null Safety
 File: src/main/kotlin/com/example/service/UserService.kt:28
 Issue: Using !! on nullable repository result
 ```kotlin
@@ -229,8 +281,9 @@ val user = repository.findById(id)!!  // NPE risk
 Fix: Use safe call with error handling
 ```kotlin
 val user = repository.findById(id)
-    ?: throw UserNotFoundException(&quot;User $id not found&quot;)
+    ?: throw UserNotFoundException("User $id not found")
 ```
+
 [HIGH] GlobalScope Usage
 File: src/main/kotlin/com/example/routes/UserRoutes.kt:45
 Issue: Using GlobalScope breaks structured concurrency
@@ -239,80 +292,51 @@ GlobalScope.launch {
     notificationService.sendWelcome(user)
 }
 ```
-Fix: Use the call&#039;s coroutine scope
+Fix: Use the call's coroutine scope
 ```kotlin
 launch {
     notificationService.sendWelcome(user)
 }
-```</pre>
-            </div>
-        </section>
+```</code></pre>
+                </div>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Summary
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- CRITICAL: 1
-- HIGH: 1
-- MEDIUM: 0
-Recommendation: ❌ Block merge until CRITICAL issue is fixed
-````</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Approval Criteria
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">| Status | Condition |
+                <div class="code-block" style="margin-top: 20px;">
+                    <div class="code-header">
+                        <span class="code-lang">批准标准</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>| Status | Condition |
 |--------|-----------|
 | ✅ Approve | No CRITICAL or HIGH issues |
 | ⚠️ Warning | Only MEDIUM issues (merge with caution) |
-| ❌ Block | CRITICAL or HIGH issues found |</pre>
+| ❌ Block | CRITICAL or HIGH issues found |</code></pre>
+                </div>
             </div>
         </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Integration With Other Commands
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- Use `/kotlin-test` first to ensure tests pass
-- Use `/kotlin-build` if build errors occur
-- Use `/kotlin-review` before committing
-- Use `/code-review` for non-Kotlin-specific concerns</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Related
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- Agent: `agents/kotlin-reviewer.md`
-- Skills: `skills/kotlin-patterns/`, `skills/kotlin-testing/`</pre>
-            </div>
-        </section>
-        
 
         <div class="detail-nav">
             <a class="nav-card" href="kotlin-build.html">
                 <div class="nav-label">上一个</div>
-                <div class="nav-title">All tests passed</div>
+                <div class="nav-title">Kotlin构建命令</div>
                 <div class="nav-type">Command</div>
             </a>
             <a class="nav-card" href="kotlin-test.html">
                 <div class="nav-label">下一个</div>
-                <div class="nav-title">Run with verbose output</div>
+                <div class="nav-title">Kotlin测试命令</div>
                 <div class="nav-type">Command</div>
             </a>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

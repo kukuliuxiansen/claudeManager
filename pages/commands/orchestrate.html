@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orchestrate Command - Everything Claude Code</title>
+    <title>编排命令 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -32,42 +32,31 @@
         .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #8b5cf6; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #8b5cf640; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #8b5cf6; margin-top: 5px; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         @media (max-width: 768px) {
             .detail-container { padding: 20px; }
             .detail-header { padding: 30px; }
             .detail-title { font-size: 28px; }
             .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
+            .tips-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -77,20 +66,20 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../commands.html" class="breadcrumb-link">Commands</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Orchestrate Command</span>
+        <span class="breadcrumb-current">编排命令</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">Orchestrate Command</h1>
-            <p class="detail-subtitle">命令脚本，快速执行特定操作的快捷方式</p>
+            <h1 class="detail-title">编排命令</h1>
+            <p class="detail-subtitle">多 Agent 协作编排与工作流管理命令</p>
             <div class="detail-badges">
                 <div class="detail-badge">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Command
+                    类型: Command类
                 </div>
                 <div class="detail-badge">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
@@ -99,282 +88,206 @@
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Usage
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">`/orchestrate [workflow-type] [task-description]`</pre>
+                <p>orchestrate 命令通过编排多个专业 Agent（planner、tdd-guide、code-reviewer、security-reviewer 等）协作完成复杂任务。适用于功能开发、Bug 修复、代码重构、安全审查等工作流。支持预定义工作流类型、自定义 Agent 序列，以及外部 tmux/worktree 编排。</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">预定义工作流</h4>
+                            <p class="feature-desc">feature、bugfix、refactor、security 等工作流类型</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">Agent 链编排</h4>
+                            <p class="feature-desc">按顺序执行 Agent，前一个输出作为后一个输入</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">并行执行</h4>
+                            <p class="feature-desc">独立检查可并行执行（code-reviewer ∥ security-reviewer）</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">控制平面</h4>
+                            <p class="feature-desc">支持外部 tmux/worktree 编排与会话管理</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Workflow Types
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">### feature
-Full feature implementation workflow:
-```
-planner -&gt; tdd-guide -&gt; code-reviewer -&gt; security-reviewer
-```
-### bugfix
-Bug investigation and fix workflow:
-```
-planner -&gt; tdd-guide -&gt; code-reviewer
-```
-### refactor
-Safe refactoring workflow:
-```
-architect -&gt; code-reviewer -&gt; tdd-guide
-```
-### security
-Security-focused review:
-```
-security-reviewer -&gt; code-reviewer -&gt; architect
-```</pre>
+                <p>orchestrate 命令的核心原理是<strong>多 Agent 工作流编排</strong>。通过定义 Agent 序列，将复杂任务分解为多个专业 Agent 的协作流程。</p>
+
+                <p style="margin-top:20px"><strong>工作流类型</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>feature</strong> - planner → tdd-guide → code-reviewer → security-reviewer</li>
+                    <li><strong>bugfix</strong> - planner → tdd-guide → code-reviewer</li>
+                    <li><strong>refactor</strong> - architect → code-reviewer → tdd-guide</li>
+                    <li><strong>security</strong> - security-reviewer → code-reviewer → architect</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>Handoff 文档</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>Context</strong> - 上一个 Agent 完成的工作总结</li>
+                    <li><strong>Findings</strong> - 关键发现或决策</li>
+                    <li><strong>Files Modified</strong> - 修改的文件列表</li>
+                    <li><strong>Open Questions</strong> - 待解决的问题</li>
+                    <li><strong>Recommendations</strong> - 下一步建议</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>外部编排</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>对于需要独立 git 状态的长运行工作，使用 tmux/worktree</li>
+                    <li>一键式工作流推荐：`node scripts/orchestrate-worktrees.js plan.json --execute`</li>
+                    <li>脚本路径可作为 seedPaths 配置注入到每个工作器</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Execution Pattern
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">For each agent in the workflow:
-1. **Invoke agent** with context from previous agent
-2. **Collect output** as structured handoff document
-3. **Pass to next agent** in chain
-4. **Aggregate results** into final report</pre>
+                <p>当用户需要执行复杂任务工作流时触发此命令。</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景与调用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 触发场景
+1. "orchestrate a feature development"
+2. "run the bug fix workflow"
+3. "refactor with code review"
+
+// 命令调用
+/orchestrate [workflow-type] [task-description]
+
+// 示例：功能开发
+/orchestrate feature "Add user authentication with OAuth2"
+
+// 示例：Bug 修复
+/orchestrate bugfix "Fix login timeout issue"
+
+// 示例：重构
+/orchestrate refactor "Migrate to TypeScript"
+
+// 示例：安全审查
+/orchestrate security "Review payment processing code"
+
+// 示例：自定义工作流
+/orchestrate custom "architect,tdd-guide,code-reviewer" "Redesign caching layer"</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Handoff Document Format
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">Between agents, create handoff document:
-```markdown</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>选择合适工作流</strong> - 根据任务类型选择对应预定义工作流</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>安全审查</strong> - 涉及认证/支付/敏感数据时必须使用 security 工作流</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>并行执行</strong> - 独立检查可并行执行以提高效率</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>外部编排</strong> - 长运行任务使用 tmux/worktree 外部编排</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Handoff: [Previous Agent]  > [Next Agent]
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Context
-[Summary of what was done]
-### Findings
-[Key discoveries or decisions]
-### Files Modified
-[List of files touched]
-### Open Questions
-[Unresolved items for next agent]
-### Recommendations
-[Suggested next steps]
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Example: Feature Workflow
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```
-/orchestrate feature &quot;Add user authentication&quot;
-```
-Executes:
-1. **Planner Agent**
-   - Analyzes requirements
-   - Creates implementation plan
-   - Identifies dependencies
-   - Output: `HANDOFF: planner -&gt; tdd-guide`
-2. **TDD Guide Agent**
-   - Reads planner handoff
-   - Writes tests first
-   - Implements to pass tests
-   - Output: `HANDOFF: tdd-guide -&gt; code-reviewer`
-3. **Code Reviewer Agent**
-   - Reviews implementation
-   - Checks for issues
-   - Suggests improvements
-   - Output: `HANDOFF: code-reviewer -&gt; security-reviewer`
-4. **Security Reviewer Agent**
-   - Security audit
-   - Vulnerability check
-   - Final approval
-   - Output: Final Report</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Final Report Format
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```
-ORCHESTRATION REPORT
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Orchestrate Output</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>ORCHESTRATION REPORT
 ====================
 Workflow: feature
-Task: Add user authentication
-Agents: planner -&gt; tdd-guide -&gt; code-reviewer -&gt; security-reviewer
+Task: Add user authentication with OAuth2
+Agents: planner → tdd-guide → code-reviewer → security-reviewer
+
 SUMMARY
-[One paragraph summary]
+Feature implemented successfully. User authentication with OAuth2 support
+added, including Google and GitHub login options. All tests passed and
+security review completed with no critical issues.
+
 AGENT OUTPUTS
-Planner: [summary]
-TDD Guide: [summary]
-Code Reviewer: [summary]
-Security Reviewer: [summary]
+Planner: Created implementation plan with 5 phases
+TDD Guide: Wrote 47 test cases covering all user flows
+Code Reviewer: Approved implementation, 2 minor suggestions implemented
+Security Reviewer: Passed security audit, rate limiting and CSRF protection verified
+
 FILES CHANGED
-[List all files modified]
+- src/auth/oauthService.ts (Created)
+- src/auth/authController.ts (Modified)
+- src/ui/pages/Login.tsx (Modified)
+- tests/auth/oauth.test.ts (Created)
+
 TEST RESULTS
-[Test pass/fail summary]
+- Unit tests: 47 passed
+- Integration tests: 8 passed
+- Coverage: 92%
+
 SECURITY STATUS
-[Security findings]
+- Passed security review
+- Rate limiting configured
+- CSRF protection enabled
+- Password hashing implemented
+
 RECOMMENDATION
-[SHIP / NEEDS WORK / BLOCKED]
-```</pre>
+✓ SHIP - All checks passed. Ready for production deployment.</code></pre>
+                </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Parallel Execution
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">For independent checks, run agents in parallel:
-```markdown
-### Parallel Phase
-Run simultaneously:
-- code-reviewer (quality)
-- security-reviewer (security)
-- architect (design)
-### Merge Results
-Combine outputs into single report
-```
-For external tmux-pane workers with separate git worktrees, use `node scripts/orchestrate-worktrees.js plan.json --execute`. The built-in orchestration pattern stays in-process; the helper is for long-running or cross-harness sessions.
-When workers need to see dirty or untracked local files from the main checkout, add `seedPaths` to the plan file. ECC overlays only those selected paths into each worker worktree after `git worktree add`, which keeps the branch isolated while still exposing in-flight local scripts, plans, or docs.
-```json
-{
-  &quot;sessionName&quot;: &quot;workflow-e2e&quot;,
-  &quot;seedPaths&quot;: [
-    &quot;scripts/orchestrate-worktrees.js&quot;,
-    &quot;scripts/lib/tmux-worktree-orchestrator.js&quot;,
-    &quot;.claude/plan/workflow-e2e-test.json&quot;
-  ],
-  &quot;workers&quot;: [
-    { &quot;name&quot;: &quot;docs&quot;, &quot;task&quot;: &quot;Update orchestration docs.&quot; }
-  ]
-}
-```
-To export a control-plane snapshot for a live tmux/worktree session, run:
-```bash
-node scripts/orchestration-status.js .claude/plan/workflow-visual-proof.json
-```
-The snapshot includes session activity, tmux pane metadata, worker states, objectives, seeded overlays, and recent handoff summaries in JSON form.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Operator Command Center Handoff
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">When the workflow spans multiple sessions, worktrees, or tmux panes, append a control-plane block to the final handoff:
-```markdown
-CONTROL PLANE
-Sessions:
-- active session ID or alias
-- branch + worktree path for each active worker
-- tmux pane or detached session name when applicable
-Diffs:
-- git status summary
-- git diff --stat for touched files
-- merge/conflict risk notes
-Approvals:
-- pending user approvals
-- blocked steps awaiting confirmation
-Telemetry:
-- last activity timestamp or idle signal
-- estimated token or cost drift
-- policy events raised by hooks or reviewers
-```
-This keeps planner, implementer, reviewer, and loop workers legible from the operator surface.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Arguments
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">$ARGUMENTS:
-- `feature &lt;description&gt;` - Full feature workflow
-- `bugfix &lt;description&gt;` - Bug fix workflow
-- `refactor &lt;description&gt;` - Refactoring workflow
-- `security &lt;description&gt;` - Security review workflow
-- `custom &lt;agents&gt; &lt;description&gt;` - Custom agent sequence</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Custom Workflow Example
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```
-/orchestrate custom &quot;architect,tdd-guide,code-reviewer&quot; &quot;Redesign caching layer&quot;
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Tips
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">1. **Start with planner** for complex features
-2. **Always include code-reviewer** before merge
-3. **Use security-reviewer** for auth/payment/PII
-4. **Keep handoffs concise** - focus on what next agent needs
-5. **Run verification** between agents if needed</pre>
-            </div>
-        </section>
-        
-
-        <div class="detail-nav">
-            <a class="nav-card" href="multi-workflow.html">
-                <div class="nav-label">上一个</div>
-                <div class="nav-title">Resume session call</div>
-                <div class="nav-type">Command</div>
-            </a>
-            <a class="nav-card" href="plan.html">
-                <div class="nav-label">下一个</div>
-                <div class="nav-title">Implementation Plan: Real-Time Market Resolution Notifications</div>
-                <div class="nav-type">Command</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

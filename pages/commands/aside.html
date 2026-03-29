@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aside Command - Everything Claude Code</title>
+    <title>旁注命令 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,49 +26,31 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #8b5cf6; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #8b5cf640; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #8b5cf6; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -77,202 +59,205 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../commands.html" class="breadcrumb-link">Commands</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Aside Command</span>
+        <span class="breadcrumb-current">旁注命令</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">Aside Command</h1>
-            <p class="detail-subtitle">命令脚本，快速执行特定操作的快捷方式</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Command
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    everything-claude-code
-                </div>
+            <h1 class="detail-title">旁注命令</h1>
+            <p class="detail-subtitle">在任务执行过程中快速提问，而不中断当前工作流</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Command类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                When To Use
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- You&#039;re curious about something while Claude is working and don&#039;t want to lose momentum
-- You need a quick explanation of code Claude is currently editing
-- You want a second opinion or clarification on a decision without derailing the task
-- You need to understand an error, concept, or pattern before Claude proceeds
-- You want to ask something unrelated to the current task without starting a new session</pre>
+                <p>旁注命令允许您在Claude执行任务过程中快速提问，而不会丢失当前任务状态。提问后，Claude会直接回答，然后立即恢复到原来的任务。</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">不中断任务</div>
+                            <div class="feature-desc">提问时当前任务会被冻结，回答后立即恢复</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">简洁回答</div>
+                            <div class="feature-desc">直接回答问题核心，不展开长篇大论</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">_contextaware</div>
+                            <div class="feature-desc">可以访问当前文件和代码上下文</div>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Usage
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">```
-/aside &lt;your question&gt;
-/aside what does this function actually return?
+                <p>旁注命令的工作流程分为三个步骤：</p>
+                <ol style="color: rgba(255, 255, 255, 0.8); line-height: 1.8; padding-left: 20px; margin: 15px 0;">
+                    <li style="margin-bottom: 10px;"><strong>冻结任务状态</strong>：记录当前正在处理的任务、文件和下一步计划</li>
+                    <li style="margin-bottom: 10px;"><strong>回答问题</strong>：直接、简洁地回答用户问题，可读取当前文件上下文</li>
+                    <li style="margin-bottom: 10px;"><strong>恢复任务</strong>：立即回到原来的任务状态，从暂停点继续执行</li>
+                </ol>
+                <p style="margin-top: 20px; color: rgba(255, 255, 255, 0.6);"></p>
+                <p style="margin-top: 0;">关键规则：</p>
+                <ul style="color: rgba(255, 255, 255, 0.8); line-height: 1.8; padding-left: 20px; margin: 15px 0;">
+                    <li style="margin-bottom: 8px;">回答必须简短，只给核心答案</li>
+                    <li style="margin-bottom: 8px;">回答后必须说明"回到任务"的状态</li>
+                    <li style="margin-bottom: 8px;">绝对不能修改任何文件（只读权限）</li>
+                    <li style="margin-bottom: 8px;">如果问题涉及任务方向改变，必须先询问用户</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发方式</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>/aside &lt;你的问题&gt;</code></pre>
+                </div>
+                <p style="color: rgba(255, 255, 255, 0.6); margin-top: 15px;">示例用法：</p>
+                <div class="code-block" style="margin-top: 10px;">
+                    <div class="code-header">
+                        <span class="code-lang">使用示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>/aside what does this function actually return?
 /aside is this pattern thread-safe?
 /aside why are we using X instead of Y here?
-/aside what&#039;s the difference between foo() and bar()?
-/aside should we be worried about the N+1 query we just added?
-```</pre>
+/aside what's the difference between foo() and bar()?
+/aside should we be worried about the N+1 query we just added?</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Process
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">### Step 1: Freeze the current task state
-Before answering anything, mentally note:
-- What is the active task? (what file, feature, or problem was being worked on)
-- What step was in progress at the moment `/aside` was invoked?
-- What was about to happen next?
-Do NOT touch, edit, create, or delete any files during the aside.
-### Step 2: Answer the question directly
-Answer the question in the most concise form that is still complete and useful.
-- Lead with the answer, not the reasoning
-- Keep it short — if a full explanation is needed, offer to go deeper after the task
-- If the question is about the current file or code being worked on, reference it precisely (file path and line number if relevant)
-- If answering requires reading a file, read it — but read only, never write
-Format the response as:
-```
-ASIDE: [restate the question briefly]
-[Your answer here]
-— Back to task: [one-line description of what was being done]
-```
-### Step 3: Resume the main task
-After delivering the answer, immediately continue the active task from the exact point it was paused. Do not ask for permission to resume unless the aside answer revealed a blocker or a reason to reconsider the current approach (see Edge Cases).</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <div class="tip-text"><strong>回答格式</strong><br>使用 "ASIDE: [问题] + [答案] + — Back to task: [原任务]" 格式</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <div class="tip-text"><strong>直接回答</strong><br>开盘就说答案，不要铺垫，如果需要详细说明可以问是否post-task展开</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <div class="tip-text"><strong>文件访问</strong><br>可以读取当前正在编辑的文件来回答，但不能写入</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <div class="tip-text"><strong>方向检查</strong><br>如果问题暗示任务方向改变，必须先确认用户意图</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <div class="tip-text"><strong>长答案处理</strong><br>先给简短版，然后问是否需要任务后的深入解释</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">6</div>
+                    <div class="tip-text"><strong>无任务处理</strong><br>如果没有活动任务，仍然使用标准格式，显示"No active task"</div>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Edge Cases
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">**No question provided (`/aside` with nothing after it):**
-Respond:
-```
-ASIDE: no question provided
-What would you like to know? (ask your question and I&#039;ll answer without losing the current task context)
-— Back to task: [one-line description of what was being done]
-```
-**Question reveals a potential problem with the current task:**
-Flag it clearly before resuming:
-```
-ASIDE: [answer]
-⚠️ Note: This answer suggests [issue] with the current approach. Want to address this before continuing, or proceed as planned?
-```
-Wait for the user&#039;s decision before resuming.
-**Question is actually a task redirect (not a side question):**
-If the question implies changing what is being built (e.g., `/aside actually, let&#039;s use Redis instead`), clarify:
-```
-ASIDE: That sounds like a direction change, not just a side question.
-Do you want to:
-  (a) Answer this as information only and keep the current plan
-  (b) Pause the current task and change approach
-```
-Wait for the user&#039;s answer — do not make assumptions.
-**Question is about the currently open file or code:**
-Answer from the live context. If the file was read earlier in the session, reference it directly. If not, read it now (read-only) and answer with a file:line reference.
-**No active task (nothing in progress when `/aside` is invoked):**
-Still use the standard wrapper so the response shape stays consistent:
-```
-ASIDE: [restate the question briefly]
-[Your answer here]
-— Back to task: no active task to resume
-```
-**Question requires a long answer:**
-Give the essential answer concisely, then offer:
-```
-That&#039;s the short version. Want a deeper explanation after we finish [current task]?
-```
-**Multiple `/aside` questions in a row:**
-Answer each one in sequence. After the last answer, resume the main task. Do not lose task state across a chain of asides.
-**Aside answer implies a code change is needed:**
-Note the change needed but do not make it during the aside:
-```
-ASIDE: [answer]
-📝 Worth fixing: [what should be changed]. I&#039;ll flag this after the current task unless you want to address it now.
-```
-**Question is ambiguous or too vague:**
-Ask one clarifying question — the shortest question that gets the information needed to answer. Do not ask multiple questions.</pre>
-            </div>
-        </section>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">示例 1: 查询函数行为</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>User: /aside what does fetchWithRetry() actually do?
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Example Output
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```
-User: /aside what does fetchWithRetry() actually do?
 ASIDE: what does fetchWithRetry() do?
 fetchWithRetry() (src/api/retry.ts:12) attempts the request up to 3 times with
 exponential backoff (250ms → 500ms → 1s). It only retries on 5xx responses and
 network errors — 4xx errors are treated as final and not retried.
-— Back to task: refactoring the auth middleware in src/middleware/auth.ts
-```
-```
-User: /aside is the approach we&#039;re taking thread-safe?
+
+— Back to task: refactoring the auth middleware in src/middleware/auth.ts</code></pre>
+                </div>
+                <div class="code-block" style="margin-top: 15px;">
+                    <div class="code-header">
+                        <span class="code-lang">示例 2: 线程安全检查</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>User: /aside is the approach we're taking thread-safe?
+
 ASIDE: is the current approach thread-safe?
 No — the shared cache object in src/cache/store.ts:34 is mutated without locking.
-Under concurrent requests this is a race condition. It&#039;s low risk in a single-process
+Under concurrent requests this is a race condition. It's low risk in a single-process
 Node.js server but would be a real problem with worker threads or clustering.
-⚠️ Note: This could affect the feature we&#039;re building. Want to address this now or continue and fix it in a follow-up?
-```</pre>
+
+⚠️ Note: This could affect the feature we're building. Want to address this now or continue and fix it in a follow-up?</code></pre>
+                </div>
+                <div class="code-block" style="margin-top: 15px;">
+                    <div class="code-header">
+                        <span class="code-lang">示例 3: 无问题输入</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>User: /aside
+
+ASIDE: no question provided
+What would you like to know? (ask your question and I'll answer without losing the current task context)
+
+— Back to task: no active task to resume</code></pre>
+                </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Notes
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- Never modify files during an aside — read-only access only
-- The aside is a conversation pause, not a new task — the original task must always resume
-- Keep answers focused: the goal is to unblock the user quickly, not to deliver a lecture
-- If an aside sparks a larger discussion, finish the current task first unless the aside reveals a blocker
-- Asides are not saved to session files unless explicitly relevant to the task outcome</pre>
-            </div>
-        </section>
-        
-
-        <div class="detail-nav">
-            <a class="nav-card" href="commit.html">
-                <div class="nav-label">上一个</div>
-                <div class="nav-title">commit</div>
-                <div class="nav-type">Command</div>
-            </a>
-            <a class="nav-card" href="build-fix.html">
-                <div class="nav-label">下一个</div>
-                <div class="nav-title">Build and Fix</div>
-                <div class="nav-type">Command</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

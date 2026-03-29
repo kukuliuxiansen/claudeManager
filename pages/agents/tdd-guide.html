@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Required: 80%+ branches, functions, lines, statements - Everything Claude Code</title>
+    <title>TDD 指导代理 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,49 +26,37 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #f59e0b; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #f59e0b; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(245, 158, 11, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #f59e0b; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(245, 158, 11, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(245, 158, 11, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #f59e0b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
         .nav-card:hover { border-color: #f59e0b40; background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
         .nav-type { font-size: 12px; color: #f59e0b; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -77,7 +65,7 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../agents.html" class="breadcrumb-link">Agents</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Required: 80%+ branches, functions, lines, statements</span>
+        <span class="breadcrumb-current">TDD 指导代理</span>
     </nav>
 
     <div class="detail-container">
@@ -85,155 +73,284 @@
             <div class="detail-icon">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             </div>
-            <h1 class="detail-title">Required: 80%+ branches, functions, lines, statements</h1>
-            <p class="detail-subtitle">智能代理，自主执行复杂任务的AI系统</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Agent
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    local
-                </div>
+            <h1 class="detail-title">TDD 指导代理</h1>
+            <p class="detail-subtitle">引导 Red-Green-Refactor 循环，确保 80%+ 测试覆盖率</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Agent类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">local</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Your Role
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Enforce tests-before-code methodology
-- Guide through Red-Green-Refactor cycle
-- Ensure 80%+ test coverage
-- Write comprehensive test suites (unit, integration, E2E)
-- Catch edge cases before implementation</pre>
+                <p>TDD 指导代理是测试优先开发方法的引导者，确保代码在测试覆盖率达到 80%+ 的情况下编写。它在接到描述预期行为的需求时触发。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">测试先于代码</h4>
+                            <p class="feature-desc">强制执行测试驱动的开发流程</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">红-绿-重构循环</h4>
+                            <p class="feature-desc">引导通过 RED-GREEN-REFACTOR 周期</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">覆盖率保证</h4>
+                            <p class="feature-desc">确保 80%+ 行、函数、分支和语句覆盖率</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">边缘情况检测</h4>
+                            <p class="feature-desc">在实现前识别并测试边缘情况</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Tdd Workflow
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">### 1. Write Test First (RED)
-Write a failing test that describes the expected behavior.
-### 2. Run Test -- Verify it FAILS
+                <p>TDD 指导代理基于三个核心原则：</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7); line-height:1.8;">
+                    <li><strong>测试先于实现</strong> - 永远不要写未经测试的代码</li>
+                    <li><strong>微小、可验证的步伐</strong> - 每次更改小到可以立即验证</li>
+                    <li><strong>测试是规格</strong> - 测试定义了代码应该做什么</li>
+                </ul>
+                <p>流程是严格顺序的：RED（测试失败）→ 绿色（通过测试的最小程序）→ REFACTOR（安全改进）。跳过任何步骤都会破坏 TDD 的价值。</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发时机与 TDD 流程</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 触发时机
+1. 用户描述预期功能或行为时
+2. 修复 bug 时（写失败测试先行）
+3. 添加新功能模块
+4. 重构时需要增加测试覆盖
+
+// TDD 周期
+### 1. 首先写测试 (RED)
+编写描述预期行为的失败测试
+### 2. 运行测试 -- 验证失败
 ```bash
 npm test
 ```
-### 3. Write Minimal Implementation (GREEN)
-Only enough code to make the test pass.
-### 4. Run Test -- Verify it PASSES
-### 5. Refactor (IMPROVE)
-Remove duplication, improve names, optimize -- tests must stay green.
-### 6. Verify Coverage
+### 3. 编写最小程序实现 (GREEN)
+仅编写足够通过测试的代码
+### 4. 运行测试 -- 验证通过
+### 5. 重构 (REFACTOR)
+删除重复、改进命名、优化 -- 测试必须保持通过
+### 6. 验证覆盖率
 ```bash
 npm run test:coverage
-```</pre>
+```
+
+// 必须测试的类型
+| 类型 | 测试内容 | 何时 |
+|-----|---------|------|
+| **单元** | 单独的函数 | 始终 |
+| **集成** | API 端点、数据库操作 | 始终 |
+| **E2E** | 关键用户流 (Playwright) | 关键路径 |
+
+// 覆盖率目标
+- 行覆盖率: 80%+
+- 函数覆盖率: 80%+
+- 分支覆盖率: 80%+
+- 语句覆盖率: 80%+</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Test Types Required
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">| Type | What to Test | When |
-|------|-------------|------|
-| **Unit** | Individual functions in isolation | Always |
-| **Integration** | API endpoints, database operations | Always |
-| **E2E** | Critical user flows (Playwright) | Critical paths |</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>最小程序实现</strong> - GREEN 阶段只写必要的代码，不要优化</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>失败由测试驱动</strong> - 只有当测试失败时才编写测试</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>测试独立</strong> - 每个测试测试一件事，不依赖其他测试</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>快反馈循环</strong> - ilitation 快速 IDE/run 命令用于即时反馈</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <p class="tip-text"><strong>测试即文档</strong> - 测试应该清楚地说明代码的预期行为</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Edge Cases You Must Test
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">1. **Null/Undefined** input
-2. **Empty** arrays/strings
-3. **Invalid types** passed
-4. **Boundary values** (min/max)
-5. **Error paths** (network failures, DB errors)
-6. **Race conditions** (concurrent operations)
-7. **Large data** (performance with 10k+ items)
-8. **Special characters** (Unicode, emojis, SQL chars)</pre>
-            </div>
-        </section>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">TDD Workflow Output</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># TDD 流程输出
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Test Anti Patterns To Avoid
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- Testing implementation details (internal state) instead of behavior
-- Tests depending on each other (shared state)
-- Asserting too little (passing tests that don&#039;t verify anything)
-- Not mocking external dependencies (Supabase, Redis, OpenAI, etc.)</pre>
-            </div>
-        </section>
+## 阶段 1: RED - 编写失败测试
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Quality Checklist
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- [ ] All public functions have unit tests
-- [ ] All API endpoints have integration tests
-- [ ] Critical user flows have E2E tests
-- [ ] Edge cases covered (null, empty, invalid)
-- [ ] Error paths tested (not just happy path)
-- [ ] Mocks used for external dependencies
-- [ ] Tests are independent (no shared state)
-- [ ] Assertions are specific and meaningful
-- [ ] Coverage is 80%+
-For detailed mocking patterns and framework-specific examples, see `skill: tdd-workflow`.</pre>
-            </div>
-        </section>
+### 用户需求
+"实现一个函数 toTitleCase(string)，将字符串转换为首字母大写格式"
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                V1.8 Eval Driven Tdd Addendum
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Integrate eval-driven development into TDD flow:
-1. Define capability + regression evals before implementation.
-2. Run baseline and capture failure signatures.
-3. Implement minimum passing change.
-4. Re-run tests and evals; report pass@1 and pass@3.
-Release-critical paths should target pass^3 stability before merge.</pre>
+### 编写的测试
+```javascript
+// tests/toTitleCase.test.js
+describe('toTitleCase', () => {
+  it('converts lowercase string to title case', () => {
+    expect(toTitleCase('hello world')).toBe('Hello World');
+  });
+
+  it('handles empty string', () => {
+    expect(toTitleCase('')).toBe('');
+  });
+
+  it('handles single word', () => {
+    expect(toTitleCase('hello')).toBe('Hello');
+  });
+});
+```
+
+### 运行测试
+```bash
+$ npm test
+FAIL ./tests/toTitleCase.test.js
+  toTitleCase
+    ✕ converts lowercase string to title case (5ms)
+    ✕ handles empty string
+    ✕ handles single word
+
+Test Suites: 1 failed, 3 tests failed
+```
+**状态**: RED - 测试失败，符合预期 ✅
+
+## 阶段 2: GREEN - 最小程序实现
+
+### 编写的实现
+```javascript
+// src/utils.js
+export function toTitleCase(str) {
+  return str.split(' ').map(word =>
+    word.charAt(0).toUpperCase() + word.slice(1)
+  ).join(' ');
+}
+```
+
+### 运行测试
+```bash
+$ npm test
+PASS ./tests/toTitleCase.test.js
+  toTitleCase
+    ✓ converts lowercase string to title case
+    ✓ handles empty string
+    ✓ handles single word
+
+Test Suites: 1 passed, 3 tests passed
+```
+**状态**: GREEN - 测试通过 ✅
+
+## 阶段 3: REFACTOR - 安全改进
+
+### 可能的重构
+1. 添加输入验证
+2. 添加 JSDoc 注释
+3. 优化性能
+
+### 重构后测试
+```bash
+$ npm test
+PASS ./tests/toTitleCase.test.js
+
+Test Suites: 1 passed, 3 tests passed
+```
+**状态**: REFACTOR 完成，测试仍通过 ✅
+
+## 覆盖率报告
+```
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Lines
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   100   |   100    |   100   |   100   |
+ utils.js          |   100   |   100    |   100   |   100   |
+-------------------|---------|----------|---------|---------|-------------------
+
+Test Coverage: 100%
+```
+
+## 总结
+1. ✅ 编写了失败测试 (RED)
+2. ✅ 实现了最小程序通过测试 (GREEN)
+3. ✅ 安全重构且测试通过 (REFACTOR)
+4. ✅ 覆盖率 100% (超过 80% 目标)
+
+下一个功能或 Edge Cases 要先测试。请提供下一个需求描述。</code></pre>
+                </div>
             </div>
         </section>
-        
 
         <div class="detail-nav">
-            <a class="nav-card" href="security-reviewer.html">
+            <a class="nav-card" href="../agents/silent-failure-hunter.html">
                 <div class="nav-label">上一个</div>
-                <div class="nav-title">Security Reviewer</div>
-                <div class="nav-type">Agent</div>
+                <div class="nav-title">静默失败检测代理</div>
             </a>
-            <a class="nav-card" href="a11y-debugging.html">
+            <a class="nav-card" href="../agents/type-design-analyzer.html">
                 <div class="nav-label">下一个</div>
-                <div class="nav-title">Extract failing audits with their details</div>
-                <div class="nav-type">Skill</div>
+                <div class="nav-title">类型设计分析代理</div>
             </a>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

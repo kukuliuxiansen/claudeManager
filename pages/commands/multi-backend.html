@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume session call - Everything Claude Code</title>
+    <title>多后端命令 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -32,42 +32,31 @@
         .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #8b5cf6; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #8b5cf640; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #8b5cf6; margin-top: 5px; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         @media (max-width: 768px) {
             .detail-container { padding: 20px; }
             .detail-header { padding: 30px; }
             .detail-title { font-size: 28px; }
             .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
+            .tips-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -77,20 +66,20 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../commands.html" class="breadcrumb-link">Commands</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Resume session call</span>
+        <span class="breadcrumb-current">多后端命令</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">Resume session call</h1>
-            <p class="detail-subtitle">命令脚本，快速执行特定操作的快捷方式</p>
+            <h1 class="detail-title">多后端命令</h1>
+            <p class="detail-subtitle">COCO 协议引导的多模型协作后端开发命令</p>
             <div class="detail-badges">
                 <div class="detail-badge">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Command
+                    类型: Command类
                 </div>
                 <div class="detail-badge">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
@@ -99,183 +88,198 @@
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Usage
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">```bash
-/backend &lt;backend task description&gt;
-```</pre>
+                <p>multi-backend 命令通过 COCO 协议实现多模型协作的后端开发流程。使用 Codex 作为后端专家主导开发，Gemini 辅助参考，Claude 进行协调与执行。适用于 API 设计、算法实现、数据库优化、业务逻辑开发等后端任务。</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">多模型协作</h4>
+                            <p class="feature-desc">Codex 主导 + Gemini 辅助 + Claude 协调的三模型协同</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">6阶段工作流</h4>
+                            <p class="feature-desc">Research → Ideation → Plan → Execute → Optimize → Review</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">会话复用</h4>
+                            <p class="feature-desc">通过 SESSION_ID 复用多模型上下文，提高效率</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">质量保障</h4>
+                            <p class="feature-desc">每个阶段包含质量检查，不符合标准则停止</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Context
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Backend task: $ARGUMENTS
-- Codex-led, Gemini for auxiliary reference
-- Applicable: API design, algorithm implementation, database optimization, business logic</pre>
+                <p>multi-backend 命令的核心原理是<strong>基于 COCO 协议的多模型责任分离</strong>。通过将不同职责分配给不同模型，发挥各模型优势，实现最佳开发效果。</p>
+
+                <p style="margin-top:20px"><strong>角色分工</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>Codex</strong> - 后端专家（权威信任）：算法、逻辑、数据库</li>
+                    <li><strong>Gemini</strong> - 辅助参考：从前端视角提供补充意见</li>
+                    <li><strong>Claude</strong> - 协调与执行：统筹、规划、编码、交付</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>工作流程</strong>:</p>
+                <ol style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>Phase 0: 提示增强（可选）</li>
+                    <li>Phase 1: Research - 需求理解与上下文收集</li>
+                    <li>Phase 2: Ideation - Codex 主导分析，输出方案</li>
+                    <li>Phase 3: Plan - Codex 主导规划，输出架构</li>
+                    <li>Phase 4: Execute - Claude 编码实现</li>
+                    <li>Phase 5: Optimize - Codex 主导优化与审查</li>
+                    <li>Phase 6: Review - 最终质量评估</li>
+                </ol>
+
+                <p style="margin-top:20px"><strong>会话管理</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>每个 Codex 调用返回 SESSION_ID</li>
+                    <li>后续阶段使用 resume &lt;SESSION_ID&gt; 复用上下文</li>
+                    <li>减少重复输入，提高效率</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Your Role
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">You are the **Backend Orchestrator**, coordinating multi-model collaboration for server-side tasks (Research → Ideation → Plan → Execute → Optimize → Review).
-**Collaborative Models**:
-- **Codex** – Backend logic, algorithms (**Backend authority, trustworthy**)
-- **Gemini** – Frontend perspective (**Backend opinions for reference only**)
-- **Claude (self)** – Orchestration, planning, execution, delivery</pre>
+                <p>当用户需要进行后端开发任务（API、算法、数据库等）时触发此命令。</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景与调用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 触发场景
+1. "help me design a REST API"
+2. "implement user authentication"
+3. "optimize this database query"
+
+// 命令调用
+/backend &lt;后端任务描述&gt;
+
+// 示例：API 设计
+/backend 设计用户管理 API，包含 CRUD 操作
+
+// 示例：算法实现
+/backend 实现一个高效的数据去重算法
+
+// 示例：数据库优化
+/backend 优化这个复杂的查询语句，添加索引建议</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Multi Model Call Specification
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">**Call Syntax**:
-```
-Bash({
-  command: &quot;~/.claude/bin/codeagent-wrapper {{LITE_MODE_FLAG}}--backend codex - \&quot;$PWD\&quot; &lt;&lt;&#039;EOF&#039;
-ROLE_FILE: &lt;role prompt path&gt;
-&lt;TASK&gt;
-Requirement: &lt;enhanced requirement (or $ARGUMENTS if not enhanced)&gt;
-Context: &lt;project context and analysis from previous phases&gt;
-&lt;/TASK&gt;
-OUTPUT: Expected output format
-EOF&quot;,
-  run_in_background: false,
-  timeout: 3600000,
-  description: &quot;Brief description&quot;
-})
-Bash({
-  command: &quot;~/.claude/bin/codeagent-wrapper {{LITE_MODE_FLAG}}--backend codex resume &lt;SESSION_ID&gt; - \&quot;$PWD\&quot; &lt;&lt;&#039;EOF&#039;
-ROLE_FILE: &lt;role prompt path&gt;
-&lt;TASK&gt;
-Requirement: &lt;enhanced requirement (or $ARGUMENTS if not enhanced)&gt;
-Context: &lt;project context and analysis from previous phases&gt;
-&lt;/TASK&gt;
-OUTPUT: Expected output format
-EOF&quot;,
-  run_in_background: false,
-  timeout: 3600000,
-  description: &quot;Brief description&quot;
-})
-```
-**Role Prompts**:
-| Phase | Codex |
-|-------|-------|
-| Analysis | `~/.claude/.ccg/prompts/codex/analyzer.md` |
-| Planning | `~/.claude/.ccg/prompts/codex/architect.md` |
-| Review | `~/.claude/.ccg/prompts/codex/reviewer.md` |
-**Session Reuse**: Each call returns `SESSION_ID: xxx`, use `resume xxx` for subsequent phases. Save `CODEX_SESSION` in Phase 2, use `resume` in Phases 3 and 5.</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>描述具体</strong> - 清晰的任务描述帮助模型理解需求</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>质量检查</strong> - 关注每个阶段的评分，低于 7 分需补充</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>会话复用</strong> - 保存 CODEX_SESSION 用于后续阶段</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>阶段确认</strong> - 每个阶段完成后等待用户批准再继续</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Communication Guidelines
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">1. Start responses with mode label `[Mode: X]`, initial is `[Mode: Research]`
-2. Follow strict sequence: `Research → Ideation → Plan → Execute → Optimize → Review`
-3. Use `AskUserQuestion` tool for user interaction when needed (e.g., confirmation/selection/approval)</pre>
-            </div>
-        </section>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Multi-Backend Output</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>[Mode: Research]
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Core Workflow
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### Phase 0: Prompt Enhancement (Optional)
-`[Mode: Prepare]` - If ace-tool MCP available, call `mcp__ace-tool__enhance_prompt`, **replace original $ARGUMENTS with enhanced result for subsequent Codex calls**. If unavailable, use `$ARGUMENTS` as-is.
-### Phase 1: Research
-`[Mode: Research]` - Understand requirements and gather context
-1. **Code Retrieval** (if ace-tool MCP available): Call `mcp__ace-tool__search_context` to retrieve existing APIs, data models, service architecture. If unavailable, use built-in tools: `Glob` for file discovery, `Grep` for symbol/API search, `Read` for context gathering, `Task` (Explore agent) for deeper exploration.
-2. Requirement completeness score (0-10): &gt;=7 continue, &lt;7 stop and supplement
+## Task: User Authentication API
+## Status: Collecting context...
+
+### Phase 1: Context Retrieval
+- Found: auth/models/user.py (User model)
+- Found: auth/services/jwt.py (JWT utilities)
+- Found: api/v1/auth.py (current auth endpoints)
+
 ### Phase 2: Ideation
-`[Mode: Ideation]` - Codex-led analysis
-**MUST call Codex** (follow call specification above):
-- ROLE_FILE: `~/.claude/.ccg/prompts/codex/analyzer.md`
-- Requirement: Enhanced requirement (or $ARGUMENTS if not enhanced)
-- Context: Project context from Phase 1
-- OUTPUT: Technical feasibility analysis, recommended solutions (at least 2), risk assessment
-**Save SESSION_ID** (`CODEX_SESSION`) for subsequent phase reuse.
-Output solutions (at least 2), wait for user selection.
-### Phase 3: Planning
-`[Mode: Plan]` - Codex-led planning
-**MUST call Codex** (use `resume &lt;CODEX_SESSION&gt;` to reuse session):
-- ROLE_FILE: `~/.claude/.ccg/prompts/codex/architect.md`
-- Requirement: User&#039;s selected solution
-- Context: Analysis results from Phase 2
-- OUTPUT: File structure, function/class design, dependency relationships
-Claude synthesizes plan, save to `.claude/plan/task-name.md` after user approval.
-### Phase 4: Implementation
-`[Mode: Execute]` - Code development
-- Strictly follow approved plan
-- Follow existing project code standards
-- Ensure error handling, security, performance optimization
-### Phase 5: Optimization
-`[Mode: Optimize]` - Codex-led review
-**MUST call Codex** (follow call specification above):
-- ROLE_FILE: `~/.claude/.ccg/prompts/codex/reviewer.md`
-- Requirement: Review the following backend code changes
-- Context: git diff or code content
-- OUTPUT: Security, performance, error handling, API compliance issues list
-Integrate review feedback, execute optimization after user confirmation.
-### Phase 6: Quality Review
-`[Mode: Review]` - Final evaluation
-- Check completion against plan
-- Run tests to verify functionality
-- Report issues and recommendations</pre>
+[Mode: Ideation]
+
+**Codex Analysis:**
+- Technical feasibility: High
+- Recommended approaches:
+  1. JWT-based session management
+  2. OAuth2 with refresh tokens
+  3. Custom token system
+
+- Risks:
+  - Token expiration handling
+  - Revocation mechanism
+  - Rate limiting requirements
+
+**Gemini Reference:**
+- Consider user experience for token refresh
+- Mobile token storage considerations
+
+**Recommendation:** Option 2 (OAuth2) for production readiness
+
+> Please select an approach to proceed.
+> Type your choice: 1, 2, or 3</code></pre>
+                </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Key Rules
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">1. **Codex backend opinions are trustworthy**
-2. **Gemini backend opinions for reference only**
-3. External models have **zero filesystem write access**
-4. Claude handles all code writes and file operations</pre>
-            </div>
-        </section>
-        
-
-        <div class="detail-nav">
-            <a class="nav-card" href="model-route.html">
-                <div class="nav-label">上一个</div>
-                <div class="nav-title">Model Route Command</div>
-                <div class="nav-type">Command</div>
-            </a>
-            <a class="nav-card" href="multi-execute.html">
-                <div class="nav-label">下一个</div>
-                <div class="nav-title">Execute task directly (for plans already discussed in context)</div>
-                <div class="nav-type">Command</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

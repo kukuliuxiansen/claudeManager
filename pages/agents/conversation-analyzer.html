@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>conversation-analyzer - Everything Claude Code</title>
+    <title>对话分析代理 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,48 +26,43 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #f59e0b; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #f59e0b; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #f59e0b40; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #f59e0b; margin-top: 5px; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(245, 158, 11, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #f59e0b; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(245, 158, 11, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(245, 158, 11, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #f59e0b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        .severity-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .severity-table th, .severity-table td { padding: 12px 16px; text-align: left; border: 1px solid rgba(255,255,255,0.1); }
+        .severity-table th { background: rgba(245, 158, 11, 0.2); color: #f59e0b; font-weight: 600; }
+        .severity-table td { color: rgba(255,255,255,0.8); }
+        .level-critical { color: #ef4444; font-weight: 600; }
+        .level-high { color: #f59e0b; font-weight: 600; }
+        .level-medium { color: #3b82f6; }
         @media (max-width: 768px) {
             .detail-container { padding: 20px; }
             .detail-header { padding: 30px; }
             .detail-title { font-size: 28px; }
             .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
+            .tips-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -77,121 +72,275 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../agents.html" class="breadcrumb-link">Agents</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">conversation-analyzer</span>
+        <span class="breadcrumb-current">对话分析代理</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">conversation-analyzer</h1>
-            <p class="detail-subtitle">智能代理，自主执行复杂任务的AI系统</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Agent
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    hookify
-                </div>
+            <h1 class="detail-title">对话分析代理</h1>
+            <p class="detail-subtitle">分析对话模式并生成预防性规则的AI代理</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Agent类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">hookify</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Hookify Analysis Results
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Issue 1: Dangerous rm Commands
-**Severity**: High
-**Tool**: Bash
-**Pattern**: `rm\s+-rf`
-**Occurrences**: 3 times
-**Context**: Used rm -rf on /tmp directories without verification
-**User Reaction**: &quot;Please be more careful with rm commands&quot;
-**Suggested Rule:**
-- Name: warn-dangerous-rm
-- Event: bash
-- Pattern: rm\s+-rf
-- Message: &quot;Dangerous rm command detected. Verify path before proceeding.&quot;
-### Issue 2: Console.log in TypeScript
-**Severity**: Medium
-**Tool**: Edit/Write
-**Pattern**: `console\.log\(`
-**Occurrences**: 2 times
-**Context**: Added console.log statements to production TypeScript files
-**User Reaction**: &quot;Don&#039;t use console.log in production code&quot;
-**Suggested Rule:**
-- Name: warn-console-log
-- Event: file
-- Pattern: console\.log\(
-- Message: &quot;Console.log detected. Use proper logging library instead.&quot;
-[Continue for each issue found...]</pre>
+                <p>对话分析代理模式化 Claude Code 历史对话中的行为模式，检测可预防的问题并生成自动化规则。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10zm0-18c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">行为模式检测</h4>
+                            <p class="feature-desc">识别对话中反复出现的不良或危险行为模式</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">严重级别分类</h4>
+                            <p class="feature-desc">按高、中、低严重性分类检测到的问题</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">规则生成</h4>
+                            <p class="feature-desc">为高严重性问题生成正则表达式规则和预防提示</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">edge cases 处理</h4>
+                            <p class="feature-desc">区分不当行为、教学场景和偶然错误</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Summary
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">Found {N} behaviors worth preventing:
-- {N} high severity
-- {N} medium severity
-- {N} low severity
-Recommend creating rules for high and medium severity issues.
+                <p>对话分析代理使用<strong>规则模式匹配</strong>方法，将对话历史中的工具使用模式与已知危险模式进行比较。</p>
+
+                <p style="margin-top:20px"><strong>分析原理</strong>:</p>
+                <div style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.3); border-radius:8px;">
+                    <strong>1. 模式提取</strong>
+                    <ul style="margin-left:20px; color:rgba(255,255,255,0.6);">
+                        <li>从工具调用中提取关键信息</li>
+                        <li>识别高频行为模式</li>
+                        <li>关联用户响应和反馈</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.3); border-radius:8px;">
+                    <strong>2. 规则匹配</strong>
+                    <ul style="margin-left:20px; color:rgba(255,255,255,0.6);">
+                        <li>将模式与危险模式数据库比较</li>
+                        <li>计算匹配分数和置信度</li>
+                        <li>应用严重级别分类</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.3); border-radius:8px;">
+                    <strong>3. 规则生成</strong>
+                    <ul style="margin-left:20px; color:rgba(255,255,255,0.6);">
+                        <li>为检测到的模式创建正则表达式</li>
+                        <li>生成事件触发规则</li>
+                        <li>创建用户提示消息</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.3); border-radius:8px;">
+                    <strong>4. 安全边界</strong>
+                    <ul style="margin-left:20px; color:rgba(255,255,255,0.6);">
+                        <li>区分实际问题和教学讨论</li>
+                        <li>标记偶然错误而非模式</li>
+                        <li>避免误报</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <p>对话分析代理在生成 .local.md 配置文件时触发：</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">分析输出示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>### 问题 1: 危险的 rm 命令
+**严重性**: 高
+**工具**: Bash
+**模式**: `rm\s+-rf`
+**出现次数**: 3次
+**上下文**: 在没有验证的情况下对/tmp目录使用rm -rf
+**用户反应**: "请在执行rm命令时更加小心"
+**建议规则:**
+- 名称: warn-dangerous-rm
+- 事件: bash
+- 模式: rm\s+-rf
+- 消息: "检测到危险的rm命令。请在执行前验证路径。"
+
+### 问题 2: TypeScript中的console.log
+**严重性**: 中
+**工具**: Edit/Write
+**模式**: `console\.log\(`
+**出现次数**: 2次
+**上下文**: 在生产TypeScript文件中添加console.log语句
+**用户反应**: "不要在生产代码中使用console.log"
+**建议规则:**
+- 名称: warn-console-log
+- 事件: file
+- 模式: console\.log\(
+- 消息: "检测到console.log。请使用适当的日志库。"
+
+[继续为每个发现的问题...]
+
+### 总结
+发现 {N} 个可预防行为:
+- {N} 个高严重性
+- {N} 个中严重性
+- {N} 个低严重性
+
+建议为高和中严重性问题创建规则。
+
+### 安全边界考虑
+**用户正在讨论假设情况:**
+- "如果我使用rm -rf会发生什么？"
+- 不视为问题行为
+**教学时刻:**
+- "你不应该这样做: ..."
+- 上下文表明是解释，而非问题
+**一次性错误:**
+- 单次出现，已修复
+- 提及但标记为低优先级
+**主观偏好:**
+- "我更喜欢X而不是Y"
+- 标记为低严重性，让用户决定
+
+### 返回结果
+以结构化格式提供分析。/hookify命令将使用此来:
+1. 向用户显示发现
+2. 询问要创建的规则
+3. 生成 .local.md 配置文件
+4. 将规则保存到 .claude 目录</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>具体模式</strong> - 避免过于宽泛，使用精确的正则表达式</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>真实示例</strong> - 包含来自对话的实际代码示例</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>上下文说明</strong> - 解释为什么每个问题有害</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>测试规则</strong> - 验证规则不会产生误报</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">hookify分析输出</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>### Hookify 分析结果
+
+#### 检测到的模式
+| 问题 | 模式 | 频率 | 严重性 |
+|------|------|------|--------|
+| 危险rm命令 | rm\s+-rf | 3次 | 高 |
+| console.log泄漏 | console\.log\(| 2次 | 中 |
+| 裸密码 | password\s*= | 1次 | 高 |
+
+#### 推荐规则
+1. **warn-dangerous-rm**
+   - 匹配: rm\s+-rf
+   - 消息: "危险的rm命令。请验证路径。"
+   - 事件: bash
+
+2. **warn-console-log**
+   - 匹配: console\.log\(
+   - 消息: "在生产代码中使用日志库。"
+   - 事件: file
+
+#### 生成的 .local.md
+```yaml
+rules:
+  - name: warn-dangerous-rm
+    event: bash
+    pattern: rm\s+-rf
+    message: "危险的rm命令。请验证路径。"
+    severity: high
+  - name: warn-console-log
+    event: file
+    pattern: console\.log\(
+    message: "在生产代码中使用日志库。"
+    severity: medium
 ```
-**Quality Standards:**
-- Be specific about patterns (don&#039;t be overly broad)
-- Include actual examples from conversation
-- Explain why each issue matters
-- Provide ready-to-use regex patterns
-- Don&#039;t false-positive on discussions about what NOT to do
-**Edge Cases:**
-**User discussing hypotheticals:**
-- &quot;What would happen if I used rm -rf?&quot;
-- Don&#039;t treat as problematic behavior
-**Teaching moments:**
-- &quot;Here&#039;s what you shouldn&#039;t do: ...&quot;
-- Context indicates explanation, not actual problem
-**One-time accidents:**
-- Single occurrence, already fixed
-- Mention but mark as low priority
-**Subjective preferences:**
-- &quot;I prefer X over Y&quot;
-- Mark as low severity, let user decide
-**Return Results:**
-Provide your analysis in the structured format above. The /hookify command will use this to:
-1. Present findings to user
-2. Ask which rules to create
-3. Generate .local.md configuration files
-4. Save rules to .claude directory</pre>
+
+#### 质量标准
+- 模式具体，不宽泛
+- 包含实际对话示例
+- 解释问题重要性
+- 提供可用的regex模式
+- 不误报讨论内容</code></pre>
+                </div>
             </div>
         </section>
-        
 
-        <div class="detail-nav">
-            <a class="nav-card" href="skill-reviewer.html">
-                <div class="nav-label">上一个</div>
-                <div class="nav-title">skill-reviewer</div>
-                <div class="nav-type">Agent</div>
-            </a>
-            <a class="nav-card" href="cpp-build-resolver.html">
-                <div class="nav-label">下一个</div>
-                <div class="nav-title">C++ Build Error Resolver</div>
-                <div class="nav-type">Agent</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

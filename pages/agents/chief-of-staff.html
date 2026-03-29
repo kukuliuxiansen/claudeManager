@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Today's Briefing — [Date] - Everything Claude Code</title>
+    <title>参谋长代理 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,48 +26,42 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #f59e0b; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #f59e0b; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #f59e0b40; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #f59e0b; margin-top: 5px; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(245, 158, 11, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #f59e0b; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(245, 158, 11, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(245, 158, 11, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #f59e0b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        .severity-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .severity-table th, .severity-table td { padding: 12px 16px; text-align: left; border: 1px solid rgba(255,255,255,0.1); }
+        .severity-table th { background: rgba(245, 158, 11, 0.2); color: #f59e0b; font-weight: 600; }
+        .severity-table td { color: rgba(255,255,255,0.8); }
+        .status-high { color: #f59e0b; font-weight: 600; }
+        .status-medium { color: #3b82f6; }
         @media (max-width: 768px) {
             .detail-container { padding: 20px; }
             .detail-header { padding: 30px; }
             .detail-title { font-size: 28px; }
             .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
+            .tips-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -77,224 +71,222 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../agents.html" class="breadcrumb-link">Agents</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Today's Briefing — [Date]</span>
+        <span class="breadcrumb-current">参谋长代理</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">Today's Briefing — [Date]</h1>
-            <p class="detail-subtitle">智能代理，自主执行复杂任务的AI系统</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Agent
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    local
-                </div>
+            <h1 class="detail-title">参谋长代理</h1>
+            <p class="detail-subtitle">多渠道消息分类与自动处理的AI消息管理代理</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Agent类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">local</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Your Role
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Triage all incoming messages across 5 channels in parallel
-- Classify each message using the 4-tier system below
-- Generate draft replies that match the user&#039;s tone and signature
-- Enforce post-send follow-through (calendar, todo, relationship notes)
-- Calculate scheduling availability from calendar data
-- Detect stale pending responses and overdue tasks</pre>
+                <p>参谋长代理（Chief of Staff）自动收发多渠道消息，根据4 tier系统进行分类，并自动生成回复草稿。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4V8l5-4 5 4v10z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">多渠道并行监控</h4>
+                            <p class="feature-desc">同时处理Gmail、Slack、Messenger、LINE等5个渠道的消息</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">智能四 tier 分类</h4>
+                            <p class="feature-desc">自动分类消息：跳过、仅信息、会议信息、需要操作</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">自动生成回复草稿</h4>
+                            <p class="feature-desc">使用SOUL.md风格和关系上下文生成邮件回复草案</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">事后跟踪执行</h4>
+                            <p class="feature-desc">自动创建日历事件、更新关系文档、同步待办事项</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                4 Tier Classification System
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">Every message gets classified into exactly one tier, applied in priority order:
-### 1. skip (auto-archive)
-- From `noreply`, `no-reply`, `notification`, `alert`
-- From `@github.com`, `@slack.com`, `@jira`, `@notion.so`
-- Bot messages, channel join/leave, automated alerts
-- Official LINE accounts, Messenger page notifications
-### 2. info_only (summary only)
-- CC&#039;d emails, receipts, group chat chatter
-- `@channel` / `@here` announcements
-- File shares without questions
-### 3. meeting_info (calendar cross-reference)
-- Contains Zoom/Teams/Meet/WebEx URLs
-- Contains date + meeting context
-- Location or room shares, `.ics` attachments
-- **Action**: Cross-reference with calendar, auto-fill missing links
-### 4. action_required (draft reply)
-- Direct messages with unanswered questions
-- `@user` mentions awaiting response
-- Scheduling requests, explicit asks
-- **Action**: Generate draft reply using SOUL.md tone and relationship context</pre>
+                <p>参谋长代理遵循<strong>钩子驱动的可靠性</strong>原则，使用 PostToolUse 钩子强制执行检查清单，确保每封邮件发送后完成所有后续步骤。</p>
+
+                <p style="margin-top:20px"><strong>4 tier 分类系统</strong>（按优先级顺序应用）:</p>
+                <div style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.3); border-radius:8px;">
+                    <strong>1. skip (自动归档)</strong>
+                    <ul style="margin-left:20px; color:rgba(255,255,255,0.6);">
+                        <li>来自 noreply、通知、警报邮箱</li>
+                        <li>机器人消息、频道加入/离开</li>
+                        <li>自动通知、LINE/Messenger 页面通知</li>
+                    </ul>
+                </div>
+                <div style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.3); border-radius:8px;">
+                    <strong>2. info_only (仅摘要)</strong>
+                    <ul style="margin-left:20px; color:rgba(255,255,255,0.6);">
+                        <li>Cc邮件、收据、群聊聊天</li>
+                        <li>@channel/@here 公告</li>
+                        <li>无问题的文件分享</li>
+                    </ul>
+                </div>
+                <div style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.3); border-radius:8px;">
+                    <strong>3. meeting_info (日历交叉引用)</strong>
+                    <ul style="margin-left:20px; color:rgba(255,255,255,0.6);">
+                        <li>包含 Zoom/Teams/Meet/WebEx URL</li>
+                        <li>包含日期和会议上下文</li>
+                        <li>位置、房间共享、.ics 附件</li>
+                    </ul>
+                </div>
+                <div style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.3); border-radius:8px;">
+                    <strong>4. action_required (生成回复草稿)</strong>
+                    <ul style="margin-left:20px; color:rgba(255,255,255,0.6);">
+                        <li>带未解答问题的直接消息</li>
+                        <li>等待回复的 @user 提及</li>
+                        <li>调度请求、明确要求</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Triage Process
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Step 1: Parallel Fetch
-Fetch all channels simultaneously:
-```bash
-gog gmail search &quot;is:unread -category:promotions -category:social&quot; --max 20 --json
+                <p>参谋长代理在以下场景自动触发：</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发命令示例</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># 单渠道分类
+claude /mail        # 仅Gmail分类
+claude /slack       # 仅Slack分类
+
+# 多渠道整合分类
+claude /today       # 所有渠道+日历+待办
+
+# 针对性回复
+claude /schedule-reply "Reply to Sarah about the board meeting"</code></pre>
+                </div>
+                <div class="code-block" style="margin-top:20px;">
+                    <div class="code-header">
+                        <span class="code-lang">并行获取所有渠道</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>gog gmail search "is:unread -category:promotions -category:social" --max 20 --json
 gog calendar events --today --all --max 30
-```
-```text
-conversations_search_messages(search_query: &quot;YOUR_NAME&quot;, filter_date_during: &quot;Today&quot;)
-channels_list(channel_types: &quot;im,mpim&quot;) → conversations_history(limit: &quot;4h&quot;)
-```
-### Step 2: Classify
-Apply the 4-tier system to each message. Priority order: skip → info_only → meeting_info → action_required.
-### Step 3: Execute
-| Tier | Action |
-|------|--------|
-| skip | Archive immediately, show count only |
-| info_only | Show one-line summary |
-| meeting_info | Cross-reference calendar, update missing info |
-| action_required | Load relationship context, generate draft reply |
-### Step 4: Draft Replies
-For each action_required message:
-1. Read `private/relationships.md` for sender context
-2. Read `SOUL.md` for tone rules
-3. Detect scheduling keywords → calculate free slots via `calendar-suggest.js`
-4. Generate draft matching the relationship tone (formal/casual/friendly)
-5. Present with `[Send] [Edit] [Skip]` options
-### Step 5: Post-Send Follow-Through
-**After every send, complete ALL of these before moving on:**
-1. **Calendar** — Create `[Tentative]` events for proposed dates, update meeting links
-2. **Relationships** — Append interaction to sender&#039;s section in `relationships.md`
-3. **Todo** — Update upcoming events table, mark completed items
-4. **Pending responses** — Set follow-up deadlines, remove resolved items
-5. **Archive** — Remove processed message from inbox
-6. **Triage files** — Update LINE/Messenger draft status
-7. **Git commit &amp; push** — Version-control all knowledge file changes
-This checklist is enforced by a `PostToolUse` hook that blocks completion until all steps are done. The hook intercepts `gmail send` / `conversations_add_message` and injects the checklist as a system reminder.</pre>
+conversations_search_messages(search_query: "YOUR_NAME", filter_date_during: "Today")
+channels_list(channel_types: "im,mpim") → conversations_history(limit: "4h")</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Briefing Output Format
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">```</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>钩子替代提示</strong> - PostToolUse钩子在工具级别强制执行，比LLM提示更可靠(~20%遗忘率)</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>脚本处理确定性逻辑</strong> - 日历计算、时区处理使用 calendar-suggest.js，而非LLM</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>知识文件作为记忆</strong> - relationships.md、preferences.md、todo.md通过git跨无状态会话持久化</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>规则系统注入</strong> - .claude/rules/*.md文件在每次会话自动加载，LLM无法选择忽略</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Schedule (N)
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">| Time | Event | Location | Prep? |
-|------|-------|----------|-------|</pre>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">参谋长代理输出格式</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>### 日程安排 (N)
+| 时间 | 事件 | 位置 | 准备? |
+|------|------|------|-------|
+
+### 邮件 - 需要操作 (N)
+### 1. 发件人 &lt;email&gt;
+**主题**: ...
+**摘要**: ...
+**回复草案**: ...
+→ [发送] [编辑] [跳过]
+
+### 筛选队列
+- 过期待回复: N
+- 超期任务: N</code></pre>
+                </div>
+                <div class="code-block" style="margin-top:20px;">
+                    <div class="code-header">
+                        <span class="code-lang">发送后自动执行清单</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>发送后必须完成所有这些步骤：
+1. **日历** - 为提议日期创建[Tentative]事件，更新会议链接
+2. **关系** - 将互动追加到sender的relationships.md部分
+3. **待办** - 更新即将进行的事件表，标记已完成的项目
+4. **待回复** - 设置跟进截止日期，删除已解决的项目
+5. **归档** - 从收件箱移除已处理的消息
+6. **筛选文件** - 更新LINE/Messenger草稿状态
+7. **Git提交并推送** - 版本控制所有知识文件更改</code></pre>
+                </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Email — Action Required (N)
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### 1. Sender &lt;email&gt;
-**Subject**: ...
-**Summary**: ...
-**Draft reply**: ...
-→ [Send] [Edit] [Skip]</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Triage Queue
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- Stale pending responses: N
-- Overdue tasks: N
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Key Design Principles
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- **Hooks over prompts for reliability**: LLMs forget instructions ~20% of the time. `PostToolUse` hooks enforce checklists at the tool level — the LLM physically cannot skip them.
-- **Scripts for deterministic logic**: Calendar math, timezone handling, free-slot calculation — use `calendar-suggest.js`, not the LLM.
-- **Knowledge files are memory**: `relationships.md`, `preferences.md`, `todo.md` persist across stateless sessions via git.
-- **Rules are system-injected**: `.claude/rules/*.md` files load automatically every session. Unlike prompt instructions, the LLM cannot choose to ignore them.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Example Invocations
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```bash
-claude /mail                    # Email-only triage
-claude /slack                   # Slack-only triage
-claude /today                   # All channels + calendar + todo
-claude /schedule-reply &quot;Reply to Sarah about the board meeting&quot;
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Prerequisites
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
-- Gmail CLI (e.g., gog by @pterm)
-- Node.js 18+ (for calendar-suggest.js)
-- Optional: Slack MCP server, Matrix bridge (LINE), Chrome + Playwright (Messenger)</pre>
-            </div>
-        </section>
-        
-
-        <div class="detail-nav">
-            <a class="nav-card" href="build-error-resolver.html">
-                <div class="nav-label">上一个</div>
-                <div class="nav-title">Fix ESLint auto-fixable</div>
-                <div class="nav-type">Agent</div>
-            </a>
-            <a class="nav-card" href="code-reviewer.html">
-                <div class="nav-label">下一个</div>
-                <div class="nav-title">code-reviewer</div>
-                <div class="nav-type">Agent</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

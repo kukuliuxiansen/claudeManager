@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan - Multi-Model Collaborative Planning - Everything Claude Code</title>
+    <title>多计划命令 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -32,42 +32,31 @@
         .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #8b5cf6; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #8b5cf640; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #8b5cf6; margin-top: 5px; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         @media (max-width: 768px) {
             .detail-container { padding: 20px; }
             .detail-header { padding: 30px; }
             .detail-title { font-size: 28px; }
             .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
+            .tips-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -77,20 +66,20 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../commands.html" class="breadcrumb-link">Commands</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Plan - Multi-Model Collaborative Planning</span>
+        <span class="breadcrumb-current">多计划命令</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">Plan - Multi-Model Collaborative Planning</h1>
-            <p class="detail-subtitle">命令脚本，快速执行特定操作的快捷方式</p>
+            <h1 class="detail-title">多计划命令</h1>
+            <p class="detail-subtitle">多模型协作规划与计划生成命令</p>
             <div class="detail-badges">
                 <div class="detail-badge">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Command
+                    类型: Command类
                 </div>
                 <div class="detail-badge">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
@@ -99,260 +88,215 @@
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Core Protocols
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- **Language Protocol**: Use **English** when interacting with tools/models, communicate with user in their language
-- **Mandatory Parallel**: Codex/Gemini calls MUST use `run_in_background: true` (including single model calls, to avoid blocking main thread)
-- **Code Sovereignty**: External models have **zero filesystem write access**, all modifications by Claude
-- **Stop-Loss Mechanism**: Do not proceed to next phase until current phase output is validated
-- **Planning Only**: This command allows reading context and writing to `.claude/plan/*` plan files, but **NEVER modify production code**</pre>
+                <p>multi-plan 命令通过多模型协作生成开发计划。并行调用 Codex 和 Gemini 进行分析与规划，结合双方优势生成全面的实现方案。适用于复杂功能规划、跨领域任务规划、需要多视角评审的规划场景。</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">并行分析</h4>
+                            <p class="feature-desc">Codex（后端）与 Gemini（前端）并行分析任务</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">跨领域规划</h4>
+                            <p class="feature-desc">同时考虑后端架构与前端实现的完整方案</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">计划持久化</h4>
+                            <p class="feature-desc">自动保存到 .claude/plan/ 目录，便于后续执行</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">SESSION_ID 交换</h4>
+                            <p class="feature-desc">包含 CODEX_SESSION 和 GEMINI_SESSION 供后续 /ccg:execute 使用</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Multi Model Call Specification
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">**Call Syntax** (parallel: use `run_in_background: true`):
-```
-Bash({
-  command: &quot;~/.claude/bin/codeagent-wrapper {{LITE_MODE_FLAG}}--backend &lt;codex|gemini&gt; {{GEMINI_MODEL_FLAG}}- \&quot;$PWD\&quot; &lt;&lt;&#039;EOF&#039;
-ROLE_FILE: &lt;role prompt path&gt;
-&lt;TASK&gt;
-Requirement: &lt;enhanced requirement&gt;
-Context: &lt;retrieved project context&gt;
-&lt;/TASK&gt;
-OUTPUT: Step-by-step implementation plan with pseudo-code. DO NOT modify any files.
-EOF&quot;,
-  run_in_background: true,
-  timeout: 3600000,
-  description: &quot;Brief description&quot;
-})
-```
-**Model Parameter Notes**:
-- `{{GEMINI_MODEL_FLAG}}`: When using `--backend gemini`, replace with `--gemini-model gemini-3-pro-preview` (note trailing space); use empty string for codex
-**Role Prompts**:
-| Phase | Codex | Gemini |
-|-------|-------|--------|
-| Analysis | `~/.claude/.ccg/prompts/codex/analyzer.md` | `~/.claude/.ccg/prompts/gemini/analyzer.md` |
-| Planning | `~/.claude/.ccg/prompts/codex/architect.md` | `~/.claude/.ccg/prompts/gemini/architect.md` |
-**Session Reuse**: Each call returns `SESSION_ID: xxx` (typically output by wrapper), **MUST save** for subsequent `/ccg:execute` use.
-**Wait for Background Tasks** (max timeout 600000ms = 10 minutes):
-```
-TaskOutput({ task_id: &quot;&lt;task_id&gt;&quot;, block: true, timeout: 600000 })
-```
-**IMPORTANT**:
-- Must specify `timeout: 600000`, otherwise default 30 seconds will cause premature timeout
-- If still incomplete after 10 minutes, continue polling with `TaskOutput`, **NEVER kill the process**
-- If waiting is skipped due to timeout, **MUST call `AskUserQuestion` to ask user whether to continue waiting or kill task**</pre>
+                <p>multi-plan 命令的核心原理是<strong>并行模型分析与计划综合</strong>。通过同时调用 Codex 和 Gemini 获取多视角的规划方案，再由 Claude 综合生成最终计划。</p>
+
+                <p style="margin-top:20px"><strong>关键特性</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>并行调用</strong> -Codex 和 Gemini 同时分析，减少等待时间</li>
+                    <li><strong>信任规则</strong> - 后端遵循 Codex，前端遵循 Gemini</li>
+                    <li><strong>零写权限</strong> - 模型不直接修改文件，只输出规划方案</li>
+                    <li><strong>计划保存</strong> - 自动生成 `.claude/plan/xxx.md` 文件</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>生成内容</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li><strong>技术方案</strong> - 最优解决方案与理由</li>
+                    <li><strong>实施步骤</strong> - 详细的分步实现计划</li>
+                    <li><strong>关键文件</strong> - 需要修改的文件列表与修改描述</li>
+                    <li><strong>SESSION_ID</strong> - CODEX_SESSION 和 GEMINI_SESSION</li>
+                    <li><strong>风险评估</strong> - 潜在风险与缓解措施</li>
+                </ul>
+
+                <p style="margin-top:20px"><strong>后续使用</strong>:</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7)">
+                    <li>用户确认后，使用 `/ccg:execute .claude/plan/xxx.md` 执行</li>
+                    <li>系统自动复用保存的 SESSION_ID 恢复上下文</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Execution Workflow
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">**Planning Task**: $ARGUMENTS
-### Phase 1: Full Context Retrieval
-`[Mode: Research]`
-#### 1.1 Prompt Enhancement (MUST execute first)
-**If ace-tool MCP is available**, call `mcp__ace-tool__enhance_prompt` tool:
-```
-mcp__ace-tool__enhance_prompt({
-  prompt: &quot;$ARGUMENTS&quot;,
-  conversation_history: &quot;&lt;last 5-10 conversation turns&gt;&quot;,
-  project_root_path: &quot;$PWD&quot;
-})
-```
-Wait for enhanced prompt, **replace original $ARGUMENTS with enhanced result** for all subsequent phases.
-**If ace-tool MCP is NOT available**: Skip this step and use the original `$ARGUMENTS` as-is for all subsequent phases.
-#### 1.2 Context Retrieval
-**If ace-tool MCP is available**, call `mcp__ace-tool__search_context` tool:
-```
-mcp__ace-tool__search_context({
-  query: &quot;&lt;semantic query based on enhanced requirement&gt;&quot;,
-  project_root_path: &quot;$PWD&quot;
-})
-```
-- Build semantic query using natural language (Where/What/How)
-- **NEVER answer based on assumptions**
-**If ace-tool MCP is NOT available**, use Claude Code built-in tools as fallback:
-1. **Glob**: Find relevant files by pattern (e.g., `Glob(&quot;**/*.ts&quot;)`, `Glob(&quot;src/**/*.py&quot;)`)
-2. **Grep**: Search for key symbols, function names, class definitions (e.g., `Grep(&quot;className|functionName&quot;)`)
-3. **Read**: Read the discovered files to gather complete context
-4. **Task (Explore agent)**: For deeper exploration, use `Task` with `subagent_type: &quot;Explore&quot;` to search across the codebase
-#### 1.3 Completeness Check
-- Must obtain **complete definitions and signatures** for relevant classes, functions, variables
-- If context insufficient, trigger **recursive retrieval**
-- Prioritize output: entry file + line number + key symbol name; add minimal code snippets only when necessary to resolve ambiguity
-#### 1.4 Requirement Alignment
-- If requirements still have ambiguity, **MUST** output guiding questions for user
-- Until requirement boundaries are clear (no omissions, no redundancy)
-### Phase 2: Multi-Model Collaborative Analysis
-`[Mode: Analysis]`
-#### 2.1 Distribute Inputs
-**Parallel call** Codex and Gemini (`run_in_background: true`):
-Distribute **original requirement** (without preset opinions) to both models:
-1. **Codex Backend Analysis**:
-   - ROLE_FILE: `~/.claude/.ccg/prompts/codex/analyzer.md`
-   - Focus: Technical feasibility, architecture impact, performance considerations, potential risks
-   - OUTPUT: Multi-perspective solutions + pros/cons analysis
-2. **Gemini Frontend Analysis**:
-   - ROLE_FILE: `~/.claude/.ccg/prompts/gemini/analyzer.md`
-   - Focus: UI/UX impact, user experience, visual design
-   - OUTPUT: Multi-perspective solutions + pros/cons analysis
-Wait for both models&#039; complete results with `TaskOutput`. **Save SESSION_ID** (`CODEX_SESSION` and `GEMINI_SESSION`).
-#### 2.2 Cross-Validation
-Integrate perspectives and iterate for optimization:
-1. **Identify consensus** (strong signal)
-2. **Identify divergence** (needs weighing)
-3. **Complementary strengths**: Backend logic follows Codex, Frontend design follows Gemini
-4. **Logical reasoning**: Eliminate logical gaps in solutions
-#### 2.3 (Optional but Recommended) Dual-Model Plan Draft
-To reduce risk of omissions in Claude&#039;s synthesized plan, can parallel have both models output &quot;plan drafts&quot; (still **NOT allowed** to modify files):
-1. **Codex Plan Draft** (Backend authority):
-   - ROLE_FILE: `~/.claude/.ccg/prompts/codex/architect.md`
-   - OUTPUT: Step-by-step plan + pseudo-code (focus: data flow/edge cases/error handling/test strategy)
-2. **Gemini Plan Draft** (Frontend authority):
-   - ROLE_FILE: `~/.claude/.ccg/prompts/gemini/architect.md`
-   - OUTPUT: Step-by-step plan + pseudo-code (focus: information architecture/interaction/accessibility/visual consistency)
-Wait for both models&#039; complete results with `TaskOutput`, record key differences in their suggestions.
-#### 2.4 Generate Implementation Plan (Claude Final Version)
-Synthesize both analyses, generate **Step-by-step Implementation Plan**:
-```markdown</pre>
+                <p>当用户需要为复杂任务生成多视角的开发计划时触发此命令。</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景与调用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 触发场景
+1. "create a plan for user authentication"
+2. "plan the implementation of this feature"
+3. "what's the best approach for this task?"
+
+// 命令调用
+/ccg:plan [task-description]
+
+// 示例：简单功能规划
+/ccg:plan 实现用户登录功能
+
+// 示例：复杂功能规划
+/ccg:plan 构建用户管理系统，包含注册、登录、权限管理
+
+// 示例：现有对话的上下文
+/ccg:plan related to our previous discussion about API design</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Implementation Plan: <Task Name>
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>描述清晰</strong> - 完整的任务描述帮助生成更准确的计划</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>等待批准</strong> - 计划生成后等待用户批准再执行</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>保存计划</strong> - 计划会自动保存到 .claude/plan/ 目录</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>ETHER 风格</strong> - 计划使用英文与模型通信，中文与用户沟通</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Task Type
-- [ ] Frontend (→ Gemini)
-- [ ] Backend (→ Codex)
-- [ ] Fullstack (→ Parallel)
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Multi-Plan Output</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># Implementation Plan: User Login Feature
+
+### Task Type
+- [x] Frontend (→ Gemini)
+- [x] Backend (→ Codex)
+- [x] Fullstack (→ Parallel)
+
 ### Technical Solution
-&lt;Optimal solution synthesized from Codex + Gemini analysis&gt;
+ Implemented with JWT-based authentication:
+- Backend: Node.js + Express + JWT
+- Frontend: React + Axios for HTTP requests
+- Storage: Session storage for tokens
+
 ### Implementation Steps
-1. &lt;Step 1&gt; - Expected deliverable
-2. &lt;Step 2&gt; - Expected deliverable
-...
+1. Setup JWT utilities in `src/services/jwt.ts`
+2. Create login controller in `src/controllers/authController.ts`
+3. Add login form component in `src/ui/components/LoginForm.tsx`
+4. Integrate with existing user model
+5. Add route protection middleware
+
 ### Key Files
 | File | Operation | Description |
 |------|-----------|-------------|
-| path/to/file.ts:L10-L50 | Modify | Description |
+| src/services/jwt.ts | Create | JWT token generation and validation |
+| src/controllers/authController.ts | Create | Login endpoint implementation |
+| src/ui/components/LoginForm.tsx | Create | Login form component |
+| src/middleware/auth.ts | Create | Route protection middleware |
+
 ### Risks and Mitigation
 | Risk | Mitigation |
 |------|------------|
+| Token expiration handling | Implement refresh token mechanism |
+| Password storage | Use bcrypt for hashing |
+| CSRF protection | Add CSRF token validation |
+
 ### SESSION_ID (for /ccg:execute use)
-- CODEX_SESSION: &lt;session_id&gt;
-- GEMINI_SESSION: &lt;session_id&gt;
-```
-### Phase 2 End: Plan Delivery (Not Execution)
-**`/ccg:plan` responsibilities end here, MUST execute the following actions**:
-1. Present complete implementation plan to user (including pseudo-code)
-2. Save plan to `.claude/plan/&lt;feature-name&gt;.md` (extract feature name from requirement, e.g., `user-auth`, `payment-module`)
-3. Output prompt in **bold text** (MUST use actual saved file path):
-   **Plan generated and saved to `.claude/plan/actual-feature-name.md`**
-   **Please review the plan above. You can:**
-   - **Modify plan**: Tell me what needs adjustment, I&#039;ll update the plan
-   - **Execute plan**: Copy the following command to a new session
-   ```
-   /ccg:execute .claude/plan/actual-feature-name.md
-   ```
-   **NOTE**: The `actual-feature-name.md` above MUST be replaced with the actual saved filename!
-4. **Immediately terminate current response** (Stop here. No more tool calls.)
-**ABSOLUTELY FORBIDDEN**:
-- Ask user &quot;Y/N&quot; then auto-execute (execution is `/ccg:execute`&#039;s responsibility)
-- Any write operations to production code
-- Automatically call `/ccg:execute` or any implementation actions
-- Continue triggering model calls when user hasn&#039;t explicitly requested modifications</pre>
+- CODEX_SESSION: abc123def456
+- GEMINI_SESSION: xyz789uvw012
+
+---
+
+**Plan generated and saved to `.claude/plan/user-login.md`**
+
+**Please review the plan above. You can:**
+- **Modify plan**: Tell me what needs adjustment, I'll update the plan
+- **Execute plan**: Copy the following command to a new session
+  ```
+  /ccg:execute .claude/plan/user-login.md
+  ```
+  **NOTE**: The `user-login.md` above MUST be replaced with the actual saved filename!
+
+**Immediately terminate current response** (Stop here. No more tool calls.)</code></pre>
+                </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Plan Saving
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">After planning completes, save plan to:
-- **First planning**: `.claude/plan/&lt;feature-name&gt;.md`
-- **Iteration versions**: `.claude/plan/&lt;feature-name&gt;-v2.md`, `.claude/plan/&lt;feature-name&gt;-v3.md`...
-Plan file write should complete before presenting plan to user.</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Plan Modification Flow
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">If user requests plan modifications:
-1. Adjust plan content based on user feedback
-2. Update `.claude/plan/&lt;feature-name&gt;.md` file
-3. Re-present modified plan
-4. Prompt user to review or execute again</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Next Steps
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">After user approves, **manually** execute:
-```bash
-/ccg:execute .claude/plan/&lt;feature-name&gt;.md
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Key Rules
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">1. **Plan only, no implementation** – This command does not execute any code changes
-2. **No Y/N prompts** – Only present plan, let user decide next steps
-3. **Trust Rules** – Backend follows Codex, Frontend follows Gemini
-4. External models have **zero filesystem write access**
-5. **SESSION_ID Handoff** – Plan must include `CODEX_SESSION` / `GEMINI_SESSION` at end (for `/ccg:execute resume &lt;SESSION_ID&gt;` use)</pre>
-            </div>
-        </section>
-        
-
-        <div class="detail-nav">
-            <a class="nav-card" href="multi-frontend.html">
-                <div class="nav-label">上一个</div>
-                <div class="nav-title">Resume session call</div>
-                <div class="nav-type">Command</div>
-            </a>
-            <a class="nav-card" href="multi-workflow.html">
-                <div class="nav-label">下一个</div>
-                <div class="nav-title">Resume session call</div>
-                <div class="nav-type">Command</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

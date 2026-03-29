@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kotlin-reviewer - Everything Claude Code</title>
+    <title>Kotlin审查代理 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,49 +26,29 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #f59e0b; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #f59e0b; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #f59e0b40; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #f59e0b; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(245, 158, 11, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #f59e0b; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(245, 158, 11, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(245, 158, 11, 0.3); color: #fff; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #f59e0b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -77,210 +57,188 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../agents.html" class="breadcrumb-link">Agents</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">kotlin-reviewer</span>
+        <span class="breadcrumb-current">Kotlin审查代理</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">kotlin-reviewer</h1>
-            <p class="detail-subtitle">智能代理，自主执行复杂任务的AI系统</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Agent
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    local
-                </div>
+            <h1 class="detail-title">Kotlin审查代理</h1>
+            <p class="detail-subtitle">专注于Kotlin代码审查的专业AI代理</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Agent类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">local</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Your Role
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">- Review Kotlin code for idiomatic patterns and Android/KMP best practices
-- Detect coroutine misuse, Flow anti-patterns, and lifecycle bugs
-- Enforce clean architecture module boundaries
-- Identify Compose performance issues and recomposition traps
-- You DO NOT refactor or rewrite code — you report findings only</pre>
+                <p>针对Kotlin代码进行专业审查，重点关注Android/KMP最佳实践和代码质量。</p>
+                <div class="feature-list">
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 1L9 4H6l-2 3v8l2 2h10l2-2V6l-2-3h-3L12 1zm0 3l1.5 3h-3L12 4zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">架构审查</div>
+                            <div class="feature-desc">检查模块边界、数据层泄漏、ViewModel业务逻辑等架构问题</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">协程与Flow审查</div>
+                            <div class="feature-desc">检测协程误用、Flow反模式、生命周期bug等问题</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">Compose性能审查</div>
+                            <div class="feature-desc">识别组合性能问题和重新组合陷阱</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">Kotlin惯用法审查</div>
+                            <div class="feature-desc">检查!!使用、var/val选择、Java风格模式等问题</div>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Workflow
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Step 1: Gather Context
-Run `git diff --staged` and `git diff` to see changes. If no diff, check `git log --oneline -5`. Identify Kotlin/KTS files that changed.
-### Step 2: Understand Project Structure
-Check for:
-- `build.gradle.kts` or `settings.gradle.kts` to understand module layout
-- `CLAUDE.md` for project-specific conventions
-- Whether this is Android-only, KMP, or Compose Multiplatform
-### Step 2b: Security Review
-Apply the Kotlin/Android security guidance before continuing:
-- exported Android components, deep links, and intent filters
-- insecure crypto, WebView, and network configuration usage
-- keystore, token, and credential handling
-- platform-specific storage and permission risks
-If you find a CRITICAL security issue, stop the review and hand off to `security-reviewer` before doing any further analysis.
-### Step 3: Read and Review
-Read changed files fully. Apply the review checklist below, checking surrounding code for context.
-### Step 4: Report Findings
-Use the output format below. Only report issues with &gt;80% confidence.</pre>
+                <p>采用优先级驱动的审查策略，按照严重程度分类问题：</p>
+                <ul style="margin-left: 20px; margin-top: 10px; color: rgba(255, 255, 255, 0.8);">
+                    <li><strong>CRITICAL：</strong>架构违规和安全问题</li>
+                    <li><strong>HIGH：</strong>协程/Flow误用和Compose性能问题</li>
+                    <li><strong>MEDIUM：</strong>Kotlin惯用法和Android特定问题</li>
+                    <li><strong>LOW：</strong>Gradle和构建配置问题</li>
+                </ul>
+                <p>审查前自动运行诊断命令，确保代码符合项目规范。</p>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Review Checklist
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Architecture (CRITICAL)
-- **Domain importing framework** — `domain` module must not import Android, Ktor, Room, or any framework
-- **Data layer leaking to UI** — Entities or DTOs exposed to presentation layer (must map to domain models)
-- **ViewModel business logic** — Complex logic belongs in UseCases, not ViewModels
-- **Circular dependencies** — Module A depends on B and B depends on A
-### Coroutines &amp; Flows (HIGH)
-- **GlobalScope usage** — Must use structured scopes (`viewModelScope`, `coroutineScope`)
-- **Catching CancellationException** — Must rethrow or not catch; swallowing breaks cancellation
-- **Missing `withContext` for IO** — Database/network calls on `Dispatchers.Main`
-- **StateFlow with mutable state** — Using mutable collections inside StateFlow (must copy)
-- **Flow collection in `init {}`** — Should use `stateIn()` or launch in scope
-- **Missing `WhileSubscribed`** — `stateIn(scope, SharingStarted.Eagerly)` when `WhileSubscribed` is appropriate
-```kotlin
-// BAD — swallows cancellation
-try { fetchData() } catch (e: Exception) { log(e) }
-// GOOD — preserves cancellation
-try { fetchData() } catch (e: CancellationException) { throw e } catch (e: Exception) { log(e) }
-// or use runCatching and check
-```
-### Compose (HIGH)
-- **Unstable parameters** — Composables receiving mutable types cause unnecessary recomposition
-- **Side effects outside LaunchedEffect** — Network/DB calls must be in `LaunchedEffect` or ViewModel
-- **NavController passed deep** — Pass lambdas instead of `NavController` references
-- **Missing `key()` in LazyColumn** — Items without stable keys cause poor performance
-- **`remember` with missing keys** — Computation not recalculated when dependencies change
-- **Object allocation in parameters** — Creating objects inline causes recomposition
-```kotlin
-// BAD — new lambda every recomposition
-Button(onClick = { viewModel.doThing(item.id) })
-// GOOD — stable reference
-val onClick = remember(item.id) { { viewModel.doThing(item.id) } }
-Button(onClick = onClick)
-```
-### Kotlin Idioms (MEDIUM)
-- **`!!` usage** — Non-null assertion; prefer `?.`, `?:`, `requireNotNull`, or `checkNotNull`
-- **`var` where `val` works** — Prefer immutability
-- **Java-style patterns** — Static utility classes (use top-level functions), getters/setters (use properties)
-- **String concatenation** — Use string templates `&quot;Hello $name&quot;` instead of `&quot;Hello &quot; + name`
-- **`when` without exhaustive branches** — Sealed classes/interfaces should use exhaustive `when`
-- **Mutable collections exposed** — Return `List` not `MutableList` from public APIs
-### Android Specific (MEDIUM)
-- **Context leaks** — Storing `Activity` or `Fragment` references in singletons/ViewModels
-- **Missing ProGuard rules** — Serialized classes without `@Keep` or ProGuard rules
-- **Hardcoded strings** — User-facing strings not in `strings.xml` or Compose resources
-- **Missing lifecycle handling** — Collecting Flows in Activities without `repeatOnLifecycle`
-### Security (CRITICAL)
-- **Exported component exposure** — Activities, services, or receivers exported without proper guards
-- **Insecure crypto/storage** — Homegrown crypto, plaintext secrets, or weak keystore usage
-- **Unsafe WebView/network config** — JavaScript bridges, cleartext traffic, permissive trust settings
-- **Sensitive logging** — Tokens, credentials, PII, or secrets emitted to logs
-If any CRITICAL security issue is present, stop and escalate to `security-reviewer`.
-### Gradle &amp; Build (LOW)
-- **Version catalog not used** — Hardcoded versions instead of `libs.versions.toml`
-- **Unnecessary dependencies** — Dependencies added but not used
-- **Missing KMP source sets** — Declaring `androidMain` code that could be `commonMain`</pre>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发方式</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>调用场景：Kotlin代码审查请求
+
+触发命令：
+git diff --staged                    # 查看暂存变更
+git diff                             # 查看未暂存变更
+git log --oneline -5                 # 查看最近提交
+git grep "import android" domain/    # 检查域模块框架依赖
+./gradlew build                      # 运行构建检查</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Output Format
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">```
-[CRITICAL] Domain module imports Android framework
-File: domain/src/main/kotlin/com/app/domain/UserUseCase.kt:3
-Issue: `import android.content.Context` — domain must be pure Kotlin with no framework dependencies.
-Fix: Move Context-dependent logic to data or platforms layer. Pass data via repository interface.
-[HIGH] StateFlow holding mutable list
-File: presentation/src/main/kotlin/com/app/ui/ListViewModel.kt:25
-Issue: `_state.value.items.add(newItem)` mutates the list inside StateFlow — Compose won&#039;t detect the change.
-Fix: Use `_state.update { it.copy(items = it.items + newItem) }`
-```</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <div class="tip-text">先检查domain模块是否错误导入了Android/Ktor/Room框架</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <div class="tip-text">检查GlobalScope使用，应使用structured scopes如viewModelScope</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <div class="tip-text">验证CancellationException是否被正确处理，不应捕获并忽略</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <div class="tip-text">检查StateFlow中的可变集合，应使用copy()创建新状态</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <div class="tip-text">Compose中lambda应在remember中稳定化，避免每次重组创建新对象</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">6</div>
+                    <div class="tip-text">Android组件权限配置需检查 exported、intent filters和deep links</div>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Summary Format
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">End every review with:
-```</pre>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Review Output</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>[CRITICAL] 域模块导入Android框架
+文件: domain/src/main/kotlin/com/app/domain/UserUseCase.kt:3
+问题: `import android.content.Context` - 域模块必须是纯Kotlin无框架依赖
+修复: 将Context依赖逻辑移到data或平台层，通过仓库接口传递数据
+
+[HIGH] StateFlow包含可变列表
+文件: presentation/src/main/kotlin/com/app/ui/ListViewModel.kt:25
+问题: `_state.value.items.add(newItem)` 变更StateFlow内的列表 - Compose无法检测变更
+修复: 使用 `_state.update { it.copy(items = it.items + newItem) }`
+
+审查摘要:
+| 严重程度 | 数量 | 状态 |
+|----------|------|------|
+| CRITICAL | 0    | 通过 |
+| HIGH     | 1    | 阻止 |
+| MEDIUM   | 2    | 信息 |
+| LOW      | 0    | 注释 |
+
+结论: 阻止合并 - 必须在合并前修复HIGH问题</code></pre>
+                </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Review Summary
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">| Severity | Count | Status |
-|----------|-------|--------|
-| CRITICAL | 0     | pass   |
-| HIGH     | 1     | block  |
-| MEDIUM   | 2     | info   |
-| LOW      | 0     | note   |
-Verdict: BLOCK — HIGH issues must be fixed before merge.
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Approval Criteria
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- **Approve**: No CRITICAL or HIGH issues
-- **Block**: Any CRITICAL or HIGH issues — must fix before merge</pre>
-            </div>
-        </section>
-        
-
-        <div class="detail-nav">
-            <a class="nav-card" href="kotlin-build-resolver.html">
-                <div class="nav-label">上一个</div>
-                <div class="nav-title">Check for dependency conflicts</div>
-                <div class="nav-type">Agent</div>
-            </a>
-            <a class="nav-card" href="loop-operator.html">
-                <div class="nav-label">下一个</div>
-                <div class="nav-title">loop-operator</div>
-                <div class="nav-type">Agent</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

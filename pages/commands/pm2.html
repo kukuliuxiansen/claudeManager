@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PM2 Init - Everything Claude Code</title>
+    <title>PM2命令 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,49 +26,29 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #8b5cf6; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #8b5cf640; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #8b5cf6; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -77,7 +57,7 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../commands.html" class="breadcrumb-link">Commands</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">PM2 Init</span>
+        <span class="breadcrumb-current">PM2命令</span>
     </nav>
 
     <div class="detail-container">
@@ -85,346 +65,189 @@
             <div class="detail-icon">
                 <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
             </div>
-            <h1 class="detail-title">PM2 Init</h1>
-            <p class="detail-subtitle">命令脚本，快速执行特定操作的快捷方式</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Command
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    everything-claude-code
-                </div>
+            <h1 class="detail-title">PM2命令</h1>
+            <p class="detail-subtitle">基于PM2进程管理器的项目服务自动化配置工具</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Command类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Workflow
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">1. Check PM2 (install via `npm install -g pm2` if missing)
-2. Scan project to identify services (frontend/backend/database)
-3. Generate config files and individual command files</pre>
+                <p>自动检测项目结构并生成完整的PM2配置和命令集合</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-10 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">服务检测</div>
+                            <div class="feature-desc">扫描项目识别前端/后端/数据库服务类型</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM12 3c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4zm0 6c2.67 0 8 1.34 8 4v2H4v-2c0-2.66 5.33-4 8-4z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">配置生成</div>
+                            <div class="feature-desc">自动生成 ecosystem.config.cjs 等配置文件</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">命令脚本</div>
+                            <div class="feature-desc">生成单服务/全部服务的启停重启命令</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">CLAUDE.MD更新</div>
+                            <div class="feature-desc">自动在项目文档中添加PM2使用说明</div>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Service Detection
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">| Type | Detection | Default Port |
-|------|-----------|--------------|
-| Vite | vite.config.* | 5173 |
-| Next.js | next.config.* | 3000 |
-| Nuxt | nuxt.config.* | 3000 |
-| CRA | react-scripts in package.json | 3000 |
-| Express/Node | server/backend/api directory + package.json | 3000 |
-| FastAPI/Flask | requirements.txt / pyproject.toml | 8000 |
-| Go | go.mod / main.go | 8080 |
-**Port Detection Priority**: User specified &gt; .env &gt; config file &gt; scripts args &gt; default port</pre>
+                <p>PM2命令通过三阶段自动化配置流程工作：</p>
+                <ol style="color: rgba(255,255,255,0.8); line-height: 1.8; padding-left: 20px; margin-top: 10px;">
+                    <li><strong>阶段1：服务扫描</strong> - 检测框架类型（Vite/Next/Nuxt/Express/FastAPI/Flask/Go）和对应端口</li>
+                    <li><strong>阶段2：配置生成</strong> - 为每个服务生成专属配置文件和start.cjs包装器（Python服务需要）</li>
+                    <li><strong>阶段3：命令创建</strong> - 生成一组便捷的命令脚本文件和PowerShell脚本</li>
+                </ol>
+                <p style="margin-top: 15px;">对Windows系统特别优化，强制使用.cjs扩展名并正确配置Node.js和Python服务的运行路径。</p>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Generated Files
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">```
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景与调用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>/pm2
+# 自动检测项目服务并生成配置
+# 默认端口优先级：用户指定 &gt; .env &gt; 配置文件 &gt; 默认值</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <div class="tip-text">首次运行后需执行 `pm2 save` 以保留进程列表</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <div class="tip-text">Python服务自动使用Node.js包装器（start.cjs）运行</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <div class="tip-text">所有命令文件内容简洁，仅包含1-2行描述+bash代码块</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <div class="tip-text">可通过 `/pm2-all-stop` 快速停止所有服务</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <div class="tip-text">使用 `/pm2-logs` 或 `/pm2-{port}` 查看实时日志</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">6</div>
+                    <div class="tip-text">Windows用户注意：配置文件必须使用 .cjs 扩展名</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">PM2命令 Output</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>生成的文件结构：
+
 project/
-├── ecosystem.config.cjs              # PM2 config
-├── {backend}/start.cjs               # Python wrapper (if applicable)
+├── ecosystem.config.cjs              # PM2主配置
+├── backend/start.cjs                 # Python包装器
 └── .claude/
     ├── commands/
-    │   ├── pm2-all.md                # Start all + monit
-    │   ├── pm2-all-stop.md           # Stop all
-    │   ├── pm2-all-restart.md        # Restart all
-    │   ├── pm2-{port}.md             # Start single + logs
-    │   ├── pm2-{port}-stop.md        # Stop single
-    │   ├── pm2-{port}-restart.md     # Restart single
-    │   ├── pm2-logs.md               # View all logs
-    │   └── pm2-status.md             # View status
+    │   ├── pm2-all.md                # 启动全部+监控
+    │   ├── pm2-all-stop.md           # 停止全部
+    │   ├── pm2-all-restart.md        # 重启全部
+    │   ├── pm2-3000.md               # 启动单服务+日志
+    │   ├── pm2-3000-stop.md          # 停止单服务
+    │   ├── pm2-3000-restart.md       # 重启单服务
+    │   ├── pm2-logs.md               # 查看所有日志
+    │   └── pm2-status.md             # 查看状态
     └── scripts/
-        ├── pm2-logs-{port}.ps1       # Single service logs
-        └── pm2-monit.ps1             # PM2 monitor
-```</pre>
+        ├── pm2-logs-3000.ps1         # 单服务日志
+        └── pm2-monit.ps1             # PM2监控面板
+
+已更新项目 CLAUDE.md
+
+Claude命令：/pm2-all, /pm2-all-stop, /pm2-3000, /pm2-3000-stop, /pm2-logs, /pm2-status
+
+终端命令（首次）：
+pm2 start ecosystem.config.cjs && pm2 save
+
+终端命令（后续）：
+pm2 start all          # 启动全部
+pm2 stop all           # 停止全部
+pm2 restart all        # 重启全部
+pm2 start {name}       # 启动单服务
+pm2 stop {name}        # 停止单服务
+pm2 logs               # 查看日志
+pm2 monit              # 监控面板</code></pre>
+                </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Windows Configuration (Important)
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### ecosystem.config.cjs
-**Must use `.cjs` extension**
-```javascript
-module.exports = {
-  apps: [
-    // Node.js (Vite/Next/Nuxt)
-    {
-      name: &#039;project-3000&#039;,
-      cwd: &#039;./packages/web&#039;,
-      script: &#039;node_modules/vite/bin/vite.js&#039;,
-      args: &#039;--port 3000&#039;,
-      interpreter: &#039;C:/Program Files/nodejs/node.exe&#039;,
-      env: { NODE_ENV: &#039;development&#039; }
-    },
-    // Python
-    {
-      name: &#039;project-8000&#039;,
-      cwd: &#039;./backend&#039;,
-      script: &#039;start.cjs&#039;,
-      interpreter: &#039;C:/Program Files/nodejs/node.exe&#039;,
-      env: { PYTHONUNBUFFERED: &#039;1&#039; }
-    }
-  ]
-}
-```
-**Framework script paths:**
-| Framework | script | args |
-|-----------|--------|------|
-| Vite | `node_modules/vite/bin/vite.js` | `--port {port}` |
-| Next.js | `node_modules/next/dist/bin/next` | `dev -p {port}` |
-| Nuxt | `node_modules/nuxt/bin/nuxt.mjs` | `dev --port {port}` |
-| Express | `src/index.js` or `server.js` | - |
-### Python Wrapper Script (start.cjs)
-```javascript
-const { spawn } = require(&#039;child_process&#039;);
-const proc = spawn(&#039;python&#039;, [&#039;-m&#039;, &#039;uvicorn&#039;, &#039;app.main:app&#039;, &#039;--host&#039;, &#039;0.0.0.0&#039;, &#039;--port&#039;, &#039;8000&#039;, &#039;--reload&#039;], {
-  cwd: __dirname, stdio: &#039;inherit&#039;, windowsHide: true
-});
-proc.on(&#039;close&#039;, (code) =&gt; process.exit(code));
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Command File Templates (Minimal Content)
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">### pm2-all.md (Start all + monit)
-````markdown
-Start all services and open PM2 monitor.
-```bash
-cd &quot;{PROJECT_ROOT}&quot; &amp;&amp; pm2 start ecosystem.config.cjs &amp;&amp; start wt.exe -d &quot;{PROJECT_ROOT}&quot; pwsh -NoExit -c &quot;pm2 monit&quot;
-```
-````
-### pm2-all-stop.md
-````markdown
-Stop all services.
-```bash
-cd &quot;{PROJECT_ROOT}&quot; &amp;&amp; pm2 stop all
-```
-````
-### pm2-all-restart.md
-````markdown
-Restart all services.
-```bash
-cd &quot;{PROJECT_ROOT}&quot; &amp;&amp; pm2 restart all
-```
-````
-### pm2-{port}.md (Start single + logs)
-````markdown
-Start {name} ({port}) and open logs.
-```bash
-cd &quot;{PROJECT_ROOT}&quot; &amp;&amp; pm2 start ecosystem.config.cjs --only {name} &amp;&amp; start wt.exe -d &quot;{PROJECT_ROOT}&quot; pwsh -NoExit -c &quot;pm2 logs {name}&quot;
-```
-````
-### pm2-{port}-stop.md
-````markdown
-Stop {name} ({port}).
-```bash
-cd &quot;{PROJECT_ROOT}&quot; &amp;&amp; pm2 stop {name}
-```
-````
-### pm2-{port}-restart.md
-````markdown
-Restart {name} ({port}).
-```bash
-cd &quot;{PROJECT_ROOT}&quot; &amp;&amp; pm2 restart {name}
-```
-````
-### pm2-logs.md
-````markdown
-View all PM2 logs.
-```bash
-cd &quot;{PROJECT_ROOT}&quot; &amp;&amp; pm2 logs
-```
-````
-### pm2-status.md
-````markdown
-View PM2 status.
-```bash
-cd &quot;{PROJECT_ROOT}&quot; &amp;&amp; pm2 status
-```
-````
-### PowerShell Scripts (pm2-logs-{port}.ps1)
-```powershell
-Set-Location &quot;{PROJECT_ROOT}&quot;
-pm2 logs {name}
-```
-### PowerShell Scripts (pm2-monit.ps1)
-```powershell
-Set-Location &quot;{PROJECT_ROOT}&quot;
-pm2 monit
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Key Rules
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">1. **Config file**: `ecosystem.config.cjs` (not .js)
-2. **Node.js**: Specify bin path directly + interpreter
-3. **Python**: Node.js wrapper script + `windowsHide: true`
-4. **Open new window**: `start wt.exe -d &quot;{path}&quot; pwsh -NoExit -c &quot;command&quot;`
-5. **Minimal content**: Each command file has only 1-2 lines description + bash block
-6. **Direct execution**: No AI parsing needed, just run the bash command</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Execute
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Based on `$ARGUMENTS`, execute init:
-1. Scan project for services
-2. Generate `ecosystem.config.cjs`
-3. Generate `{backend}/start.cjs` for Python services (if applicable)
-4. Generate command files in `.claude/commands/`
-5. Generate script files in `.claude/scripts/`
-6. **Update project CLAUDE.md** with PM2 info (see below)
-7. **Display completion summary** with terminal commands</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Post Init: Update Claude.Md
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">After generating files, append PM2 section to project&#039;s `CLAUDE.md` (create if not exists):
-````markdown</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Pm2 Services
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">| Port | Name | Type |
-|------|------|------|
-| {port} | {name} | {type} |
-**Terminal Commands:**
-```bash
-pm2 start ecosystem.config.cjs   # First time
-pm2 start all                    # After first time
-pm2 stop all / pm2 restart all
-pm2 start {name} / pm2 stop {name}
-pm2 logs / pm2 status / pm2 monit
-pm2 save                         # Save process list
-pm2 resurrect                    # Restore saved list
-```
-````
-**Rules for CLAUDE.md update:**
-- If PM2 section exists, replace it
-- If not exists, append to end
-- Keep content minimal and essential</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Post Init: Display Summary
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">After all files generated, output:
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Pm2 Init Complete
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">**Services:**
-| Port | Name | Type |
-|------|------|------|
-| {port} | {name} | {type} |
-**Claude Commands:** /pm2-all, /pm2-all-stop, /pm2-{port}, /pm2-{port}-stop, /pm2-logs, /pm2-status
-**Terminal Commands:**</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                First Time (With Config File)
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">pm2 start ecosystem.config.cjs &amp;&amp; pm2 save</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                After First Time (Simplified)
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">pm2 start all          # Start all
-pm2 stop all           # Stop all
-pm2 restart all        # Restart all
-pm2 start {name}       # Start single
-pm2 stop {name}        # Stop single
-pm2 logs               # View logs
-pm2 monit              # Monitor panel
-pm2 resurrect          # Restore saved processes
-**Tip:** Run `pm2 save` after first start to enable simplified commands.
-```</pre>
-            </div>
-        </section>
-        
-
-        <div class="detail-nav">
-            <a class="nav-card" href="plan.html">
-                <div class="nav-label">上一个</div>
-                <div class="nav-title">Implementation Plan: Real-Time Market Resolution Notifications</div>
-                <div class="nav-type">Command</div>
-            </a>
-            <a class="nav-card" href="projects.html">
-                <div class="nav-label">下一个</div>
-                <div class="nav-title">Projects Command</div>
-                <div class="nav-type">Command</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

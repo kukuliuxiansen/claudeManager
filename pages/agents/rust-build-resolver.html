@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>In Cargo.toml: edition = "2024"  # Requires rustc 1.85+ - Everything Claude Code</title>
+    <title>Rust构建解决代理 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,49 +26,37 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #f59e0b; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #f59e0b; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(245, 158, 11, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #f59e0b; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(245, 158, 11, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(245, 158, 11, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #f59e0b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
         .nav-card:hover { border-color: #f59e0b40; background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
         .nav-type { font-size: 12px; color: #f59e0b; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -77,7 +65,7 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../agents.html" class="breadcrumb-link">Agents</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">In Cargo.toml: edition = "2024"  # Requires rustc 1.85+</span>
+        <span class="breadcrumb-current">Rust构建解决代理</span>
     </nav>
 
     <div class="detail-container">
@@ -85,219 +73,224 @@
             <div class="detail-icon">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             </div>
-            <h1 class="detail-title">In Cargo.toml: edition = "2024"  # Requires rustc 1.85+</h1>
-            <p class="detail-subtitle">智能代理，自主执行复杂任务的AI系统</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Agent
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    everything-claude-code
-                </div>
+            <h1 class="detail-title">Rust构建解决代理</h1>
+            <p class="detail-subtitle">诊断并修复 Cargo 构建错误和编译器问题</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Agent类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Core Responsibilities
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">1. Diagnose `cargo build` / `cargo check` errors
-2. Fix borrow checker and lifetime errors
-3. Resolve trait implementation mismatches
-4. Handle Cargo dependency and feature issues
-5. Fix `cargo clippy` warnings</pre>
+                <p>Rust构建解决代理专注于快速诊断和修复 Rust 项目的构建问题，从解析错误到复杂的生命周期问题。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">构建错误诊断</h4>
+                            <p class="feature-desc">解析 cargo build / cargo check 输出并定位问题</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">借用检查修复</h4>
+                            <p class="feature-desc">解决生命周期、不可变/可变borrow相关错误</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">简洁修复</h4>
+                            <p class="feature-desc">只做必要的最小更改来修复错误</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">回归验证</h4>
+                            <p class="feature-desc">修复后运行 cargo check 和 cargo test 验证</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Diagnostic Commands
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">Run these in order:
-```bash
-cargo check 2&gt;&amp;1
-cargo clippy -- -D warnings 2&gt;&amp;1
-cargo fmt --check 2&gt;&amp;1
-cargo tree --duplicates 2&gt;&amp;1
-if command -v cargo-audit &gt;/dev/null; then cargo audit; else echo &quot;cargo-audit not installed&quot;; fi
-```</pre>
+                <p>Rust构建解决代理遵循手术式修复原则，专注于快速返回绿色构建状态：</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7); line-height:1.8;">
+                    <li><strong>错误优先</strong> - 从 cargo check 读取第一个错误，逐个修复</li>
+                    <li><strong>最小化更改</strong> - 只修改必要的行来修复错误代码</li>
+                    <li><strong>验证循环</strong> - 每次修复后重新运行 cargo check 确认进展</li>
+                    <li><strong>借用理解</strong> - 理解 Rust 所有权、生命周期和borrow规则</li>
+                    <li><strong>模式匹配</strong> - 使用 rust-analyzer 错误代码快速识别常见问题</li>
+                </ul>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Resolution Workflow
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">```text
-1. cargo check          -&gt; Parse error message and error code
-2. Read affected file   -&gt; Understand ownership and lifetime context
-3. Apply minimal fix    -&gt; Only what&#039;s needed
-4. cargo check          -&gt; Verify fix
-5. cargo clippy         -&gt; Check for warnings
-6. cargo test           -&gt; Ensure nothing broke
-```</pre>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发时机与诊断流程</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 触发时机
+1. cargo build / cargo check 失败
+2. 用户报告 Rust 编译错误
+3. CI/CD 构建失败
+
+// 诊断命令
+cargo check 2>&1                          # 首选：快速检查
+cargo clippy -- -D warnings 2>&1         # 检查警告
+cargo fmt --check 2>&1                   # 检查格式
+cargo tree --duplicates 2>&1            # 检查重复依赖
+
+// 修复流程
+1. 读取 error message -> 识别错误代码 (E0xxx)
+2. 阅读受影响文件 -> 理解所有权和类型上下文
+3. 应用最小修复 -> 只修复错误代码行
+4. cargo check -> 确认修复或发现新错误
+5. cargo clippy -> 检查是否有新警告
+6. cargo test -> 确保没有破坏功能</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Common Fix Patterns
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">| Error | Cause | Fix |
-|-------|-------|-----|
-| `cannot borrow as mutable` | Immutable borrow active | Restructure to end immutable borrow first, or use `Cell`/`RefCell` |
-| `does not live long enough` | Value dropped while still borrowed | Extend lifetime scope, use owned type, or add lifetime annotation |
-| `cannot move out of` | Moving from behind a reference | Use `.clone()`, `.to_owned()`, or restructure to take ownership |
-| `mismatched types` | Wrong type or missing conversion | Add `.into()`, `as`, or explicit type conversion |
-| `trait X is not implemented for Y` | Missing impl or derive | Add `#[derive(Trait)]` or implement trait manually |
-| `unresolved import` | Missing dependency or wrong path | Add to Cargo.toml or fix `use` path |
-| `unused variable` / `unused import` | Dead code | Remove or prefix with `_` |
-| `expected X, found Y` | Type mismatch in return/argument | Fix return type or add conversion |
-| `cannot find macro` | Missing `#[macro_use]` or feature | Add dependency feature or import macro |
-| `multiple applicable items` | Ambiguous trait method | Use fully qualified syntax: `&lt;Type as Trait&gt;::method()` |
-| `lifetime may not live long enough` | Lifetime bound too short | Add lifetime bound or use `&#039;static` where appropriate |
-| `async fn is not Send` | Non-Send type held across `.await` | Restructure to drop non-Send values before `.await` |
-| `the trait bound is not satisfied` | Missing generic constraint | Add trait bound to generic parameter |
-| `no method named X` | Missing trait import | Add `use Trait;` import |</pre>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>一次一错</strong> - 修复第一个错误，验证后再处理下一个</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>不要重构</strong> - 只修复错误代码，不改变原有逻辑</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>错误代码优先</strong> - E0425 比 E0502 优先级高</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>生命周期分析</strong> - 理解数据流和借用持续时间</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <p class="tip-text"><strong> surgical clone</strong> - 在 holder 后添加 clone() 而不是重写结构</p>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Borrow Checker Troubleshooting
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
             </h2>
             <div class="section-content">
-                <pre class="section-text">```rust
-// Problem: Cannot borrow as mutable because also borrowed as immutable
-// Fix: Restructure to end immutable borrow before mutable borrow
-let value = map.get(&quot;key&quot;).cloned(); // Clone ends the immutable borrow
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Build Fix Report</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>## Rust 构建修复报告
+
+### 当前状态
+- cargo check: FAILED (3 errors)
+- cargo clippy: PENDING
+
+### 错误 1 / 3: E0502 - 不可变借用与可变借用冲突
+**文件**: src/handler/user.rs:42-45
+**问题**: `map` 被不可变借用（第42行），同时尝试可变借用（第44行）
+**修复**: 在不可变借用后克隆值以结束借用
+```rust
+// 修复前
+let value = map.get("key");
 if value.is_none() {
-    map.insert(&quot;key&quot;.into(), default_value);
+    map.insert("key".into(), default_value);  // 错误：不可变借用仍活跃
 }
-// Problem: Value does not live long enough
-// Fix: Move ownership instead of borrowing
-fn get_name() -&gt; String {     // Return owned String
-    let name = compute_name();
-    name                       // Not &amp;name (dangling reference)
+
+// 修复后
+let value = map.get("key").cloned();  // 克隆结束不可变借用
+if value.is_none() {
+    map.insert("key".into(), default_value);  // 正确
 }
-// Problem: Cannot move out of index
-// Fix: Use swap_remove, clone, or take
-let item = vec.swap_remove(index); // Takes ownership
-// Or: let item = vec[index].clone();
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Cargo.Toml Troubleshooting
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```bash
-cargo tree -d                          # Show duplicate dependencies
-cargo tree -i some_crate               # Invert — who depends on this?
-cargo tree -f &quot;{p} {f}&quot;               # Show features enabled per crate
-cargo check --features &quot;feat1,feat2&quot;  # Test specific feature combination
-cargo check --workspace               # Check all workspace members
-cargo check -p specific_crate         # Check single crate in workspace
-cargo update -p specific_crate        # Update one dependency (preferred)
-cargo update                          # Full refresh (last resort — broad changes)
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Edition And Msrv Issues
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```bash
-grep &quot;edition&quot; Cargo.toml
-rustc --version
-grep &quot;rust-version&quot; Cargo.toml
-```</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Key Principles
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- **Surgical fixes only** — don&#039;t refactor, just fix the error
-- **Never** add `#[allow(unused)]` without explicit approval
-- **Never** use `unsafe` to work around borrow checker errors
-- **Never** add `.unwrap()` to silence type errors — propagate with `?`
-- **Always** run `cargo check` after every fix attempt
-- Fix root cause over suppressing symptoms
-- Prefer the simplest fix that preserves the original intent</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Stop Conditions
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">Stop and report if:
-- Same error persists after 3 fix attempts
-- Fix introduces more errors than it resolves
-- Error requires architectural changes beyond scope
-- Borrow checker error requires redesigning data ownership model</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Output Format
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">```text
-[FIXED] src/handler/user.rs:42
-Error: E0502 — cannot borrow `map` as mutable because it is also borrowed as immutable
-Fix: Cloned value from immutable borrow before mutable insert
-Remaining errors: 3
 ```
-Final: `Build Status: SUCCESS/FAILED | Errors Fixed: N | Files Modified: list`
-For detailed Rust error patterns and code examples, see `skill: rust-patterns`.</pre>
+**结果**: ✅ E0502 已修复
+
+### 错误 2 / 3: E0425 - 找不到标识符
+**文件**: src/handler/user.rs:67
+**问题**: 函数 `compute_user_id` 未定义
+**修复**: 添加函数实现或导入
+```rust
+// 添加函数存根
+fn compute_user_id(user: &User) -> String {
+    format!("user_{}", user.id)
+}
+```
+**结果**: ⏳ 等待用户确认函数签名
+
+### 错误 3 / 3: E0277 - Trait 未实现
+**文件**: src/service/cache.rs:23
+**问题**: `HashMap` 未实现 `Serialize` trait
+**修复**: 添加 derive attribute
+```rust
+#[derive(Serialize, Deserialize)]
+struct CacheEntry {
+    // 字段定义
+}
+```
+**结果**: ⏳ 等待依赖 `serde` 特性
+
+### 摘要
+- **已修复**: 1 错误 (E0502)
+- **待修复**: 2 错误 (E0425, E0277)
+- **运行 cargo check 计划**: 1 次
+- **构建状态**: 无法编译 (还需修复 2 个错误)</code></pre>
+                </div>
             </div>
         </section>
-        
 
         <div class="detail-nav">
-            <a class="nav-card" href="pytorch-build-resolver.html">
+            <a class="nav-card" href="../agents/pytorch-build-resolver.html">
                 <div class="nav-label">上一个</div>
-                <div class="nav-title">Check GPU memory usage</div>
-                <div class="nav-type">Agent</div>
+                <div class="nav-title">PyTorch构建解决代理</div>
             </a>
-            <a class="nav-card" href="rust-reviewer.html">
+            <a class="nav-card" href="../agents/rust-reviewer.html">
                 <div class="nav-label">下一个</div>
-                <div class="nav-title">rust-reviewer</div>
-                <div class="nav-type">Agent</div>
+                <div class="nav-title">Rust审查代理</div>
             </a>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

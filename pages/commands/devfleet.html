@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevFleet — Multi-Agent Orchestration - Everything Claude Code</title>
+    <title>开发舰队命令 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,49 +26,29 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #8b5cf6; font-weight: 600; }
-        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
-        .nav-card:hover { border-color: #8b5cf640; background: rgba(26, 26, 46, 0.8); }
-        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
-        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
-        .nav-type { font-size: 12px; color: #8b5cf6; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #8b5cf6; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(139, 92, 246, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #8b5cf6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -77,140 +57,249 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../commands.html" class="breadcrumb-link">Commands</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">DevFleet — Multi-Agent Orchestration</span>
+        <span class="breadcrumb-current">开发舰队命令</span>
     </nav>
 
     <div class="detail-container">
         <header class="detail-header">
             <div class="detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h1 class="detail-title">DevFleet — Multi-Agent Orchestration</h1>
-            <p class="detail-subtitle">命令脚本，快速执行特定操作的快捷方式</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Command
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    everything-claude-code
-                </div>
+            <h1 class="detail-title">开发舰队命令</h1>
+            <p class="detail-subtitle">多Agent编排命令，用于大规模项目开发的自动化任务编排</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Command类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Flow
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">```
-User describes project
-  → plan_project(prompt) → mission DAG with dependencies
-  → Show plan, get approval
-  → dispatch_mission(M1) → Agent spawns in worktree
-  → M1 completes → auto-merge → M2 auto-dispatches (depends_on M1)
-  → M2 completes → auto-merge
-  → get_report(M2) → files_changed, what_done, errors, next_steps
-  → Report summary to user
-```</pre>
+                <p>通过Multi-Agent编排，自动将用户描述分解为链接的任务序列，实现大规模项目的自动化开发。</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">项目计划生成</div>
+                            <div class="feature-desc">AI自动将用户描述分解为链接的Mission DAG依赖图</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">自动任务分发</div>
+                            <div class="feature-desc">依赖完成的Mission自动触发后续Mission（auto_dispatch=true）</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">自动合并工作</div>
+                            <div class="feature-desc">每个Agent完成后自动将其工作tree合并到主分支</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">结构化报告生成</div>
+                            <div class="feature-desc">每个Mission完成后生成文件变更、错误等结构化报告</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        </div>
+                        <div class="feature-content">
+                            <div class="feature-title">并发任务控制</div>
+                            <div class="feature-desc">可配置并发数量（默认3），多余任务排队等待空闲槽位</div>
+                        </div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Workflow
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">1. **Plan the project** from the user&#039;s description:
+                <p>开发舰队命令基于DAG（有向无环图）依赖编排模型，实现自动化任务流水线：</p>
+                <ol style="color: rgba(255, 255, 255, 0.8); line-height: 1.8; padding-left: 20px;">
+                    <li><strong>计划阶段</strong>：用户描述项目 → AI分解为Mission DAG → 显示计划并获取批准</li>
+                    <li><strong>分发阶段</strong>：dispatch_mission(M1) → Agent在worktree中运行 → 自动合并</li>
+                    <li><strong>流水线阶段</strong>：M1完成后 → M2自动触发（depends_on M1）→ 循环直至所有Mission完成</li>
+                    <li><strong>报告阶段</strong>：get_report(M) → 返回files_modified、errors、next_steps等</li>
+                </ol>
+                <p>核心是通过auto_dispatch机制和depends_on依赖实现任务的自动流水线执行。</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发场景与调用</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>触发场景：
+- 复杂项目规划和执行
+- 大规模重构任务
+- 多阶段功能开发
+- 代码库迁移任务
+
+调用方式：
+在Claude Code中输入：
+/devfleet
+
+使用流程：
+1. plan_project(prompt) - 生成Mission DAG
+2. 显示计划并等待批准
+3. dispatch_mission(mission_id) - 启动第一个Mission
+4. 剩余Mission自动按依赖顺序触发
+5. get_report(mission_id) - 获取每个Mission的报告</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <div class="tip-text"><strong>先批准计划</strong>：除非用户说"继续"，否则显示计划后等待批准</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <div class="tip-text"><strong>检查仪表板</strong>：使用get_dashboard()查看可用槽位和队列状态</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <div class="tip-text"><strong>轮询而非阻塞</strong>：对于长时间任务，使用get_mission_status轮询而非wait_for_mission</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <div class="tip-text"><strong>检查错误报告</strong>：如果Mission失败，读取报告了解错误前重试</div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <div class="tip-text"><strong>避免循环依赖</strong>：依赖形成DAG，绝不创建循环依赖</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">开发舰队命令输出</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>User: /devfleet 我需要一个用户认证系统，包含JWT生成、密码哈希和会话管理
+Agent:
+
+### 流程
 ```
-mcp__devfleet__plan_project(prompt=&quot;&lt;user&#039;s description&gt;&quot;)
+用户描述项目
+  → plan_project(prompt) → mission DAG with dependencies
+  → 显示计划，获取批准
+  → dispatch_mission(M1) → Agent spawns in worktree
+  → M1完成 → auto-merge → M2自动触发(依赖M1)
+  → M2完成 → auto-merge
+  → get_report(M2) → files_changed, what_done, errors, next_steps
+  → 向用户报告摘要
 ```
-This returns a project with chained missions. Show the user:
-- Project name and ID
-- Each mission: title, type, dependencies
-- The dependency DAG (which missions block which)
-2. **Wait for user approval** before dispatching. Show the plan clearly.
-3. **Dispatch the first mission** (the one with empty `depends_on`):
+
+### 工作流
+1. **计划项目** 从用户描述:
 ```
-mcp__devfleet__dispatch_mission(mission_id=&quot;&lt;first_mission_id&gt;&quot;)
+mcp__devfleet__plan_project(prompt="&lt;用户描述&gt;")
 ```
-The remaining missions auto-dispatch as their dependencies complete (because `plan_project` creates them with `auto_dispatch=true`). When manually creating missions with `create_mission`, you must explicitly set `auto_dispatch=true` for this behavior.
-4. **Monitor progress** — check what&#039;s running:
+返回带有链接Mission的项目。向用户显示：
+- 项目名称和ID
+- 每个Mission：标题、类型、依赖
+- 依赖DAG（哪些Mission阻塞哪些）
+
+2. **等待用户批准** 后分发。清晰显示计划。
+
+3. **分发第一个Mission**（取决于on为空的）:
+```
+mcp__devfleet__dispatch_mission(mission_id="&lt;first_mission_id&gt;")
+```
+剩余Mission在其依赖完成时自动分发（因为plan_project创建时设置了auto_dispatch=true）。
+
+4. **监控进度** - 检查运行状态:
 ```
 mcp__devfleet__get_dashboard()
+或
+mcp__devfleet__get_mission_status(mission_id="&lt;id&gt;")
 ```
-Or check a specific mission:
+
+5. **读取报告** 每个完成的Mission:
 ```
-mcp__devfleet__get_mission_status(mission_id=&quot;&lt;id&gt;&quot;)
+mcp__devfleet__get_report(mission_id="&lt;mission_id&gt;")
 ```
-Prefer polling with `get_mission_status` over `wait_for_mission` for long-running missions, so the user sees progress updates.
-5. **Read the report** for each completed mission:
-```
-mcp__devfleet__get_report(mission_id=&quot;&lt;mission_id&gt;&quot;)
-```
-Call this for every mission that reached a terminal state. Reports contain: files_changed, what_done, what_open, what_tested, what_untested, next_steps, errors_encountered.</pre>
+报告包含：files_changed, what_done, what_open, what_tested, what_untested, next_steps, errors_encountered。
+
+### 可用工具列表
+| 工具 | 用途 |
+|------|------|
+| `plan_project(prompt)` | AI将描述分解为链接的Mission，auto_dispatch=true |
+| `create_project(name, path?, description?)` | 手动创建项目，返回project_id |
+| `create_mission(project_id, title, prompt, depends_on?, auto_dispatch?)` | 添加Mission |
+| `dispatch_mission(mission_id, model?, max_turns?)` | 启动Agent |
+| `cancel_mission(mission_id)` | 停止运行的Agent |
+| `wait_for_mission(mission_id, timeout_seconds?)` | 阻塞直到完成 |
+| `get_mission_status(mission_id)` | 检查进度不阻塞 |
+| `get_report(mission_id)` | 读取结构化报告 |
+| `get_dashboard()` | 系统概览 |
+| `list_projects()` | 浏览项目 |
+| `list_missions(project_id, status?)` | 列出Mission |
+
+### 指导原则
+- 除非用户说"继续"，否则始终确认计划
+- 报告状态时包括Mission标题和ID
+- 如果Mission失败，在重试前读取报告了解错误
+- Agent并发可配置（默认:3）。多余Mission排队并自动分发
+- 依赖形成DAG - 永远不要创建循环依赖
+- Agent在完成时自动合并其工作tree。如果合并冲突，更改保留在worktree分支供手动解决。</code></pre>
+                </div>
             </div>
         </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                All Available Tools
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">| Tool | Purpose |
-|------|---------|
-| `plan_project(prompt)` | AI breaks description into chained missions with `auto_dispatch=true` |
-| `create_project(name, path?, description?)` | Create a project manually, returns `project_id` |
-| `create_mission(project_id, title, prompt, depends_on?, auto_dispatch?)` | Add a mission. `depends_on` is a list of mission ID strings. |
-| `dispatch_mission(mission_id, model?, max_turns?)` | Start an agent |
-| `cancel_mission(mission_id)` | Stop a running agent |
-| `wait_for_mission(mission_id, timeout_seconds?)` | Block until done (prefer polling for long tasks) |
-| `get_mission_status(mission_id)` | Check progress without blocking |
-| `get_report(mission_id)` | Read structured report |
-| `get_dashboard()` | System overview |
-| `list_projects()` | Browse projects |
-| `list_missions(project_id, status?)` | List missions |</pre>
-            </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
-                Guidelines
-            </h2>
-            <div class="section-content">
-                <pre class="section-text">- Always confirm the plan before dispatching unless the user said &quot;go ahead&quot;
-- Include mission titles and IDs when reporting status
-- If a mission fails, read its report to understand errors before retrying
-- Agent concurrency is configurable (default: 3). Excess missions queue and auto-dispatch as slots free up. Check `get_dashboard()` for slot availability.
-- Dependencies form a DAG — never create circular dependencies
-- Each agent auto-merges its worktree on completion. If a merge conflict occurs, the changes remain on the worktree branch for manual resolution.</pre>
-            </div>
-        </section>
-        
-
-        <div class="detail-nav">
-            <a class="nav-card" href="cpp-test.html">
-                <div class="nav-label">上一个</div>
-                <div class="nav-title">Generate coverage report</div>
-                <div class="nav-type">Command</div>
-            </a>
-            <a class="nav-card" href="docs.html">
-                <div class="nav-label">下一个</div>
-                <div class="nav-title">/docs</div>
-                <div class="nav-type">Command</div>
-            </a>
-        </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

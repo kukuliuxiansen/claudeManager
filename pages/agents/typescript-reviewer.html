@@ -3,72 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>typescript-reviewer - Everything Claude Code</title>
+    <title>TypeScript 审查代理 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
-        .detail-header {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            border-radius: 20px; padding: 50px; margin-bottom: 40px;
-            position: relative; overflow: hidden;
-        }
-        .detail-header::before {
-            content: ''; position: absolute; top: -50%; right: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        .detail-icon {
-            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
-            border-radius: 20px; display: flex; align-items: center; justify-content: center;
-            margin-bottom: 20px; backdrop-filter: blur(10px);
-        }
+        .detail-header { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 20px; padding: 50px; margin-bottom: 40px; position: relative; overflow: hidden; }
+        .detail-header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%); pointer-events: none; }
+        .detail-icon { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; backdrop-filter: blur(10px); }
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #f59e0b; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #f59e0b; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(245, 158, 11, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #f59e0b; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(245, 158, 11, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(245, 158, 11, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #f59e0b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
         .nav-card:hover { border-color: #f59e0b40; background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
         .nav-type { font-size: 12px; color: #f59e0b; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -77,7 +52,7 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../agents.html" class="breadcrumb-link">Agents</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">typescript-reviewer</span>
+        <span class="breadcrumb-current">TypeScript 审查代理</span>
     </nav>
 
     <div class="detail-container">
@@ -85,139 +60,248 @@
             <div class="detail-icon">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             </div>
-            <h1 class="detail-title">typescript-reviewer</h1>
-            <p class="detail-subtitle">智能代理，自主执行复杂任务的AI系统</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Agent
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    everything-claude-code
-                </div>
+            <h1 class="detail-title">TypeScript 审查代理</h1>
+            <p class="detail-subtitle">专业 TypeScript/JavaScript 代码审查，涵盖类型安全、异步错误处理和最佳实践</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Agent类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">everything-claude-code</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Review Priorities
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">### CRITICAL -- Security
-- **Injection via `eval` / `new Function`**: User-controlled input passed to dynamic execution — never execute untrusted strings
-- **XSS**: Unsanitised user input assigned to `innerHTML`, `dangerouslySetInnerHTML`, or `document.write`
-- **SQL/NoSQL injection**: String concatenation in queries — use parameterised queries or an ORM
-- **Path traversal**: User-controlled input in `fs.readFile`, `path.join` without `path.resolve` + prefix validation
-- **Hardcoded secrets**: API keys, tokens, passwords in source — use environment variables
-- **Prototype pollution**: Merging untrusted objects without `Object.create(null)` or schema validation
-- **`child_process` with user input**: Validate and allowlist before passing to `exec`/`spawn`
-### HIGH -- Type Safety
-- **`any` without justification**: Disables type checking — use `unknown` and narrow, or a precise type
-- **Non-null assertion abuse**: `value!` without a preceding guard — add a runtime check
-- **`as` casts that bypass checks**: Casting to unrelated types to silence errors — fix the type instead
-- **Relaxed compiler settings**: If `tsconfig.json` is touched and weakens strictness, call it out explicitly
-### HIGH -- Async Correctness
-- **Unhandled promise rejections**: `async` functions called without `await` or `.catch()`
-- **Sequential awaits for independent work**: `await` inside loops when operations could safely run in parallel — consider `Promise.all`
-- **Floating promises**: Fire-and-forget without error handling in event handlers or constructors
-- **`async` with `forEach`**: `array.forEach(async fn)` does not await — use `for...of` or `Promise.all`
-### HIGH -- Error Handling
-- **Swallowed errors**: Empty `catch` blocks or `catch (e) {}` with no action
-- **`JSON.parse` without try/catch**: Throws on invalid input — always wrap
-- **Throwing non-Error objects**: `throw &quot;message&quot;` — always `throw new Error(&quot;message&quot;)`
-- **Missing error boundaries**: React trees without `&lt;ErrorBoundary&gt;` around async/data-fetching subtrees
-### HIGH -- Idiomatic Patterns
-- **Mutable shared state**: Module-level mutable variables — prefer immutable data and pure functions
-- **`var` usage**: Use `const` by default, `let` when reassignment is needed
-- **Implicit `any` from missing return types**: Public functions should have explicit return types
-- **Callback-style async**: Mixing callbacks with `async/await` — standardise on promises
-- **`==` instead of `===`**: Use strict equality throughout
-### HIGH -- Node.js Specifics
-- **Synchronous fs in request handlers**: `fs.readFileSync` blocks the event loop — use async variants
-- **Missing input validation at boundaries**: No schema validation (zod, joi, yup) on external data
-- **Unvalidated `process.env` access**: Access without fallback or startup validation
-- **`require()` in ESM context**: Mixing module systems without clear intent
-### MEDIUM -- React / Next.js (when applicable)
-- **Missing dependency arrays**: `useEffect`/`useCallback`/`useMemo` with incomplete deps — use exhaustive-deps lint rule
-- **State mutation**: Mutating state directly instead of returning new objects
-- **Key prop using index**: `key={index}` in dynamic lists — use stable unique IDs
-- **`useEffect` for derived state**: Compute derived values during render, not in effects
-- **Server/client boundary leaks**: Importing server-only modules into client components in Next.js
-### MEDIUM -- Performance
-- **Object/array creation in render**: Inline objects as props cause unnecessary re-renders — hoist or memoize
-- **N+1 queries**: Database or API calls inside loops — batch or use `Promise.all`
-- **Missing `React.memo` / `useMemo`**: Expensive computations or components re-running on every render
-- **Large bundle imports**: `import _ from &#039;lodash&#039;` — use named imports or tree-shakeable alternatives
-### MEDIUM -- Best Practices
-- **`console.log` left in production code**: Use a structured logger
-- **Magic numbers/strings**: Use named constants or enums
-- **Deep optional chaining without fallback**: `a?.b?.c?.d` with no default — add `?? fallback`
-- **Inconsistent naming**: camelCase for variables/functions, PascalCase for types/classes/components</pre>
+                <p>TypeScript 审查代理执行全面的 TypeScript/JavaScript 审查，重点关注类型安全、异步正确性、错误处理和 React/Node.js 特定问题。</p>
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+                        <div class="feature-content"><h4 class="feature-title">安全审查</h4><p class="feature-desc">检测注入、XSS、硬编码密钥、路径遍历</p></div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content"><h4 class="feature-title">类型安全审查</h4><p class="feature-desc">检测 any、非空断言滥用、类型断言滥用</p></div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                        <div class="feature-content"><h4 class="feature-title">异步正确性</h4><p class="feature-desc">检测未处理的 Promise、顺序 await、异步 forEach</p></div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                        <div class="feature-content"><h4 class="feature-title">错误处理审查</h4><p class="feature-desc">检测静默错误、缺失 try/catch、非 Error 对象抛出</p></div>
+                    </li>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Diagnostic Commands
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
             </h2>
             <div class="section-content">
-                <pre class="section-text">```bash
-npm run typecheck --if-present       # Canonical TypeScript check when the project defines one
-tsc --noEmit -p &lt;relevant-config&gt;    # Fallback type check for the tsconfig that owns the changed files
-eslint . --ext .ts,.tsx,.js,.jsx    # Linting
-prettier --check .                  # Format check
-npm audit                           # Dependency vulnerabilities (or the equivalent yarn/pnpm/bun audit command)
-vitest run                          # Tests (Vitest)
-jest --ci                           # Tests (Jest)
-```</pre>
+                <p>TypeScript 审查代理按严重级别审查代码，优先处理可能导致运行时错误和安全漏洞的代码：</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7); line-height:1.8;">
+                    <li><strong>CRITICAL - 安全</strong> - 注入（eval/JSON.parse）、XSS（innerHTML）、硬编码密钥</li>
+                    <li><strong>HIGH - 类型安全</strong> - any 类型、非空断言滥用 (!)、不合理的类型断言</li>
+                    <li><strong>HIGH - 异步</strong> - 未处理的 Promise、异步 forEach、顺序 await 依赖</li>
+                    <li><strong>HIGH - 错误处理</strong> - 空 catch、JSON.parse 无 try/catch、抛出非 Error 对象</li>
+                    <li><strong>MEDIUM - React/Node.js 特定</strong> - 缺少依赖数组、状态突变、服务器/客户端边界泄漏</li>
+                </ul>
+                <p>审查标准遵循"顶级 TypeScript 商店或维护良好的开源项目"的质量要求。</p>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Approval Criteria
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
             </h2>
             <div class="section-content">
-                <pre class="section-text">- **Approve**: No CRITICAL or HIGH issues
-- **Warning**: MEDIUM issues only (can merge with caution)
-- **Block**: CRITICAL or HIGH issues found</pre>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发时机与诊断命令</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 触发时机
+1. TypeScript/JavaScript PR 提交前
+2. React 应用代码审查
+3. Node.js 服务代码审查
+4. 类型安全问题排查
+
+// 审查命令
+npm run typecheck --if-present       # TypeScript 类型检查
+tsc --noEmit -p &lt;config&gt;             # TypeScript 编译器
+eslint . --ext .ts,.tsx,.js,.jsx     # ESLint 检查
+prettier --check .                    # 代码格式检查
+npm audit                             # 依赖漏洞检查
+vitest run                           # 测试运行 (Vitest)
+jest --ci                            # 测试运行 (Jest)
+
+// 通过标准
+- **批准**: 无 CRITICAL 或 HIGH 问题
+- **警告**: 仅有 MEDIUM 问题（可谨慎合并）
+- **阻止**: 发现 CRITICAL 或 HIGH 问题</code></pre>
+                </div>
             </div>
         </section>
 
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Reference
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
             </h2>
-            <div class="section-content">
-                <pre class="section-text">This repo does not yet ship a dedicated `typescript-patterns` skill. For detailed TypeScript and JavaScript patterns, use `coding-standards` plus `frontend-patterns` or `backend-patterns` based on the code being reviewed.
-Review with the mindset: &quot;Would this code pass review at a top TypeScript shop or well-maintained open-source project?&quot;</pre>
+            <div class="tips-grid">
+                <div class="tip-card"><div class="tip-number">1</div><p class="tip-text"><strong>any 是危险信号</strong> - 立即用精确类型替代</p></div>
+                <div class="tip-card"><div class="tip-number">2</div><p class="tip-text"><strong>避免非空断言</strong> - 用 if (value) 或适当的默认值</p></div>
+                <div class="tip-card"><div class="tip-number">3</div><p class="tip-text"><strong>async forEach 警告</strong> - 使用 for...of 或 Promise.all</p></div>
+                <div class="tip-card"><div class="tip-number">4</div><p class="tip-text"><strong>JSON.parse 安全</strong> - 总是用 try/catch 包装</p></div>
+                <div class="tip-card"><div class="tip-number">5</div><p class="tip-text"><strong>React 依赖数组</strong> - 使用 exhaustive-deps lint 规则</p></div>
             </div>
         </section>
-        
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">TypeScript Code Review</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code># TypeScript 审查报告
+
+## 发现问题
+
+### [CRITICAL] 安全风险 - 非常量表达式求值
+**文件**: src/utils/calculator.ts:42
+**代码**:
+```typescript
+const result = new Function('return ' + userInput)();
+```
+**问题**: 使用 Function 构造器执行用户控制的代码字符串
+**修复**: 使用安全的数学表达式解析器
+```typescript
+// 推荐使用专用库
+import { evaluate } from 'mathjs';
+const result = evaluate(userInput);
+```
+
+### [CRITICAL] XSS 漏洞 - innerHTML 用户输入
+**文件**: src/components/Comment.tsx:15
+**代码**:
+```typescript
+return &lt;div dangerouslySetInnerHTML={{ __html: userComment }} /&gt;
+```
+**问题**: 用户控制的字符串直接设置为 innerHTML
+**修复**: 使用 textContent 或 DOMPurify
+```typescript
+// 选项 1: React 自动转义
+return &lt;div&gt;{userComment}&lt;/div&gt;
+
+// 选项 2: 使用 DOMPurify
+return &lt;div&gt;{DOMPurify.sanitize(userComment)}&lt;/div&gt;
+```
+
+### [HIGH] 非空断言滥用
+**文件**: src/service/user.ts:78
+**代码**:
+```typescript
+const value = someObject.value!; // 确定存在？验证过吗？
+```
+**问题**: 非空断言跳过类型检查
+**修复**:
+```typescript
+if (!someObject.value) {
+  throw new Error('Value is required');
+}
+const value = someObject.value;
+```
+
+### [HIGH] 未处理的 Promise rejection
+**文件**: src/handler/request.ts:34
+**代码**:
+```typescript
+async handleRequest() {
+  const data = fetchData(); // 缺少 await！
+}
+```
+**问题**: 异步函数调用未 await
+**修复**:
+```typescript
+async handleRequest() {
+  const data = await fetchData();
+}
+```
+
+### [HIGH] JSON.parse 无 try/catch
+**文件**: src/utils/parser.ts:22
+**代码**:
+```typescript
+const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+```
+**问题**: 无效 JSON 字符串会导致无捕获的 SyntaxError
+**修复**:
+```typescript
+let config;
+try {
+  config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+} catch (e) {
+  logError('Failed to parse config.json', { error: e.message });
+  throw new Error('Configuration invalid');
+}
+```
+
+### [MEDIUM] 缺少依赖数组
+**文件**: src/components/Chart.tsx:45
+**代码**:
+```typescript
+useEffect(() => { updateChart(data); }, []);
+```
+**问题**: 依赖数组不完整
+**修复**:
+```typescript
+useEffect(() => { updateChart(data); }, [data]);
+```
+
+## 审查摘要
+| 严重级别 | 数量 | 建议 |
+|---------|------|------|
+| CRITICAL | 2    | BLOCK - 必须修复 |
+| HIGH     | 3    | WARN - 建议修复 |
+| MEDIUM   | 2    | INFO - 可择机修复 |
+
+## 结论
+**BLOCK** - 2 个 CRITICAL 问题必须立即修复。请修复后重新审查。</code></pre>
+                </div>
+            </div>
+        </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="rust-reviewer.html">
+            <a class="nav-card" href="../agents/rust-reviewer.html">
                 <div class="nav-label">上一个</div>
-                <div class="nav-title">rust-reviewer</div>
-                <div class="nav-type">Agent</div>
+                <div class="nav-title">Rust 审查代理</div>
             </a>
-            <a class="nav-card" href="code-review.html">
+            <a class="nav-card" href="../agents/code-review.html">
                 <div class="nav-label">下一个</div>
-                <div class="nav-title">code-review</div>
-                <div class="nav-type">Command</div>
+                <div class="nav-title">代码审查 (Command)</div>
             </a>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>

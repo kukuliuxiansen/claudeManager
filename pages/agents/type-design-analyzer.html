@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>type-design-analyzer - Everything Claude Code</title>
+    <title>类型设计分析代理 - Everything Claude Code</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
@@ -26,49 +26,37 @@
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
         .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
-        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
-        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 600; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title svg { width: 24px; height: 24px; fill: #f59e0b; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
-        .section-text {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .full-content-text { max-height: 600px; overflow-y: auto; }
-        .origin-info {
-            background: rgba(0,0,0,0.3);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
-        .origin-value { color: #f59e0b; font-weight: 600; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(245, 158, 11, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        .code-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-lang { font-size: 12px; color: #f59e0b; font-weight: 500; }
+        .code-copy { padding: 6px 12px; background: rgba(245, 158, 11, 0.2); border: none; border-radius: 6px; color: rgba(255, 255, 255, 0.8); cursor: pointer; font-size: 12px; transition: all 0.3s ease; }
+        .code-copy:hover { background: rgba(245, 158, 11, 0.3); color: #fff; }
+        pre { margin: 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        code { font-family: inherit; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #f59e0b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
         .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
         .nav-card:hover { border-color: #f59e0b40; background: rgba(26, 26, 46, 0.8); }
         .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
         .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
         .nav-type { font-size: 12px; color: #f59e0b; margin-top: 5px; }
-        @media (max-width: 768px) {
-            .detail-container { padding: 20px; }
-            .detail-header { padding: 30px; }
-            .detail-title { font-size: 28px; }
-            .section-card { padding: 20px; }
-            .detail-nav { flex-direction: column; }
-            .detail-badges { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .detail-container { padding: 20px; } .detail-header { padding: 30px; } .detail-title { font-size: 28px; } .section-card { padding: 20px; } .tips-grid { grid-template-columns: 1fr; } .detail-nav { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -77,7 +65,7 @@
         <span class="breadcrumb-separator">/</span>
         <a href="../agents.html" class="breadcrumb-link">Agents</a>
         <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">type-design-analyzer</span>
+        <span class="breadcrumb-current">类型设计分析代理</span>
     </nav>
 
     <div class="detail-container">
@@ -85,90 +73,316 @@
             <div class="detail-icon">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             </div>
-            <h1 class="detail-title">type-design-analyzer</h1>
-            <p class="detail-subtitle">智能代理，自主执行复杂任务的AI系统</p>
-            <div class="detail-badges">
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    Agent
-                </div>
-                <div class="detail-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    pr-review-toolkit
-                </div>
+            <h1 class="detail-title">类型设计分析代理</h1>
+            <p class="detail-subtitle">深入分析 TypeScript/Go/Rust 类型设计，验证不变量和封装</p>
+            <div class="detail-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                类型: Agent类
             </div>
         </header>
 
-        <div class="origin-info">
-            <span class="origin-label">来源:</span>
-            <span class="origin-value">pr-review-toolkit</span>
-        </div>
-
-        
         <section class="section-card">
             <h2 class="section-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                Type: [Typename]
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                实现效果
             </h2>
             <div class="section-content">
-                <pre class="section-text">### Invariants Identified
+                <p>类型设计分析代理审查代码中的类型设计，识别编码效率低下、不变量表达不良或缺乏编译时保证的类型。</p>
+
+                <div class="feature-list">
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">不变量识别</h4>
+                            <p class="feature-desc">找出类型必须保持的业务规则和约束</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">封装质量评估</h4>
+                            <p class="feature-desc">评估类型是否正确隐藏内部实现</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">不变量表达评估</h4>
+                            <p class="feature-desc">评分类型是否能够证明不变量在编译时成立</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                        <div class="feature-content">
+                            <h4 class="feature-title">改进建议</h4>
+                            <p class="feature-desc">提供具体的、可操作的类型设计改进建议</p>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                核心原理
+            </h2>
+            <div class="section-content">
+                <p>类型设计分析代理基于键原则评估类型系统：</p>
+                <ul style="margin-left:20px; color:rgba(255,255,255,0.7); line-height:1.8;">
+                    <li><strong>编译时保证优于运行时检查</strong> - 能在编译时证明的不要依赖运行时验证</li>
+                    <li><strong>声明优于命令</strong> - 类型定义应表达"是什么"而不是"怎么做"</li>
+                    <li><strong>非法状态不可表示</strong> - 类型应使无效状态无法编译</li>
+                    <li><strong>构造函数验证至关重要</strong> - 类型安全始于构造边界</li>
+                    <li><strong>不可变性简化维护</strong> - 避免状态突变保持不变量</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm6-10h-4v2h4v2h2V5c0-1.1-.9-2-2-2zm0 14h-4v2h4c1.1 0 2-.9 2-2v-2h-2v2zM5 7h2V5c0-1.1.9-2 2-2h4v2H9v2h4v2H9v2h4v2H9v2h4v2H9v4h4v2H9c-1.1 0-2-.9-2-2v-2H5v-2h2v-2H5v-2h2v-2H5v-2h2V7z"/></svg>
+                使用方法
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">触发时机与分析命令</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// 触发时机
+1. 审查 PR 时，涉及新类型设计
+2. 类型重构或改进讨论
+3. 类型设计代码评审
+4. 代码迁移/java 类型警告
+
+// 分析流程
+1. 读取类型定义（TypeScript/Go/Rust）
+2. 识别业务不变量（约束、规则）
+3. 检查类型是否强制执行这些约束
+4. 评分各项指标
+5. 提供改进建议
+
+// 评估维度
+| 维度 | 评分 | 说明 |
+|-----|------|------|
+| 封装质量 | 1-10 | 内部状态是否隐藏 |
+| 不变量表达 | 1-10 | 编译时声明的约束 |
+| 不变量有用性 | 1-10 | 业务相关性 |
+| 不变量强制 | 1-10 | 实际防止错误的能力 |
+
+// 期望输出结构
+```text
+## Type: [Typename]
+
+### Invariants Identified
 - [List each invariant with a brief description]
+
 ### Ratings
 - **Encapsulation**: X/10
   [Brief justification]
 - **Invariant Expression**: X/10
   [Brief justification]
-- **Invariant Usefulness**: X/10
-  [Brief justification]
-- **Invariant Enforcement**: X/10
-  [Brief justification]
-### Strengths
-[What the type does well]
-### Concerns
-[Specific issues that need attention]
-### Recommended Improvements
-[Concrete, actionable suggestions that won&#039;t overcomplicate the codebase]
 ```
-**Key Principles:**
-- Prefer compile-time guarantees over runtime checks when feasible
-- Value clarity and expressiveness over cleverness
-- Consider the maintenance burden of suggested improvements
-- Recognize that perfect is the enemy of good - suggest pragmatic improvements
-- Types should make illegal states unrepresentable
-- Constructor validation is crucial for maintaining invariants
-- Immutability often simplifies invariant maintenance
-**Common Anti-patterns to Flag:**
-- Anemic domain models with no behavior
-- Types that expose mutable internals
-- Invariants enforced only through documentation
-- Types with too many responsibilities
-- Missing validation at construction boundaries
-- Inconsistent enforcement across mutation methods
-- Types that rely on external code to maintain invariants
-**When Suggesting Improvements:**
-Always consider:
-- The complexity cost of your suggestions
-- Whether the improvement justifies potential breaking changes
-- The skill level and conventions of the existing codebase
-- Performance implications of additional validation
-- The balance between safety and usability
-Think deeply about each type&#039;s role in the larger system. Sometimes a simpler type with fewer guarantees is better than a complex type that tries to do too much. Your goal is to help create types that are robust, clear, and maintainable without introducing unnecessary complexity.</pre>
+
+// 静默类型警告
+- 声明为 `any` 或 `interface{}`
+- 公共可变字段
+- 缺少验证的构造函数</code></pre>
+                </div>
             </div>
         </section>
-        
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
+                使用技巧
+            </div>
+            </div>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <p class="tip-text"><strong>构造函数是关键</strong> - 保证类型安全始于构造边界验证</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <p class="tip-text"><strong>私有字段优先</strong> - JavaScript 类的私有字段 #name</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <p class="tip-text"><strong>替代类型比 never 好</strong> - 使用标签联合而不是 any</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <p class="tip-text"><strong>约束优于宽泛</strong> - `string &amp; { __brand: 'Email' }`</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">5</div>
+                    <p class="tip-text"><strong>不可变性简化</strong> - TypeScript `,readonly` 数组</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v12z"/></svg>
+                输出示例
+            </h2>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Type Design Analysis</span>
+                        <button class="code-copy" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>## Type Design Analysis Report
+
+## Type: UserEmail
+
+### Invariants Identified
+- 邮箱格式应符合 RFC 5322
+- 邮箱不应为 null 或 undefined
+- 邮箱长度应在 3-254 字符之间
+
+### Ratings
+- **Encapsulation**: 3/10
+  邮箱是公共字段，可被任意赋值，包括无效格式
+- **Invariant Expression**: 2/10
+  类型只是 `string`，没有编译时保证
+- **Invariant Usefulness**: 8/10
+  邮箱格式在业务中很重要（身份验证、通知）
+- **Invariant Enforcement**: 1/10
+  仅在运行时验证，无编译时保证
+
+### Strengths
+- 捕获运行时格式错误
+- 有清晰的业务目的
+
+### Concerns
+- `new UserEmail("invalid")` 编译通过但运行时失败
+- 公共字段允许绕过验证方法
+- 没有类型为特定用途（如 "email" vs "username"）
+
+### Recommended Improvements
+1. **使用 Brand Type 获取编译时检查**
+```typescript
+// 推荐的类型定义
+interface EmailBrand {
+  readonly __emailBrand: unique symbol;
+}
+
+type Email = string & EmailBrand;
+
+// 工厂函数进行验证
+export function createEmail(value: string): Email {
+  if (!validateEmail(value)) {
+    throw new Error('Invalid email format');
+  }
+  return value as Email;
+}
+```
+
+2. **隐藏实现细节**
+```typescript
+// 将邮箱设为私有，通过 getter 访问
+class User {
+  private readonly email: Email;
+
+  constructor(email: string) {
+    this.email = createEmail(email);
+  }
+
+  getEmail(): Email {
+    return this.email;
+  }
+}
+```
+
+3. **添加单位验证测试**
+```typescript
+test('createEmail rejects invalid formats', () => {
+  expect(() => createEmail('invalid')).toThrow();
+  expect(() => createEmail('')).toThrow();
+});
+```
+
+## Type: OrderStatus
+
+### Invariants Identified
+- 状态必须是预定义集合之一
+- 状态转换应遵循有限自动机
+
+### Ratings
+- **Encapsulation**: 9/10
+  状态是私有的，只能通过方法修改
+- **Invariant Expression**: 8/10
+  使用联合类型限制可能的值
+- **Invariant Usefulness**: 9/10
+  状态转换 correctness 很重要
+- **Invariant Enforcement**: 9/10
+  编译时限制有效状态
+
+### Strengths
+- 良好的类型定义
+- 良好的封装
+- 合理的验证
+
+### Concerns
+- `cancel()` 方法可能应该验证当前状态
+- 可以添加状态转换图作为文档
+
+### Recommended Improvements
+1. **添加状态转换验证**
+```typescript
+type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered';
+
+class Order {
+  private status: OrderStatus;
+
+  confirm() {
+    if (this.status !== 'pending') {
+      throw new Error('Cannot confirm non-pending order');
+    }
+    this.status = 'confirmed';
+  }
+
+  ship() {
+    if (this.status !== 'confirmed') {
+      throw new Error('Cannot ship non-confirmed order');
+    }
+    this.status = 'shipped';
+  }
+}
+```
+
+## 总体建议
+- **强类型定义是好的实践**
+- **而 Email 类型需要改进**
+- 优先处理编译时保证（如 OrderStatus）</code></pre>
+                </div>
+            </div>
+        </section>
 
         <div class="detail-nav">
-            <a class="nav-card" href="silent-failure-hunter.html">
+            <a class="nav-card" href="../agents/silent-failure-hunter.html">
                 <div class="nav-label">上一个</div>
-                <div class="nav-title">silent-failure-hunter</div>
-                <div class="nav-type">Agent</div>
+                <div class="nav-title">静默失败检测代理</div>
             </a>
-            <a class="nav-card" href="agent-creator.html">
+            <a class="nav-card" href="../agents/agent-creator.html">
                 <div class="nav-label">下一个</div>
-                <div class="nav-title">agent-creator</div>
-                <div class="nav-type">Agent</div>
+                <div class="nav-title">Agent 创建代理</div>
             </a>
         </div>
     </div>
+
+    <script>
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block');
+            const code = codeBlock.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制';
+                setTimeout(() => btn.textContent = '复制', 2000);
+            });
+        }
+    </script>
 </body>
 </html>
