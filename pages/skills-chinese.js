@@ -171,6 +171,26 @@ const SKILL_CHINESE_DESCRIPTIONS = {
 
     // Plugin子技能 (hookify)
     'writing-hookify-rules': '规则转钩子技能，将规则转换为可执行的钩子',
+
+    // Agents 代理
+    'code-reviewer': '代码审查代理，审查代码质量、安全性和最佳实践',
+    'code-simplifier': '代码简化代理，简化复杂代码并提高可读性',
+    'pr-test-analyzer': 'PR测试分析代理，分析PR的测试覆盖率和测试质量',
+    'type-design-analyzer': '类型设计分析代理，审查TypeScript类型定义和设计模式',
+    'silent-failure-hunter': '静默失败检测代理，检测可能导致静默失败的代码模式',
+    'plugin-validator': '插件验证代理，验证插件结构和配置的正确性',
+    'agent-creator': '代理创建代理，帮助创建新的Claude Code代理',
+    'skill-reviewer': '技能审查代理，审查和评估Claude Code技能的质量',
+    'conversation-analyzer': '对话分析代理，分析对话历史并识别需要阻止的行为',
+    'statusline-setup': '状态栏配置代理，帮助配置Claude Code状态栏设置',
+    'code-architect': '代码架构代理，设计系统架构和技术方案',
+    'code-explorer': '代码探索代理，快速探索和理解大型代码库',
+    'cpp-build-resolver': 'C++构建问题解决代理，修复CMake和编译错误',
+    'cpp-reviewer': 'C++代码审查代理，审查C++代码质量和最佳实践',
+    'java-build-resolver': 'Java构建问题解决代理，修复Maven和Gradle构建错误',
+    'pytorch-build-resolver': 'PyTorch问题解决代理，修复CUDA和训练错误',
+    'rust-build-resolver': 'Rust构建问题解决代理，修复Cargo和borrow checker错误',
+    'flutter-reviewer': 'Flutter代码审查代理，审查Flutter和Dart代码质量',
 };
 
 // 获取技能的中文描述

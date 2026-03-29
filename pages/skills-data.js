@@ -420,6 +420,7 @@ const CAPABILITIES_DATA = {
   "aside": {
     "name": "aside",
     "type": "command",
+    "tags": ["问答", "上下文"],
     "title": "Aside Command",
     "description": "Ask a question mid-task and get an immediate, focused answer \u2014 then continue right where you left off. The current task, files, and context are never modified.",
     "sections": {
@@ -435,6 +436,7 @@ const CAPABILITIES_DATA = {
   "claw": {
     "name": "claw",
     "type": "command",
+    "tags": ["REPL", "交互"],
     "title": "Claw Command",
     "description": "Start an interactive AI agent session with persistent markdown history and operational controls.",
     "sections": {
@@ -448,6 +450,7 @@ const CAPABILITIES_DATA = {
   "code-review": {
     "name": "code-review",
     "type": "command",
+    "tags": ["审查", "代码"],
     "title": "code-review",
     "description": "Comprehensive security and quality review of uncommitted changes:",
     "sections": {},
@@ -457,6 +460,7 @@ const CAPABILITIES_DATA = {
   "e2e": {
     "name": "e2e",
     "type": "command",
+    "tags": ["测试", "E2E"],
     "title": "E2E Command",
     "description": "This command invokes the **e2e-runner** agent to generate, maintain, and execute end-to-end tests using Playwright.",
     "sections": {
@@ -480,6 +484,7 @@ const CAPABILITIES_DATA = {
   "evolve": {
     "name": "evolve",
     "type": "command",
+    "tags": ["优化", "迭代"],
     "title": "Evolve Command",
     "description": "",
     "sections": {
@@ -495,6 +500,7 @@ const CAPABILITIES_DATA = {
   "go-build": {
     "name": "go-build",
     "type": "command",
+    "tags": ["Go", "构建"],
     "title": "Go Build and Fix",
     "description": "This command invokes the **go-build-resolver** agent to incrementally fix Go build errors with minimal changes.",
     "sections": {
@@ -513,6 +519,7 @@ const CAPABILITIES_DATA = {
   "go-review": {
     "name": "go-review",
     "type": "command",
+    "tags": ["Go", "审查"],
     "title": "Go Code Review",
     "description": "This command invokes the **go-reviewer** agent for comprehensive Go-specific code review.",
     "sections": {
@@ -530,6 +537,7 @@ const CAPABILITIES_DATA = {
   "go-test": {
     "name": "go-test",
     "type": "command",
+    "tags": ["Go", "测试"],
     "title": "Go TDD Command",
     "description": "This command enforces test-driven development methodology for Go code using idiomatic Go testing patterns.",
     "sections": {
@@ -548,6 +556,7 @@ const CAPABILITIES_DATA = {
   "gradle-build": {
     "name": "gradle-build",
     "type": "command",
+    "tags": ["Java", "构建"],
     "title": "Gradle Build Fix",
     "description": "Incrementally fix Gradle build and compilation errors for Android and Kotlin Multiplatform projects.",
     "sections": {
@@ -564,6 +573,7 @@ const CAPABILITIES_DATA = {
   "instinct-export": {
     "name": "instinct-export",
     "type": "command",
+    "tags": ["Instinct", "导出"],
     "title": "Instinct Export Command",
     "description": "Exports instincts to a shareable format. Perfect for:",
     "sections": {
@@ -577,6 +587,7 @@ const CAPABILITIES_DATA = {
   "instinct-import": {
     "name": "instinct-import",
     "type": "command",
+    "tags": ["Instinct", "导入"],
     "title": "Instinct Import Command",
     "description": "",
     "sections": {
@@ -593,6 +604,7 @@ const CAPABILITIES_DATA = {
   "instinct-status": {
     "name": "instinct-status",
     "type": "command",
+    "tags": ["Instinct", "状态"],
     "title": "Instinct Status Command",
     "description": "Shows learned instincts for the current project plus global instincts, grouped by domain.",
     "sections": {
@@ -605,6 +617,7 @@ const CAPABILITIES_DATA = {
   "kotlin-build": {
     "name": "kotlin-build",
     "type": "command",
+    "tags": ["Kotlin", "构建"],
     "title": "Kotlin Build and Fix",
     "description": "This command invokes the **kotlin-build-resolver** agent to incrementally fix Kotlin build errors with minimal changes.",
     "sections": {
@@ -623,6 +636,7 @@ const CAPABILITIES_DATA = {
   "kotlin-review": {
     "name": "kotlin-review",
     "type": "command",
+    "tags": ["Kotlin", "审查"],
     "title": "Kotlin Code Review",
     "description": "This command invokes the **kotlin-reviewer** agent for comprehensive Kotlin-specific code review.",
     "sections": {
@@ -640,6 +654,7 @@ const CAPABILITIES_DATA = {
   "kotlin-test": {
     "name": "kotlin-test",
     "type": "command",
+    "tags": ["Kotlin", "测试"],
     "title": "Kotlin TDD Command",
     "description": "This command enforces test-driven development methodology for Kotlin code using Kotest, MockK, and Kover.",
     "sections": {
@@ -658,6 +673,7 @@ const CAPABILITIES_DATA = {
   "learn-eval": {
     "name": "learn-eval",
     "type": "command",
+    "tags": ["学习", "评估"],
     "title": "/learn-eval - Extract, Evaluate, then Save",
     "description": "Extends `/learn` with a quality gate, save-location decision, and knowledge-placement awareness before writing any skill file.",
     "sections": {
@@ -672,6 +688,7 @@ const CAPABILITIES_DATA = {
   "orchestrate": {
     "name": "orchestrate",
     "type": "command",
+    "tags": ["编排", "任务"],
     "title": "orchestrate",
     "description": "Sequential agent workflow for complex tasks.",
     "sections": {
@@ -691,6 +708,7 @@ const CAPABILITIES_DATA = {
   "plan": {
     "name": "plan",
     "type": "command",
+    "tags": ["规划", "任务"],
     "title": "Plan Command",
     "description": "This command invokes the **planner** agent to create a comprehensive implementation plan before writing any code.",
     "sections": {
@@ -707,6 +725,7 @@ const CAPABILITIES_DATA = {
   "projects": {
     "name": "projects",
     "type": "command",
+    "tags": ["项目", "管理"],
     "title": "Projects Command",
     "description": "List project registry entries and per-project instinct/observation counts for continuous-learning-v2.",
     "sections": {
@@ -719,6 +738,7 @@ const CAPABILITIES_DATA = {
   "promote": {
     "name": "promote",
     "type": "command",
+    "tags": ["提升", "发布"],
     "title": "Promote Command",
     "description": "Promote instincts from project scope to global scope in continuous-learning-v2.",
     "sections": {
@@ -731,6 +751,7 @@ const CAPABILITIES_DATA = {
   "prompt-optimize": {
     "name": "prompt-optimize",
     "type": "command",
+    "tags": ["提示词", "优化"],
     "title": "/prompt-optimize",
     "description": "Analyze and optimize the following prompt for maximum ECC leverage.",
     "sections": {
@@ -745,6 +766,7 @@ const CAPABILITIES_DATA = {
   "python-review": {
     "name": "python-review",
     "type": "command",
+    "tags": ["Python", "审查"],
     "title": "Python Code Review",
     "description": "This command invokes the **python-reviewer** agent for comprehensive Python-specific code review.",
     "sections": {
@@ -765,6 +787,7 @@ const CAPABILITIES_DATA = {
   "resume-session": {
     "name": "resume-session",
     "type": "command",
+    "tags": ["会话", "恢复"],
     "title": "Resume Session Command",
     "description": "Load the last saved session state and orient fully before doing any work.",
     "sections": {
@@ -780,6 +803,7 @@ const CAPABILITIES_DATA = {
   "save-session": {
     "name": "save-session",
     "type": "command",
+    "tags": ["会话", "保存"],
     "title": "Save Session Command",
     "description": "Capture everything that happened in this session \u2014 what was built, what worked, what failed, what's left \u2014 and write it to a dated file so the next session can pick up exactly where this one left off.",
     "sections": {
@@ -795,6 +819,7 @@ const CAPABILITIES_DATA = {
   "sessions": {
     "name": "sessions",
     "type": "command",
+    "tags": ["会话", "管理"],
     "title": "sessions",
     "description": "Manage Claude Code session history - list, load, alias, and edit sessions stored in `~/.claude/sessions/`.",
     "sections": {
@@ -810,6 +835,7 @@ const CAPABILITIES_DATA = {
   "skill-create": {
     "name": "skill-create",
     "type": "command",
+    "tags": ["技能", "创建"],
     "title": "/skill-create - Local Skill Generation",
     "description": "Analyze your repository's git history to extract coding patterns and generate SKILL.md files that teach Claude your team's practices.",
     "sections": {
@@ -825,6 +851,7 @@ const CAPABILITIES_DATA = {
   "tdd": {
     "name": "tdd",
     "type": "command",
+    "tags": ["测试", "TDD"],
     "title": "TDD Command",
     "description": "This command invokes the **tdd-guide** agent to enforce test-driven development methodology.",
     "sections": {
@@ -1596,6 +1623,7 @@ const CAPABILITIES_DATA = {
   "feature-dev": {
     "name": "feature-dev",
     "type": "command",
+    "tags": ["开发", "功能"],
     "title": "Feature Development",
     "description": "You are helping a developer implement a new feature. Follow a systematic approach: understand the codebase deeply, identify and ask about all underspecified details, design elegant architectures, then",
     "sections": {
@@ -1614,6 +1642,7 @@ const CAPABILITIES_DATA = {
   "review-pr": {
     "name": "review-pr",
     "type": "command",
+    "tags": ["PR", "审查"],
     "title": "Comprehensive PR Review",
     "description": "Run a comprehensive pull request review using multiple specialized agents, each focusing on a different aspect of code quality.",
     "sections": {
@@ -1630,6 +1659,7 @@ const CAPABILITIES_DATA = {
   "create-plugin": {
     "name": "create-plugin",
     "type": "command",
+    "tags": ["插件", "创建"],
     "title": "Plugin Creation Workflow",
     "description": "Guide the user through creating a complete, high-quality Claude Code plugin from initial concept to tested implementation. Follow a systematic approach: understand requirements, design components, cla",
     "sections": {
@@ -1651,6 +1681,7 @@ const CAPABILITIES_DATA = {
   "configure": {
     "name": "configure",
     "type": "command",
+    "tags": ["配置", "设置"],
     "title": "Configure Hookify Rules",
     "description": "**Load hookify:writing-rules skill first** to understand rule format.",
     "sections": {
@@ -1664,6 +1695,7 @@ const CAPABILITIES_DATA = {
   "help": {
     "name": "help",
     "type": "command",
+    "tags": ["帮助", "信息"],
     "title": "Hookify Plugin Help",
     "description": "Explain how the hookify plugin works and how to use it.",
     "sections": {
@@ -1682,6 +1714,7 @@ const CAPABILITIES_DATA = {
   "hookify": {
     "name": "hookify",
     "type": "command",
+    "tags": ["Hooks", "生成"],
     "title": "Hookify - Create Hooks from Unwanted Behaviors",
     "description": "**FIRST: Load the hookify:writing-rules skill** using the Skill tool to understand rule file format and syntax.",
     "sections": {
@@ -1698,6 +1731,7 @@ const CAPABILITIES_DATA = {
   "list": {
     "name": "list",
     "type": "command",
+    "tags": ["列表", "查看"],
     "title": "List Hookify Rules",
     "description": "**Load hookify:writing-rules skill first** to understand rule format.",
     "sections": {
@@ -1710,6 +1744,7 @@ const CAPABILITIES_DATA = {
   "clean_gone": {
     "name": "clean_gone",
     "type": "command",
+    "tags": ["清理", "工具"],
     "title": "clean_gone",
     "description": "",
     "sections": {
@@ -1723,6 +1758,7 @@ const CAPABILITIES_DATA = {
   "commit-push-pr": {
     "name": "commit-push-pr",
     "type": "command",
+    "tags": ["Git", "提交", "PR"],
     "title": "commit-push-pr",
     "description": "",
     "sections": {
@@ -1735,6 +1771,7 @@ const CAPABILITIES_DATA = {
   "commit": {
     "name": "commit",
     "type": "command",
+    "tags": ["Git", "提交"],
     "title": "commit",
     "description": "",
     "sections": {
@@ -1747,6 +1784,7 @@ const CAPABILITIES_DATA = {
   "cpp-build": {
     "name": "cpp-build",
     "type": "command",
+    "tags": ["C++", "构建"],
     "title": "C++ Build and Fix",
     "description": "This command invokes the **cpp-build-resolver** agent to incrementally fix C++ build errors with minimal changes.",
     "sections": {
@@ -1765,6 +1803,7 @@ const CAPABILITIES_DATA = {
   "cpp-review": {
     "name": "cpp-review",
     "type": "command",
+    "tags": ["C++", "审查"],
     "title": "C++ Code Review",
     "description": "This command invokes the **cpp-reviewer** agent for comprehensive C++-specific code review.",
     "sections": {
@@ -1782,6 +1821,7 @@ const CAPABILITIES_DATA = {
   "cpp-test": {
     "name": "cpp-test",
     "type": "command",
+    "tags": ["C++", "测试"],
     "title": "C++ TDD Command",
     "description": "This command enforces test-driven development methodology for C++ code using GoogleTest/GoogleMock with CMake/CTest.",
     "sections": {
@@ -1800,6 +1840,7 @@ const CAPABILITIES_DATA = {
   "devfleet": {
     "name": "devfleet",
     "type": "command",
+    "tags": ["开发", "集群"],
     "title": "DevFleet \u2014 Multi-Agent Orchestration",
     "description": "Orchestrate parallel Claude Code agents via Claude DevFleet. Each agent runs in an isolated git worktree with full tooling.",
     "sections": {
@@ -1813,6 +1854,7 @@ const CAPABILITIES_DATA = {
   "docs": {
     "name": "docs",
     "type": "command",
+    "tags": ["文档", "生成"],
     "title": "/docs",
     "description": "",
     "sections": {
@@ -1827,6 +1869,7 @@ const CAPABILITIES_DATA = {
   "prune": {
     "name": "prune",
     "type": "command",
+    "tags": ["清理", "删除"],
     "title": "Prune Pending Instincts",
     "description": "Remove expired pending instincts that were auto-generated but never reviewed or promoted.",
     "sections": {
@@ -1838,6 +1881,7 @@ const CAPABILITIES_DATA = {
   "rust-build": {
     "name": "rust-build",
     "type": "command",
+    "tags": ["Rust", "构建"],
     "title": "Rust Build and Fix",
     "description": "This command invokes the **rust-build-resolver** agent to incrementally fix Rust build errors with minimal changes.",
     "sections": {
@@ -1856,6 +1900,7 @@ const CAPABILITIES_DATA = {
   "rust-review": {
     "name": "rust-review",
     "type": "command",
+    "tags": ["Rust", "审查"],
     "title": "Rust Code Review",
     "description": "This command invokes the **rust-reviewer** agent for comprehensive Rust-specific code review.",
     "sections": {
@@ -1873,6 +1918,7 @@ const CAPABILITIES_DATA = {
   "rust-test": {
     "name": "rust-test",
     "type": "command",
+    "tags": ["Rust", "测试"],
     "title": "Rust TDD Command",
     "description": "This command enforces test-driven development methodology for Rust code using `#[test]`, rstest, proptest, and mockall.",
     "sections": {
@@ -1891,6 +1937,7 @@ const CAPABILITIES_DATA = {
   "loop": {
     "name": "loop",
     "type": "command",
+    "tags": ["循环", "任务"],
     "title": "Loop",
     "description": "\u5faa\u73af\u6267\u884c Skill\uff0c\u6309\u8bbe\u5b9a\u95f4\u9694\u91cd\u590d\u8fd0\u884c\u547d\u4ee4\u6216\u63d0\u793a",
     "sections": {
@@ -1903,6 +1950,7 @@ const CAPABILITIES_DATA = {
   "simplify": {
     "name": "simplify",
     "type": "command",
+    "tags": ["简化", "代码"],
     "title": "Simplify",
     "description": "\u4ee3\u7801\u7b80\u5316 Skill\uff0c\u5ba1\u67e5\u53d8\u66f4\u4ee3\u7801\u7684\u590d\u7528\u6027\u3001\u8d28\u91cf\u548c\u6548\u7387",
     "sections": {
@@ -1914,6 +1962,7 @@ const CAPABILITIES_DATA = {
   "update-config": {
     "name": "update-config",
     "type": "command",
+    "tags": ["配置", "更新"],
     "title": "Update Config",
     "description": "\u914d\u7f6e\u66f4\u65b0 Skill\uff0c\u7528\u4e8e\u914d\u7f6e Claude Code harness \u7684 settings.json",
     "sections": {
@@ -1926,6 +1975,7 @@ const CAPABILITIES_DATA = {
   "skill-health": {
     "name": "skill-health",
     "type": "command",
+    "tags": ["技能", "健康"],
     "title": "Skill Health Dashboard",
     "description": "Shows a comprehensive health dashboard for all skills in the portfolio with success rate sparklines, failure pattern clustering, pending amendments, and version history.",
     "sections": {
@@ -1939,6 +1989,7 @@ const CAPABILITIES_DATA = {
   "build-fix": {
     "name": "build-fix",
     "type": "command",
+    "tags": ["构建", "修复"],
     "title": "Build Fix",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -1946,6 +1997,7 @@ const CAPABILITIES_DATA = {
   "checkpoint": {
     "name": "checkpoint",
     "type": "command",
+    "tags": ["状态", "保存"],
     "title": "Checkpoint",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -1953,6 +2005,7 @@ const CAPABILITIES_DATA = {
   "eval": {
     "name": "eval",
     "type": "command",
+    "tags": ["工具"],
     "title": "Eval",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -1960,6 +2013,7 @@ const CAPABILITIES_DATA = {
   "harness-audit": {
     "name": "harness-audit",
     "type": "command",
+    "tags": ["工具"],
     "title": "Harness Audit",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -1967,6 +2021,7 @@ const CAPABILITIES_DATA = {
   "learn": {
     "name": "learn",
     "type": "command",
+    "tags": ["学习", "记忆"],
     "title": "Learn",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -1974,6 +2029,7 @@ const CAPABILITIES_DATA = {
   "loop-start": {
     "name": "loop-start",
     "type": "command",
+    "tags": ["循环", "启动"],
     "title": "Loop Start",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -1981,6 +2037,7 @@ const CAPABILITIES_DATA = {
   "loop-status": {
     "name": "loop-status",
     "type": "command",
+    "tags": ["循环", "状态"],
     "title": "Loop Status",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -1988,6 +2045,7 @@ const CAPABILITIES_DATA = {
   "model-route": {
     "name": "model-route",
     "type": "command",
+    "tags": ["模型", "路由"],
     "title": "Model Route",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -1995,6 +2053,7 @@ const CAPABILITIES_DATA = {
   "multi-backend": {
     "name": "multi-backend",
     "type": "command",
+    "tags": ["并行", "后端"],
     "title": "Multi Backend",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2002,6 +2061,7 @@ const CAPABILITIES_DATA = {
   "multi-execute": {
     "name": "multi-execute",
     "type": "command",
+    "tags": ["并行", "执行"],
     "title": "Multi Execute",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2009,6 +2069,7 @@ const CAPABILITIES_DATA = {
   "multi-frontend": {
     "name": "multi-frontend",
     "type": "command",
+    "tags": ["并行", "前端"],
     "title": "Multi Frontend",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2016,6 +2077,7 @@ const CAPABILITIES_DATA = {
   "multi-plan": {
     "name": "multi-plan",
     "type": "command",
+    "tags": ["并行", "规划"],
     "title": "Multi Plan",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2023,6 +2085,7 @@ const CAPABILITIES_DATA = {
   "multi-workflow": {
     "name": "multi-workflow",
     "type": "command",
+    "tags": ["并行", "工作流"],
     "title": "Multi Workflow",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2030,6 +2093,7 @@ const CAPABILITIES_DATA = {
   "pm2": {
     "name": "pm2",
     "type": "command",
+    "tags": ["进程", "管理"],
     "title": "Pm2",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2037,6 +2101,7 @@ const CAPABILITIES_DATA = {
   "quality-gate": {
     "name": "quality-gate",
     "type": "command",
+    "tags": ["质量", "检查"],
     "title": "Quality Gate",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2044,6 +2109,7 @@ const CAPABILITIES_DATA = {
   "refactor-clean": {
     "name": "refactor-clean",
     "type": "command",
+    "tags": ["重构", "清理"],
     "title": "Refactor Clean",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2051,6 +2117,7 @@ const CAPABILITIES_DATA = {
   "revise-claude-md": {
     "name": "revise-claude-md",
     "type": "command",
+    "tags": ["文档", "CLAUDE.md"],
     "title": "Revise Claude Md",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2058,6 +2125,7 @@ const CAPABILITIES_DATA = {
   "setup-pm": {
     "name": "setup-pm",
     "type": "command",
+    "tags": ["进程", "设置"],
     "title": "Setup Pm",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2065,6 +2133,7 @@ const CAPABILITIES_DATA = {
   "test-coverage": {
     "name": "test-coverage",
     "type": "command",
+    "tags": ["测试", "覆盖率"],
     "title": "Test Coverage",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2072,6 +2141,7 @@ const CAPABILITIES_DATA = {
   "update-codemaps": {
     "name": "update-codemaps",
     "type": "command",
+    "tags": ["代码", "地图"],
     "title": "Update Codemaps",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2079,6 +2149,7 @@ const CAPABILITIES_DATA = {
   "update-docs": {
     "name": "update-docs",
     "type": "command",
+    "tags": ["文档", "更新"],
     "title": "Update Docs",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2086,6 +2157,7 @@ const CAPABILITIES_DATA = {
   "verify": {
     "name": "verify",
     "type": "command",
+    "tags": ["验证", "检查"],
     "title": "Verify",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
@@ -2146,5 +2218,151 @@ const CAPABILITIES_DATA = {
     "tags": ["插件", "钩子"],
     "origin": "hookify"
   },
+
+  // ============ AGENTS ============
+  "code-reviewer": {
+    "name": "code-reviewer",
+    "type": "agent",
+    "title": "Code Reviewer",
+    "description": "代码审查代理，审查代码质量、安全性和最佳实践",
+    "tags": ["审查", "代码质量"],
+    "origin": "pr-review-toolkit"
+  },
+  "code-simplifier": {
+    "name": "code-simplifier",
+    "type": "agent",
+    "title": "Code Simplifier",
+    "description": "代码简化代理，简化复杂代码并提高可读性",
+    "tags": ["重构", "代码质量"],
+    "origin": "pr-review-toolkit"
+  },
+  "pr-test-analyzer": {
+    "name": "pr-test-analyzer",
+    "type": "agent",
+    "title": "PR Test Analyzer",
+    "description": "PR测试分析代理，分析PR的测试覆盖率和测试质量",
+    "tags": ["测试", "PR"],
+    "origin": "pr-review-toolkit"
+  },
+  "type-design-analyzer": {
+    "name": "type-design-analyzer",
+    "type": "agent",
+    "title": "Type Design Analyzer",
+    "description": "类型设计分析代理，审查TypeScript类型定义和设计模式",
+    "tags": ["TypeScript", "审查"],
+    "origin": "pr-review-toolkit"
+  },
+  "silent-failure-hunter": {
+    "name": "silent-failure-hunter",
+    "type": "agent",
+    "title": "Silent Failure Hunter",
+    "description": "静默失败检测代理，检测可能导致静默失败的代码模式",
+    "tags": ["调试", "错误处理"],
+    "origin": "pr-review-toolkit"
+  },
+  "plugin-validator": {
+    "name": "plugin-validator",
+    "type": "agent",
+    "title": "Plugin Validator",
+    "description": "插件验证代理，验证插件结构和配置的正确性",
+    "tags": ["插件", "验证"],
+    "origin": "plugin-dev"
+  },
+  "agent-creator": {
+    "name": "agent-creator",
+    "type": "agent",
+    "title": "Agent Creator",
+    "description": "代理创建代理，帮助创建新的Claude Code代理",
+    "tags": ["代理", "创建"],
+    "origin": "plugin-dev"
+  },
+  "skill-reviewer": {
+    "name": "skill-reviewer",
+    "type": "agent",
+    "title": "Skill Reviewer",
+    "description": "技能审查代理，审查和评估Claude Code技能的质量",
+    "tags": ["技能", "审查"],
+    "origin": "plugin-dev"
+  },
+  "conversation-analyzer": {
+    "name": "conversation-analyzer",
+    "type": "agent",
+    "title": "Conversation Analyzer",
+    "description": "对话分析代理，分析对话历史并识别需要阻止的行为",
+    "tags": ["对话", "分析"],
+    "origin": "hookify"
+  },
+  "statusline-setup": {
+    "name": "statusline-setup",
+    "type": "agent",
+    "title": "Statusline Setup",
+    "description": "状态栏配置代理，帮助配置Claude Code状态栏设置",
+    "tags": ["配置", "状态栏"],
+    "origin": "npm"
+  },
+  "code-architect": {
+    "name": "code-architect",
+    "type": "agent",
+    "title": "Code Architect",
+    "description": "代码架构代理，设计系统架构和技术方案",
+    "tags": ["架构", "设计"],
+    "origin": "feature-dev"
+  },
+  "code-explorer": {
+    "name": "code-explorer",
+    "type": "agent",
+    "title": "Code Explorer",
+    "description": "代码探索代理，快速探索和理解大型代码库",
+    "tags": ["探索", "代码库"],
+    "origin": "feature-dev"
+  },
+  "cpp-build-resolver": {
+    "name": "cpp-build-resolver",
+    "type": "agent",
+    "title": "C++ Build Resolver",
+    "description": "C++构建问题解决代理，修复CMake和编译错误",
+    "tags": ["C++", "CMake", "构建"],
+    "origin": "cpp-build-resolver"
+  },
+  "cpp-reviewer": {
+    "name": "cpp-reviewer",
+    "type": "agent",
+    "title": "C++ Reviewer",
+    "description": "C++代码审查代理，审查C++代码质量和最佳实践",
+    "tags": ["C++", "审查"],
+    "origin": "cpp-build-resolver"
+  },
+  "java-build-resolver": {
+    "name": "java-build-resolver",
+    "type": "agent",
+    "title": "Java Build Resolver",
+    "description": "Java构建问题解决代理，修复Maven和Gradle构建错误",
+    "tags": ["Java", "Maven", "构建"],
+    "origin": "java-build-resolver"
+  },
+  "pytorch-build-resolver": {
+    "name": "pytorch-build-resolver",
+    "type": "agent",
+    "title": "PyTorch Build Resolver",
+    "description": "PyTorch问题解决代理，修复CUDA和训练错误",
+    "tags": ["PyTorch", "CUDA", "AI"],
+    "origin": "pytorch-build-resolver"
+  },
+  "rust-build-resolver": {
+    "name": "rust-build-resolver",
+    "type": "agent",
+    "title": "Rust Build Resolver",
+    "description": "Rust构建问题解决代理，修复Cargo和borrow checker错误",
+    "tags": ["Rust", "Cargo", "构建"],
+    "origin": "rust-build-resolver"
+  },
+  "flutter-reviewer": {
+    "name": "flutter-reviewer",
+    "type": "agent",
+    "title": "Flutter Reviewer",
+    "description": "Flutter代码审查代理，审查Flutter和Dart代码质量",
+    "tags": ["Flutter", "Dart", "审查"],
+    "origin": "flutter-reviewer"
+  }
 
 };

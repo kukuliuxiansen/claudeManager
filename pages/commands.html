@@ -232,12 +232,22 @@
 
         /* Filter Buttons */
         .filter-section {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            min-width: 70px;
         }
 
         .filter-buttons {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
@@ -502,6 +512,12 @@
         </div>
 
         <div class="filter-section">
+            <div class="filter-label">分类筛选:</div>
+            <div class="filter-buttons" id="categoryFilterButtons"></div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-label">来源筛选:</div>
             <div class="filter-buttons" id="originFilterButtons"></div>
         </div>
 
@@ -524,15 +540,56 @@
             'command': 'Command'
         };
 
-        // Count by type and origin (only commands)
+        // Count by type, origin and tags (only commands)
         function countItems() {
-            const counts = { byType: {}, byOrigin: {} };
+            const counts = { byType: {}, byOrigin: {}, byTag: {} };
             for (const [name, data] of Object.entries(CAPABILITIES_DATA)) {
                 if (data.type !== 'command') continue; // Only count commands
                 counts.byType[data.type] = (counts.byType[data.type] || 0) + 1;
                 counts.byOrigin[data.origin] = (counts.byOrigin[data.origin] || 0) + 1;
+                // Count tags
+                if (data.tags) {
+                    for (const tag of data.tags) {
+                        counts.byTag[tag] = (counts.byTag[tag] || 0) + 1;
+                    }
+                }
             }
             return counts;
+        }
+
+        // Create category filter buttons
+        function createCategoryFilterButtons() {
+            const container = document.getElementById('categoryFilterButtons');
+            const counts = countItems();
+
+            // Sort tags by count
+            const sortedTags = Object.keys(counts.byTag).sort((a, b) => counts.byTag[b] - counts.byTag[a]);
+
+            // "全部" button
+            const allBtn = document.createElement('button');
+            allBtn.className = 'filter-btn active';
+            allBtn.textContent = '全部分类';
+            allBtn.dataset.tag = 'all';
+            allBtn.addEventListener('click', handleCategoryFilterClick);
+            container.appendChild(allBtn);
+
+            // Tag buttons - show all tags with count > 1
+            for (const tag of sortedTags.filter(t => counts.byTag[t] > 1)) {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.textContent = tag + ' (' + counts.byTag[tag] + ')';
+                btn.dataset.tag = tag;
+                btn.addEventListener('click', handleCategoryFilterClick);
+                container.appendChild(btn);
+            }
+        }
+
+        // Category filter click handler
+        function handleCategoryFilterClick(e) {
+            const buttons = document.querySelectorAll('#categoryFilterButtons .filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            filterAndRender();
         }
 
         // Create origin filter buttons
@@ -551,8 +608,8 @@
             allBtn.addEventListener('click', handleOriginFilterClick);
             container.appendChild(allBtn);
 
-            // Origin buttons - top 10
-            for (const origin of sortedOrigins.slice(0, 10)) {
+            // Origin buttons - top 8
+            for (const origin of sortedOrigins.slice(0, 8)) {
                 const btn = document.createElement('button');
                 btn.className = 'filter-btn';
                 btn.textContent = origin + ' (' + counts.byOrigin[origin] + ')';
@@ -578,15 +635,17 @@
         // Filter and render (only commands)
         function filterAndRender() {
             const originBtn = document.querySelector('#originFilterButtons .filter-btn.active');
+            const categoryBtn = document.querySelector('#categoryFilterButtons .filter-btn.active');
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
 
             const selectedOrigin = originBtn ? originBtn.dataset.origin : 'all';
+            const selectedTag = categoryBtn ? categoryBtn.dataset.tag : 'all';
 
-            renderItems(selectedOrigin, searchTerm);
+            renderItems(selectedOrigin, selectedTag, searchTerm);
         }
 
         // Render items (only commands)
-        function renderItems(originFilter, searchTerm) {
+        function renderItems(originFilter, tagFilter, searchTerm) {
             const container = document.getElementById('modulesGrid');
 
             // Clear existing cards
@@ -601,6 +660,9 @@
 
                 // Filter by origin
                 if (originFilter !== 'all' && itemData.origin !== originFilter) continue;
+
+                // Filter by tag
+                if (tagFilter !== 'all' && (!itemData.tags || !itemData.tags.includes(tagFilter))) continue;
 
                 // Filter by search
                 if (searchTerm) {
@@ -656,6 +718,19 @@
 
                 card.appendChild(usage);
 
+                // Tags
+                if (itemData.tags && itemData.tags.length > 0) {
+                    const tags = document.createElement('div');
+                    tags.className = 'module-tags';
+                    for (const tag of itemData.tags) {
+                        const tagEl = document.createElement('span');
+                        tagEl.className = 'module-tag';
+                        tagEl.textContent = tag;
+                        tags.appendChild(tagEl);
+                    }
+                    card.appendChild(tags);
+                }
+
                 // Click handler
                 card.addEventListener('click', () => {
                     window.location.href = 'commands/' + encodeURIComponent(itemName) + '.html';
@@ -677,9 +752,10 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            createCategoryFilterButtons();
             createOriginFilterButtons();
             updateStats();
-            renderItems('all', '');
+            renderItems('all', 'all', '');
 
             // Search handler
             document.getElementById('searchInput').addEventListener('input', handleSearch);
