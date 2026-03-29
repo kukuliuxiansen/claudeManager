@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>skill-stocktake -/title>
+    <title>design-system -/title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
-        .detail-header { background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 20px; padding: 50px; margin-bottom: 40px; position: relative; overflow: hidden; }
+        .detail-header { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); border-radius: 20px; padding: 50px; margin-bottom: 40px; position: relative; overflow: hidden; }
         .detail-header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%); pointer-events: none; }
         .detail-icon { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; backdrop-filter: blur(10px); }
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
@@ -15,11 +15,11 @@
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
         .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #10b981; margin-bottom: 20px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
         .feature-list { list-style: none; padding: 0; margin: 0; }
-        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(16, 185, 129, 0.15); display: flex; align-items: flex-start; gap: 15px; }
-        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .feature-icon svg { width: 20px; height: 20px; fill: white; }
         .feature-content { flex: 1; }
         .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
@@ -29,31 +29,31 @@
     </style>
 </head>
 <body>
-    <nav class="breadcrumb"><a href="../../index.html">首页</a> / <a href="../skills.html">Skills</a> / <span>skill-stocktake</span></nav>
+    <nav class="breadcrumb"><a href="../../index.html">首页</a> / <a href="../skills.html">Skills</a> / <span>design-system</span></nav>
     <div class="detail-container">
         <header class="detail-header">
-            <div class="detail-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg></div>
-            <h1 class="detail-title">skill-stocktake</h1>
-            <p class="detail-subtitle">技能盘点审计技能，审计和整理现有技能库</p>
+            <div class="detail-icon"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8z"/></svg></div>
+            <h1 class="detail-title">design-system</h1>
+            <p class="detail-subtitle">设计系统一致性检查技能，确保UI组件符合设计规范</p>
             <div class="detail-badge">类型: Testing Skill</div>
         </header>
         <section class="section-card">
             <h2 class="section-title">实现效果</h2>
             <div class="section-content">
-                <p>技能盘点审计技能，全面审计已安装的技能模块，分析使用频率、依赖关系和优化建议。</p>
+                <p>设计系统一致性检查技能，验证UI组件是否符合设计规范。检查颜色、字体、间距、圆角等设计token的使用一致性。</p>
                 <div class="feature-list">
-                    <li><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg></div><div class="feature-content"><h4 class="feature-title">技能清单生成</h4><p class="feature-desc">列出所有已安装技能及其元数据</p></div></li>
-                    <li><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div class="feature-content"><h4 class="feature-title">使用分析</h4><p class="feature-desc">分析技能使用频率和效果</p></div></li>
+                    <li><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div class="feature-content"><h4 class="feature-title">Token验证</h4><p class="feature-desc">检查是否使用了正确的设计token</p></div></li>
+                    <li><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div><div class="feature-content"><h4 class="feature-title">组件一致性</h4><p class="feature-desc">确保组件实现与设计稿一致</p></div></li>
                 </div>
             </div>
         </section>
         <section class="section-card">
             <h2 class="section-title">使用方法</h2>
-            <div class="code-block"><pre><code>// 执行技能盘点
-/skill-stocktake
+            <div class="code-block"><pre><code>// 检查设计系统一致性
+/design-system --check src/components
 
-// 生成审计报告
-skill-stocktake --report markdown</code></pre></div>
+// 生成设计token报告
+design-tokens audit --output report.md</code></pre></div>
         </section>
     </div>
 </body>

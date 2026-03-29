@@ -1,5 +1,5 @@
 // Auto-generated skills and commands data
-// Skills: 62
+// Skills: 69
 // Commands: 72
 
 const CAPABILITIES_DATA = {
@@ -2027,5 +2027,55 @@ const CAPABILITIES_DATA = {
     "title": "Verify",
     "description": "\u547d\u4ee4\u811a\u672c\uff0c\u5feb\u901f\u6267\u884c\u7279\u5b9a\u64cd\u4f5c\u7684\u5feb\u6377\u65b9\u5f0f",
     "origin": "everything-claude-code"
-  }
+  },
+  "benchmark": {
+    "name": "benchmark",
+    "type": "skill",
+    "title": "Benchmark",
+    "description": "Performance benchmarking skill for evaluating and comparing AI agent performance.",
+    "origin": "everything-claude-code"
+  },
+  "browser-qa": {
+    "name": "browser-qa",
+    "type": "skill",
+    "title": "Browser QA",
+    "description": "Browser-based QA testing skill for automated end-to-end testing.",
+    "origin": "everything-claude-code"
+  },
+  "canary-watch": {
+    "name": "canary-watch",
+    "type": "skill",
+    "title": "Canary Watch",
+    "description": "Canary deployment monitoring skill for real-time monitoring of new version deployments.",
+    "origin": "everything-claude-code"
+  },
+  "design-system": {
+    "name": "design-system",
+    "type": "skill",
+    "title": "Design System",
+    "description": "Design system consistency checking skill for ensuring UI components follow design specifications.",
+    "origin": "everything-claude-code"
+  },
+  "product-lens": {
+    "name": "product-lens",
+    "type": "skill",
+    "title": "Product Lens",
+    "description": "Product perspective analysis skill for reviewing code changes from user and business angles.",
+    "origin": "everything-claude-code"
+  },
+  "safety-guard": {
+    "name": "safety-guard",
+    "type": "skill",
+    "title": "Safety Guard",
+    "description": "Safety guard skill for blocking dangerous operations and verifying change safety.",
+    "origin": "everything-claude-code"
+  },
+    "writing-hookify-rules": {
+    "name": "writing-hookify-rules",
+    "type": "skill",
+    "title": "Writing Hookify Rules",
+    "description": "Rules to hooks skill for converting rules into executable hooks.",
+    "origin": "hookify"
+  },
+
 };

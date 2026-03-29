@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>browser-qa - Browser QA</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 20px; padding: 50px; margin-bottom: 40px; position: relative; overflow: hidden; }
+        .detail-header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%); pointer-events: none; }
+        .detail-icon { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #3b82f6; margin-bottom: 20px; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(59, 130, 246, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-icon svg { width: 20px; height: 20px; fill: white; }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+        .code-block { background: #1e1e3f; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); overflow-x: auto; }
+        pre { margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .tip-card { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 12px; padding: 20px; }
+        .tip-number { width: 30px; height: 30px; background: #3b82f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .tip-text { font-size: 15px; color: rgba(255, 255, 255, 0.8); }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb"><a href="../../index.html">首页</a> / <a href="../skills.html">Skills</a> / <span>browser-qa</span></nav>
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+            <h1 class="detail-title">browser-qa</h1>
+            <p class="detail-subtitle">浏览器QA测试技能，自动化端到端浏览器测试</p>
+            <div class="detail-badge">类型: Testing Skill</div>
+        </header>
+        <section class="section-card">
+            <h2 class="section-title">实现效果</h2>
+            <div class="section-content">
+                <p>浏览器QA测试技能，通过Chrome DevTools MCP进行自动化端到端测试。验证用户界面、交互流程和跨浏览器兼容性。</p>
+                <div class="feature-list">
+                    <li><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div class="feature-content"><h4 class="feature-title">自动化交互测试</h4><p class="feature-desc">模拟用户点击、输入、导航等交互行为</p></div></li>
+                    <li><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div><div class="feature-content"><h4 class="feature-title">截图与快照</h4><p class="feature-desc">自动捕获测试过程截图，便于问题定位</p></div></li>
+                </div>
+            </div>
+        </section>
+        <section class="section-card">
+            <h2 class="section-title">使用方法</h2>
+            <div class="code-block"><pre><code>// 运行浏览器QA测试
+/e2e --browser chrome
+
+// Playwright测试示例
+test('用户登录', async ({ page }) => {
+  await page.goto('/login')
+  await page.fill('[name="email"]', 'user@test.com')
+  await page.click('button[type="submit"]')
+})</code></pre></div>
+        </section>
+    </div>
+</body>
+</html>

@@ -134,7 +134,43 @@ const SKILL_CHINESE_DESCRIPTIONS = {
     'returns-reverse-logistics': '退货逆向物流，售后退货处理',
     'visa-doc-translate': '签证文档翻译，出入境文件处理',
     'ralphinho-rfc-pipeline': 'Ralphinho RFC管道，需求文档自动化',
-    'project-guidelines-example': '项目指南示例，项目规范模板'
+    'project-guidelines-example': '项目指南示例，项目规范模板',
+
+    // MCP/插件开发相关
+    'frontend-design': '前端设计技能，创建独特的生产级前端界面',
+    'skill-creator': '技能创建器，创建和迭代改进新的技能模块',
+    'claude-md-improver': 'CLAUDE.md改进器，审计和优化CLAUDE.md文件',
+    'command-development': '命令开发技能，创建Claude Code自定义命令',
+    'skill-development': '技能开发技能，创建有效的Claude Code技能',
+    'build-mcp-app': 'MCP应用构建，构建带UI资源的MCP服务器',
+    'build-mcp-server': 'MCP服务器构建，设计和构建MCP协议服务器',
+    'build-mcpb': 'MCPB打包，将MCP服务器打包为独立可执行文件',
+    'playground': '交互式演练场，自包含HTML交互式演示文件',
+    'agent-eval': '代理评估工具，对比编码代理性能的CLI工具',
+    'context-budget': '上下文预算分析，分析Claude会话的token开销',
+    'rules-distill': '规则蒸馏，从已安装技能中提取通用原则',
+    'skill-comply': '技能合规检查，验证代理是否遵循技能和规则',
+
+    // Chrome DevTools相关
+    'a11y-debugging': '无障碍调试，使用Chrome DevTools进行可访问性检查',
+    'chrome-devtools': 'Chrome DevTools集成，浏览器自动化和性能分析',
+    'debug-optimize-lcp': 'LCP优化调试，优化最大内容绘制性能',
+    'troubleshooting': '故障排查技能，系统化诊断和解决问题',
+
+    // 钩子和规则
+    'hook-development': '钩子开发技能，创建Claude Code生命周期钩子',
+    'writing-rules': '规则编写技能，编写Claude Code行为规则',
+
+    // Plugin子技能 (everything-claude-code)
+    'benchmark': '性能基准测试，评估和比较AI代理性能',
+    'browser-qa': '浏览器QA测试，自动化端到端浏览器测试',
+    'canary-watch': '金丝雀发布监控，实时监测新版本部署状态',
+    'design-system': '设计系统一致性检查，确保UI组件符合设计规范',
+    'product-lens': '产品视角分析，从用户和业务角度审视代码变更',
+    'safety-guard': '安全防护技能，阻止危险操作并验证变更安全性',
+
+    // Plugin子技能 (hookify)
+    'writing-hookify-rules': '规则转钩子技能，将规则转换为可执行的钩子',
 };
 
 // 获取技能的中文描述

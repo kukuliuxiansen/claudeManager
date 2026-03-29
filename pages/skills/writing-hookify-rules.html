@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>skill-stocktake -/title>
+    <title>writing-hookify-rules - Hookify Plugin</title>
     <link rel="stylesheet" href="../../styles/shared.css">
     <style>
         .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
-        .detail-header { background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 20px; padding: 50px; margin-bottom: 40px; position: relative; overflow: hidden; }
+        .detail-header { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); border-radius: 20px; padding: 50px; margin-bottom: 40px; position: relative; overflow: hidden; }
         .detail-header::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%); pointer-events: none; }
         .detail-icon { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; backdrop-filter: blur(10px); }
         .detail-icon svg { width: 40px; height: 40px; fill: white; }
@@ -15,11 +15,11 @@
         .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
         .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.9); }
         .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 600; color: #10b981; margin-bottom: 20px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #6366f1; margin-bottom: 20px; }
         .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
         .feature-list { list-style: none; padding: 0; margin: 0; }
-        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(16, 185, 129, 0.15); display: flex; align-items: flex-start; gap: 15px; }
-        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature-list li { padding: 15px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(99, 102, 241, 0.15); display: flex; align-items: flex-start; gap: 15px; }
+        .feature-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #6366f1, #4f46e5); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .feature-icon svg { width: 20px; height: 20px; fill: white; }
         .feature-content { flex: 1; }
         .feature-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 5px; }
@@ -29,31 +29,31 @@
     </style>
 </head>
 <body>
-    <nav class="breadcrumb"><a href="../../index.html">首页</a> / <a href="../skills.html">Skills</a> / <span>skill-stocktake</span></nav>
+    <nav class="breadcrumb"><a href="../../index.html">首页</a> / <a href="../skills.html">Skills</a> / <span>writing-hookify-rules</span></nav>
     <div class="detail-container">
         <header class="detail-header">
-            <div class="detail-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg></div>
-            <h1 class="detail-title">skill-stocktake</h1>
-            <p class="detail-subtitle">技能盘点审计技能，审计和整理现有技能库</p>
-            <div class="detail-badge">类型: Testing Skill</div>
+            <div class="detail-icon"><svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg></div>
+            <h1 class="detail-title">writing-hookify-rules</h1>
+            <p class="detail-subtitle">规则转钩子技能，将规则转换为可执行的钩子</p>
+            <div class="detail-badge">类型: Plugin Skill · 来源: hookify</div>
         </header>
         <section class="section-card">
             <h2 class="section-title">实现效果</h2>
             <div class="section-content">
-                <p>技能盘点审计技能，全面审计已安装的技能模块，分析使用频率、依赖关系和优化建议。</p>
+                <p>规则转钩子技能，将自然语言规则转换为可执行的Claude Code钩子脚本。支持PreToolUse、PostToolUse、Stop等钩子类型。</p>
                 <div class="feature-list">
-                    <li><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg></div><div class="feature-content"><h4 class="feature-title">技能清单生成</h4><p class="feature-desc">列出所有已安装技能及其元数据</p></div></li>
-                    <li><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div class="feature-content"><h4 class="feature-title">使用分析</h4><p class="feature-desc">分析技能使用频率和效果</p></div></li>
+                    <li><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4z"/></svg></div><div class="feature-content"><h4 class="feature-title">规则解析</h4><p class="feature-desc">解析自然语言规则，提取条件和动作</p></div></li>
+                    <li><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div class="feature-content"><h4 class="feature-title">钩子生成</h4><p class="feature-desc">生成可执行的钩子脚本代码</p></div></li>
                 </div>
             </div>
         </section>
         <section class="section-card">
             <h2 class="section-title">使用方法</h2>
-            <div class="code-block"><pre><code>// 执行技能盘点
-/skill-stocktake
+            <div class="code-block"><pre><code>// 转换规则为钩子
+/hookify "禁止在测试文件中使用console.log"
 
-// 生成审计报告
-skill-stocktake --report markdown</code></pre></div>
+// 生成钩子脚本
+hookify generate --rule "no-console-in-tests" --type PostToolUse</code></pre></div>
         </section>
     </div>
 </body>
