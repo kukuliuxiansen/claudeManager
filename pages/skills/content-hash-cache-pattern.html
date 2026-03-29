@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内容哈希缓存模式 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">内容哈希缓存模式</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">内容哈希缓存模式</h1>
+            <p class="detail-subtitle">内容哈希缓存模式，缓存策略</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Building file processing pipelines (PDF, images, text extraction)
+- Processing cost is high and same files are processed repeatedly
+- Need a `--cache/--no-cache` CLI option
+- Want to add caching to existing pure functions without modifying them</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Pattern
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### 1. Content-Hash Based Cache Key
+
+Use file content (not path) as the cache key:
+
+```python
+import hashlib
+from pathlib import Path
+
+_HASH_CHUNK_SIZE = 65536  # 64KB chunks for large files
+
+def compute_file_hash(path: Path) -&gt; str:
+    &quot;&quot;&quot;SHA-256 of file contents (chunked for large files).&quot;&quot;&quot;
+    if not path.is_file():
+        raise FileNotFoundError(f&quot;File not found: {path}&quot;)
+    sha256 = hashlib.sha256()
+    with open(path, &quot;rb&quot;) as f:
+        while True:
+            chunk = f.read(_HASH_CHUNK_SIZE)
+            if not chunk:
+                break
+            sha256.update(chunk)
+    return sha256.hexdigest()
+```
+
+**Why content hash?** File rename/move = cache hit. Content change = automatic invalidation. No index file needed.
+
+### 2. Frozen Dataclass for Cache Entry
+
+```python
+from dataclasses import dataclass
+
+@dataclass(frozen=True, slots=True)
+class CacheEntry:
+    file_hash: str
+    source_path: str
+    document: ExtractedDocument  # The cached result
+```
+
+### 3. File-Based Cache Storage
+
+Each cache entry is stored as `{hash}.json` — O(1) lookup by hash, no index file required.
+
+```python
+import json
+from typing import Any
+
+def write_cache(cache_dir: Path, entry: CacheEntry) -&gt; None:
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    cache_file = cache_dir / f&quot;{entry.file_hash}.json&quot;
+    data = serialize_entry(entry)
+    cache_file.write_text(json.dumps(data, ensure_ascii=False), encoding=&quot;utf-8&quot;)
+
+def read_cache(cache_dir: Path, file_hash: str) -&gt; CacheEntry | None:
+    cache_file = cache_dir / f&quot;{file_hash}.json&quot;
+    if not cache_file.is_file():
+        return None
+    try:
+        raw = cache_file.read_text(encoding=&quot;utf-8&quot;)
+        data = json.loads(raw)
+        return deserialize_entry(data)
+    except (json.JSONDecodeError, ValueError, KeyError):
+        return None  # Treat corruption as cache miss
+```
+
+### 4. Service Layer Wrapper (SRP)
+
+Keep the processing function pure. Add caching as a separate service layer.
+
+```python
+def extract_with_cache(
+    file_path: Path,
+    *,
+    cache_enabled: bool = True,
+    cache_dir: Path = Path(&quot;.cache&quot;),
+) -&gt; ExtractedDocument:
+    &quot;&quot;&quot;Service layer: cache check -&gt; extraction -&gt; cache write.&quot;&quot;&quot;
+    if not cache_enabled:
+        return extract_text(file_path)  # Pure function, no cache knowledge
+
+    file_hash = compute_file_hash(file_path)
+
+    # Check cache
+    cached = read_cache(cache_dir, file_hash)
+    if cached is not None:
+        logger.info(&quot;Cache hit: %s (hash=%s)&quot;, file_path.name, file_hash[:12])
+        return cached.document
+
+    # Cache miss -&gt; extract -&gt; store
+    logger.info(&quot;Cache miss: %s (hash=%s)&quot;, file_path.name, file_hash[:12])
+    doc = extract_text(file_path)
+    entry = CacheEntry(file_hash=file_hash, source_path=str(file_path), document=doc)
+    write_cache(cache_dir, entry)
+    return doc
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Key Design Decisions
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Decision | Rationale |
+|----------|-----------|
+| SHA-256 content hash | Path-independent, auto-invalidates on content change |
+| `{hash}.json` file naming | O(1) lookup, no index file needed |
+| Service layer wrapper | SRP: extraction stays pure, cache is a separate concern |
+| Manual JSON serialization | Full control over frozen dataclass serialization |
+| Corruption returns `None` | Graceful degradation, re-processes on next run |
+| `cache_dir.mkdir(parents=True)` | Lazy directory creation on first write |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                最佳实践
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- **Hash content, not paths** — paths change, content identity doesn&#039;t
+- **Chunk large files** when hashing — avoid loading entire files into memory
+- **Keep processing functions pure** — they should know nothing about caching
+- **Log cache hit/miss** with truncated hashes for debugging
+- **Handle corruption gracefully** — treat invalid cache entries as misses, never crash</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Anti-Patterns to Avoid
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```python
+# BAD: Path-based caching (breaks on file move/rename)
+cache = {&quot;/path/to/file.pdf&quot;: result}
+
+# BAD: Adding cache logic inside the processing function (SRP violation)
+def extract_text(path, *, cache_enabled=False, cache_dir=None):
+    if cache_enabled:  # Now this function has two responsibilities
+        ...
+
+# BAD: Using dataclasses.asdict() with nested frozen dataclasses
+# (can cause issues with complex nested types)
+data = dataclasses.asdict(entry)  # Use manual serialization instead
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                何时使用
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- File processing pipelines (PDF parsing, OCR, text extraction, image analysis)
+- CLI tools that benefit from `--cache/--no-cache` options
+- Batch processing where the same files appear across runs
+- Adding caching to existing pure functions without modifying them</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When NOT to Use
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Data that must always be fresh (real-time feeds)
+- Cache entries that would be extremely large (consider streaming instead)
+- Results that depend on parameters beyond file content (e.g., different extraction configs)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: content-hash-cache-pattern
+description: Cache expensive file processing results using SHA-256 content hashes — path-independent, auto-invalidating, with service layer separation.
+origin: ECC
+---
+
+# Content-Hash File Cache Pattern
+
+Cache expensive file processing results (PDF parsing, text extraction, image analysis) using SHA-256 content hashes as cache keys. Unlike path-based caching, this approach survives file moves/renames and auto-invalidates when content changes.
+
+## When to Activate
+
+- Building file processing pipelines (PDF, images, text extraction)
+- Processing cost is high and same files are processed repeatedly
+- Need a `--cache/--no-cache` CLI option
+- Want to add caching to existing pure functions without modifying them
+
+## Core Pattern
+
+### 1. Content-Hash Based Cache Key
+
+Use file content (not path) as the cache key:
+
+```python
+import hashlib
+from pathlib import Path
+
+_HASH_CHUNK_SIZE = 65536  # 64KB chunks for large files
+
+def compute_file_hash(path: Path) -&gt; str:
+    &quot;&quot;&quot;SHA-256 of file contents (chunked for large files).&quot;&quot;&quot;
+    if not path.is_file():
+        raise FileNotFoundError(f&quot;File not found: {path}&quot;)
+    sha256 = hashlib.sha256()
+    with open(path, &quot;rb&quot;) as f:
+        while True:
+            chunk = f.read(_HASH_CHUNK_SIZE)
+            if not chunk:
+                break
+            sha256.update(chunk)
+    return sha256.hexdigest()
+```
+
+**Why content hash?** File rename/move = cache hit. Content change = automatic invalidation. No index file needed.
+
+### 2. Frozen Dataclass for Cache Entry
+
+```python
+from dataclasses import dataclass
+
+@dataclass(frozen=True, slots=True)
+class CacheEntry:
+    file_hash: str
+    source_path: str
+    document: ExtractedDocument  # The cached result
+```
+
+### 3. File-Based Cache Storage
+
+Each cache entry is stored as `{hash}.json` — O(1) lookup by hash, no index file required.
+
+```python
+import json
+from typing import Any
+
+def write_cache(cache_dir: Path, entry: CacheEntry) -&gt; None:
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    cache_file = cache_dir / f&quot;{entry.file_hash}.json&quot;
+    data = serialize_entry(entry)
+    cache_file.write_text(json.dumps(data, ensure_ascii=False), encoding=&quot;utf-8&quot;)
+
+def read_cache(cache_dir: Path, file_hash: str) -&gt; CacheEntry | None:
+    cache_file = cache_dir / f&quot;{file_hash}.json&quot;
+    if not cache_file.is_file():
+        return None
+    try:
+        raw = cache_file.read_text(encoding=&quot;utf-8&quot;)
+        data = json.loads(raw)
+        return deserialize_entry(data)
+    except (json.JSONDecodeError, ValueError, KeyError):
+        return None  # Treat corruption as cache miss
+```
+
+### 4. Service Layer Wrapper (SRP)
+
+Keep the processing function pure. Add caching as a separate service layer.
+
+```python
+def extract_with_cache(
+    file_path: Path,
+    *,
+    cache_enabled: bool = True,
+    cache_dir: Path = Path(&quot;.cache&quot;),
+) -&gt; ExtractedDocument:
+    &quot;&quot;&quot;Service layer: cache check -&gt; extraction -&gt; cache write.&quot;&quot;&quot;
+    if not cache_enabled:
+        return extract_text(file_path)  # Pure function, no cache knowledge
+
+    file_hash = compute_file_hash(file_path)
+
+    # Check cache
+    cached = read_cache(cache_dir, file_hash)
+    if cached is not None:
+        logger.info(&quot;Cache hit: %s (hash=%s)&quot;, file_path.name, file_hash[:12])
+        return cached.document
+
+    # Cache miss -&gt; extract -&gt; store
+    logger.info(&quot;Cache miss: %s (hash=%s)&quot;, file_path.name, file_hash[:12])
+    doc = extract_text(file_path)
+    entry = CacheEntry(file_hash=file_hash, source_path=str(file_path), document=doc)
+    write_cache(cache_dir, entry)
+    return doc
+```
+
+## Key Design Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| SHA-256 content hash | Path-independent, auto-invalidates on content change |
+| `{hash}.json` file naming | O(1) lookup, no index file needed |
+| Service layer wrapper | SRP: extraction stays pure, cache is a separate concern |
+| Manual JSON serialization | Full control over frozen dataclass serialization |
+| Corruption returns `None` | Graceful degradation, re-processes on next run |
+| `cache_dir.mkdir(parents=True)` | Lazy directory creation on first write |
+
+## Best Practices
+
+- **Hash content, not paths** — paths change, content identity doesn&#039;t
+- **Chunk large files** when hashing — avoid loading entire files into memory
+- **Keep processing functions pure** — they should know nothing about caching
+- **Log cache hit/miss** with truncated hashes for debugging
+- **Handle corruption gracefully** — treat invalid cache entries as misses, never crash
+
+## Anti-Patterns to Avoid
+
+```python
+# BAD: Path-based caching (breaks on file move/rename)
+cache = {&quot;/path/to/file.pdf&quot;: result}
+
+# BAD: Adding cache logic inside the processing function (SRP violation)
+def extract_text(path, *, cache_enabled=False, cache_dir=None):
+    if cache_enabled:  # Now this function has two responsibilities
+        ...
+
+# BAD: Using dataclasses.asdict() with nested frozen dataclasses
+# (can cause issues with complex nested types)
+data = dataclasses.asdict(entry)  # Use manual serialization instead
+```
+
+## When to Use
+
+- File processing pipelines (PDF parsing, OCR, text extraction, image analysis)
+- CLI tools that benefit from `--cache/--no-cache` options
+- Batch processing where the same files appear across runs
+- Adding caching to existing pure functions without modifying them
+
+## When NOT to Use
+
+- Data that must always be fresh (real-time feeds)
+- Cache entries that would be extremely large (consider streaming instead)
+- Results that depend on parameters beyond file content (e.g., different extraction configs)
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

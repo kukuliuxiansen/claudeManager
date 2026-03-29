@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API设计模式 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">API设计模式</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">API设计模式</h1>
+            <p class="detail-subtitle">API设计模式和最佳实践，确保API的一致性、可维护性和可扩展性</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    local
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">local</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Designing new API endpoints
+- Reviewing existing API contracts
+- Adding pagination, filtering, or sorting
+- Implementing error handling for APIs
+- Planning API versioning strategy
+- Building public or partner-facing APIs</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Resource Design
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### URL Structure
+
+```
+# Resources are nouns, plural, lowercase, kebab-case
+GET    /api/v1/users
+GET    /api/v1/users/:id
+POST   /api/v1/users
+PUT    /api/v1/users/:id
+PATCH  /api/v1/users/:id
+DELETE /api/v1/users/:id
+
+# Sub-resources for relationships
+GET    /api/v1/users/:id/orders
+POST   /api/v1/users/:id/orders
+
+# Actions that don&#039;t map to CRUD (use verbs sparingly)
+POST   /api/v1/orders/:id/cancel
+POST   /api/v1/auth/login
+POST   /api/v1/auth/refresh
+```
+
+### Naming Rules
+
+```
+# GOOD
+/api/v1/team-members          # kebab-case for multi-word resources
+/api/v1/orders?status=active  # query params for filtering
+/api/v1/users/123/orders      # nested resources for ownership
+
+# BAD
+/api/v1/getUsers              # verb in URL
+/api/v1/user                  # singular (use plural)
+/api/v1/team_members          # snake_case in URLs
+/api/v1/users/123/getOrders   # verb in nested resource
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                HTTP Methods and Status Codes
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Method Semantics
+
+| Method | Idempotent | Safe | Use For |
+|--------|-----------|------|---------|
+| GET | Yes | Yes | Retrieve resources |
+| POST | No | No | Create resources, trigger actions |
+| PUT | Yes | No | Full replacement of a resource |
+| PATCH | No* | No | Partial update of a resource |
+| DELETE | Yes | No | Remove a resource |
+
+*PATCH can be made idempotent with proper implementation
+
+### Status Code Reference
+
+```
+# Success
+200 OK                    — GET, PUT, PATCH (with response body)
+201 Created               — POST (include Location header)
+204 No Content            — DELETE, PUT (no response body)
+
+# Client Errors
+400 Bad Request           — Validation failure, malformed JSON
+401 Unauthorized          — Missing or invalid authentication
+403 Forbidden             — Authenticated but not authorized
+404 Not Found             — Resource doesn&#039;t exist
+409 Conflict              — Duplicate entry, state conflict
+422 Unprocessable Entity  — Semantically invalid (valid JSON, bad data)
+429 Too Many Requests     — Rate limit exceeded
+
+# Server Errors
+500 Internal Server Error — Unexpected failure (never expose details)
+502 Bad Gateway           — Upstream service failed
+503 Service Unavailable   — Temporary overload, include Retry-After
+```
+
+### Common Mistakes
+
+```
+# BAD: 200 for everything
+{ &quot;status&quot;: 200, &quot;success&quot;: false, &quot;error&quot;: &quot;Not found&quot; }
+
+# GOOD: Use HTTP status codes semantically
+HTTP/1.1 404 Not Found
+{ &quot;error&quot;: { &quot;code&quot;: &quot;not_found&quot;, &quot;message&quot;: &quot;User not found&quot; } }
+
+# BAD: 500 for validation errors
+# GOOD: 400 or 422 with field-level details
+
+# BAD: 200 for created resources
+# GOOD: 201 with Location header
+HTTP/1.1 201 Created
+Location: /api/v1/users/abc-123
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Response Format
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Success Response
+
+```json
+{
+  &quot;data&quot;: {
+    &quot;id&quot;: &quot;abc-123&quot;,
+    &quot;email&quot;: &quot;alice@example.com&quot;,
+    &quot;name&quot;: &quot;Alice&quot;,
+    &quot;created_at&quot;: &quot;2025-01-15T10:30:00Z&quot;
+  }
+}
+```
+
+### Collection Response (with Pagination)
+
+```json
+{
+  &quot;data&quot;: [
+    { &quot;id&quot;: &quot;abc-123&quot;, &quot;name&quot;: &quot;Alice&quot; },
+    { &quot;id&quot;: &quot;def-456&quot;, &quot;name&quot;: &quot;Bob&quot; }
+  ],
+  &quot;meta&quot;: {
+    &quot;total&quot;: 142,
+    &quot;page&quot;: 1,
+    &quot;per_page&quot;: 20,
+    &quot;total_pages&quot;: 8
+  },
+  &quot;links&quot;: {
+    &quot;self&quot;: &quot;/api/v1/users?page=1&amp;per_page=20&quot;,
+    &quot;next&quot;: &quot;/api/v1/users?page=2&amp;per_page=20&quot;,
+    &quot;last&quot;: &quot;/api/v1/users?page=8&amp;per_page=20&quot;
+  }
+}
+```
+
+### Error Response
+
+```json
+{
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;validation_error&quot;,
+    &quot;message&quot;: &quot;Request validation failed&quot;,
+    &quot;details&quot;: [
+      {
+        &quot;field&quot;: &quot;email&quot;,
+        &quot;message&quot;: &quot;Must be a valid email address&quot;,
+        &quot;code&quot;: &quot;invalid_format&quot;
+      },
+      {
+        &quot;field&quot;: &quot;age&quot;,
+        &quot;message&quot;: &quot;Must be between 0 and 150&quot;,
+        &quot;code&quot;: &quot;out_of_range&quot;
+      }
+    ]
+  }
+}
+```
+
+### Response Envelope Variants
+
+```typescript
+// Option A: Envelope with data wrapper (recommended for public APIs)
+interface ApiResponse&lt;T&gt; {
+  data: T;
+  meta?: PaginationMeta;
+  links?: PaginationLinks;
+}
+
+interface ApiError {
+  error: {
+    code: string;
+    message: string;
+    details?: FieldError[];
+  };
+}
+
+// Option B: Flat response (simpler, common for internal APIs)
+// Success: just return the resource directly
+// Error: return error object
+// Distinguish by HTTP status code
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Pagination
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Offset-Based (Simple)
+
+```
+GET /api/v1/users?page=2&amp;per_page=20
+
+# Implementation
+SELECT * FROM users
+ORDER BY created_at DESC
+LIMIT 20 OFFSET 20;
+```
+
+**Pros:** Easy to implement, supports &quot;jump to page N&quot;
+**Cons:** Slow on large offsets (OFFSET 100000), inconsistent with concurrent inserts
+
+### Cursor-Based (Scalable)
+
+```
+GET /api/v1/users?cursor=eyJpZCI6MTIzfQ&amp;limit=20
+
+# Implementation
+SELECT * FROM users
+WHERE id &gt; :cursor_id
+ORDER BY id ASC
+LIMIT 21;  -- fetch one extra to determine has_next
+```
+
+```json
+{
+  &quot;data&quot;: [...],
+  &quot;meta&quot;: {
+    &quot;has_next&quot;: true,
+    &quot;next_cursor&quot;: &quot;eyJpZCI6MTQzfQ&quot;
+  }
+}
+```
+
+**Pros:** Consistent performance regardless of position, stable with concurrent inserts
+**Cons:** Cannot jump to arbitrary page, cursor is opaque
+
+### When to Use Which
+
+| Use Case | Pagination Type |
+|----------|----------------|
+| Admin dashboards, small datasets (&lt;10K) | Offset |
+| Infinite scroll, feeds, large datasets | Cursor |
+| Public APIs | Cursor (default) with offset (optional) |
+| Search results | Offset (users expect page numbers) |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Filtering, Sorting, and Search
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Filtering
+
+```
+# Simple equality
+GET /api/v1/orders?status=active&amp;customer_id=abc-123
+
+# Comparison operators (use bracket notation)
+GET /api/v1/products?price[gte]=10&amp;price[lte]=100
+GET /api/v1/orders?created_at[after]=2025-01-01
+
+# Multiple values (comma-separated)
+GET /api/v1/products?category=electronics,clothing
+
+# Nested fields (dot notation)
+GET /api/v1/orders?customer.country=US
+```
+
+### Sorting
+
+```
+# Single field (prefix - for descending)
+GET /api/v1/products?sort=-created_at
+
+# Multiple fields (comma-separated)
+GET /api/v1/products?sort=-featured,price,-created_at
+```
+
+### Full-Text Search
+
+```
+# Search query parameter
+GET /api/v1/products?q=wireless+headphones
+
+# Field-specific search
+GET /api/v1/users?email=alice
+```
+
+### Sparse Fieldsets
+
+```
+# Return only specified fields (reduces payload)
+GET /api/v1/users?fields=id,name,email
+GET /api/v1/orders?fields=id,total,status&amp;include=customer.name
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Authentication and Authorization
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Token-Based Auth
+
+```
+# Bearer token in Authorization header
+GET /api/v1/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+
+# API key (for server-to-server)
+GET /api/v1/data
+X-API-Key: sk_live_abc123
+```
+
+### Authorization Patterns
+
+```typescript
+// Resource-level: check ownership
+app.get(&quot;/api/v1/orders/:id&quot;, async (req, res) =&gt; {
+  const order = await Order.findById(req.params.id);
+  if (!order) return res.status(404).json({ error: { code: &quot;not_found&quot; } });
+  if (order.userId !== req.user.id) return res.status(403).json({ error: { code: &quot;forbidden&quot; } });
+  return res.json({ data: order });
+});
+
+// Role-based: check permissions
+app.delete(&quot;/api/v1/users/:id&quot;, requireRole(&quot;admin&quot;), async (req, res) =&gt; {
+  await User.delete(req.params.id);
+  return res.status(204).send();
+});
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Rate Limiting
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Headers
+
+```
+HTTP/1.1 200 OK
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1640000000
+
+# When exceeded
+HTTP/1.1 429 Too Many Requests
+Retry-After: 60
+{
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;rate_limit_exceeded&quot;,
+    &quot;message&quot;: &quot;Rate limit exceeded. Try again in 60 seconds.&quot;
+  }
+}
+```
+
+### Rate Limit Tiers
+
+| Tier | Limit | Window | Use Case |
+|------|-------|--------|----------|
+| Anonymous | 30/min | Per IP | Public endpoints |
+| Authenticated | 100/min | Per user | Standard API access |
+| Premium | 1000/min | Per API key | Paid API plans |
+| Internal | 10000/min | Per service | Service-to-service |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Versioning
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### URL Path Versioning (Recommended)
+
+```
+/api/v1/users
+/api/v2/users
+```
+
+**Pros:** Explicit, easy to route, cacheable
+**Cons:** URL changes between versions
+
+### Header Versioning
+
+```
+GET /api/users
+Accept: application/vnd.myapp.v2+json
+```
+
+**Pros:** Clean URLs
+**Cons:** Harder to test, easy to forget
+
+### Versioning Strategy
+
+```
+1. Start with /api/v1/ — don&#039;t version until you need to
+2. Maintain at most 2 active versions (current + previous)
+3. Deprecation timeline:
+   - Announce deprecation (6 months notice for public APIs)
+   - Add Sunset header: Sunset: Sat, 01 Jan 2026 00:00:00 GMT
+   - Return 410 Gone after sunset date
+4. Non-breaking changes don&#039;t need a new version:
+   - Adding new fields to responses
+   - Adding new optional query parameters
+   - Adding new endpoints
+5. Breaking changes require a new version:
+   - Removing or renaming fields
+   - Changing field types
+   - Changing URL structure
+   - Changing authentication method
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Implementation Patterns
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### TypeScript (Next.js API Route)
+
+```typescript
+import { z } from &quot;zod&quot;;
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+
+const createUserSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1).max(100),
+});
+
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const parsed = createUserSchema.safeParse(body);
+
+  if (!parsed.success) {
+    return NextResponse.json({
+      error: {
+        code: &quot;validation_error&quot;,
+        message: &quot;Request validation failed&quot;,
+        details: parsed.error.issues.map(i =&gt; ({
+          field: i.path.join(&quot;.&quot;),
+          message: i.message,
+          code: i.code,
+        })),
+      },
+    }, { status: 422 });
+  }
+
+  const user = await createUser(parsed.data);
+
+  return NextResponse.json(
+    { data: user },
+    {
+      status: 201,
+      headers: { Location: `/api/v1/users/${user.id}` },
+    },
+  );
+}
+```
+
+### Python (Django REST Framework)
+
+```python
+from rest_framework import serializers, viewsets, status
+from rest_framework.response import Response
+
+class CreateUserSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    name = serializers.CharField(max_length=100)
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [&quot;id&quot;, &quot;email&quot;, &quot;name&quot;, &quot;created_at&quot;]
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.action == &quot;create&quot;:
+            return CreateUserSerializer
+        return UserSerializer
+
+    def create(self, request):
+        serializer = CreateUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = UserService.create(**serializer.validated_data)
+        return Response(
+            {&quot;data&quot;: UserSerializer(user).data},
+            status=status.HTTP_201_CREATED,
+            headers={&quot;Location&quot;: f&quot;/api/v1/users/{user.id}&quot;},
+        )
+```
+
+### Go (net/http)
+
+```go
+func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
+    var req CreateUserRequest
+    if err := json.NewDecoder(r.Body).Decode(&amp;req); err != nil {
+        writeError(w, http.StatusBadRequest, &quot;invalid_json&quot;, &quot;Invalid request body&quot;)
+        return
+    }
+
+    if err := req.Validate(); err != nil {
+        writeError(w, http.StatusUnprocessableEntity, &quot;validation_error&quot;, err.Error())
+        return
+    }
+
+    user, err := h.service.Create(r.Context(), req)
+    if err != nil {
+        switch {
+        case errors.Is(err, domain.ErrEmailTaken):
+            writeError(w, http.StatusConflict, &quot;email_taken&quot;, &quot;Email already registered&quot;)
+        default:
+            writeError(w, http.StatusInternalServerError, &quot;internal_error&quot;, &quot;Internal error&quot;)
+        }
+        return
+    }
+
+    w.Header().Set(&quot;Location&quot;, fmt.Sprintf(&quot;/api/v1/users/%s&quot;, user.ID))
+    writeJSON(w, http.StatusCreated, map[string]any{&quot;data&quot;: user})
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                API Design Checklist
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Before shipping a new endpoint:
+
+- [ ] Resource URL follows naming conventions (plural, kebab-case, no verbs)
+- [ ] Correct HTTP method used (GET for reads, POST for creates, etc.)
+- [ ] Appropriate status codes returned (not 200 for everything)
+- [ ] Input validated with schema (Zod, Pydantic, Bean Validation)
+- [ ] Error responses follow standard format with codes and messages
+- [ ] Pagination implemented for list endpoints (cursor or offset)
+- [ ] Authentication required (or explicitly marked as public)
+- [ ] Authorization checked (user can only access their own resources)
+- [ ] Rate limiting configured
+- [ ] Response does not leak internal details (stack traces, SQL errors)
+- [ ] Consistent naming with existing endpoints (camelCase vs snake_case)
+- [ ] Documented (OpenAPI/Swagger spec updated)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: api-design
+description: REST API design patterns including resource naming, status codes, pagination, filtering, error responses, versioning, and rate limiting for production APIs.
+origin: ECC
+---
+
+# API Design Patterns
+
+Conventions and best practices for designing consistent, developer-friendly REST APIs.
+
+## When to Activate
+
+- Designing new API endpoints
+- Reviewing existing API contracts
+- Adding pagination, filtering, or sorting
+- Implementing error handling for APIs
+- Planning API versioning strategy
+- Building public or partner-facing APIs
+
+## Resource Design
+
+### URL Structure
+
+```
+# Resources are nouns, plural, lowercase, kebab-case
+GET    /api/v1/users
+GET    /api/v1/users/:id
+POST   /api/v1/users
+PUT    /api/v1/users/:id
+PATCH  /api/v1/users/:id
+DELETE /api/v1/users/:id
+
+# Sub-resources for relationships
+GET    /api/v1/users/:id/orders
+POST   /api/v1/users/:id/orders
+
+# Actions that don&#039;t map to CRUD (use verbs sparingly)
+POST   /api/v1/orders/:id/cancel
+POST   /api/v1/auth/login
+POST   /api/v1/auth/refresh
+```
+
+### Naming Rules
+
+```
+# GOOD
+/api/v1/team-members          # kebab-case for multi-word resources
+/api/v1/orders?status=active  # query params for filtering
+/api/v1/users/123/orders      # nested resources for ownership
+
+# BAD
+/api/v1/getUsers              # verb in URL
+/api/v1/user                  # singular (use plural)
+/api/v1/team_members          # snake_case in URLs
+/api/v1/users/123/getOrders   # verb in nested resource
+```
+
+## HTTP Methods and Status Codes
+
+### Method Semantics
+
+| Method | Idempotent | Safe | Use For |
+|--------|-----------|------|---------|
+| GET | Yes | Yes | Retrieve resources |
+| POST | No | No | Create resources, trigger actions |
+| PUT | Yes | No | Full replacement of a resource |
+| PATCH | No* | No | Partial update of a resource |
+| DELETE | Yes | No | Remove a resource |
+
+*PATCH can be made idempotent with proper implementation
+
+### Status Code Reference
+
+```
+# Success
+200 OK                    — GET, PUT, PATCH (with response body)
+201 Created               — POST (include Location header)
+204 No Content            — DELETE, PUT (no response body)
+
+# Client Errors
+400 Bad Request           — Validation failure, malformed JSON
+401 Unauthorized          — Missing or invalid authentication
+403 Forbidden             — Authenticated but not authorized
+404 Not Found             — Resource doesn&#039;t exist
+409 Conflict              — Duplicate entry, state conflict
+422 Unprocessable Entity  — Semantically invalid (valid JSON, bad data)
+429 Too Many Requests     — Rate limit exceeded
+
+# Server Errors
+500 Internal Server Error — Unexpected failure (never expose details)
+502 Bad Gateway           — Upstream service failed
+503 Service Unavailable   — Temporary overload, include Retry-After
+```
+
+### Common Mistakes
+
+```
+# BAD: 200 for everything
+{ &quot;status&quot;: 200, &quot;success&quot;: false, &quot;error&quot;: &quot;Not found&quot; }
+
+# GOOD: Use HTTP status codes semantically
+HTTP/1.1 404 Not Found
+{ &quot;error&quot;: { &quot;code&quot;: &quot;not_found&quot;, &quot;message&quot;: &quot;User not found&quot; } }
+
+# BAD: 500 for validation errors
+# GOOD: 400 or 422 with field-level details
+
+# BAD: 200 for created resources
+# GOOD: 201 with Location header
+HTTP/1.1 201 Created
+Location: /api/v1/users/abc-123
+```
+
+## Response Format
+
+### Success Response
+
+```json
+{
+  &quot;data&quot;: {
+    &quot;id&quot;: &quot;abc-123&quot;,
+    &quot;email&quot;: &quot;alice@example.com&quot;,
+    &quot;name&quot;: &quot;Alice&quot;,
+    &quot;created_at&quot;: &quot;2025-01-15T10:30:00Z&quot;
+  }
+}
+```
+
+### Collection Response (with Pagination)
+
+```json
+{
+  &quot;data&quot;: [
+    { &quot;id&quot;: &quot;abc-123&quot;, &quot;name&quot;: &quot;Alice&quot; },
+    { &quot;id&quot;: &quot;def-456&quot;, &quot;name&quot;: &quot;Bob&quot; }
+  ],
+  &quot;meta&quot;: {
+    &quot;total&quot;: 142,
+    &quot;page&quot;: 1,
+    &quot;per_page&quot;: 20,
+    &quot;total_pages&quot;: 8
+  },
+  &quot;links&quot;: {
+    &quot;self&quot;: &quot;/api/v1/users?page=1&amp;per_page=20&quot;,
+    &quot;next&quot;: &quot;/api/v1/users?page=2&amp;per_page=20&quot;,
+    &quot;last&quot;: &quot;/api/v1/users?page=8&amp;per_page=20&quot;
+  }
+}
+```
+
+### Error Response
+
+```json
+{
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;validation_error&quot;,
+    &quot;message&quot;: &quot;Request validation failed&quot;,
+    &quot;details&quot;: [
+      {
+        &quot;field&quot;: &quot;email&quot;,
+        &quot;message&quot;: &quot;Must be a valid email address&quot;,
+        &quot;code&quot;: &quot;invalid_format&quot;
+      },
+      {
+        &quot;field&quot;: &quot;age&quot;,
+        &quot;message&quot;: &quot;Must be between 0 and 150&quot;,
+        &quot;code&quot;: &quot;out_of_range&quot;
+      }
+    ]
+  }
+}
+```
+
+### Response Envelope Variants
+
+```typescript
+// Option A: Envelope with data wrapper (recommended for public APIs)
+interface ApiResponse&lt;T&gt; {
+  data: T;
+  meta?: PaginationMeta;
+  links?: PaginationLinks;
+}
+
+interface ApiError {
+  error: {
+    code: string;
+    message: string;
+    details?: FieldError[];
+  };
+}
+
+// Option B: Flat response (simpler, common for internal APIs)
+// Success: just return the resource directly
+// Error: return error object
+// Distinguish by HTTP status code
+```
+
+## Pagination
+
+### Offset-Based (Simple)
+
+```
+GET /api/v1/users?page=2&amp;per_page=20
+
+# Implementation
+SELECT * FROM users
+ORDER BY created_at DESC
+LIMIT 20 OFFSET 20;
+```
+
+**Pros:** Easy to implement, supports &quot;jump to page N&quot;
+**Cons:** Slow on large offsets (OFFSET 100000), inconsistent with concurrent inserts
+
+### Cursor-Based (Scalable)
+
+```
+GET /api/v1/users?cursor=eyJpZCI6MTIzfQ&amp;limit=20
+
+# Implementation
+SELECT * FROM users
+WHERE id &gt; :cursor_id
+ORDER BY id ASC
+LIMIT 21;  -- fetch one extra to determine has_next
+```
+
+```json
+{
+  &quot;data&quot;: [...],
+  &quot;meta&quot;: {
+    &quot;has_next&quot;: true,
+    &quot;next_cursor&quot;: &quot;eyJpZCI6MTQzfQ&quot;
+  }
+}
+```
+
+**Pros:** Consistent performance regardless of position, stable with concurrent inserts
+**Cons:** Cannot jump to arbitrary page, cursor is opaque
+
+### When to Use Which
+
+| Use Case | Pagination Type |
+|----------|----------------|
+| Admin dashboards, small datasets (&lt;10K) | Offset |
+| Infinite scroll, feeds, large datasets | Cursor |
+| Public APIs | Cursor (default) with offset (optional) |
+| Search results | Offset (users expect page numbers) |
+
+## Filtering, Sorting, and Search
+
+### Filtering
+
+```
+# Simple equality
+GET /api/v1/orders?status=active&amp;customer_id=abc-123
+
+# Comparison operators (use bracket notation)
+GET /api/v1/products?price[gte]=10&amp;price[lte]=100
+GET /api/v1/orders?created_at[after]=2025-01-01
+
+# Multiple values (comma-separated)
+GET /api/v1/products?category=electronics,clothing
+
+# Nested fields (dot notation)
+GET /api/v1/orders?customer.country=US
+```
+
+### Sorting
+
+```
+# Single field (prefix - for descending)
+GET /api/v1/products?sort=-created_at
+
+# Multiple fields (comma-separated)
+GET /api/v1/products?sort=-featured,price,-created_at
+```
+
+### Full-Text Search
+
+```
+# Search query parameter
+GET /api/v1/products?q=wireless+headphones
+
+# Field-specific search
+GET /api/v1/users?email=alice
+```
+
+### Sparse Fieldsets
+
+```
+# Return only specified fields (reduces payload)
+GET /api/v1/users?fields=id,name,email
+GET /api/v1/orders?fields=id,total,status&amp;include=customer.name
+```
+
+## Authentication and Authorization
+
+### Token-Based Auth
+
+```
+# Bearer token in Authorization header
+GET /api/v1/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+
+# API key (for server-to-server)
+GET /api/v1/data
+X-API-Key: sk_live_abc123
+```
+
+### Authorization Patterns
+
+```typescript
+// Resource-level: check ownership
+app.get(&quot;/api/v1/orders/:id&quot;, async (req, res) =&gt; {
+  const order = await Order.findById(req.params.id);
+  if (!order) return res.status(404).json({ error: { code: &quot;not_found&quot; } });
+  if (order.userId !== req.user.id) return res.status(403).json({ error: { code: &quot;forbidden&quot; } });
+  return res.json({ data: order });
+});
+
+// Role-based: check permissions
+app.delete(&quot;/api/v1/users/:id&quot;, requireRole(&quot;admin&quot;), async (req, res) =&gt; {
+  await User.delete(req.params.id);
+  return res.status(204).send();
+});
+```
+
+## Rate Limiting
+
+### Headers
+
+```
+HTTP/1.1 200 OK
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1640000000
+
+# When exceeded
+HTTP/1.1 429 Too Many Requests
+Retry-After: 60
+{
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;rate_limit_exceeded&quot;,
+    &quot;message&quot;: &quot;Rate limit exceeded. Try again in 60 seconds.&quot;
+  }
+}
+```
+
+### Rate Limit Tiers
+
+| Tier | Limit | Window | Use Case |
+|------|-------|--------|----------|
+| Anonymous | 30/min | Per IP | Public endpoints |
+| Authenticated | 100/min | Per user | Standard API access |
+| Premium | 1000/min | Per API key | Paid API plans |
+| Internal | 10000/min | Per service | Service-to-service |
+
+## Versioning
+
+### URL Path Versioning (Recommended)
+
+```
+/api/v1/users
+/api/v2/users
+```
+
+**Pros:** Explicit, easy to route, cacheable
+**Cons:** URL changes between versions
+
+### Header Versioning
+
+```
+GET /api/users
+Accept: application/vnd.myapp.v2+json
+```
+
+**Pros:** Clean URLs
+**Cons:** Harder to test, easy to forget
+
+### Versioning Strategy
+
+```
+1. Start with /api/v1/ — don&#039;t version until you need to
+2. Maintain at most 2 active versions (current + previous)
+3. Deprecation timeline:
+   - Announce deprecation (6 months notice for public APIs)
+   - Add Sunset header: Sunset: Sat, 01 Jan 2026 00:00:00 GMT
+   - Return 410 Gone after sunset date
+4. Non-breaking changes don&#039;t need a new version:
+   - Adding new fields to responses
+   - Adding new optional query parameters
+   - Adding new endpoints
+5. Breaking changes require a new version:
+   - Removing or renaming fields
+   - Changing field types
+   - Changing URL structure
+   - Changing authentication method
+```
+
+## Implementation Patterns
+
+### TypeScript (Next.js API Route)
+
+```typescript
+import { z } from &quot;zod&quot;;
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+
+const createUserSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1).max(100),
+});
+
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const parsed = createUserSchema.safeParse(body);
+
+  if (!parsed.success) {
+    return NextResponse.json({
+      error: {
+        code: &quot;validation_error&quot;,
+        message: &quot;Request validation failed&quot;,
+        details: parsed.error.issues.map(i =&gt; ({
+          field: i.path.join(&quot;.&quot;),
+          message: i.message,
+          code: i.code,
+        })),
+      },
+    }, { status: 422 });
+  }
+
+  const user = await createUser(parsed.data);
+
+  return NextResponse.json(
+    { data: user },
+    {
+      status: 201,
+      headers: { Location: `/api/v1/users/${user.id}` },
+    },
+  );
+}
+```
+
+### Python (Django REST Framework)
+
+```python
+from rest_framework import serializers, viewsets, status
+from rest_framework.response import Response
+
+class CreateUserSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    name = serializers.CharField(max_length=100)
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [&quot;id&quot;, &quot;email&quot;, &quot;name&quot;, &quot;created_at&quot;]
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.action == &quot;create&quot;:
+            return CreateUserSerializer
+        return UserSerializer
+
+    def create(self, request):
+        serializer = CreateUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = UserService.create(**serializer.validated_data)
+        return Response(
+            {&quot;data&quot;: UserSerializer(user).data},
+            status=status.HTTP_201_CREATED,
+            headers={&quot;Location&quot;: f&quot;/api/v1/users/{user.id}&quot;},
+        )
+```
+
+### Go (net/http)
+
+```go
+func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
+    var req CreateUserRequest
+    if err := json.NewDecoder(r.Body).Decode(&amp;req); err != nil {
+        writeError(w, http.StatusBadRequest, &quot;invalid_json&quot;, &quot;Invalid request body&quot;)
+        return
+    }
+
+    if err := req.Validate(); err != nil {
+        writeError(w, http.StatusUnprocessableEntity, &quot;validation_error&quot;, err.Error())
+        return
+    }
+
+    user, err := h.service.Create(r.Context(), req)
+    if err != nil {
+        switch {
+        case errors.Is(err, domain.ErrEmailTaken):
+            writeError(w, http.StatusConflict, &quot;email_taken&quot;, &quot;Email already registered&quot;)
+        default:
+            writeError(w, http.StatusInternalServerError, &quot;internal_error&quot;, &quot;Internal error&quot;)
+        }
+        return
+    }
+
+    w.Header().Set(&quot;Location&quot;, fmt.Sprintf(&quot;/api/v1/users/%s&quot;, user.ID))
+    writeJSON(w, http.StatusCreated, map[string]any{&quot;data&quot;: user})
+}
+```
+
+## API Design Checklist
+
+Before shipping a new endpoint:
+
+- [ ] Resource URL follows naming conventions (plural, kebab-case, no verbs)
+- [ ] Correct HTTP method used (GET for reads, POST for creates, etc.)
+- [ ] Appropriate status codes returned (not 200 for everything)
+- [ ] Input validated with schema (Zod, Pydantic, Bean Validation)
+- [ ] Error responses follow standard format with codes and messages
+- [ ] Pagination implemented for list endpoints (cursor or offset)
+- [ ] Authentication required (or explicitly marked as public)
+- [ ] Authorization checked (user can only access their own resources)
+- [ ] Rate limiting configured
+- [ ] Response does not leak internal details (stack traces, SQL errors)
+- [ ] Consistent naming with existing endpoints (camelCase vs snake_case)
+- [ ] Documented (OpenAPI/Swagger spec updated)
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

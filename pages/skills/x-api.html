@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X API - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">X API</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">X API</h1>
+            <p class="detail-subtitle">技能模块，提供专业领域的自动化处理能力</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- User wants to post tweets or threads programmatically
+- Reading timeline, mentions, or user data from X
+- Searching X for content, trends, or conversations
+- Building X integrations or bots
+- Analytics and engagement tracking
+- User says &quot;post to X&quot;, &quot;tweet&quot;, &quot;X API&quot;, or &quot;Twitter API&quot;</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Authentication
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### OAuth 2.0 Bearer Token (App-Only)
+
+Best for: read-heavy operations, search, public data.
+
+```bash
+# Environment setup
+export X_BEARER_TOKEN=&quot;your-bearer-token&quot;
+```
+
+```python
+import os
+import requests
+
+bearer = os.environ[&quot;X_BEARER_TOKEN&quot;]
+headers = {&quot;Authorization&quot;: f&quot;Bearer {bearer}&quot;}
+
+# Search recent tweets
+resp = requests.get(
+    &quot;https://api.x.com/2/tweets/search/recent&quot;,
+    headers=headers,
+    params={&quot;query&quot;: &quot;claude code&quot;, &quot;max_results&quot;: 10}
+)
+tweets = resp.json()
+```
+
+### OAuth 1.0a (User Context)
+
+Required for: posting tweets, managing account, DMs.
+
+```bash
+# Environment setup — source before use
+export X_API_KEY=&quot;your-api-key&quot;
+export X_API_SECRET=&quot;your-api-secret&quot;
+export X_ACCESS_TOKEN=&quot;your-access-token&quot;
+export X_ACCESS_SECRET=&quot;your-access-secret&quot;
+```
+
+```python
+import os
+from requests_oauthlib import OAuth1Session
+
+oauth = OAuth1Session(
+    os.environ[&quot;X_API_KEY&quot;],
+    client_secret=os.environ[&quot;X_API_SECRET&quot;],
+    resource_owner_key=os.environ[&quot;X_ACCESS_TOKEN&quot;],
+    resource_owner_secret=os.environ[&quot;X_ACCESS_SECRET&quot;],
+)
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Operations
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Post a Tweet
+
+```python
+resp = oauth.post(
+    &quot;https://api.x.com/2/tweets&quot;,
+    json={&quot;text&quot;: &quot;Hello from Claude Code&quot;}
+)
+resp.raise_for_status()
+tweet_id = resp.json()[&quot;data&quot;][&quot;id&quot;]
+```
+
+### Post a Thread
+
+```python
+def post_thread(oauth, tweets: list[str]) -&gt; list[str]:
+    ids = []
+    reply_to = None
+    for text in tweets:
+        payload = {&quot;text&quot;: text}
+        if reply_to:
+            payload[&quot;reply&quot;] = {&quot;in_reply_to_tweet_id&quot;: reply_to}
+        resp = oauth.post(&quot;https://api.x.com/2/tweets&quot;, json=payload)
+        tweet_id = resp.json()[&quot;data&quot;][&quot;id&quot;]
+        ids.append(tweet_id)
+        reply_to = tweet_id
+    return ids
+```
+
+### Read User Timeline
+
+```python
+resp = requests.get(
+    f&quot;https://api.x.com/2/users/{user_id}/tweets&quot;,
+    headers=headers,
+    params={
+        &quot;max_results&quot;: 10,
+        &quot;tweet.fields&quot;: &quot;created_at,public_metrics&quot;,
+    }
+)
+```
+
+### Search Tweets
+
+```python
+resp = requests.get(
+    &quot;https://api.x.com/2/tweets/search/recent&quot;,
+    headers=headers,
+    params={
+        &quot;query&quot;: &quot;from:affaanmustafa -is:retweet&quot;,
+        &quot;max_results&quot;: 10,
+        &quot;tweet.fields&quot;: &quot;public_metrics,created_at&quot;,
+    }
+)
+```
+
+### Get User by Username
+
+```python
+resp = requests.get(
+    &quot;https://api.x.com/2/users/by/username/affaanmustafa&quot;,
+    headers=headers,
+    params={&quot;user.fields&quot;: &quot;public_metrics,description,created_at&quot;}
+)
+```
+
+### Upload Media and Post
+
+```python
+# Media upload uses v1.1 endpoint
+
+# Step 1: Upload media
+media_resp = oauth.post(
+    &quot;https://upload.twitter.com/1.1/media/upload.json&quot;,
+    files={&quot;media&quot;: open(&quot;image.png&quot;, &quot;rb&quot;)}
+)
+media_id = media_resp.json()[&quot;media_id_string&quot;]
+
+# Step 2: Post with media
+resp = oauth.post(
+    &quot;https://api.x.com/2/tweets&quot;,
+    json={&quot;text&quot;: &quot;Check this out&quot;, &quot;media&quot;: {&quot;media_ids&quot;: [media_id]}}
+)
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Rate Limits
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">X API rate limits vary by endpoint, auth method, and account tier, and they change over time. Always:
+- Check the current X developer docs before hardcoding assumptions
+- Read `x-rate-limit-remaining` and `x-rate-limit-reset` headers at runtime
+- Back off automatically instead of relying on static tables in code
+
+```python
+import time
+
+remaining = int(resp.headers.get(&quot;x-rate-limit-remaining&quot;, 0))
+if remaining &lt; 5:
+    reset = int(resp.headers.get(&quot;x-rate-limit-reset&quot;, 0))
+    wait = max(0, reset - int(time.time()))
+    print(f&quot;Rate limit approaching. Resets in {wait}s&quot;)
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                错误处理
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```python
+resp = oauth.post(&quot;https://api.x.com/2/tweets&quot;, json={&quot;text&quot;: content})
+if resp.status_code == 201:
+    return resp.json()[&quot;data&quot;][&quot;id&quot;]
+elif resp.status_code == 429:
+    reset = int(resp.headers[&quot;x-rate-limit-reset&quot;])
+    raise Exception(f&quot;Rate limited. Resets at {reset}&quot;)
+elif resp.status_code == 403:
+    raise Exception(f&quot;Forbidden: {resp.json().get(&#039;detail&#039;, &#039;check permissions&#039;)}&quot;)
+else:
+    raise Exception(f&quot;X API error {resp.status_code}: {resp.text}&quot;)
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                安全
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- **Never hardcode tokens.** Use environment variables or `.env` files.
+- **Never commit `.env` files.** Add to `.gitignore`.
+- **Rotate tokens** if exposed. Regenerate at developer.x.com.
+- **Use read-only tokens** when write access is not needed.
+- **Store OAuth secrets securely** — not in source code or logs.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Integration with Content Engine
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Use `content-engine` skill to generate platform-native content, then post via X API:
+1. Generate content with content-engine (X platform format)
+2. Validate length (280 chars for single tweet)
+3. Post via X API using patterns above
+4. Track engagement via public_metrics</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Related Skills
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- `content-engine` — Generate platform-native content for X
+- `crosspost` — Distribute content across X, LinkedIn, and other platforms</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: x-api
+description: X/Twitter API integration for posting tweets, threads, reading timelines, search, and analytics. Covers OAuth auth patterns, rate limits, and platform-native content posting. Use when the user wants to interact with X programmatically.
+origin: ECC
+---
+
+# X API
+
+Programmatic interaction with X (Twitter) for posting, reading, searching, and analytics.
+
+## When to Activate
+
+- User wants to post tweets or threads programmatically
+- Reading timeline, mentions, or user data from X
+- Searching X for content, trends, or conversations
+- Building X integrations or bots
+- Analytics and engagement tracking
+- User says &quot;post to X&quot;, &quot;tweet&quot;, &quot;X API&quot;, or &quot;Twitter API&quot;
+
+## Authentication
+
+### OAuth 2.0 Bearer Token (App-Only)
+
+Best for: read-heavy operations, search, public data.
+
+```bash
+# Environment setup
+export X_BEARER_TOKEN=&quot;your-bearer-token&quot;
+```
+
+```python
+import os
+import requests
+
+bearer = os.environ[&quot;X_BEARER_TOKEN&quot;]
+headers = {&quot;Authorization&quot;: f&quot;Bearer {bearer}&quot;}
+
+# Search recent tweets
+resp = requests.get(
+    &quot;https://api.x.com/2/tweets/search/recent&quot;,
+    headers=headers,
+    params={&quot;query&quot;: &quot;claude code&quot;, &quot;max_results&quot;: 10}
+)
+tweets = resp.json()
+```
+
+### OAuth 1.0a (User Context)
+
+Required for: posting tweets, managing account, DMs.
+
+```bash
+# Environment setup — source before use
+export X_API_KEY=&quot;your-api-key&quot;
+export X_API_SECRET=&quot;your-api-secret&quot;
+export X_ACCESS_TOKEN=&quot;your-access-token&quot;
+export X_ACCESS_SECRET=&quot;your-access-secret&quot;
+```
+
+```python
+import os
+from requests_oauthlib import OAuth1Session
+
+oauth = OAuth1Session(
+    os.environ[&quot;X_API_KEY&quot;],
+    client_secret=os.environ[&quot;X_API_SECRET&quot;],
+    resource_owner_key=os.environ[&quot;X_ACCESS_TOKEN&quot;],
+    resource_owner_secret=os.environ[&quot;X_ACCESS_SECRET&quot;],
+)
+```
+
+## Core Operations
+
+### Post a Tweet
+
+```python
+resp = oauth.post(
+    &quot;https://api.x.com/2/tweets&quot;,
+    json={&quot;text&quot;: &quot;Hello from Claude Code&quot;}
+)
+resp.raise_for_status()
+tweet_id = resp.json()[&quot;data&quot;][&quot;id&quot;]
+```
+
+### Post a Thread
+
+```python
+def post_thread(oauth, tweets: list[str]) -&gt; list[str]:
+    ids = []
+    reply_to = None
+    for text in tweets:
+        payload = {&quot;text&quot;: text}
+        if reply_to:
+            payload[&quot;reply&quot;] = {&quot;in_reply_to_tweet_id&quot;: reply_to}
+        resp = oauth.post(&quot;https://api.x.com/2/tweets&quot;, json=payload)
+        tweet_id = resp.json()[&quot;data&quot;][&quot;id&quot;]
+        ids.append(tweet_id)
+        reply_to = tweet_id
+    return ids
+```
+
+### Read User Timeline
+
+```python
+resp = requests.get(
+    f&quot;https://api.x.com/2/users/{user_id}/tweets&quot;,
+    headers=headers,
+    params={
+        &quot;max_results&quot;: 10,
+        &quot;tweet.fields&quot;: &quot;created_at,public_metrics&quot;,
+    }
+)
+```
+
+### Search Tweets
+
+```python
+resp = requests.get(
+    &quot;https://api.x.com/2/tweets/search/recent&quot;,
+    headers=headers,
+    params={
+        &quot;query&quot;: &quot;from:affaanmustafa -is:retweet&quot;,
+        &quot;max_results&quot;: 10,
+        &quot;tweet.fields&quot;: &quot;public_metrics,created_at&quot;,
+    }
+)
+```
+
+### Get User by Username
+
+```python
+resp = requests.get(
+    &quot;https://api.x.com/2/users/by/username/affaanmustafa&quot;,
+    headers=headers,
+    params={&quot;user.fields&quot;: &quot;public_metrics,description,created_at&quot;}
+)
+```
+
+### Upload Media and Post
+
+```python
+# Media upload uses v1.1 endpoint
+
+# Step 1: Upload media
+media_resp = oauth.post(
+    &quot;https://upload.twitter.com/1.1/media/upload.json&quot;,
+    files={&quot;media&quot;: open(&quot;image.png&quot;, &quot;rb&quot;)}
+)
+media_id = media_resp.json()[&quot;media_id_string&quot;]
+
+# Step 2: Post with media
+resp = oauth.post(
+    &quot;https://api.x.com/2/tweets&quot;,
+    json={&quot;text&quot;: &quot;Check this out&quot;, &quot;media&quot;: {&quot;media_ids&quot;: [media_id]}}
+)
+```
+
+## Rate Limits
+
+X API rate limits vary by endpoint, auth method, and account tier, and they change over time. Always:
+- Check the current X developer docs before hardcoding assumptions
+- Read `x-rate-limit-remaining` and `x-rate-limit-reset` headers at runtime
+- Back off automatically instead of relying on static tables in code
+
+```python
+import time
+
+remaining = int(resp.headers.get(&quot;x-rate-limit-remaining&quot;, 0))
+if remaining &lt; 5:
+    reset = int(resp.headers.get(&quot;x-rate-limit-reset&quot;, 0))
+    wait = max(0, reset - int(time.time()))
+    print(f&quot;Rate limit approaching. Resets in {wait}s&quot;)
+```
+
+## Error Handling
+
+```python
+resp = oauth.post(&quot;https://api.x.com/2/tweets&quot;, json={&quot;text&quot;: content})
+if resp.status_code == 201:
+    return resp.json()[&quot;data&quot;][&quot;id&quot;]
+elif resp.status_code == 429:
+    reset = int(resp.headers[&quot;x-rate-limit-reset&quot;])
+    raise Exception(f&quot;Rate limited. Resets at {reset}&quot;)
+elif resp.status_code == 403:
+    raise Exception(f&quot;Forbidden: {resp.json().get(&#039;detail&#039;, &#039;check permissions&#039;)}&quot;)
+else:
+    raise Exception(f&quot;X API error {resp.status_code}: {resp.text}&quot;)
+```
+
+## Security
+
+- **Never hardcode tokens.** Use environment variables or `.env` files.
+- **Never commit `.env` files.** Add to `.gitignore`.
+- **Rotate tokens** if exposed. Regenerate at developer.x.com.
+- **Use read-only tokens** when write access is not needed.
+- **Store OAuth secrets securely** — not in source code or logs.
+
+## Integration with Content Engine
+
+Use `content-engine` skill to generate platform-native content, then post via X API:
+1. Generate content with content-engine (X platform format)
+2. Validate length (280 chars for single tweet)
+3. Post via X API using patterns above
+4. Track engagement via public_metrics
+
+## Related Skills
+
+- `content-engine` — Generate platform-native content for X
+- `crosspost` — Distribute content across X, LinkedIn, and other platforms
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

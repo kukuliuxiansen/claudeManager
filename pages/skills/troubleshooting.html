@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>故障排查 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">故障排查</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">故障排查</h1>
+            <p class="detail-subtitle">故障排查技能，诊断和解决常见问题</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    chrome-devtools-mcp
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">chrome-devtools-mcp</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Troubleshooting Wizard
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">You are acting as a troubleshooting wizard to help the user configure and fix their Chrome DevTools MCP server setup. When this skill is triggered (e.g., because `list_pages`, `new_page`, or `navigate_page` failed, or the server wouldn&#039;t start), follow this step-by-step diagnostic process:
+
+### Step 1: Find and Read Configuration
+
+Your first action should be to locate and read the MCP configuration file. Search for the following files in the user&#039;s workspace: `.mcp.json`, `gemini-extension.json`, `.claude/settings.json`, `.vscode/launch.json`, or `.gemini/settings.json`.
+
+If you find a configuration file, read and interpret it to identify potential issues such as:
+
+- Incorrect arguments or flags.
+- Missing environment variables.
+- Usage of `--autoConnect` in incompatible environments.
+
+If you cannot find any of these files, only then should you ask the user to provide their configuration file content.
+
+### Step 2: Triage Common Connection Errors
+
+Before reading documentation or suggesting configuration changes, check if the error message matches one of the following common patterns.
+
+#### Error: `Could not find DevToolsActivePort`
+
+This error is highly specific to the `--autoConnect` feature. It means the MCP server cannot find the file created by a running, debuggable Chrome instance. This is not a generic connection failure.
+
+Your primary goal is to guide the user to ensure Chrome is running and properly configured. Do not immediately suggest switching to `--browserUrl`. Follow this exact sequence:
+
+1. **Ask the user to confirm that the correct Chrome version** (e.g., &quot;Chrome Canary&quot; if the error mentions it) is currently running.
+2. **If the user confirms it is running, instruct them to enable remote debugging.** Be very specific about the URL and the action: &quot;Please open a new tab in Chrome, navigate to `chrome://inspect/#remote-debugging`, and make sure the &#039;Enable remote debugging&#039; checkbox is checked.&quot;
+3. **Once the user confirms both steps, your only next action should be to call the `list_pages` tool.** This is the simplest and safest way to verify if the connection is now successful. Do not retry the original, more complex command yet.
+4. **If `list_pages` succeeds, the problem is resolved.** If it still fails with the same error, then you can proceed to the more advanced steps like suggesting `--browserUrl` or checking for sandboxing issues.
+
+#### Symptom: Server starts but creates a new empty profile
+
+If the server starts successfully but `list_pages` returns an empty list or creates a new profile instead of connecting to the existing Chrome instance, check for typos in the arguments.
+
+- **Check for flag typos:** For example, `--autoBronnect` instead of `--autoConnect`.
+- **Verify the configuration:** Ensure the arguments match the expected flags exactly.
+
+#### Other Common Errors
+
+Identify other error messages from the failed tool call or the MCP initialization logs:
+
+- `Target closed`
+- &quot;Tool not found&quot; (check if they are using `--slim` which only enables navigation and screenshot tools).
+- `ProtocolError: Network.enable timed out` or `The socket connection was closed unexpectedly`
+- `Error [ERR_MODULE_NOT_FOUND]: Cannot find module`
+- Any sandboxing or host validation errors.
+
+### Step 3: Read Known Issues
+
+Read the contents of https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/docs/troubleshooting.md to map the error to a known issue. Pay close attention to:
+
+- Sandboxing restrictions (macOS Seatbelt, Linux containers).
+- WSL requirements.
+- `--autoConnect` handshakes, timeouts, and requirements (requires **running** Chrome 144+).
+
+### Step 4: Formulate a Configuration
+
+Based on the exact error and the user&#039;s environment (OS, MCP client), formulate the correct MCP configuration snippet. Check if they need to:
+
+- Pass `--browser-url=http://127.0.0.1:9222` instead of `--autoConnect` (e.g. if they are in a sandboxed environment like Claude Desktop).
+- Enable remote debugging in Chrome (`chrome://inspect/#remote-debugging`) and accept the connection prompt. **Ask the user to verify this is enabled if using `--autoConnect`.**
+- Add `--logFile &lt;absolute_path_to_log_file&gt;` to capture debug logs for analysis.
+- Increase `startup_timeout_ms` (e.g. to 20000) if using Codex on Windows.
+
+_If you are unsure of the user&#039;s configuration, ask the user to provide their current MCP server JSON configuration._
+
+### Step 5: Run Diagnostic Commands
+
+If the issue is still unclear, run diagnostic commands to test the server directly:
+
+- Run `npx chrome-devtools-mcp@latest --help` to verify the installation and Node.js environment.
+- If you need more information, run `DEBUG=* npx chrome-devtools-mcp@latest --logFile=/tmp/cdm-test.log` to capture verbose logs. Analyze the output for errors.
+
+### Step 6: Check GitHub for Existing Issues
+
+If https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/docs/troubleshooting.md does not cover the specific error, check if the `gh` (GitHub CLI) tool is available in the environment. If so, search the GitHub repository for similar issues:
+`gh issue list --repo ChromeDevTools/chrome-devtools-mcp --search &quot;&lt;error snippet&gt;&quot; --state all`
+
+Alternatively, you can recommend that the user checks https://github.com/ChromeDevTools/chrome-devtools-mcp/issues and https://github.com/ChromeDevTools/chrome-devtools-mcp/discussions for help.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: troubleshooting
+description: Uses Chrome DevTools MCP and documentation to troubleshoot connection and target issues. Trigger this skill when list_pages, new_page, or navigate_page fail, or when the server initialization fails.
+---
+
+## Troubleshooting Wizard
+
+You are acting as a troubleshooting wizard to help the user configure and fix their Chrome DevTools MCP server setup. When this skill is triggered (e.g., because `list_pages`, `new_page`, or `navigate_page` failed, or the server wouldn&#039;t start), follow this step-by-step diagnostic process:
+
+### Step 1: Find and Read Configuration
+
+Your first action should be to locate and read the MCP configuration file. Search for the following files in the user&#039;s workspace: `.mcp.json`, `gemini-extension.json`, `.claude/settings.json`, `.vscode/launch.json`, or `.gemini/settings.json`.
+
+If you find a configuration file, read and interpret it to identify potential issues such as:
+
+- Incorrect arguments or flags.
+- Missing environment variables.
+- Usage of `--autoConnect` in incompatible environments.
+
+If you cannot find any of these files, only then should you ask the user to provide their configuration file content.
+
+### Step 2: Triage Common Connection Errors
+
+Before reading documentation or suggesting configuration changes, check if the error message matches one of the following common patterns.
+
+#### Error: `Could not find DevToolsActivePort`
+
+This error is highly specific to the `--autoConnect` feature. It means the MCP server cannot find the file created by a running, debuggable Chrome instance. This is not a generic connection failure.
+
+Your primary goal is to guide the user to ensure Chrome is running and properly configured. Do not immediately suggest switching to `--browserUrl`. Follow this exact sequence:
+
+1. **Ask the user to confirm that the correct Chrome version** (e.g., &quot;Chrome Canary&quot; if the error mentions it) is currently running.
+2. **If the user confirms it is running, instruct them to enable remote debugging.** Be very specific about the URL and the action: &quot;Please open a new tab in Chrome, navigate to `chrome://inspect/#remote-debugging`, and make sure the &#039;Enable remote debugging&#039; checkbox is checked.&quot;
+3. **Once the user confirms both steps, your only next action should be to call the `list_pages` tool.** This is the simplest and safest way to verify if the connection is now successful. Do not retry the original, more complex command yet.
+4. **If `list_pages` succeeds, the problem is resolved.** If it still fails with the same error, then you can proceed to the more advanced steps like suggesting `--browserUrl` or checking for sandboxing issues.
+
+#### Symptom: Server starts but creates a new empty profile
+
+If the server starts successfully but `list_pages` returns an empty list or creates a new profile instead of connecting to the existing Chrome instance, check for typos in the arguments.
+
+- **Check for flag typos:** For example, `--autoBronnect` instead of `--autoConnect`.
+- **Verify the configuration:** Ensure the arguments match the expected flags exactly.
+
+#### Other Common Errors
+
+Identify other error messages from the failed tool call or the MCP initialization logs:
+
+- `Target closed`
+- &quot;Tool not found&quot; (check if they are using `--slim` which only enables navigation and screenshot tools).
+- `ProtocolError: Network.enable timed out` or `The socket connection was closed unexpectedly`
+- `Error [ERR_MODULE_NOT_FOUND]: Cannot find module`
+- Any sandboxing or host validation errors.
+
+### Step 3: Read Known Issues
+
+Read the contents of https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/docs/troubleshooting.md to map the error to a known issue. Pay close attention to:
+
+- Sandboxing restrictions (macOS Seatbelt, Linux containers).
+- WSL requirements.
+- `--autoConnect` handshakes, timeouts, and requirements (requires **running** Chrome 144+).
+
+### Step 4: Formulate a Configuration
+
+Based on the exact error and the user&#039;s environment (OS, MCP client), formulate the correct MCP configuration snippet. Check if they need to:
+
+- Pass `--browser-url=http://127.0.0.1:9222` instead of `--autoConnect` (e.g. if they are in a sandboxed environment like Claude Desktop).
+- Enable remote debugging in Chrome (`chrome://inspect/#remote-debugging`) and accept the connection prompt. **Ask the user to verify this is enabled if using `--autoConnect`.**
+- Add `--logFile &lt;absolute_path_to_log_file&gt;` to capture debug logs for analysis.
+- Increase `startup_timeout_ms` (e.g. to 20000) if using Codex on Windows.
+
+_If you are unsure of the user&#039;s configuration, ask the user to provide their current MCP server JSON configuration._
+
+### Step 5: Run Diagnostic Commands
+
+If the issue is still unclear, run diagnostic commands to test the server directly:
+
+- Run `npx chrome-devtools-mcp@latest --help` to verify the installation and Node.js environment.
+- If you need more information, run `DEBUG=* npx chrome-devtools-mcp@latest --logFile=/tmp/cdm-test.log` to capture verbose logs. Analyze the output for errors.
+
+### Step 6: Check GitHub for Existing Issues
+
+If https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/docs/troubleshooting.md does not cover the specific error, check if the `gh` (GitHub CLI) tool is available in the environment. If so, search the GitHub repository for similar issues:
+`gh issue list --repo ChromeDevTools/chrome-devtools-mcp --search &quot;&lt;error snippet&gt;&quot; --state all`
+
+Alternatively, you can recommend that the user checks https://github.com/ChromeDevTools/chrome-devtools-mcp/issues and https://github.com/ChromeDevTools/chrome-devtools-mcp/discussions for help.
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

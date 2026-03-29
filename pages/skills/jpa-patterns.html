@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPA模式 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">JPA模式</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">JPA模式</h1>
+            <p class="detail-subtitle">JPA模式，JPA数据访问的最佳实践</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    local
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">local</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Designing JPA entities and table mappings
+- Defining relationships (@OneToMany, @ManyToOne, @ManyToMany)
+- Optimizing queries (N+1 prevention, fetch strategies, projections)
+- Configuring transactions, auditing, or soft deletes
+- Setting up pagination, sorting, or custom repository methods
+- Tuning connection pooling (HikariCP) or second-level caching</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Entity Design
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```java
+@Entity
+@Table(name = &quot;markets&quot;, indexes = {
+  @Index(name = &quot;idx_markets_slug&quot;, columnList = &quot;slug&quot;, unique = true)
+})
+@EntityListeners(AuditingEntityListener.class)
+public class MarketEntity {
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(nullable = false, length = 200)
+  private String name;
+
+  @Column(nullable = false, unique = true, length = 120)
+  private String slug;
+
+  @Enumerated(EnumType.STRING)
+  private MarketStatus status = MarketStatus.ACTIVE;
+
+  @CreatedDate private Instant createdAt;
+  @LastModifiedDate private Instant updatedAt;
+}
+```
+
+Enable auditing:
+```java
+@Configuration
+@EnableJpaAuditing
+class JpaConfig {}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Relationships and N+1 Prevention
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```java
+@OneToMany(mappedBy = &quot;market&quot;, cascade = CascadeType.ALL, orphanRemoval = true)
+private List&lt;PositionEntity&gt; positions = new ArrayList&lt;&gt;();
+```
+
+- Default to lazy loading; use `JOIN FETCH` in queries when needed
+- Avoid `EAGER` on collections; use DTO projections for read paths
+
+```java
+@Query(&quot;select m from MarketEntity m left join fetch m.positions where m.id = :id&quot;)
+Optional&lt;MarketEntity&gt; findWithPositions(@Param(&quot;id&quot;) Long id);
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Repository Patterns
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```java
+public interface MarketRepository extends JpaRepository&lt;MarketEntity, Long&gt; {
+  Optional&lt;MarketEntity&gt; findBySlug(String slug);
+
+  @Query(&quot;select m from MarketEntity m where m.status = :status&quot;)
+  Page&lt;MarketEntity&gt; findByStatus(@Param(&quot;status&quot;) MarketStatus status, Pageable pageable);
+}
+```
+
+- Use projections for lightweight queries:
+```java
+public interface MarketSummary {
+  Long getId();
+  String getName();
+  MarketStatus getStatus();
+}
+Page&lt;MarketSummary&gt; findAllBy(Pageable pageable);
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Transactions
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Annotate service methods with `@Transactional`
+- Use `@Transactional(readOnly = true)` for read paths to optimize
+- Choose propagation carefully; avoid long-running transactions
+
+```java
+@Transactional
+public Market updateStatus(Long id, MarketStatus status) {
+  MarketEntity entity = repo.findById(id)
+      .orElseThrow(() -&gt; new EntityNotFoundException(&quot;Market&quot;));
+  entity.setStatus(status);
+  return Market.from(entity);
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Pagination
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```java
+PageRequest page = PageRequest.of(pageNumber, pageSize, Sort.by(&quot;createdAt&quot;).descending());
+Page&lt;MarketEntity&gt; markets = repo.findByStatus(MarketStatus.ACTIVE, page);
+```
+
+For cursor-like pagination, include `id &gt; :lastId` in JPQL with ordering.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Indexing and Performance
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Add indexes for common filters (`status`, `slug`, foreign keys)
+- Use composite indexes matching query patterns (`status, created_at`)
+- Avoid `select *`; project only needed columns
+- Batch writes with `saveAll` and `hibernate.jdbc.batch_size`</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Connection Pooling (HikariCP)
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Recommended properties:
+```
+spring.datasource.hikari.maximum-pool-size=20
+spring.datasource.hikari.minimum-idle=5
+spring.datasource.hikari.connection-timeout=30000
+spring.datasource.hikari.validation-timeout=5000
+```
+
+For PostgreSQL LOB handling, add:
+```
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Caching
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- 1st-level cache is per EntityManager; avoid keeping entities across transactions
+- For read-heavy entities, consider second-level cache cautiously; validate eviction strategy</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Migrations
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Use Flyway or Liquibase; never rely on Hibernate auto DDL in production
+- Keep migrations idempotent and additive; avoid dropping columns without plan</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Testing Data Access
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Prefer `@DataJpaTest` with Testcontainers to mirror production
+- Assert SQL efficiency using logs: set `logging.level.org.hibernate.SQL=DEBUG` and `logging.level.org.hibernate.orm.jdbc.bind=TRACE` for parameter values
+
+**Remember**: Keep entities lean, queries intentional, and transactions short. Prevent N+1 with fetch strategies and projections, and index for your read/write paths.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: jpa-patterns
+description: JPA/Hibernate patterns for entity design, relationships, query optimization, transactions, auditing, indexing, pagination, and pooling in Spring Boot.
+origin: ECC
+---
+
+# JPA/Hibernate Patterns
+
+Use for data modeling, repositories, and performance tuning in Spring Boot.
+
+## When to Activate
+
+- Designing JPA entities and table mappings
+- Defining relationships (@OneToMany, @ManyToOne, @ManyToMany)
+- Optimizing queries (N+1 prevention, fetch strategies, projections)
+- Configuring transactions, auditing, or soft deletes
+- Setting up pagination, sorting, or custom repository methods
+- Tuning connection pooling (HikariCP) or second-level caching
+
+## Entity Design
+
+```java
+@Entity
+@Table(name = &quot;markets&quot;, indexes = {
+  @Index(name = &quot;idx_markets_slug&quot;, columnList = &quot;slug&quot;, unique = true)
+})
+@EntityListeners(AuditingEntityListener.class)
+public class MarketEntity {
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(nullable = false, length = 200)
+  private String name;
+
+  @Column(nullable = false, unique = true, length = 120)
+  private String slug;
+
+  @Enumerated(EnumType.STRING)
+  private MarketStatus status = MarketStatus.ACTIVE;
+
+  @CreatedDate private Instant createdAt;
+  @LastModifiedDate private Instant updatedAt;
+}
+```
+
+Enable auditing:
+```java
+@Configuration
+@EnableJpaAuditing
+class JpaConfig {}
+```
+
+## Relationships and N+1 Prevention
+
+```java
+@OneToMany(mappedBy = &quot;market&quot;, cascade = CascadeType.ALL, orphanRemoval = true)
+private List&lt;PositionEntity&gt; positions = new ArrayList&lt;&gt;();
+```
+
+- Default to lazy loading; use `JOIN FETCH` in queries when needed
+- Avoid `EAGER` on collections; use DTO projections for read paths
+
+```java
+@Query(&quot;select m from MarketEntity m left join fetch m.positions where m.id = :id&quot;)
+Optional&lt;MarketEntity&gt; findWithPositions(@Param(&quot;id&quot;) Long id);
+```
+
+## Repository Patterns
+
+```java
+public interface MarketRepository extends JpaRepository&lt;MarketEntity, Long&gt; {
+  Optional&lt;MarketEntity&gt; findBySlug(String slug);
+
+  @Query(&quot;select m from MarketEntity m where m.status = :status&quot;)
+  Page&lt;MarketEntity&gt; findByStatus(@Param(&quot;status&quot;) MarketStatus status, Pageable pageable);
+}
+```
+
+- Use projections for lightweight queries:
+```java
+public interface MarketSummary {
+  Long getId();
+  String getName();
+  MarketStatus getStatus();
+}
+Page&lt;MarketSummary&gt; findAllBy(Pageable pageable);
+```
+
+## Transactions
+
+- Annotate service methods with `@Transactional`
+- Use `@Transactional(readOnly = true)` for read paths to optimize
+- Choose propagation carefully; avoid long-running transactions
+
+```java
+@Transactional
+public Market updateStatus(Long id, MarketStatus status) {
+  MarketEntity entity = repo.findById(id)
+      .orElseThrow(() -&gt; new EntityNotFoundException(&quot;Market&quot;));
+  entity.setStatus(status);
+  return Market.from(entity);
+}
+```
+
+## Pagination
+
+```java
+PageRequest page = PageRequest.of(pageNumber, pageSize, Sort.by(&quot;createdAt&quot;).descending());
+Page&lt;MarketEntity&gt; markets = repo.findByStatus(MarketStatus.ACTIVE, page);
+```
+
+For cursor-like pagination, include `id &gt; :lastId` in JPQL with ordering.
+
+## Indexing and Performance
+
+- Add indexes for common filters (`status`, `slug`, foreign keys)
+- Use composite indexes matching query patterns (`status, created_at`)
+- Avoid `select *`; project only needed columns
+- Batch writes with `saveAll` and `hibernate.jdbc.batch_size`
+
+## Connection Pooling (HikariCP)
+
+Recommended properties:
+```
+spring.datasource.hikari.maximum-pool-size=20
+spring.datasource.hikari.minimum-idle=5
+spring.datasource.hikari.connection-timeout=30000
+spring.datasource.hikari.validation-timeout=5000
+```
+
+For PostgreSQL LOB handling, add:
+```
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+```
+
+## Caching
+
+- 1st-level cache is per EntityManager; avoid keeping entities across transactions
+- For read-heavy entities, consider second-level cache cautiously; validate eviction strategy
+
+## Migrations
+
+- Use Flyway or Liquibase; never rely on Hibernate auto DDL in production
+- Keep migrations idempotent and additive; avoid dropping columns without plan
+
+## Testing Data Access
+
+- Prefer `@DataJpaTest` with Testcontainers to mirror production
+- Assert SQL efficiency using logs: set `logging.level.org.hibernate.SQL=DEBUG` and `logging.level.org.hibernate.orm.jdbc.bind=TRACE` for parameter values
+
+**Remember**: Keep entities lean, queries intentional, and transactions short. Prevent N+1 with fetch strategies and projections, and index for your read/write paths.
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

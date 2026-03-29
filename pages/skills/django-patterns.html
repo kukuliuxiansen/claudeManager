@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django模式 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Django模式</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">Django模式</h1>
+            <p class="detail-subtitle">Django模式，Django开发的最佳实践</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Building Django web applications
+- Designing Django REST Framework APIs
+- Working with Django ORM and models
+- Setting up Django project structure
+- Implementing caching, signals, middleware</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Project Structure
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Recommended Layout
+
+```
+myproject/
+├── config/
+│   ├── __init__.py
+│   ├── settings/
+│   │   ├── __init__.py
+│   │   ├── base.py          # Base settings
+│   │   ├── development.py   # Dev settings
+│   │   ├── production.py    # Production settings
+│   │   └── test.py          # Test settings
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+├── manage.py
+└── apps/
+    ├── __init__.py
+    ├── users/
+    │   ├── __init__.py
+    │   ├── models.py
+    │   ├── views.py
+    │   ├── serializers.py
+    │   ├── urls.py
+    │   ├── permissions.py
+    │   ├── filters.py
+    │   ├── services.py
+    │   └── tests/
+    └── products/
+        └── ...
+```
+
+### Split Settings Pattern
+
+```python
+# config/settings/base.py
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+SECRET_KEY = env(&#039;DJANGO_SECRET_KEY&#039;)
+DEBUG = False
+ALLOWED_HOSTS = []
+
+INSTALLED_APPS = [
+    &#039;django.contrib.admin&#039;,
+    &#039;django.contrib.auth&#039;,
+    &#039;django.contrib.contenttypes&#039;,
+    &#039;django.contrib.sessions&#039;,
+    &#039;django.contrib.messages&#039;,
+    &#039;django.contrib.staticfiles&#039;,
+    &#039;rest_framework&#039;,
+    &#039;rest_framework.authtoken&#039;,
+    &#039;corsheaders&#039;,
+    # Local apps
+    &#039;apps.users&#039;,
+    &#039;apps.products&#039;,
+]
+
+MIDDLEWARE = [
+    &#039;django.middleware.security.SecurityMiddleware&#039;,
+    &#039;whitenoise.middleware.WhiteNoiseMiddleware&#039;,
+    &#039;django.contrib.sessions.middleware.SessionMiddleware&#039;,
+    &#039;corsheaders.middleware.CorsMiddleware&#039;,
+    &#039;django.middleware.common.CommonMiddleware&#039;,
+    &#039;django.middleware.csrf.CsrfViewMiddleware&#039;,
+    &#039;django.contrib.auth.middleware.AuthenticationMiddleware&#039;,
+    &#039;django.contrib.messages.middleware.MessageMiddleware&#039;,
+    &#039;django.middleware.clickjacking.XFrameOptionsMiddleware&#039;,
+]
+
+ROOT_URLCONF = &#039;config.urls&#039;
+WSGI_APPLICATION = &#039;config.wsgi.application&#039;
+
+DATABASES = {
+    &#039;default&#039;: {
+        &#039;ENGINE&#039;: &#039;django.db.backends.postgresql&#039;,
+        &#039;NAME&#039;: env(&#039;DB_NAME&#039;),
+        &#039;USER&#039;: env(&#039;DB_USER&#039;),
+        &#039;PASSWORD&#039;: env(&#039;DB_PASSWORD&#039;),
+        &#039;HOST&#039;: env(&#039;DB_HOST&#039;),
+        &#039;PORT&#039;: env(&#039;DB_PORT&#039;, default=&#039;5432&#039;),
+    }
+}
+
+# config/settings/development.py
+from .base import *
+
+DEBUG = True
+ALLOWED_HOSTS = [&#039;localhost&#039;, &#039;127.0.0.1&#039;]
+
+DATABASES[&#039;default&#039;][&#039;NAME&#039;] = &#039;myproject_dev&#039;
+
+INSTALLED_APPS += [&#039;debug_toolbar&#039;]
+
+MIDDLEWARE += [&#039;debug_toolbar.middleware.DebugToolbarMiddleware&#039;]
+
+EMAIL_BACKEND = &#039;django.core.mail.backends.console.EmailBackend&#039;
+
+# config/settings/production.py
+from .base import *
+
+DEBUG = False
+ALLOWED_HOSTS = env.list(&#039;ALLOWED_HOSTS&#039;)
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Logging
+LOGGING = {
+    &#039;version&#039;: 1,
+    &#039;disable_existing_loggers&#039;: False,
+    &#039;handlers&#039;: {
+        &#039;file&#039;: {
+            &#039;level&#039;: &#039;WARNING&#039;,
+            &#039;class&#039;: &#039;logging.FileHandler&#039;,
+            &#039;filename&#039;: &#039;/var/log/django/django.log&#039;,
+        },
+    },
+    &#039;loggers&#039;: {
+        &#039;django&#039;: {
+            &#039;handlers&#039;: [&#039;file&#039;],
+            &#039;level&#039;: &#039;WARNING&#039;,
+            &#039;propagate&#039;: True,
+        },
+    },
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Model Design Patterns
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Model Best Practices
+
+```python
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+class User(AbstractUser):
+    &quot;&quot;&quot;Custom user model extending AbstractUser.&quot;&quot;&quot;
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=20, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+    USERNAME_FIELD = &#039;email&#039;
+    REQUIRED_FIELDS = [&#039;username&#039;]
+
+    class Meta:
+        db_table = &#039;users&#039;
+        verbose_name = &#039;user&#039;
+        verbose_name_plural = &#039;users&#039;
+        ordering = [&#039;-date_joined&#039;]
+
+    def __str__(self):
+        return self.email
+
+    def get_full_name(self):
+        return f&quot;{self.first_name} {self.last_name}&quot;.strip()
+
+class Product(models.Model):
+    &quot;&quot;&quot;Product model with proper field configuration.&quot;&quot;&quot;
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, max_length=250)
+    description = models.TextField(blank=True)
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0)]
+    )
+    stock = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    category = models.ForeignKey(
+        &#039;Category&#039;,
+        on_delete=models.CASCADE,
+        related_name=&#039;products&#039;
+    )
+    tags = models.ManyToManyField(&#039;Tag&#039;, blank=True, related_name=&#039;products&#039;)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = &#039;products&#039;
+        ordering = [&#039;-created_at&#039;]
+        indexes = [
+            models.Index(fields=[&#039;slug&#039;]),
+            models.Index(fields=[&#039;-created_at&#039;]),
+            models.Index(fields=[&#039;category&#039;, &#039;is_active&#039;]),
+        ]
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(price__gte=0),
+                name=&#039;price_non_negative&#039;
+            )
+        ]
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+```
+
+### QuerySet Best Practices
+
+```python
+from django.db import models
+
+class ProductQuerySet(models.QuerySet):
+    &quot;&quot;&quot;Custom QuerySet for Product model.&quot;&quot;&quot;
+
+    def active(self):
+        &quot;&quot;&quot;Return only active products.&quot;&quot;&quot;
+        return self.filter(is_active=True)
+
+    def with_category(self):
+        &quot;&quot;&quot;Select related category to avoid N+1 queries.&quot;&quot;&quot;
+        return self.select_related(&#039;category&#039;)
+
+    def with_tags(self):
+        &quot;&quot;&quot;Prefetch tags for many-to-many relationship.&quot;&quot;&quot;
+        return self.prefetch_related(&#039;tags&#039;)
+
+    def in_stock(self):
+        &quot;&quot;&quot;Return products with stock &gt; 0.&quot;&quot;&quot;
+        return self.filter(stock__gt=0)
+
+    def search(self, query):
+        &quot;&quot;&quot;Search products by name or description.&quot;&quot;&quot;
+        return self.filter(
+            models.Q(name__icontains=query) |
+            models.Q(description__icontains=query)
+        )
+
+class Product(models.Model):
+    # ... fields ...
+
+    objects = ProductQuerySet.as_manager()  # Use custom QuerySet
+
+# Usage
+Product.objects.active().with_category().in_stock()
+```
+
+### Manager Methods
+
+```python
+class ProductManager(models.Manager):
+    &quot;&quot;&quot;Custom manager for complex queries.&quot;&quot;&quot;
+
+    def get_or_none(self, **kwargs):
+        &quot;&quot;&quot;Return object or None instead of DoesNotExist.&quot;&quot;&quot;
+        try:
+            return self.get(**kwargs)
+        except self.model.DoesNotExist:
+            return None
+
+    def create_with_tags(self, name, price, tag_names):
+        &quot;&quot;&quot;Create product with associated tags.&quot;&quot;&quot;
+        product = self.create(name=name, price=price)
+        tags = [Tag.objects.get_or_create(name=name)[0] for name in tag_names]
+        product.tags.set(tags)
+        return product
+
+    def bulk_update_stock(self, product_ids, quantity):
+        &quot;&quot;&quot;Bulk update stock for multiple products.&quot;&quot;&quot;
+        return self.filter(id__in=product_ids).update(stock=quantity)
+
+# In model
+class Product(models.Model):
+    # ... fields ...
+    custom = ProductManager()
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Django REST Framework Patterns
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Serializer Patterns
+
+```python
+from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
+from .models import Product, User
+
+class ProductSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Serializer for Product model.&quot;&quot;&quot;
+
+    category_name = serializers.CharField(source=&#039;category.name&#039;, read_only=True)
+    average_rating = serializers.FloatField(read_only=True)
+    discount_price = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Product
+        fields = [
+            &#039;id&#039;, &#039;name&#039;, &#039;slug&#039;, &#039;description&#039;, &#039;price&#039;,
+            &#039;discount_price&#039;, &#039;stock&#039;, &#039;category_name&#039;,
+            &#039;average_rating&#039;, &#039;created_at&#039;
+        ]
+        read_only_fields = [&#039;id&#039;, &#039;slug&#039;, &#039;created_at&#039;]
+
+    def get_discount_price(self, obj):
+        &quot;&quot;&quot;Calculate discount price if applicable.&quot;&quot;&quot;
+        if hasattr(obj, &#039;discount&#039;) and obj.discount:
+            return obj.price * (1 - obj.discount.percent / 100)
+        return obj.price
+
+    def validate_price(self, value):
+        &quot;&quot;&quot;Ensure price is non-negative.&quot;&quot;&quot;
+        if value &lt; 0:
+            raise serializers.ValidationError(&quot;Price cannot be negative.&quot;)
+        return value
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Serializer for creating products.&quot;&quot;&quot;
+
+    class Meta:
+        model = Product
+        fields = [&#039;name&#039;, &#039;description&#039;, &#039;price&#039;, &#039;stock&#039;, &#039;category&#039;]
+
+    def validate(self, data):
+        &quot;&quot;&quot;Custom validation for multiple fields.&quot;&quot;&quot;
+        if data[&#039;price&#039;] &gt; 10000 and data[&#039;stock&#039;] &gt; 100:
+            raise serializers.ValidationError(
+                &quot;Cannot have high-value products with large stock.&quot;
+            )
+        return data
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Serializer for user registration.&quot;&quot;&quot;
+
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+        validators=[validate_password],
+        style={&#039;input_type&#039;: &#039;password&#039;}
+    )
+    password_confirm = serializers.CharField(write_only=True, style={&#039;input_type&#039;: &#039;password&#039;})
+
+    class Meta:
+        model = User
+        fields = [&#039;email&#039;, &#039;username&#039;, &#039;password&#039;, &#039;password_confirm&#039;]
+
+    def validate(self, data):
+        &quot;&quot;&quot;Validate passwords match.&quot;&quot;&quot;
+        if data[&#039;password&#039;] != data[&#039;password_confirm&#039;]:
+            raise serializers.ValidationError({
+                &quot;password_confirm&quot;: &quot;Password fields didn&#039;t match.&quot;
+            })
+        return data
+
+    def create(self, validated_data):
+        &quot;&quot;&quot;Create user with hashed password.&quot;&quot;&quot;
+        validated_data.pop(&#039;password_confirm&#039;)
+        password = validated_data.pop(&#039;password&#039;)
+        user = User.objects.create(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
+```
+
+### ViewSet Patterns
+
+```python
+from rest_framework import viewsets, status, filters
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend
+from .models import Product
+from .serializers import ProductSerializer, ProductCreateSerializer
+from .permissions import IsOwnerOrReadOnly
+from .filters import ProductFilter
+from .services import ProductService
+
+class ProductViewSet(viewsets.ModelViewSet):
+    &quot;&quot;&quot;ViewSet for Product model.&quot;&quot;&quot;
+
+    queryset = Product.objects.select_related(&#039;category&#039;).prefetch_related(&#039;tags&#039;)
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = ProductFilter
+    search_fields = [&#039;name&#039;, &#039;description&#039;]
+    ordering_fields = [&#039;price&#039;, &#039;created_at&#039;, &#039;name&#039;]
+    ordering = [&#039;-created_at&#039;]
+
+    def get_serializer_class(self):
+        &quot;&quot;&quot;Return appropriate serializer based on action.&quot;&quot;&quot;
+        if self.action == &#039;create&#039;:
+            return ProductCreateSerializer
+        return ProductSerializer
+
+    def perform_create(self, serializer):
+        &quot;&quot;&quot;Save with user context.&quot;&quot;&quot;
+        serializer.save(created_by=self.request.user)
+
+    @action(detail=False, methods=[&#039;get&#039;])
+    def featured(self, request):
+        &quot;&quot;&quot;Return featured products.&quot;&quot;&quot;
+        featured = self.queryset.filter(is_featured=True)[:10]
+        serializer = self.get_serializer(featured, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=[&#039;post&#039;])
+    def purchase(self, request, pk=None):
+        &quot;&quot;&quot;Purchase a product.&quot;&quot;&quot;
+        product = self.get_object()
+        service = ProductService()
+        result = service.purchase(product, request.user)
+        return Response(result, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=[&#039;get&#039;], permission_classes=[IsAuthenticated])
+    def my_products(self, request):
+        &quot;&quot;&quot;Return products created by current user.&quot;&quot;&quot;
+        products = self.queryset.filter(created_by=request.user)
+        page = self.paginate_queryset(products)
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+```
+
+### Custom Actions
+
+```python
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+@api_view([&#039;POST&#039;])
+@permission_classes([IsAuthenticated])
+def add_to_cart(request):
+    &quot;&quot;&quot;Add product to user cart.&quot;&quot;&quot;
+    product_id = request.data.get(&#039;product_id&#039;)
+    quantity = request.data.get(&#039;quantity&#039;, 1)
+
+    try:
+        product = Product.objects.get(id=product_id)
+    except Product.DoesNotExist:
+        return Response(
+            {&#039;error&#039;: &#039;Product not found&#039;},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    CartItem.objects.create(
+        cart=cart,
+        product=product,
+        quantity=quantity
+    )
+
+    return Response({&#039;message&#039;: &#039;Added to cart&#039;}, status=status.HTTP_201_CREATED)
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Service Layer Pattern
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```python
+# apps/orders/services.py
+from typing import Optional
+from django.db import transaction
+from .models import Order, OrderItem
+
+class OrderService:
+    &quot;&quot;&quot;Service layer for order-related business logic.&quot;&quot;&quot;
+
+    @staticmethod
+    @transaction.atomic
+    def create_order(user, cart: Cart) -&gt; Order:
+        &quot;&quot;&quot;Create order from cart.&quot;&quot;&quot;
+        order = Order.objects.create(
+            user=user,
+            total_price=cart.total_price
+        )
+
+        for item in cart.items.all():
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.price
+            )
+
+        # Clear cart
+        cart.items.all().delete()
+
+        return order
+
+    @staticmethod
+    def process_payment(order: Order, payment_data: dict) -&gt; bool:
+        &quot;&quot;&quot;Process payment for order.&quot;&quot;&quot;
+        # Integration with payment gateway
+        payment = PaymentGateway.charge(
+            amount=order.total_price,
+            token=payment_data[&#039;token&#039;]
+        )
+
+        if payment.success:
+            order.status = Order.Status.PAID
+            order.save()
+            # Send confirmation email
+            OrderService.send_confirmation_email(order)
+            return True
+
+        return False
+
+    @staticmethod
+    def send_confirmation_email(order: Order):
+        &quot;&quot;&quot;Send order confirmation email.&quot;&quot;&quot;
+        # Email sending logic
+        pass
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Caching Strategies
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### View-Level Caching
+
+```python
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+
+@method_decorator(cache_page(60 * 15), name=&#039;dispatch&#039;)  # 15 minutes
+class ProductListView(generic.ListView):
+    model = Product
+    template_name = &#039;products/list.html&#039;
+    context_object_name = &#039;products&#039;
+```
+
+### Template Fragment Caching
+
+```django
+{% load cache %}
+{% cache 500 sidebar %}
+    ... expensive sidebar content ...
+{% endcache %}
+```
+
+### Low-Level Caching
+
+```python
+from django.core.cache import cache
+
+def get_featured_products():
+    &quot;&quot;&quot;Get featured products with caching.&quot;&quot;&quot;
+    cache_key = &#039;featured_products&#039;
+    products = cache.get(cache_key)
+
+    if products is None:
+        products = list(Product.objects.filter(is_featured=True))
+        cache.set(cache_key, products, timeout=60 * 15)  # 15 minutes
+
+    return products
+```
+
+### QuerySet Caching
+
+```python
+from django.core.cache import cache
+
+def get_popular_categories():
+    cache_key = &#039;popular_categories&#039;
+    categories = cache.get(cache_key)
+
+    if categories is None:
+        categories = list(Category.objects.annotate(
+            product_count=Count(&#039;products&#039;)
+        ).filter(product_count__gt=10).order_by(&#039;-product_count&#039;)[:20])
+        cache.set(cache_key, categories, timeout=60 * 60)  # 1 hour
+
+    return categories
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Signals
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Signal Patterns
+
+```python
+# apps/users/signals.py
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth import get_user_model
+from .models import Profile
+
+User = get_user_model()
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    &quot;&quot;&quot;Create profile when user is created.&quot;&quot;&quot;
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    &quot;&quot;&quot;Save profile when user is saved.&quot;&quot;&quot;
+    instance.profile.save()
+
+# apps/users/apps.py
+from django.apps import AppConfig
+
+class UsersConfig(AppConfig):
+    default_auto_field = &#039;django.db.models.BigAutoField&#039;
+    name = &#039;apps.users&#039;
+
+    def ready(self):
+        &quot;&quot;&quot;Import signals when app is ready.&quot;&quot;&quot;
+        import apps.users.signals
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Middleware
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Custom Middleware
+
+```python
+# middleware/active_user_middleware.py
+import time
+from django.utils.deprecation import MiddlewareMixin
+
+class ActiveUserMiddleware(MiddlewareMixin):
+    &quot;&quot;&quot;Middleware to track active users.&quot;&quot;&quot;
+
+    def process_request(self, request):
+        &quot;&quot;&quot;Process incoming request.&quot;&quot;&quot;
+        if request.user.is_authenticated:
+            # Update last active time
+            request.user.last_active = timezone.now()
+            request.user.save(update_fields=[&#039;last_active&#039;])
+
+class RequestLoggingMiddleware(MiddlewareMixin):
+    &quot;&quot;&quot;Middleware for logging requests.&quot;&quot;&quot;
+
+    def process_request(self, request):
+        &quot;&quot;&quot;Log request start time.&quot;&quot;&quot;
+        request.start_time = time.time()
+
+    def process_response(self, request, response):
+        &quot;&quot;&quot;Log request duration.&quot;&quot;&quot;
+        if hasattr(request, &#039;start_time&#039;):
+            duration = time.time() - request.start_time
+            logger.info(f&#039;{request.method} {request.path} - {response.status_code} - {duration:.3f}s&#039;)
+        return response
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Performance Optimization
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### N+1 Query Prevention
+
+```python
+# Bad - N+1 queries
+products = Product.objects.all()
+for product in products:
+    print(product.category.name)  # Separate query for each product
+
+# Good - Single query with select_related
+products = Product.objects.select_related(&#039;category&#039;).all()
+for product in products:
+    print(product.category.name)
+
+# Good - Prefetch for many-to-many
+products = Product.objects.prefetch_related(&#039;tags&#039;).all()
+for product in products:
+    for tag in product.tags.all():
+        print(tag.name)
+```
+
+### Database Indexing
+
+```python
+class Product(models.Model):
+    name = models.CharField(max_length=200, db_index=True)
+    slug = models.SlugField(unique=True)
+    category = models.ForeignKey(&#039;Category&#039;, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=[&#039;name&#039;]),
+            models.Index(fields=[&#039;-created_at&#039;]),
+            models.Index(fields=[&#039;category&#039;, &#039;created_at&#039;]),
+        ]
+```
+
+### Bulk Operations
+
+```python
+# Bulk create
+Product.objects.bulk_create([
+    Product(name=f&#039;Product {i}&#039;, price=10.00)
+    for i in range(1000)
+])
+
+# Bulk update
+products = Product.objects.all()[:100]
+for product in products:
+    product.is_active = True
+Product.objects.bulk_update(products, [&#039;is_active&#039;])
+
+# Bulk delete
+Product.objects.filter(stock=0).delete()
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Quick Reference
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Pattern | Description |
+|---------|-------------|
+| Split settings | Separate dev/prod/test settings |
+| Custom QuerySet | Reusable query methods |
+| Service Layer | Business logic separation |
+| ViewSet | REST API endpoints |
+| Serializer validation | Request/response transformation |
+| select_related | Foreign key optimization |
+| prefetch_related | Many-to-many optimization |
+| Cache first | Cache expensive operations |
+| Signals | Event-driven actions |
+| Middleware | Request/response processing |
+
+Remember: Django provides many shortcuts, but for production applications, structure and organization matter more than concise code. Build for maintainability.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: django-patterns
+description: Django architecture patterns, REST API design with DRF, ORM best practices, caching, signals, middleware, and production-grade Django apps.
+origin: ECC
+---
+
+# Django Development Patterns
+
+Production-grade Django architecture patterns for scalable, maintainable applications.
+
+## When to Activate
+
+- Building Django web applications
+- Designing Django REST Framework APIs
+- Working with Django ORM and models
+- Setting up Django project structure
+- Implementing caching, signals, middleware
+
+## Project Structure
+
+### Recommended Layout
+
+```
+myproject/
+├── config/
+│   ├── __init__.py
+│   ├── settings/
+│   │   ├── __init__.py
+│   │   ├── base.py          # Base settings
+│   │   ├── development.py   # Dev settings
+│   │   ├── production.py    # Production settings
+│   │   └── test.py          # Test settings
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+├── manage.py
+└── apps/
+    ├── __init__.py
+    ├── users/
+    │   ├── __init__.py
+    │   ├── models.py
+    │   ├── views.py
+    │   ├── serializers.py
+    │   ├── urls.py
+    │   ├── permissions.py
+    │   ├── filters.py
+    │   ├── services.py
+    │   └── tests/
+    └── products/
+        └── ...
+```
+
+### Split Settings Pattern
+
+```python
+# config/settings/base.py
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+SECRET_KEY = env(&#039;DJANGO_SECRET_KEY&#039;)
+DEBUG = False
+ALLOWED_HOSTS = []
+
+INSTALLED_APPS = [
+    &#039;django.contrib.admin&#039;,
+    &#039;django.contrib.auth&#039;,
+    &#039;django.contrib.contenttypes&#039;,
+    &#039;django.contrib.sessions&#039;,
+    &#039;django.contrib.messages&#039;,
+    &#039;django.contrib.staticfiles&#039;,
+    &#039;rest_framework&#039;,
+    &#039;rest_framework.authtoken&#039;,
+    &#039;corsheaders&#039;,
+    # Local apps
+    &#039;apps.users&#039;,
+    &#039;apps.products&#039;,
+]
+
+MIDDLEWARE = [
+    &#039;django.middleware.security.SecurityMiddleware&#039;,
+    &#039;whitenoise.middleware.WhiteNoiseMiddleware&#039;,
+    &#039;django.contrib.sessions.middleware.SessionMiddleware&#039;,
+    &#039;corsheaders.middleware.CorsMiddleware&#039;,
+    &#039;django.middleware.common.CommonMiddleware&#039;,
+    &#039;django.middleware.csrf.CsrfViewMiddleware&#039;,
+    &#039;django.contrib.auth.middleware.AuthenticationMiddleware&#039;,
+    &#039;django.contrib.messages.middleware.MessageMiddleware&#039;,
+    &#039;django.middleware.clickjacking.XFrameOptionsMiddleware&#039;,
+]
+
+ROOT_URLCONF = &#039;config.urls&#039;
+WSGI_APPLICATION = &#039;config.wsgi.application&#039;
+
+DATABASES = {
+    &#039;default&#039;: {
+        &#039;ENGINE&#039;: &#039;django.db.backends.postgresql&#039;,
+        &#039;NAME&#039;: env(&#039;DB_NAME&#039;),
+        &#039;USER&#039;: env(&#039;DB_USER&#039;),
+        &#039;PASSWORD&#039;: env(&#039;DB_PASSWORD&#039;),
+        &#039;HOST&#039;: env(&#039;DB_HOST&#039;),
+        &#039;PORT&#039;: env(&#039;DB_PORT&#039;, default=&#039;5432&#039;),
+    }
+}
+
+# config/settings/development.py
+from .base import *
+
+DEBUG = True
+ALLOWED_HOSTS = [&#039;localhost&#039;, &#039;127.0.0.1&#039;]
+
+DATABASES[&#039;default&#039;][&#039;NAME&#039;] = &#039;myproject_dev&#039;
+
+INSTALLED_APPS += [&#039;debug_toolbar&#039;]
+
+MIDDLEWARE += [&#039;debug_toolbar.middleware.DebugToolbarMiddleware&#039;]
+
+EMAIL_BACKEND = &#039;django.core.mail.backends.console.EmailBackend&#039;
+
+# config/settings/production.py
+from .base import *
+
+DEBUG = False
+ALLOWED_HOSTS = env.list(&#039;ALLOWED_HOSTS&#039;)
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Logging
+LOGGING = {
+    &#039;version&#039;: 1,
+    &#039;disable_existing_loggers&#039;: False,
+    &#039;handlers&#039;: {
+        &#039;file&#039;: {
+            &#039;level&#039;: &#039;WARNING&#039;,
+            &#039;class&#039;: &#039;logging.FileHandler&#039;,
+            &#039;filename&#039;: &#039;/var/log/django/django.log&#039;,
+        },
+    },
+    &#039;loggers&#039;: {
+        &#039;django&#039;: {
+            &#039;handlers&#039;: [&#039;file&#039;],
+            &#039;level&#039;: &#039;WARNING&#039;,
+            &#039;propagate&#039;: True,
+        },
+    },
+}
+```
+
+## Model Design Patterns
+
+### Model Best Practices
+
+```python
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+class User(AbstractUser):
+    &quot;&quot;&quot;Custom user model extending AbstractUser.&quot;&quot;&quot;
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=20, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+    USERNAME_FIELD = &#039;email&#039;
+    REQUIRED_FIELDS = [&#039;username&#039;]
+
+    class Meta:
+        db_table = &#039;users&#039;
+        verbose_name = &#039;user&#039;
+        verbose_name_plural = &#039;users&#039;
+        ordering = [&#039;-date_joined&#039;]
+
+    def __str__(self):
+        return self.email
+
+    def get_full_name(self):
+        return f&quot;{self.first_name} {self.last_name}&quot;.strip()
+
+class Product(models.Model):
+    &quot;&quot;&quot;Product model with proper field configuration.&quot;&quot;&quot;
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, max_length=250)
+    description = models.TextField(blank=True)
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0)]
+    )
+    stock = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    category = models.ForeignKey(
+        &#039;Category&#039;,
+        on_delete=models.CASCADE,
+        related_name=&#039;products&#039;
+    )
+    tags = models.ManyToManyField(&#039;Tag&#039;, blank=True, related_name=&#039;products&#039;)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = &#039;products&#039;
+        ordering = [&#039;-created_at&#039;]
+        indexes = [
+            models.Index(fields=[&#039;slug&#039;]),
+            models.Index(fields=[&#039;-created_at&#039;]),
+            models.Index(fields=[&#039;category&#039;, &#039;is_active&#039;]),
+        ]
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(price__gte=0),
+                name=&#039;price_non_negative&#039;
+            )
+        ]
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+```
+
+### QuerySet Best Practices
+
+```python
+from django.db import models
+
+class ProductQuerySet(models.QuerySet):
+    &quot;&quot;&quot;Custom QuerySet for Product model.&quot;&quot;&quot;
+
+    def active(self):
+        &quot;&quot;&quot;Return only active products.&quot;&quot;&quot;
+        return self.filter(is_active=True)
+
+    def with_category(self):
+        &quot;&quot;&quot;Select related category to avoid N+1 queries.&quot;&quot;&quot;
+        return self.select_related(&#039;category&#039;)
+
+    def with_tags(self):
+        &quot;&quot;&quot;Prefetch tags for many-to-many relationship.&quot;&quot;&quot;
+        return self.prefetch_related(&#039;tags&#039;)
+
+    def in_stock(self):
+        &quot;&quot;&quot;Return products with stock &gt; 0.&quot;&quot;&quot;
+        return self.filter(stock__gt=0)
+
+    def search(self, query):
+        &quot;&quot;&quot;Search products by name or description.&quot;&quot;&quot;
+        return self.filter(
+            models.Q(name__icontains=query) |
+            models.Q(description__icontains=query)
+        )
+
+class Product(models.Model):
+    # ... fields ...
+
+    objects = ProductQuerySet.as_manager()  # Use custom QuerySet
+
+# Usage
+Product.objects.active().with_category().in_stock()
+```
+
+### Manager Methods
+
+```python
+class ProductManager(models.Manager):
+    &quot;&quot;&quot;Custom manager for complex queries.&quot;&quot;&quot;
+
+    def get_or_none(self, **kwargs):
+        &quot;&quot;&quot;Return object or None instead of DoesNotExist.&quot;&quot;&quot;
+        try:
+            return self.get(**kwargs)
+        except self.model.DoesNotExist:
+            return None
+
+    def create_with_tags(self, name, price, tag_names):
+        &quot;&quot;&quot;Create product with associated tags.&quot;&quot;&quot;
+        product = self.create(name=name, price=price)
+        tags = [Tag.objects.get_or_create(name=name)[0] for name in tag_names]
+        product.tags.set(tags)
+        return product
+
+    def bulk_update_stock(self, product_ids, quantity):
+        &quot;&quot;&quot;Bulk update stock for multiple products.&quot;&quot;&quot;
+        return self.filter(id__in=product_ids).update(stock=quantity)
+
+# In model
+class Product(models.Model):
+    # ... fields ...
+    custom = ProductManager()
+```
+
+## Django REST Framework Patterns
+
+### Serializer Patterns
+
+```python
+from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
+from .models import Product, User
+
+class ProductSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Serializer for Product model.&quot;&quot;&quot;
+
+    category_name = serializers.CharField(source=&#039;category.name&#039;, read_only=True)
+    average_rating = serializers.FloatField(read_only=True)
+    discount_price = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Product
+        fields = [
+            &#039;id&#039;, &#039;name&#039;, &#039;slug&#039;, &#039;description&#039;, &#039;price&#039;,
+            &#039;discount_price&#039;, &#039;stock&#039;, &#039;category_name&#039;,
+            &#039;average_rating&#039;, &#039;created_at&#039;
+        ]
+        read_only_fields = [&#039;id&#039;, &#039;slug&#039;, &#039;created_at&#039;]
+
+    def get_discount_price(self, obj):
+        &quot;&quot;&quot;Calculate discount price if applicable.&quot;&quot;&quot;
+        if hasattr(obj, &#039;discount&#039;) and obj.discount:
+            return obj.price * (1 - obj.discount.percent / 100)
+        return obj.price
+
+    def validate_price(self, value):
+        &quot;&quot;&quot;Ensure price is non-negative.&quot;&quot;&quot;
+        if value &lt; 0:
+            raise serializers.ValidationError(&quot;Price cannot be negative.&quot;)
+        return value
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Serializer for creating products.&quot;&quot;&quot;
+
+    class Meta:
+        model = Product
+        fields = [&#039;name&#039;, &#039;description&#039;, &#039;price&#039;, &#039;stock&#039;, &#039;category&#039;]
+
+    def validate(self, data):
+        &quot;&quot;&quot;Custom validation for multiple fields.&quot;&quot;&quot;
+        if data[&#039;price&#039;] &gt; 10000 and data[&#039;stock&#039;] &gt; 100:
+            raise serializers.ValidationError(
+                &quot;Cannot have high-value products with large stock.&quot;
+            )
+        return data
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Serializer for user registration.&quot;&quot;&quot;
+
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+        validators=[validate_password],
+        style={&#039;input_type&#039;: &#039;password&#039;}
+    )
+    password_confirm = serializers.CharField(write_only=True, style={&#039;input_type&#039;: &#039;password&#039;})
+
+    class Meta:
+        model = User
+        fields = [&#039;email&#039;, &#039;username&#039;, &#039;password&#039;, &#039;password_confirm&#039;]
+
+    def validate(self, data):
+        &quot;&quot;&quot;Validate passwords match.&quot;&quot;&quot;
+        if data[&#039;password&#039;] != data[&#039;password_confirm&#039;]:
+            raise serializers.ValidationError({
+                &quot;password_confirm&quot;: &quot;Password fields didn&#039;t match.&quot;
+            })
+        return data
+
+    def create(self, validated_data):
+        &quot;&quot;&quot;Create user with hashed password.&quot;&quot;&quot;
+        validated_data.pop(&#039;password_confirm&#039;)
+        password = validated_data.pop(&#039;password&#039;)
+        user = User.objects.create(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
+```
+
+### ViewSet Patterns
+
+```python
+from rest_framework import viewsets, status, filters
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend
+from .models import Product
+from .serializers import ProductSerializer, ProductCreateSerializer
+from .permissions import IsOwnerOrReadOnly
+from .filters import ProductFilter
+from .services import ProductService
+
+class ProductViewSet(viewsets.ModelViewSet):
+    &quot;&quot;&quot;ViewSet for Product model.&quot;&quot;&quot;
+
+    queryset = Product.objects.select_related(&#039;category&#039;).prefetch_related(&#039;tags&#039;)
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = ProductFilter
+    search_fields = [&#039;name&#039;, &#039;description&#039;]
+    ordering_fields = [&#039;price&#039;, &#039;created_at&#039;, &#039;name&#039;]
+    ordering = [&#039;-created_at&#039;]
+
+    def get_serializer_class(self):
+        &quot;&quot;&quot;Return appropriate serializer based on action.&quot;&quot;&quot;
+        if self.action == &#039;create&#039;:
+            return ProductCreateSerializer
+        return ProductSerializer
+
+    def perform_create(self, serializer):
+        &quot;&quot;&quot;Save with user context.&quot;&quot;&quot;
+        serializer.save(created_by=self.request.user)
+
+    @action(detail=False, methods=[&#039;get&#039;])
+    def featured(self, request):
+        &quot;&quot;&quot;Return featured products.&quot;&quot;&quot;
+        featured = self.queryset.filter(is_featured=True)[:10]
+        serializer = self.get_serializer(featured, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=[&#039;post&#039;])
+    def purchase(self, request, pk=None):
+        &quot;&quot;&quot;Purchase a product.&quot;&quot;&quot;
+        product = self.get_object()
+        service = ProductService()
+        result = service.purchase(product, request.user)
+        return Response(result, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=[&#039;get&#039;], permission_classes=[IsAuthenticated])
+    def my_products(self, request):
+        &quot;&quot;&quot;Return products created by current user.&quot;&quot;&quot;
+        products = self.queryset.filter(created_by=request.user)
+        page = self.paginate_queryset(products)
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+```
+
+### Custom Actions
+
+```python
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+@api_view([&#039;POST&#039;])
+@permission_classes([IsAuthenticated])
+def add_to_cart(request):
+    &quot;&quot;&quot;Add product to user cart.&quot;&quot;&quot;
+    product_id = request.data.get(&#039;product_id&#039;)
+    quantity = request.data.get(&#039;quantity&#039;, 1)
+
+    try:
+        product = Product.objects.get(id=product_id)
+    except Product.DoesNotExist:
+        return Response(
+            {&#039;error&#039;: &#039;Product not found&#039;},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    CartItem.objects.create(
+        cart=cart,
+        product=product,
+        quantity=quantity
+    )
+
+    return Response({&#039;message&#039;: &#039;Added to cart&#039;}, status=status.HTTP_201_CREATED)
+```
+
+## Service Layer Pattern
+
+```python
+# apps/orders/services.py
+from typing import Optional
+from django.db import transaction
+from .models import Order, OrderItem
+
+class OrderService:
+    &quot;&quot;&quot;Service layer for order-related business logic.&quot;&quot;&quot;
+
+    @staticmethod
+    @transaction.atomic
+    def create_order(user, cart: Cart) -&gt; Order:
+        &quot;&quot;&quot;Create order from cart.&quot;&quot;&quot;
+        order = Order.objects.create(
+            user=user,
+            total_price=cart.total_price
+        )
+
+        for item in cart.items.all():
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.price
+            )
+
+        # Clear cart
+        cart.items.all().delete()
+
+        return order
+
+    @staticmethod
+    def process_payment(order: Order, payment_data: dict) -&gt; bool:
+        &quot;&quot;&quot;Process payment for order.&quot;&quot;&quot;
+        # Integration with payment gateway
+        payment = PaymentGateway.charge(
+            amount=order.total_price,
+            token=payment_data[&#039;token&#039;]
+        )
+
+        if payment.success:
+            order.status = Order.Status.PAID
+            order.save()
+            # Send confirmation email
+            OrderService.send_confirmation_email(order)
+            return True
+
+        return False
+
+    @staticmethod
+    def send_confirmation_email(order: Order):
+        &quot;&quot;&quot;Send order confirmation email.&quot;&quot;&quot;
+        # Email sending logic
+        pass
+```
+
+## Caching Strategies
+
+### View-Level Caching
+
+```python
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+
+@method_decorator(cache_page(60 * 15), name=&#039;dispatch&#039;)  # 15 minutes
+class ProductListView(generic.ListView):
+    model = Product
+    template_name = &#039;products/list.html&#039;
+    context_object_name = &#039;products&#039;
+```
+
+### Template Fragment Caching
+
+```django
+{% load cache %}
+{% cache 500 sidebar %}
+    ... expensive sidebar content ...
+{% endcache %}
+```
+
+### Low-Level Caching
+
+```python
+from django.core.cache import cache
+
+def get_featured_products():
+    &quot;&quot;&quot;Get featured products with caching.&quot;&quot;&quot;
+    cache_key = &#039;featured_products&#039;
+    products = cache.get(cache_key)
+
+    if products is None:
+        products = list(Product.objects.filter(is_featured=True))
+        cache.set(cache_key, products, timeout=60 * 15)  # 15 minutes
+
+    return products
+```
+
+### QuerySet Caching
+
+```python
+from django.core.cache import cache
+
+def get_popular_categories():
+    cache_key = &#039;popular_categories&#039;
+    categories = cache.get(cache_key)
+
+    if categories is None:
+        categories = list(Category.objects.annotate(
+            product_count=Count(&#039;products&#039;)
+        ).filter(product_count__gt=10).order_by(&#039;-product_count&#039;)[:20])
+        cache.set(cache_key, categories, timeout=60 * 60)  # 1 hour
+
+    return categories
+```
+
+## Signals
+
+### Signal Patterns
+
+```python
+# apps/users/signals.py
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth import get_user_model
+from .models import Profile
+
+User = get_user_model()
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    &quot;&quot;&quot;Create profile when user is created.&quot;&quot;&quot;
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    &quot;&quot;&quot;Save profile when user is saved.&quot;&quot;&quot;
+    instance.profile.save()
+
+# apps/users/apps.py
+from django.apps import AppConfig
+
+class UsersConfig(AppConfig):
+    default_auto_field = &#039;django.db.models.BigAutoField&#039;
+    name = &#039;apps.users&#039;
+
+    def ready(self):
+        &quot;&quot;&quot;Import signals when app is ready.&quot;&quot;&quot;
+        import apps.users.signals
+```
+
+## Middleware
+
+### Custom Middleware
+
+```python
+# middleware/active_user_middleware.py
+import time
+from django.utils.deprecation import MiddlewareMixin
+
+class ActiveUserMiddleware(MiddlewareMixin):
+    &quot;&quot;&quot;Middleware to track active users.&quot;&quot;&quot;
+
+    def process_request(self, request):
+        &quot;&quot;&quot;Process incoming request.&quot;&quot;&quot;
+        if request.user.is_authenticated:
+            # Update last active time
+            request.user.last_active = timezone.now()
+            request.user.save(update_fields=[&#039;last_active&#039;])
+
+class RequestLoggingMiddleware(MiddlewareMixin):
+    &quot;&quot;&quot;Middleware for logging requests.&quot;&quot;&quot;
+
+    def process_request(self, request):
+        &quot;&quot;&quot;Log request start time.&quot;&quot;&quot;
+        request.start_time = time.time()
+
+    def process_response(self, request, response):
+        &quot;&quot;&quot;Log request duration.&quot;&quot;&quot;
+        if hasattr(request, &#039;start_time&#039;):
+            duration = time.time() - request.start_time
+            logger.info(f&#039;{request.method} {request.path} - {response.status_code} - {duration:.3f}s&#039;)
+        return response
+```
+
+## Performance Optimization
+
+### N+1 Query Prevention
+
+```python
+# Bad - N+1 queries
+products = Product.objects.all()
+for product in products:
+    print(product.category.name)  # Separate query for each product
+
+# Good - Single query with select_related
+products = Product.objects.select_related(&#039;category&#039;).all()
+for product in products:
+    print(product.category.name)
+
+# Good - Prefetch for many-to-many
+products = Product.objects.prefetch_related(&#039;tags&#039;).all()
+for product in products:
+    for tag in product.tags.all():
+        print(tag.name)
+```
+
+### Database Indexing
+
+```python
+class Product(models.Model):
+    name = models.CharField(max_length=200, db_index=True)
+    slug = models.SlugField(unique=True)
+    category = models.ForeignKey(&#039;Category&#039;, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=[&#039;name&#039;]),
+            models.Index(fields=[&#039;-created_at&#039;]),
+            models.Index(fields=[&#039;category&#039;, &#039;created_at&#039;]),
+        ]
+```
+
+### Bulk Operations
+
+```python
+# Bulk create
+Product.objects.bulk_create([
+    Product(name=f&#039;Product {i}&#039;, price=10.00)
+    for i in range(1000)
+])
+
+# Bulk update
+products = Product.objects.all()[:100]
+for product in products:
+    product.is_active = True
+Product.objects.bulk_update(products, [&#039;is_active&#039;])
+
+# Bulk delete
+Product.objects.filter(stock=0).delete()
+```
+
+## Quick Reference
+
+| Pattern | Description |
+|---------|-------------|
+| Split settings | Separate dev/prod/test settings |
+| Custom QuerySet | Reusable query methods |
+| Service Layer | Business logic separation |
+| ViewSet | REST API endpoints |
+| Serializer validation | Request/response transformation |
+| select_related | Foreign key optimization |
+| prefetch_related | Many-to-many optimization |
+| Cache first | Cache expensive operations |
+| Signals | Event-driven actions |
+| Middleware | Request/response processing |
+
+Remember: Django provides many shortcuts, but for production applications, structure and organization matter more than concise code. Build for maintainability.
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

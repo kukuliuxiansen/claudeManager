@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoundationModels: On-Device LLM (iOS 26) - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">FoundationModels: On-Device LLM (iOS 26)</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">FoundationModels: On-Device LLM (iOS 26)</h1>
+            <p class="detail-subtitle">技能模块，提供专业领域的自动化处理能力</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Building AI-powered features using Apple Intelligence on-device
+- Generating or summarizing text without cloud dependency
+- Extracting structured data from natural language input
+- Implementing custom tool calling for domain-specific AI actions
+- Streaming structured responses for real-time UI updates
+- Need privacy-preserving AI (no data leaves the device)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Pattern — Availability Check
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Always check model availability before creating a session:
+
+```swift
+struct GenerativeView: View {
+    private var model = SystemLanguageModel.default
+
+    var body: some View {
+        switch model.availability {
+        case .available:
+            ContentView()
+        case .unavailable(.deviceNotEligible):
+            Text(&quot;Device not eligible for Apple Intelligence&quot;)
+        case .unavailable(.appleIntelligenceNotEnabled):
+            Text(&quot;Please enable Apple Intelligence in Settings&quot;)
+        case .unavailable(.modelNotReady):
+            Text(&quot;Model is downloading or not ready&quot;)
+        case .unavailable(let other):
+            Text(&quot;Model unavailable: \(other)&quot;)
+        }
+    }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Pattern — Basic Session
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```swift
+// Single-turn: create a new session each time
+let session = LanguageModelSession()
+let response = try await session.respond(to: &quot;What&#039;s a good month to visit Paris?&quot;)
+print(response.content)
+
+// Multi-turn: reuse session for conversation context
+let session = LanguageModelSession(instructions: &quot;&quot;&quot;
+    You are a cooking assistant.
+    Provide recipe suggestions based on ingredients.
+    Keep suggestions brief and practical.
+    &quot;&quot;&quot;)
+
+let first = try await session.respond(to: &quot;I have chicken and rice&quot;)
+let followUp = try await session.respond(to: &quot;What about a vegetarian option?&quot;)
+```
+
+Key points for instructions:
+- Define the model&#039;s role (&quot;You are a mentor&quot;)
+- Specify what to do (&quot;Help extract calendar events&quot;)
+- Set style preferences (&quot;Respond as briefly as possible&quot;)
+- Add safety measures (&quot;Respond with &#039;I can&#039;t help with that&#039; for dangerous requests&quot;)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Pattern — Guided Generation with @Generable
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Generate structured Swift types instead of raw strings:
+
+### 1. Define a Generable Type
+
+```swift
+@Generable(description: &quot;Basic profile information about a cat&quot;)
+struct CatProfile {
+    var name: String
+
+    @Guide(description: &quot;The age of the cat&quot;, .range(0...20))
+    var age: Int
+
+    @Guide(description: &quot;A one sentence profile about the cat&#039;s personality&quot;)
+    var profile: String
+}
+```
+
+### 2. Request Structured Output
+
+```swift
+let response = try await session.respond(
+    to: &quot;Generate a cute rescue cat&quot;,
+    generating: CatProfile.self
+)
+
+// Access structured fields directly
+print(&quot;Name: \(response.content.name)&quot;)
+print(&quot;Age: \(response.content.age)&quot;)
+print(&quot;Profile: \(response.content.profile)&quot;)
+```
+
+### Supported @Guide Constraints
+
+- `.range(0...20)` — numeric range
+- `.count(3)` — array element count
+- `description:` — semantic guidance for generation</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Pattern — Tool Calling
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Let the model invoke custom code for domain-specific tasks:
+
+### 1. Define a Tool
+
+```swift
+struct RecipeSearchTool: Tool {
+    let name = &quot;recipe_search&quot;
+    let description = &quot;Search for recipes matching a given term and return a list of results.&quot;
+
+    @Generable
+    struct Arguments {
+        var searchTerm: String
+        var numberOfResults: Int
+    }
+
+    func call(arguments: Arguments) async throws -&gt; ToolOutput {
+        let recipes = await searchRecipes(
+            term: arguments.searchTerm,
+            limit: arguments.numberOfResults
+        )
+        return .string(recipes.map { &quot;- \($0.name): \($0.description)&quot; }.joined(separator: &quot;\n&quot;))
+    }
+}
+```
+
+### 2. Create Session with Tools
+
+```swift
+let session = LanguageModelSession(tools: [RecipeSearchTool()])
+let response = try await session.respond(to: &quot;Find me some pasta recipes&quot;)
+```
+
+### 3. Handle Tool Errors
+
+```swift
+do {
+    let answer = try await session.respond(to: &quot;Find a recipe for tomato soup.&quot;)
+} catch let error as LanguageModelSession.ToolCallError {
+    print(error.tool.name)
+    if case .databaseIsEmpty = error.underlyingError as? RecipeSearchToolError {
+        // Handle specific tool error
+    }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Pattern — Snapshot Streaming
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Stream structured responses for real-time UI with `PartiallyGenerated` types:
+
+```swift
+@Generable
+struct TripIdeas {
+    @Guide(description: &quot;Ideas for upcoming trips&quot;)
+    var ideas: [String]
+}
+
+let stream = session.streamResponse(
+    to: &quot;What are some exciting trip ideas?&quot;,
+    generating: TripIdeas.self
+)
+
+for try await partial in stream {
+    // partial: TripIdeas.PartiallyGenerated (all properties Optional)
+    print(partial)
+}
+```
+
+### SwiftUI Integration
+
+```swift
+@State private var partialResult: TripIdeas.PartiallyGenerated?
+@State private var errorMessage: String?
+
+var body: some View {
+    List {
+        ForEach(partialResult?.ideas ?? [], id: \.self) { idea in
+            Text(idea)
+        }
+    }
+    .overlay {
+        if let errorMessage { Text(errorMessage).foregroundStyle(.red) }
+    }
+    .task {
+        do {
+            let stream = session.streamResponse(to: prompt, generating: TripIdeas.self)
+            for try await partial in stream {
+                partialResult = partial
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Key Design Decisions
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Decision | Rationale |
+|----------|-----------|
+| On-device execution | Privacy — no data leaves the device; works offline |
+| 4,096 token limit | On-device model constraint; chunk large data across sessions |
+| Snapshot streaming (not deltas) | Structured output friendly; each snapshot is a complete partial state |
+| `@Generable` macro | Compile-time safety for structured generation; auto-generates `PartiallyGenerated` type |
+| Single request per session | `isResponding` prevents concurrent requests; create multiple sessions if needed |
+| `response.content` (not `.output`) | Correct API — always access results via `.content` property |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                最佳实践
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- **Always check `model.availability`** before creating a session — handle all unavailability cases
+- **Use `instructions`** to guide model behavior — they take priority over prompts
+- **Check `isResponding`** before sending a new request — sessions handle one request at a time
+- **Access `response.content`** for results — not `.output`
+- **Break large inputs into chunks** — 4,096 token limit applies to instructions + prompt + output combined
+- **Use `@Generable`** for structured output — stronger guarantees than parsing raw strings
+- **Use `GenerationOptions(temperature:)`** to tune creativity (higher = more creative)
+- **Monitor with Instruments** — use Xcode Instruments to profile request performance</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Anti-Patterns to Avoid
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Creating sessions without checking `model.availability` first
+- Sending inputs exceeding the 4,096 token context window
+- Attempting concurrent requests on a single session
+- Using `.output` instead of `.content` to access response data
+- Parsing raw string responses when `@Generable` structured output would work
+- Building complex multi-step logic in a single prompt — break into multiple focused prompts
+- Assuming the model is always available — device eligibility and settings vary</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                何时使用
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- On-device text generation for privacy-sensitive apps
+- Structured data extraction from user input (forms, natural language commands)
+- AI-assisted features that must work offline
+- Streaming UI that progressively shows generated content
+- Domain-specific AI actions via tool calling (search, compute, lookup)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: foundation-models-on-device
+description: Apple FoundationModels framework for on-device LLM — text generation, guided generation with @Generable, tool calling, and snapshot streaming in iOS 26+.
+---
+
+# FoundationModels: On-Device LLM (iOS 26)
+
+Patterns for integrating Apple&#039;s on-device language model into apps using the FoundationModels framework. Covers text generation, structured output with `@Generable`, custom tool calling, and snapshot streaming — all running on-device for privacy and offline support.
+
+## When to Activate
+
+- Building AI-powered features using Apple Intelligence on-device
+- Generating or summarizing text without cloud dependency
+- Extracting structured data from natural language input
+- Implementing custom tool calling for domain-specific AI actions
+- Streaming structured responses for real-time UI updates
+- Need privacy-preserving AI (no data leaves the device)
+
+## Core Pattern — Availability Check
+
+Always check model availability before creating a session:
+
+```swift
+struct GenerativeView: View {
+    private var model = SystemLanguageModel.default
+
+    var body: some View {
+        switch model.availability {
+        case .available:
+            ContentView()
+        case .unavailable(.deviceNotEligible):
+            Text(&quot;Device not eligible for Apple Intelligence&quot;)
+        case .unavailable(.appleIntelligenceNotEnabled):
+            Text(&quot;Please enable Apple Intelligence in Settings&quot;)
+        case .unavailable(.modelNotReady):
+            Text(&quot;Model is downloading or not ready&quot;)
+        case .unavailable(let other):
+            Text(&quot;Model unavailable: \(other)&quot;)
+        }
+    }
+}
+```
+
+## Core Pattern — Basic Session
+
+```swift
+// Single-turn: create a new session each time
+let session = LanguageModelSession()
+let response = try await session.respond(to: &quot;What&#039;s a good month to visit Paris?&quot;)
+print(response.content)
+
+// Multi-turn: reuse session for conversation context
+let session = LanguageModelSession(instructions: &quot;&quot;&quot;
+    You are a cooking assistant.
+    Provide recipe suggestions based on ingredients.
+    Keep suggestions brief and practical.
+    &quot;&quot;&quot;)
+
+let first = try await session.respond(to: &quot;I have chicken and rice&quot;)
+let followUp = try await session.respond(to: &quot;What about a vegetarian option?&quot;)
+```
+
+Key points for instructions:
+- Define the model&#039;s role (&quot;You are a mentor&quot;)
+- Specify what to do (&quot;Help extract calendar events&quot;)
+- Set style preferences (&quot;Respond as briefly as possible&quot;)
+- Add safety measures (&quot;Respond with &#039;I can&#039;t help with that&#039; for dangerous requests&quot;)
+
+## Core Pattern — Guided Generation with @Generable
+
+Generate structured Swift types instead of raw strings:
+
+### 1. Define a Generable Type
+
+```swift
+@Generable(description: &quot;Basic profile information about a cat&quot;)
+struct CatProfile {
+    var name: String
+
+    @Guide(description: &quot;The age of the cat&quot;, .range(0...20))
+    var age: Int
+
+    @Guide(description: &quot;A one sentence profile about the cat&#039;s personality&quot;)
+    var profile: String
+}
+```
+
+### 2. Request Structured Output
+
+```swift
+let response = try await session.respond(
+    to: &quot;Generate a cute rescue cat&quot;,
+    generating: CatProfile.self
+)
+
+// Access structured fields directly
+print(&quot;Name: \(response.content.name)&quot;)
+print(&quot;Age: \(response.content.age)&quot;)
+print(&quot;Profile: \(response.content.profile)&quot;)
+```
+
+### Supported @Guide Constraints
+
+- `.range(0...20)` — numeric range
+- `.count(3)` — array element count
+- `description:` — semantic guidance for generation
+
+## Core Pattern — Tool Calling
+
+Let the model invoke custom code for domain-specific tasks:
+
+### 1. Define a Tool
+
+```swift
+struct RecipeSearchTool: Tool {
+    let name = &quot;recipe_search&quot;
+    let description = &quot;Search for recipes matching a given term and return a list of results.&quot;
+
+    @Generable
+    struct Arguments {
+        var searchTerm: String
+        var numberOfResults: Int
+    }
+
+    func call(arguments: Arguments) async throws -&gt; ToolOutput {
+        let recipes = await searchRecipes(
+            term: arguments.searchTerm,
+            limit: arguments.numberOfResults
+        )
+        return .string(recipes.map { &quot;- \($0.name): \($0.description)&quot; }.joined(separator: &quot;\n&quot;))
+    }
+}
+```
+
+### 2. Create Session with Tools
+
+```swift
+let session = LanguageModelSession(tools: [RecipeSearchTool()])
+let response = try await session.respond(to: &quot;Find me some pasta recipes&quot;)
+```
+
+### 3. Handle Tool Errors
+
+```swift
+do {
+    let answer = try await session.respond(to: &quot;Find a recipe for tomato soup.&quot;)
+} catch let error as LanguageModelSession.ToolCallError {
+    print(error.tool.name)
+    if case .databaseIsEmpty = error.underlyingError as? RecipeSearchToolError {
+        // Handle specific tool error
+    }
+}
+```
+
+## Core Pattern — Snapshot Streaming
+
+Stream structured responses for real-time UI with `PartiallyGenerated` types:
+
+```swift
+@Generable
+struct TripIdeas {
+    @Guide(description: &quot;Ideas for upcoming trips&quot;)
+    var ideas: [String]
+}
+
+let stream = session.streamResponse(
+    to: &quot;What are some exciting trip ideas?&quot;,
+    generating: TripIdeas.self
+)
+
+for try await partial in stream {
+    // partial: TripIdeas.PartiallyGenerated (all properties Optional)
+    print(partial)
+}
+```
+
+### SwiftUI Integration
+
+```swift
+@State private var partialResult: TripIdeas.PartiallyGenerated?
+@State private var errorMessage: String?
+
+var body: some View {
+    List {
+        ForEach(partialResult?.ideas ?? [], id: \.self) { idea in
+            Text(idea)
+        }
+    }
+    .overlay {
+        if let errorMessage { Text(errorMessage).foregroundStyle(.red) }
+    }
+    .task {
+        do {
+            let stream = session.streamResponse(to: prompt, generating: TripIdeas.self)
+            for try await partial in stream {
+                partialResult = partial
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+}
+```
+
+## Key Design Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| On-device execution | Privacy — no data leaves the device; works offline |
+| 4,096 token limit | On-device model constraint; chunk large data across sessions |
+| Snapshot streaming (not deltas) | Structured output friendly; each snapshot is a complete partial state |
+| `@Generable` macro | Compile-time safety for structured generation; auto-generates `PartiallyGenerated` type |
+| Single request per session | `isResponding` prevents concurrent requests; create multiple sessions if needed |
+| `response.content` (not `.output`) | Correct API — always access results via `.content` property |
+
+## Best Practices
+
+- **Always check `model.availability`** before creating a session — handle all unavailability cases
+- **Use `instructions`** to guide model behavior — they take priority over prompts
+- **Check `isResponding`** before sending a new request — sessions handle one request at a time
+- **Access `response.content`** for results — not `.output`
+- **Break large inputs into chunks** — 4,096 token limit applies to instructions + prompt + output combined
+- **Use `@Generable`** for structured output — stronger guarantees than parsing raw strings
+- **Use `GenerationOptions(temperature:)`** to tune creativity (higher = more creative)
+- **Monitor with Instruments** — use Xcode Instruments to profile request performance
+
+## Anti-Patterns to Avoid
+
+- Creating sessions without checking `model.availability` first
+- Sending inputs exceeding the 4,096 token context window
+- Attempting concurrent requests on a single session
+- Using `.output` instead of `.content` to access response data
+- Parsing raw string responses when `@Generable` structured output would work
+- Building complex multi-step logic in a single prompt — break into multiple focused prompts
+- Assuming the model is always available — device eligibility and settings vary
+
+## When to Use
+
+- On-device text generation for privacy-sensitive apps
+- Structured data extraction from user input (forms, natural language commands)
+- AI-assisted features that must work offline
+- Streaming UI that progressively shows generated content
+- Domain-specific AI actions via tool calling (search, compute, lookup)
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

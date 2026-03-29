@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Patterns - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Docker Patterns</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">Docker Patterns</h1>
+            <p class="detail-subtitle">技能模块，提供专业领域的自动化处理能力</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Setting up Docker Compose for local development
+- Designing multi-container architectures
+- Troubleshooting container networking or volume issues
+- Reviewing Dockerfiles for security and size
+- Migrating from local dev to containerized workflow</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Docker Compose for Local Development
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Standard Web App Stack
+
+```yaml
+# docker-compose.yml
+services:
+  app:
+    build:
+      context: .
+      target: dev                     # Use dev stage of multi-stage Dockerfile
+    ports:
+      - &quot;3000:3000&quot;
+    volumes:
+      - .:/app                        # Bind mount for hot reload
+      - /app/node_modules             # Anonymous volume -- preserves container deps
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/app_dev
+      - REDIS_URL=redis://redis:6379/0
+      - NODE_ENV=development
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    command: npm run dev
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - &quot;5432:5432&quot;
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [&quot;CMD-SHELL&quot;, &quot;pg_isready -U postgres&quot;]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - &quot;6379:6379&quot;
+    volumes:
+      - redisdata:/data
+
+  mailpit:                            # Local email testing
+    image: axllent/mailpit
+    ports:
+      - &quot;8025:8025&quot;                   # Web UI
+      - &quot;1025:1025&quot;                   # SMTP
+
+volumes:
+  pgdata:
+  redisdata:
+```
+
+### Development vs Production Dockerfile
+
+```dockerfile
+# Stage: dependencies
+FROM node:22-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# Stage: dev (hot reload, debug tools)
+FROM node:22-alpine AS dev
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+EXPOSE 3000
+CMD [&quot;npm&quot;, &quot;run&quot;, &quot;dev&quot;]
+
+# Stage: build
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build &amp;&amp; npm prune --production
+
+# Stage: production (minimal image)
+FROM node:22-alpine AS production
+WORKDIR /app
+RUN addgroup -g 1001 -S appgroup &amp;&amp; adduser -S appuser -u 1001
+USER appuser
+COPY --from=build --chown=appuser:appgroup /app/dist ./dist
+COPY --from=build --chown=appuser:appgroup /app/node_modules ./node_modules
+COPY --from=build --chown=appuser:appgroup /app/package.json ./
+ENV NODE_ENV=production
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:3000/health || exit 1
+CMD [&quot;node&quot;, &quot;dist/server.js&quot;]
+```
+
+### Override Files
+
+```yaml
+# docker-compose.override.yml (auto-loaded, dev-only settings)
+services:
+  app:
+    environment:
+      - DEBUG=app:*
+      - LOG_LEVEL=debug
+    ports:
+      - &quot;9229:9229&quot;                   # Node.js debugger
+
+# docker-compose.prod.yml (explicit for production)
+services:
+  app:
+    build:
+      target: production
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: &quot;1.0&quot;
+          memory: 512M
+```
+
+```bash
+# Development (auto-loads override)
+docker compose up
+
+# Production
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Networking
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Service Discovery
+
+Services in the same Compose network resolve by service name:
+```
+# From &quot;app&quot; container:
+postgres://postgres:postgres@db:5432/app_dev    # &quot;db&quot; resolves to the db container
+redis://redis:6379/0                             # &quot;redis&quot; resolves to the redis container
+```
+
+### Custom Networks
+
+```yaml
+services:
+  frontend:
+    networks:
+      - frontend-net
+
+  api:
+    networks:
+      - frontend-net
+      - backend-net
+
+  db:
+    networks:
+      - backend-net              # Only reachable from api, not frontend
+
+networks:
+  frontend-net:
+  backend-net:
+```
+
+### Exposing Only What&#039;s Needed
+
+```yaml
+services:
+  db:
+    ports:
+      - &quot;127.0.0.1:5432:5432&quot;   # Only accessible from host, not network
+    # Omit ports entirely in production -- accessible only within Docker network
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Volume Strategies
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```yaml
+volumes:
+  # Named volume: persists across container restarts, managed by Docker
+  pgdata:
+
+  # Bind mount: maps host directory into container (for development)
+  # - ./src:/app/src
+
+  # Anonymous volume: preserves container-generated content from bind mount override
+  # - /app/node_modules
+```
+
+### Common Patterns
+
+```yaml
+services:
+  app:
+    volumes:
+      - .:/app                   # Source code (bind mount for hot reload)
+      - /app/node_modules        # Protect container&#039;s node_modules from host
+      - /app/.next               # Protect build cache
+
+  db:
+    volumes:
+      - pgdata:/var/lib/postgresql/data          # Persistent data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql  # Init scripts
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Container Security
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Dockerfile Hardening
+
+```dockerfile
+# 1. Use specific tags (never :latest)
+FROM node:22.12-alpine3.20
+
+# 2. Run as non-root
+RUN addgroup -g 1001 -S app &amp;&amp; adduser -S app -u 1001
+USER app
+
+# 3. Drop capabilities (in compose)
+# 4. Read-only root filesystem where possible
+# 5. No secrets in image layers
+```
+
+### Compose Security
+
+```yaml
+services:
+  app:
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/.cache
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE          # Only if binding to ports &lt; 1024
+```
+
+### Secret Management
+
+```yaml
+# GOOD: Use environment variables (injected at runtime)
+services:
+  app:
+    env_file:
+      - .env                     # Never commit .env to git
+    environment:
+      - API_KEY                  # Inherits from host environment
+
+# GOOD: Docker secrets (Swarm mode)
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+
+services:
+  db:
+    secrets:
+      - db_password
+
+# BAD: Hardcoded in image
+# ENV API_KEY=sk-proj-xxxxx      # NEVER DO THIS
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                .dockerignore
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```
+node_modules
+.git
+.env
+.env.*
+dist
+coverage
+*.log
+.next
+.cache
+docker-compose*.yml
+Dockerfile*
+README.md
+tests/
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Debugging
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Common Commands
+
+```bash
+# View logs
+docker compose logs -f app           # Follow app logs
+docker compose logs --tail=50 db     # Last 50 lines from db
+
+# Execute commands in running container
+docker compose exec app sh           # Shell into app
+docker compose exec db psql -U postgres  # Connect to postgres
+
+# Inspect
+docker compose ps                     # Running services
+docker compose top                    # Processes in each container
+docker stats                          # Resource usage
+
+# Rebuild
+docker compose up --build             # Rebuild images
+docker compose build --no-cache app   # Force full rebuild
+
+# Clean up
+docker compose down                   # Stop and remove containers
+docker compose down -v                # Also remove volumes (DESTRUCTIVE)
+docker system prune                   # Remove unused images/containers
+```
+
+### Debugging Network Issues
+
+```bash
+# Check DNS resolution inside container
+docker compose exec app nslookup db
+
+# Check connectivity
+docker compose exec app wget -qO- http://api:3000/health
+
+# Inspect network
+docker network ls
+docker network inspect &lt;project&gt;_default
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Anti-Patterns
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```
+# BAD: Using docker compose in production without orchestration
+# Use Kubernetes, ECS, or Docker Swarm for production multi-container workloads
+
+# BAD: Storing data in containers without volumes
+# Containers are ephemeral -- all data lost on restart without volumes
+
+# BAD: Running as root
+# Always create and use a non-root user
+
+# BAD: Using :latest tag
+# Pin to specific versions for reproducible builds
+
+# BAD: One giant container with all services
+# Separate concerns: one process per container
+
+# BAD: Putting secrets in docker-compose.yml
+# Use .env files (gitignored) or Docker secrets
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: docker-patterns
+description: Docker and Docker Compose patterns for local development, container security, networking, volume strategies, and multi-service orchestration.
+origin: ECC
+---
+
+# Docker Patterns
+
+Docker and Docker Compose best practices for containerized development.
+
+## When to Activate
+
+- Setting up Docker Compose for local development
+- Designing multi-container architectures
+- Troubleshooting container networking or volume issues
+- Reviewing Dockerfiles for security and size
+- Migrating from local dev to containerized workflow
+
+## Docker Compose for Local Development
+
+### Standard Web App Stack
+
+```yaml
+# docker-compose.yml
+services:
+  app:
+    build:
+      context: .
+      target: dev                     # Use dev stage of multi-stage Dockerfile
+    ports:
+      - &quot;3000:3000&quot;
+    volumes:
+      - .:/app                        # Bind mount for hot reload
+      - /app/node_modules             # Anonymous volume -- preserves container deps
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/app_dev
+      - REDIS_URL=redis://redis:6379/0
+      - NODE_ENV=development
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    command: npm run dev
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - &quot;5432:5432&quot;
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [&quot;CMD-SHELL&quot;, &quot;pg_isready -U postgres&quot;]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - &quot;6379:6379&quot;
+    volumes:
+      - redisdata:/data
+
+  mailpit:                            # Local email testing
+    image: axllent/mailpit
+    ports:
+      - &quot;8025:8025&quot;                   # Web UI
+      - &quot;1025:1025&quot;                   # SMTP
+
+volumes:
+  pgdata:
+  redisdata:
+```
+
+### Development vs Production Dockerfile
+
+```dockerfile
+# Stage: dependencies
+FROM node:22-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# Stage: dev (hot reload, debug tools)
+FROM node:22-alpine AS dev
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+EXPOSE 3000
+CMD [&quot;npm&quot;, &quot;run&quot;, &quot;dev&quot;]
+
+# Stage: build
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build &amp;&amp; npm prune --production
+
+# Stage: production (minimal image)
+FROM node:22-alpine AS production
+WORKDIR /app
+RUN addgroup -g 1001 -S appgroup &amp;&amp; adduser -S appuser -u 1001
+USER appuser
+COPY --from=build --chown=appuser:appgroup /app/dist ./dist
+COPY --from=build --chown=appuser:appgroup /app/node_modules ./node_modules
+COPY --from=build --chown=appuser:appgroup /app/package.json ./
+ENV NODE_ENV=production
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:3000/health || exit 1
+CMD [&quot;node&quot;, &quot;dist/server.js&quot;]
+```
+
+### Override Files
+
+```yaml
+# docker-compose.override.yml (auto-loaded, dev-only settings)
+services:
+  app:
+    environment:
+      - DEBUG=app:*
+      - LOG_LEVEL=debug
+    ports:
+      - &quot;9229:9229&quot;                   # Node.js debugger
+
+# docker-compose.prod.yml (explicit for production)
+services:
+  app:
+    build:
+      target: production
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: &quot;1.0&quot;
+          memory: 512M
+```
+
+```bash
+# Development (auto-loads override)
+docker compose up
+
+# Production
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+## Networking
+
+### Service Discovery
+
+Services in the same Compose network resolve by service name:
+```
+# From &quot;app&quot; container:
+postgres://postgres:postgres@db:5432/app_dev    # &quot;db&quot; resolves to the db container
+redis://redis:6379/0                             # &quot;redis&quot; resolves to the redis container
+```
+
+### Custom Networks
+
+```yaml
+services:
+  frontend:
+    networks:
+      - frontend-net
+
+  api:
+    networks:
+      - frontend-net
+      - backend-net
+
+  db:
+    networks:
+      - backend-net              # Only reachable from api, not frontend
+
+networks:
+  frontend-net:
+  backend-net:
+```
+
+### Exposing Only What&#039;s Needed
+
+```yaml
+services:
+  db:
+    ports:
+      - &quot;127.0.0.1:5432:5432&quot;   # Only accessible from host, not network
+    # Omit ports entirely in production -- accessible only within Docker network
+```
+
+## Volume Strategies
+
+```yaml
+volumes:
+  # Named volume: persists across container restarts, managed by Docker
+  pgdata:
+
+  # Bind mount: maps host directory into container (for development)
+  # - ./src:/app/src
+
+  # Anonymous volume: preserves container-generated content from bind mount override
+  # - /app/node_modules
+```
+
+### Common Patterns
+
+```yaml
+services:
+  app:
+    volumes:
+      - .:/app                   # Source code (bind mount for hot reload)
+      - /app/node_modules        # Protect container&#039;s node_modules from host
+      - /app/.next               # Protect build cache
+
+  db:
+    volumes:
+      - pgdata:/var/lib/postgresql/data          # Persistent data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql  # Init scripts
+```
+
+## Container Security
+
+### Dockerfile Hardening
+
+```dockerfile
+# 1. Use specific tags (never :latest)
+FROM node:22.12-alpine3.20
+
+# 2. Run as non-root
+RUN addgroup -g 1001 -S app &amp;&amp; adduser -S app -u 1001
+USER app
+
+# 3. Drop capabilities (in compose)
+# 4. Read-only root filesystem where possible
+# 5. No secrets in image layers
+```
+
+### Compose Security
+
+```yaml
+services:
+  app:
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/.cache
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE          # Only if binding to ports &lt; 1024
+```
+
+### Secret Management
+
+```yaml
+# GOOD: Use environment variables (injected at runtime)
+services:
+  app:
+    env_file:
+      - .env                     # Never commit .env to git
+    environment:
+      - API_KEY                  # Inherits from host environment
+
+# GOOD: Docker secrets (Swarm mode)
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+
+services:
+  db:
+    secrets:
+      - db_password
+
+# BAD: Hardcoded in image
+# ENV API_KEY=sk-proj-xxxxx      # NEVER DO THIS
+```
+
+## .dockerignore
+
+```
+node_modules
+.git
+.env
+.env.*
+dist
+coverage
+*.log
+.next
+.cache
+docker-compose*.yml
+Dockerfile*
+README.md
+tests/
+```
+
+## Debugging
+
+### Common Commands
+
+```bash
+# View logs
+docker compose logs -f app           # Follow app logs
+docker compose logs --tail=50 db     # Last 50 lines from db
+
+# Execute commands in running container
+docker compose exec app sh           # Shell into app
+docker compose exec db psql -U postgres  # Connect to postgres
+
+# Inspect
+docker compose ps                     # Running services
+docker compose top                    # Processes in each container
+docker stats                          # Resource usage
+
+# Rebuild
+docker compose up --build             # Rebuild images
+docker compose build --no-cache app   # Force full rebuild
+
+# Clean up
+docker compose down                   # Stop and remove containers
+docker compose down -v                # Also remove volumes (DESTRUCTIVE)
+docker system prune                   # Remove unused images/containers
+```
+
+### Debugging Network Issues
+
+```bash
+# Check DNS resolution inside container
+docker compose exec app nslookup db
+
+# Check connectivity
+docker compose exec app wget -qO- http://api:3000/health
+
+# Inspect network
+docker network ls
+docker network inspect &lt;project&gt;_default
+```
+
+## Anti-Patterns
+
+```
+# BAD: Using docker compose in production without orchestration
+# Use Kubernetes, ECS, or Docker Swarm for production multi-container workloads
+
+# BAD: Storing data in containers without volumes
+# Containers are ephemeral -- all data lost on restart without volumes
+
+# BAD: Running as root
+# Always create and use a non-root user
+
+# BAD: Using :latest tag
+# Pin to specific versions for reproducible builds
+
+# BAD: One giant container with all services
+# Separate concerns: one process per container
+
+# BAD: Putting secrets in docker-compose.yml
+# Use .env files (gitignored) or Docker secrets
+```
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

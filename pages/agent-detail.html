@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代理详情 - Claude Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-purple: #8b5cf6;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --border-subtle: #2a2a35;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.2), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 50%, rgba(0, 212, 170, 0.08), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-purple), #00d4aa);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--accent-purple);
+        }
+
+        main {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 0.7;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-muted);
+        }
+
+        .detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .detail-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--accent-purple), rgba(139, 92, 246, 0.3));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px solid var(--accent-purple);
+        }
+
+        .detail-title-section {
+            flex: 1;
+        }
+
+        .detail-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .detail-category {
+            display: inline-block;
+            font-size: 12px;
+            padding: 6px 12px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            color: var(--accent-purple);
+        }
+
+        .detail-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 4px 8px;
+            background: rgba(139, 92, 246, 0.15);
+            border-radius: 6px;
+            color: var(--accent-purple);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 8px;
+        }
+
+        .section-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .usage-box {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            margin-top: 16px;
+        }
+
+        .usage-box code {
+            color: var(--accent-purple);
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tool-tag {
+            font-size: 12px;
+            padding: 6px 10px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            color: var(--text-secondary);
+        }
+
+        .trigger-section {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .trigger-title {
+            font-size: 13px;
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .trigger-content {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .action-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn.primary {
+            background: var(--accent-purple);
+            color: white;
+        }
+
+        .action-btn.secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 60px;
+            color: #ef4444;
+            font-size: 16px;
+        }
+
+        footer {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 60px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Category-specific colors */
+        .detail-card.planning { --accent-purple: #6495ed; }
+        .detail-card.testing { --accent-purple: #50c878; }
+        .detail-card.review { --accent-purple: #ff6b6b; }
+        .detail-card.language { --accent-purple: #ffa07a; }
+        .detail-card.build { --accent-purple: #9370db; }
+        .detail-card.database { --accent-purple: #20b2aa; }
+        .detail-card.documentation { --accent-purple: #f59e0b; }
+        .detail-card.communication { --accent-purple: #ec4899; }
+        .detail-card.infrastructure { --accent-purple: #84cc16; }
+
+        .detail-card.planning .detail-name { color: #6495ed; }
+        .detail-card.planning .detail-icon { background: linear-gradient(135deg, #6495ed, rgba(100, 149, 237, 0.3)); border-color: #6495ed; }
+        .detail-card.planning .detail-category { background: rgba(100, 149, 237, 0.1); border-color: rgba(100, 149, 237, 0.3); color: #6495ed; }
+        .detail-card.planning .detail-badge { background: rgba(100, 149, 237, 0.15); color: #6495ed; }
+        .detail-card.planning .usage-box code { color: #6495ed; }
+
+        .detail-card.testing .detail-name { color: #50c878; }
+        .detail-card.testing .detail-icon { background: linear-gradient(135deg, #50c878, rgba(80, 200, 120, 0.3)); border-color: #50c878; }
+        .detail-card.testing .detail-category { background: rgba(80, 200, 120, 0.1); border-color: rgba(80, 200, 120, 0.3); color: #50c878; }
+        .detail-card.testing .detail-badge { background: rgba(80, 200, 120, 0.15); color: #50c878; }
+        .detail-card.testing .usage-box code { color: #50c878; }
+
+        .detail-card.review .detail-name { color: #ff6b6b; }
+        .detail-card.review .detail-icon { background: linear-gradient(135deg, #ff6b6b, rgba(255, 107, 107, 0.3)); border-color: #ff6b6b; }
+        .detail-card.review .detail-category { background: rgba(255, 107, 107, 0.1); border-color: rgba(255, 107, 107, 0.3); color: #ff6b6b; }
+        .detail-card.review .detail-badge { background: rgba(255, 107, 107, 0.15); color: #ff6b6b; }
+        .detail-card.review .usage-box code { color: #ff6b6b; }
+
+        .detail-card.language .detail-name { color: #ffa07a; }
+        .detail-card.language .detail-icon { background: linear-gradient(135deg, #ffa07a, rgba(255, 160, 122, 0.3)); border-color: #ffa07a; }
+        .detail-card.language .detail-category { background: rgba(255, 160, 122, 0.1); border-color: rgba(255, 160, 122, 0.3); color: #ffa07a; }
+        .detail-card.language .detail-badge { background: rgba(255, 160, 122, 0.15); color: #ffa07a; }
+        .detail-card.language .usage-box code { color: #ffa07a; }
+
+        .detail-card.build .detail-name { color: #9370db; }
+        .detail-card.build .detail-icon { background: linear-gradient(135deg, #9370db, rgba(147, 112, 219, 0.3)); border-color: #9370db; }
+        .detail-card.build .detail-category { background: rgba(147, 112, 219, 0.1); border-color: rgba(147, 112, 219, 0.3); color: #9370db; }
+        .detail-card.build .detail-badge { background: rgba(147, 112, 219, 0.15); color: #9370db; }
+        .detail-card.build .usage-box code { color: #9370db; }
+
+        .detail-card.database .detail-name { color: #20b2aa; }
+        .detail-card.database .detail-icon { background: linear-gradient(135deg, #20b2aa, rgba(32, 178, 170, 0.3)); border-color: #20b2aa; }
+        .detail-card.database .detail-category { background: rgba(32, 178, 170, 0.1); border-color: rgba(32, 178, 170, 0.3); color: #20b2aa; }
+        .detail-card.database .detail-badge { background: rgba(32, 178, 170, 0.15); color: #20b2aa; }
+        .detail-card.database .usage-box code { color: #20b2aa; }
+
+        .detail-card.documentation .detail-name { color: #f59e0b; }
+        .detail-card.documentation .detail-icon { background: linear-gradient(135deg, #f59e0b, rgba(245, 158, 11, 0.3)); border-color: #f59e0b; }
+        .detail-card.documentation .detail-category { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); color: #f59e0b; }
+        .detail-card.documentation .detail-badge { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .detail-card.documentation .usage-box code { color: #f59e0b; }
+
+        .detail-card.communication .detail-name { color: #ec4899; }
+        .detail-card.communication .detail-icon { background: linear-gradient(135deg, #ec4899, rgba(236, 72, 153, 0.3)); border-color: #ec4899; }
+        .detail-card.communication .detail-category { background: rgba(236, 72, 153, 0.1); border-color: rgba(236, 72, 153, 0.3); color: #ec4899; }
+        .detail-card.communication .detail-badge { background: rgba(236, 72, 153, 0.15); color: #ec4899; }
+        .detail-card.communication .usage-box code { color: #ec4899; }
+
+        .detail-card.infrastructure .detail-name { color: #84cc16; }
+        .detail-card.infrastructure .detail-icon { background: linear-gradient(135deg, #84cc16, rgba(132, 204, 22, 0.3)); border-color: #84cc16; }
+        .detail-card.infrastructure .detail-category { background: rgba(132, 204, 22, 0.1); border-color: rgba(132, 204, 22, 0.3); color: #84cc16; }
+        .detail-card.infrastructure .detail-badge { background: rgba(132, 204, 22, 0.15); color: #84cc16; }
+        .detail-card.infrastructure .usage-box code { color: #84cc16; }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 20px;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            .detail-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">CM</div>
+            <div class="logo-text">Claude <span>Manager</span></div>
+        </div>
+    </header>
+
+    <main>
+        <div class="breadcrumb" id="breadcrumb">
+            <!-- Built via safe DOM methods -->
+        </div>
+
+        <div class="detail-card" id="detailCard">
+            <div class="loading">加载中...</div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="footer-text">代理详情 · Claude Manager</p>
+    </footer>
+
+    <script>
+        // Agent data from agents.html
+        const AGENTS_DATA = {
+            'planner': {
+                name: 'planner',
+                category: 'planning',
+                description: '实施规划专家，为复杂功能和重构创建详细的实施计划。自动分析代码库、识别依赖关系、生成任务清单。',
+                usage: 'Agent → planner',
+                tools: ['Glob', 'Grep', 'LS', 'Read', 'NotebookRead', 'WebFetch', 'TodoWrite', 'WebSearch', 'KillShell', 'BashOutput'],
+                tags: ['复杂功能', '重构规划', '任务分解'],
+                trigger: '当用户请求功能实现、架构变更或复杂重构时自动激活。不需要用户提示。',
+                proactive: true
+            },
+            'architect': {
+                name: 'architect',
+                category: 'planning',
+                description: '软件架构专家，专注于系统设计、可扩展性和技术决策。评估架构方案、提供最佳实践建议。',
+                usage: 'Agent → architect',
+                tools: ['Read', 'Grep', 'Glob', 'Bash'],
+                tags: ['系统设计', '可扩展性', '技术决策'],
+                trigger: '在规划新功能、重构大型系统或做架构决策时主动使用。',
+                proactive: true
+            },
+            'tdd-guide': {
+                name: 'tdd-guide',
+                category: 'testing',
+                description: 'TDD专家代理，强制执行先写测试的方法论。确保80%+测试覆盖率，遵循RED-GREEN-REFACTOR循环。',
+                usage: 'Agent → tdd-guide (主动激活)',
+                tools: ['Read', 'Write', 'Edit', 'Bash', 'Grep', 'Glob'],
+                tags: ['TDD', '测试优先', '覆盖率'],
+                trigger: '编写新功能、修复bug或重构代码时主动激活。强制执行测试优先方法论。',
+                proactive: true
+            },
+            'e2e-runner': {
+                name: 'e2e-runner',
+                category: 'testing',
+                description: '端到端测试专家，使用Vercel Agent Browser和Playwright。管理测试流程、上传截图视频、确保关键用户流程正常。',
+                usage: 'Agent → e2e-runner (主动激活)',
+                tools: ['Read', 'Write', 'Edit', 'Bash', 'Grep', 'Glob'],
+                tags: ['E2E测试', 'Playwright', '用户流程'],
+                trigger: '生成、维护和运行E2E测试时主动激活。管理关键用户流程验证。',
+                proactive: true
+            },
+            'code-reviewer': {
+                name: 'code-reviewer',
+                category: 'review',
+                description: '专家级代码审查，立即检查代码质量、安全性和可维护性。适用于所有代码变更，必须在编写后使用。',
+                usage: 'Agent → code-reviewer (主动激活)',
+                tools: ['Read', 'Grep', 'Glob', 'Bash'],
+                tags: ['代码质量', '安全性', '最佳实践'],
+                trigger: '编写或修改代码后立即使用。主动审查所有代码变更。',
+                proactive: true
+            },
+            'security-reviewer': {
+                name: 'security-reviewer',
+                category: 'review',
+                description: '安全漏洞检测和修复专家。标记敏感信息、SSRF、注入攻击、不安全加密和OWASP十大漏洞。',
+                usage: 'Agent → security-reviewer (主动激活)',
+                tools: ['Read', 'Write', 'Edit', 'Bash', 'Grep', 'Glob'],
+                tags: ['安全审计', 'OWASP', '漏洞检测'],
+                trigger: '编写处理用户输入、认证、API端点或敏感数据的代码后主动激活。',
+                proactive: true
+            },
+            'refactor-cleaner': {
+                name: 'refactor-cleaner',
+                category: 'review',
+                description: '死代码清理和整合专家。运行分析工具(knip, depcheck, ts-prune)识别死代码并安全移除。',
+                usage: 'Agent → refactor-cleaner (主动激活)',
+                tools: ['Read', 'Write', 'Edit', 'Bash', 'Grep', 'Glob'],
+                tags: ['代码清理', '依赖检查', '优化'],
+                trigger: '代码维护时主动激活，移除未使用代码、重复代码和进行重构。',
+                proactive: true
+            },
+            'build-error-resolver': {
+                name: 'build-error-resolver',
+                category: 'build',
+                description: '构建和TypeScript错误解决专家。仅用最小差异修复构建/类型错误，专注于让构建快速通过。',
+                usage: 'Agent → build-error-resolver (主动激活)',
+                tools: ['Read', 'Write', 'Edit', 'Bash', 'Grep', 'Glob'],
+                tags: ['构建修复', 'TypeScript', '错误诊断'],
+                trigger: '构建失败或类型错误时主动激活。',
+                proactive: true
+            },
+            'kotlin-build-resolver': {
+                name: 'kotlin-build-resolver',
+                category: 'build',
+                description: 'Kotlin/Gradle构建、编译和依赖错误解决专家。用最小变更修复构建错误、Kotlin编译器错误和Gradle问题。',
+                usage: 'Agent → kotlin-build-resolver',
+                tools: ['Read', 'Write', 'Edit', 'Bash', 'Grep', 'Glob'],
+                tags: ['Kotlin', 'Gradle', '构建修复'],
+                trigger: 'Kotlin构建失败时使用。',
+                proactive: false
+            },
+            'go-build-resolver': {
+                name: 'go-build-resolver',
+                category: 'build',
+                description: 'Go构建、vet和编译错误解决专家。用最小变更修复构建错误、go vet问题和linter警告。',
+                usage: 'Agent → go-build-resolver',
+                tools: ['Read', 'Write', 'Edit', 'Bash', 'Grep', 'Glob'],
+                tags: ['Go', '构建修复', 'Linter'],
+                trigger: 'Go构建失败时使用。',
+                proactive: false
+            },
+            'go-reviewer': {
+                name: 'go-reviewer',
+                category: 'language',
+                description: 'Go代码审查专家，专注惯用Go模式、并发安全、错误处理和性能。所有Go项目必须使用此代理。',
+                usage: 'Agent → go-reviewer (Go项目必用)',
+                tools: ['Read', 'Grep', 'Glob', 'Bash'],
+                tags: ['Go', '并发模式', '性能优化'],
+                trigger: '所有Go代码变更必须使用此代理审查。',
+                proactive: true,
+                required: 'go'
+            },
+            'python-reviewer': {
+                name: 'python-reviewer',
+                category: 'language',
+                description: 'Python代码审查专家，专注PEP 8合规、Python惯用模式、类型提示、安全和性能。所有Python项目必用。',
+                usage: 'Agent → python-reviewer (Python项目必用)',
+                tools: ['Read', 'Grep', 'Glob', 'Bash'],
+                tags: ['Python', 'PEP 8', '类型提示'],
+                trigger: '所有Python代码变更必须使用此代理审查。',
+                proactive: true,
+                required: 'python'
+            },
+            'kotlin-reviewer': {
+                name: 'kotlin-reviewer',
+                category: 'language',
+                description: 'Kotlin和Android/KMP代码审查专家。审查惯用模式、协程安全、Compose最佳实践、Clean Architecture合规。',
+                usage: 'Agent → kotlin-reviewer',
+                tools: ['Read', 'Grep', 'Glob', 'Bash'],
+                tags: ['Kotlin', 'Android', 'Compose'],
+                trigger: 'Kotlin代码变更时使用。',
+                proactive: false
+            },
+            'typescript-reviewer': {
+                name: 'typescript-reviewer',
+                category: 'language',
+                description: 'TypeScript/JavaScript代码审查专家，专注类型安全、异步正确性、Node/web安全和惯用模式。',
+                usage: 'Agent → typescript-reviewer (TS/JS项目必用)',
+                tools: ['Read', 'Grep', 'Glob', 'Bash'],
+                tags: ['TypeScript', '类型安全', '异步'],
+                trigger: '所有TypeScript/JavaScript代码变更必须使用此代理审查。',
+                proactive: true,
+                required: 'typescript'
+            },
+            'java-reviewer': {
+                name: 'java-reviewer',
+                category: 'language',
+                description: 'Java和Spring Boot代码审查专家，专注分层架构、JPA模式、安全和并发。',
+                usage: 'Agent → java-reviewer (Spring Boot必用)',
+                tools: ['Read', 'Grep', 'Glob', 'Bash'],
+                tags: ['Java', 'Spring Boot', 'JPA'],
+                trigger: '所有Java/Spring Boot代码变更必须使用此代理审查。',
+                proactive: true,
+                required: 'java'
+            },
+            'rust-reviewer': {
+                name: 'rust-reviewer',
+                category: 'language',
+                description: 'Rust代码审查专家，专注所有权、生命周期、错误处理、unsafe使用和惯用模式。',
+                usage: 'Agent → rust-reviewer (Rust项目必用)',
+                tools: ['Read', 'Grep', 'Glob', 'Bash'],
+                tags: ['Rust', '所有权', '生命周期'],
+                trigger: '所有Rust代码变更必须使用此代理审查。',
+                proactive: true,
+                required: 'rust'
+            },
+            'database-reviewer': {
+                name: 'database-reviewer',
+                category: 'database',
+                description: 'PostgreSQL数据库专家，专注查询优化、Schema设计、安全和性能。主动在编写SQL、创建迁移时使用。',
+                usage: 'Agent → database-reviewer (主动激活)',
+                tools: ['Read', 'Write', 'Edit', 'Bash', 'Grep', 'Glob'],
+                tags: ['PostgreSQL', '查询优化', 'Supabase'],
+                trigger: '编写SQL、创建迁移、设计Schema或排查数据库性能时主动激活。',
+                proactive: true
+            },
+            'doc-updater': {
+                name: 'doc-updater',
+                category: 'documentation',
+                description: '文档和代码地图专家。主动更新代码地图和文档，运行/update-codemaps和/update-docs命令。',
+                usage: 'Agent → doc-updater (主动激活)',
+                tools: ['Read', 'Write', 'Edit', 'Bash', 'Grep', 'Glob'],
+                tags: ['文档', 'CodeMap', '自动更新'],
+                trigger: '更新代码地图和文档时主动激活。',
+                proactive: true
+            },
+            'chief-of-staff': {
+                name: 'chief-of-staff',
+                category: 'communication',
+                description: '个人沟通助手，分类邮件、Slack、LINE和Messenger消息，生成草稿回复。',
+                usage: 'Agent → chief-of-staff',
+                tools: ['Read', 'Grep', 'Glob', 'Bash', 'Edit', 'Write'],
+                tags: ['邮件', 'Slack', '草稿'],
+                trigger: '管理多渠道沟通工作流时使用。',
+                proactive: false
+            },
+            'harness-optimizer': {
+                name: 'harness-optimizer',
+                category: 'infrastructure',
+                description: '分析和改进本地代理Harness配置，优化可靠性、成本和吞吐量。',
+                usage: 'Agent → harness-optimizer',
+                tools: ['Read', 'Grep', 'Glob', 'Bash', 'Edit'],
+                tags: ['优化', '可靠性', '成本'],
+                trigger: '优化本地代理配置时使用。',
+                proactive: false
+            },
+            'loop-operator': {
+                name: 'loop-operator',
+                category: 'infrastructure',
+                description: '操作自主代理循环，监控进度并在循环停滞时安全干预。',
+                usage: 'Agent → loop-operator',
+                tools: ['Read', 'Grep', 'Glob', 'Bash', 'Edit'],
+                tags: ['循环', '监控', '干预'],
+                trigger: '运行自主代理循环、监控进度和干预时使用。',
+                proactive: false
+            },
+            'docs-lookup': {
+                name: 'docs-lookup',
+                category: 'documentation',
+                description: '使用Context7 MCP获取当前文档和代码示例，用于库、框架或API查询。',
+                usage: 'Agent → docs-lookup',
+                tools: ['Read', 'Grep', 'mcp__context7__resolve-library-id', 'mcp__context7__query-docs'],
+                tags: ['文档', 'Context7', 'API'],
+                trigger: '查询库、框架或API文档时使用。',
+                proactive: false
+            }
+        };
+
+        const CATEGORY_NAMES = {
+            'planning': '规划',
+            'testing': '测试',
+            'review': '审查',
+            'language': '语言',
+            'build': '构建',
+            'database': '数据库',
+            'documentation': '文档',
+            'communication': '沟通',
+            'infrastructure': '基础设施'
+        };
+
+        const CATEGORY_ICONS = {
+            'planning': '📋',
+            'testing': '🧪',
+            'review': '🔍',
+            'language': '💻',
+            'build': '🔧',
+            'database': '🗄️',
+            'documentation': '📚',
+            'communication': '💬',
+            'infrastructure': '🏗️'
+        };
+
+        // Get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                id: params.get('id')
+            };
+        }
+
+        // Build breadcrumb using safe DOM methods
+        function buildBreadcrumb(agentName) {
+            const breadcrumb = document.getElementById('breadcrumb');
+
+            // Home link
+            const homeLink = document.createElement('a');
+            homeLink.href = '../index.html';
+            homeLink.textContent = '首页';
+            breadcrumb.appendChild(homeLink);
+
+            // Separator 1
+            const sep1 = document.createElement('span');
+            sep1.className = 'breadcrumb-separator';
+            sep1.textContent = '→';
+            breadcrumb.appendChild(sep1);
+
+            // Agents link
+            const agentsLink = document.createElement('a');
+            agentsLink.href = 'agents.html';
+            agentsLink.textContent = '代理';
+            breadcrumb.appendChild(agentsLink);
+
+            // Separator 2
+            const sep2 = document.createElement('span');
+            sep2.className = 'breadcrumb-separator';
+            sep2.textContent = '→';
+            breadcrumb.appendChild(sep2);
+
+            // Current agent name
+            const currentSpan = document.createElement('span');
+            currentSpan.textContent = agentName;
+            breadcrumb.appendChild(currentSpan);
+        }
+
+        // Render agent detail using safe DOM methods
+        function renderAgentDetail(agentId) {
+            const container = document.getElementById('detailCard');
+
+            // Clear existing content safely
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+
+            // Check if agent exists
+            if (!AGENTS_DATA[agentId]) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = '未找到代理: ' + agentId;
+                container.appendChild(errorDiv);
+                return;
+            }
+
+            const agent = AGENTS_DATA[agentId];
+
+            // Set category class for coloring
+            container.className = 'detail-card ' + agent.category;
+
+            // Build breadcrumb
+            buildBreadcrumb(agentId);
+
+            // Header section
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'detail-header';
+
+            // Icon
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'detail-icon';
+            iconDiv.textContent = CATEGORY_ICONS[agent.category] || '🤖';
+            headerDiv.appendChild(iconDiv);
+
+            // Title section
+            const titleSection = document.createElement('div');
+            titleSection.className = 'detail-title-section';
+
+            const nameEl = document.createElement('div');
+            nameEl.className = 'detail-name';
+            nameEl.textContent = agent.name;
+            titleSection.appendChild(nameEl);
+
+            // Category badge
+            const categoryBadge = document.createElement('span');
+            categoryBadge.className = 'detail-category';
+            categoryBadge.textContent = CATEGORY_NAMES[agent.category];
+            titleSection.appendChild(categoryBadge);
+
+            // ECC badge
+            const eccBadge = document.createElement('span');
+            eccBadge.className = 'detail-badge';
+            eccBadge.textContent = 'ECC';
+            titleSection.appendChild(eccBadge);
+
+            headerDiv.appendChild(titleSection);
+            container.appendChild(headerDiv);
+
+            // Description section
+            const descSection = document.createElement('div');
+            descSection.style.marginTop = '24px';
+
+            const descTitle = document.createElement('div');
+            descTitle.className = 'section-title';
+            descTitle.textContent = '描述';
+            descSection.appendChild(descTitle);
+
+            const descContent = document.createElement('div');
+            descContent.className = 'section-content';
+            descContent.textContent = agent.description;
+            descSection.appendChild(descContent);
+
+            container.appendChild(descSection);
+
+            // Usage section
+            const usageSection = document.createElement('div');
+            usageSection.style.marginTop = '24px';
+
+            const usageTitle = document.createElement('div');
+            usageTitle.className = 'section-title';
+            usageTitle.textContent = '使用方式';
+            usageSection.appendChild(usageTitle);
+
+            const usageBox = document.createElement('div');
+            usageBox.className = 'usage-box';
+
+            const usageText = document.createTextNode('调用方式: ');
+            usageBox.appendChild(usageText);
+
+            const usageCode = document.createElement('code');
+            usageCode.textContent = agent.usage;
+            usageBox.appendChild(usageCode);
+
+            usageSection.appendChild(usageBox);
+
+            container.appendChild(usageSection);
+
+            // Tools section
+            const toolsSection = document.createElement('div');
+            toolsSection.style.marginTop = '24px';
+
+            const toolsTitle = document.createElement('div');
+            toolsTitle.className = 'section-title';
+            toolsTitle.textContent = '可用工具';
+            toolsSection.appendChild(toolsTitle);
+
+            const toolsList = document.createElement('div');
+            toolsList.className = 'tools-list';
+
+            agent.tools.forEach(tool => {
+                const toolTag = document.createElement('span');
+                toolTag.className = 'tool-tag';
+                toolTag.textContent = tool;
+                toolsList.appendChild(toolTag);
+            });
+
+            toolsSection.appendChild(toolsList);
+            container.appendChild(toolsSection);
+
+            // Trigger section (if proactive)
+            if (agent.trigger) {
+                const triggerSection = document.createElement('div');
+                triggerSection.className = 'trigger-section';
+
+                const triggerTitle = document.createElement('div');
+                triggerTitle.className = 'trigger-title';
+                triggerTitle.textContent = agent.proactive ? '⚡ 主动触发条件' : '触发条件';
+                triggerSection.appendChild(triggerTitle);
+
+                const triggerContent = document.createElement('div');
+                triggerContent.className = 'trigger-content';
+                triggerContent.textContent = agent.trigger;
+                triggerSection.appendChild(triggerContent);
+
+                container.appendChild(triggerSection);
+            }
+
+            // Tags section
+            const tagsSection = document.createElement('div');
+            tagsSection.style.marginTop = '16px';
+
+            const tagsList = document.createElement('div');
+            tagsList.className = 'tools-list';
+
+            agent.tags.forEach(tag => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'tool-tag';
+                tagEl.textContent = tag;
+                tagsList.appendChild(tagEl);
+            });
+
+            tagsSection.appendChild(tagsList);
+            container.appendChild(tagsSection);
+
+            // Action buttons
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'action-buttons';
+
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'action-btn primary';
+            copyBtn.textContent = '复制调用命令';
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText('Agent ' + agent.name);
+            });
+            actionsDiv.appendChild(copyBtn);
+
+            const backBtn = document.createElement('button');
+            backBtn.className = 'action-btn secondary';
+            backBtn.textContent = '返回代理列表';
+            backBtn.addEventListener('click', () => {
+                window.location.href = 'agents.html';
+            });
+            actionsDiv.appendChild(backBtn);
+
+            container.appendChild(actionsDiv);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = getUrlParams();
+            if (params.id) {
+                renderAgentDetail(params.id);
+            } else {
+                const container = document.getElementById('detailCard');
+                while (container.firstChild) {
+                    container.removeChild(container.firstChild);
+                }
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = '未指定代理ID';
+                container.appendChild(errorDiv);
+            }
+        });
+    </script>
+</body>
+</html>

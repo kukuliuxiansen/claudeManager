@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>持续学习 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">持续学习</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">持续学习</h1>
+            <p class="detail-subtitle">持续学习技能，自动从对话中提取经验并保存到记忆系统</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    local
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">local</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Setting up automatic pattern extraction from Claude Code sessions
+- Configuring the Stop hook for session evaluation
+- Reviewing or curating learned skills in `~/.claude/skills/learned/`
+- Adjusting extraction thresholds or pattern categories
+- Comparing v1 (this) vs v2 (instinct-based) approaches</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                How It Works
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">This skill runs as a **Stop hook** at the end of each session:
+
+1. **Session Evaluation**: Checks if session has enough messages (default: 10+)
+2. **Pattern Detection**: Identifies extractable patterns from the session
+3. **Skill Extraction**: Saves useful patterns to `~/.claude/skills/learned/`</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                配置
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Edit `config.json` to customize:
+
+```json
+{
+  &quot;min_session_length&quot;: 10,
+  &quot;extraction_threshold&quot;: &quot;medium&quot;,
+  &quot;auto_approve&quot;: false,
+  &quot;learned_skills_path&quot;: &quot;~/.claude/skills/learned/&quot;,
+  &quot;patterns_to_detect&quot;: [
+    &quot;error_resolution&quot;,
+    &quot;user_corrections&quot;,
+    &quot;workarounds&quot;,
+    &quot;debugging_techniques&quot;,
+    &quot;project_specific&quot;
+  ],
+  &quot;ignore_patterns&quot;: [
+    &quot;simple_typos&quot;,
+    &quot;one_time_fixes&quot;,
+    &quot;external_api_issues&quot;
+  ]
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Pattern Types
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Pattern | Description |
+|---------|-------------|
+| `error_resolution` | How specific errors were resolved |
+| `user_corrections` | Patterns from user corrections |
+| `workarounds` | Solutions to framework/library quirks |
+| `debugging_techniques` | Effective debugging approaches |
+| `project_specific` | Project-specific conventions |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Hook Setup
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Add to your `~/.claude/settings.json`:
+
+```json
+{
+  &quot;hooks&quot;: {
+    &quot;Stop&quot;: [{
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;~/.claude/skills/continuous-learning/evaluate-session.sh&quot;
+      }]
+    }]
+  }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Why Stop Hook?
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- **Lightweight**: Runs once at session end
+- **Non-blocking**: Doesn&#039;t add latency to every message
+- **Complete context**: Has access to full session transcript</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                相关
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Section on continuous learning
+- `/learn` command - Manual pattern extraction mid-session
+
+---</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Comparison Notes (Research: Jan 2025)
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### vs Homunculus
+
+Homunculus v2 takes a more sophisticated approach:
+
+| Feature | Our Approach | Homunculus v2 |
+|---------|--------------|---------------|
+| Observation | Stop hook (end of session) | PreToolUse/PostToolUse hooks (100% reliable) |
+| Analysis | Main context | Background agent (Haiku) |
+| Granularity | Full skills | Atomic &quot;instincts&quot; |
+| Confidence | None | 0.3-0.9 weighted |
+| Evolution | Direct to skill | Instincts → cluster → skill/command/agent |
+| Sharing | None | Export/import instincts |
+
+**Key insight from homunculus:**
+&gt; &quot;v1 relied on skills to observe. Skills are probabilistic—they fire ~50-80% of the time. v2 uses hooks for observation (100% reliable) and instincts as the atomic unit of learned behavior.&quot;
+
+### Potential v2 Enhancements
+
+1. **Instinct-based learning** - Smaller, atomic behaviors with confidence scoring
+2. **Background observer** - Haiku agent analyzing in parallel
+3. **Confidence decay** - Instincts lose confidence if contradicted
+4. **Domain tagging** - code-style, testing, git, debugging, etc.
+5. **Evolution path** - Cluster related instincts into skills/commands
+
+See: `docs/continuous-learning-v2-spec.md` for full spec.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: continuous-learning
+description: Automatically extract reusable patterns from Claude Code sessions and save them as learned skills for future use.
+origin: ECC
+---
+
+# Continuous Learning Skill
+
+Automatically evaluates Claude Code sessions on end to extract reusable patterns that can be saved as learned skills.
+
+## When to Activate
+
+- Setting up automatic pattern extraction from Claude Code sessions
+- Configuring the Stop hook for session evaluation
+- Reviewing or curating learned skills in `~/.claude/skills/learned/`
+- Adjusting extraction thresholds or pattern categories
+- Comparing v1 (this) vs v2 (instinct-based) approaches
+
+## How It Works
+
+This skill runs as a **Stop hook** at the end of each session:
+
+1. **Session Evaluation**: Checks if session has enough messages (default: 10+)
+2. **Pattern Detection**: Identifies extractable patterns from the session
+3. **Skill Extraction**: Saves useful patterns to `~/.claude/skills/learned/`
+
+## Configuration
+
+Edit `config.json` to customize:
+
+```json
+{
+  &quot;min_session_length&quot;: 10,
+  &quot;extraction_threshold&quot;: &quot;medium&quot;,
+  &quot;auto_approve&quot;: false,
+  &quot;learned_skills_path&quot;: &quot;~/.claude/skills/learned/&quot;,
+  &quot;patterns_to_detect&quot;: [
+    &quot;error_resolution&quot;,
+    &quot;user_corrections&quot;,
+    &quot;workarounds&quot;,
+    &quot;debugging_techniques&quot;,
+    &quot;project_specific&quot;
+  ],
+  &quot;ignore_patterns&quot;: [
+    &quot;simple_typos&quot;,
+    &quot;one_time_fixes&quot;,
+    &quot;external_api_issues&quot;
+  ]
+}
+```
+
+## Pattern Types
+
+| Pattern | Description |
+|---------|-------------|
+| `error_resolution` | How specific errors were resolved |
+| `user_corrections` | Patterns from user corrections |
+| `workarounds` | Solutions to framework/library quirks |
+| `debugging_techniques` | Effective debugging approaches |
+| `project_specific` | Project-specific conventions |
+
+## Hook Setup
+
+Add to your `~/.claude/settings.json`:
+
+```json
+{
+  &quot;hooks&quot;: {
+    &quot;Stop&quot;: [{
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;~/.claude/skills/continuous-learning/evaluate-session.sh&quot;
+      }]
+    }]
+  }
+}
+```
+
+## Why Stop Hook?
+
+- **Lightweight**: Runs once at session end
+- **Non-blocking**: Doesn&#039;t add latency to every message
+- **Complete context**: Has access to full session transcript
+
+## Related
+
+- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Section on continuous learning
+- `/learn` command - Manual pattern extraction mid-session
+
+---
+
+## Comparison Notes (Research: Jan 2025)
+
+### vs Homunculus
+
+Homunculus v2 takes a more sophisticated approach:
+
+| Feature | Our Approach | Homunculus v2 |
+|---------|--------------|---------------|
+| Observation | Stop hook (end of session) | PreToolUse/PostToolUse hooks (100% reliable) |
+| Analysis | Main context | Background agent (Haiku) |
+| Granularity | Full skills | Atomic &quot;instincts&quot; |
+| Confidence | None | 0.3-0.9 weighted |
+| Evolution | Direct to skill | Instincts → cluster → skill/command/agent |
+| Sharing | None | Export/import instincts |
+
+**Key insight from homunculus:**
+&gt; &quot;v1 relied on skills to observe. Skills are probabilistic—they fire ~50-80% of the time. v2 uses hooks for observation (100% reliable) and instincts as the atomic unit of learned behavior.&quot;
+
+### Potential v2 Enhancements
+
+1. **Instinct-based learning** - Smaller, atomic behaviors with confidence scoring
+2. **Background observer** - Haiku agent analyzing in parallel
+3. **Confidence decay** - Instincts lose confidence if contradicted
+4. **Domain tagging** - code-style, testing, git, debugging, etc.
+5. **Evolution path** - Cluster related instincts into skills/commands
+
+See: `docs/continuous-learning-v2-spec.md` for full spec.
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

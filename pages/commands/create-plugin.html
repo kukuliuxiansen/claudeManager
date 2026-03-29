@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note: plugin-name/commands/ is a legacy alternative to skills/ — prefer skills/ - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #8b5cf6; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #8b5cf6; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #8b5cf6; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #8b5cf640; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #8b5cf6; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Note: plugin-name/commands/ is a legacy alternative to skills/ — prefer skills/</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+            </div>
+            <h1 class="detail-title">Note: plugin-name/commands/ is a legacy alternative to skills/ — prefer skills/</h1>
+            <p class="detail-subtitle">命令脚本，快速执行特定操作的快捷方式</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    Command
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    plugin-dev
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">plugin-dev</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Core Principles
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- **Ask clarifying questions**: Identify all ambiguities about plugin purpose, triggering, scope, and components. Ask specific, concrete questions rather than making assumptions. Wait for user answers before proceeding with implementation.
+- **Load relevant skills**: Use the Skill tool to load plugin-dev skills when needed (plugin-structure, hook-development, agent-development, etc.)
+- **Use specialized agents**: Leverage agent-creator, plugin-validator, and skill-reviewer agents for AI-assisted development
+- **Follow best practices**: Apply patterns from plugin-dev&#039;s own implementation
+- **Progressive disclosure**: Create lean skills with references/examples
+- **Use TodoWrite**: Track all progress throughout all phases
+**Initial request:** $ARGUMENTS</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Phase 1: Discovery
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**Goal**: Understand what plugin needs to be built and what problem it solves
+**Actions**:
+1. Create todo list with all 7 phases
+2. If plugin purpose is clear from arguments:
+   - Summarize understanding
+   - Identify plugin type (integration, workflow, analysis, toolkit, etc.)
+3. If plugin purpose is unclear, ask user:
+   - What problem does this plugin solve?
+   - Who will use it and when?
+   - What should it do?
+   - Any similar plugins to reference?
+4. Summarize understanding and confirm with user before proceeding
+**Output**: Clear statement of plugin purpose and target users</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Phase 2: Component Planning
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**Goal**: Determine what plugin components are needed
+**MUST load plugin-structure skill** using Skill tool before this phase.
+**Actions**:
+1. Load plugin-structure skill to understand component types
+2. Analyze plugin requirements and determine needed components:
+   - **Skills**: Specialized knowledge OR user-initiated actions (deploy, configure, analyze). Skills are the preferred format for both — see note below.
+   - **Agents**: Autonomous tasks? (validation, generation, analysis)
+   - **Hooks**: Event-driven automation? (validation, notifications)
+   - **MCP**: External service integration? (databases, APIs)
+   - **Settings**: User configuration? (.local.md files)
+   &gt; **Note:** The `commands/` directory is a legacy format. For new plugins, user-invoked slash commands should be created as skills in `skills/&lt;name&gt;/SKILL.md`. Both are loaded identically — the only difference is file layout. `commands/` remains an acceptable legacy alternative.
+3. For each component type needed, identify:
+   - How many of each type
+   - What each one does
+   - Rough triggering/usage patterns
+4. Present component plan to user as table:
+   ```
+   | Component Type | Count | Purpose |
+   |----------------|-------|---------|
+   | Skills         | 5     | Hook patterns, MCP usage, deploy, configure, validate |
+   | Agents         | 1     | Autonomous validation |
+   | Hooks          | 0     | Not needed |
+   | MCP            | 1     | Database integration |
+   ```
+5. Get user confirmation or adjustments
+**Output**: Confirmed list of components to create</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Phase 3: Detailed Design & Clarifying Questions
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**Goal**: Specify each component in detail and resolve all ambiguities
+**CRITICAL**: This is one of the most important phases. DO NOT SKIP.
+**Actions**:
+1. For each component in the plan, identify underspecified aspects:
+   - **Skills**: What triggers them? What knowledge do they provide? How detailed? For user-invoked skills: what arguments, what tools, interactive or automated?
+   - **Agents**: When to trigger (proactive/reactive)? What tools? Output format?
+   - **Hooks**: Which events? Prompt or command based? Validation criteria?
+   - **MCP**: What server type? Authentication? Which tools?
+   - **Settings**: What fields? Required vs optional? Defaults?
+2. **Present all questions to user in organized sections** (one section per component type)
+3. **Wait for answers before proceeding to implementation**
+4. If user says &quot;whatever you think is best&quot;, provide specific recommendations and get explicit confirmation
+**Example questions for a skill**:
+- What specific user queries should trigger this skill?
+- Should it include utility scripts? What functionality?
+- How detailed should the core SKILL.md be vs references/?
+- Any real-world examples to include?
+**Example questions for an agent**:
+- Should this agent trigger proactively after certain actions, or only when explicitly requested?
+- What tools does it need (Read, Write, Bash, etc.)?
+- What should the output format be?
+- Any specific quality standards to enforce?
+**Output**: Detailed specification for each component</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Phase 4: Plugin Structure Creation
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**Goal**: Create plugin directory structure and manifest
+**Actions**:
+1. Determine plugin name (kebab-case, descriptive)
+2. Choose plugin location:
+   - Ask user: &quot;Where should I create the plugin?&quot;
+   - Offer options: current directory, ../new-plugin-name, custom path
+3. Create directory structure using bash:
+   ```bash
+   mkdir -p plugin-name/.claude-plugin
+   mkdir -p plugin-name/skills/&lt;skill-name&gt;   # one dir per skill, each with a SKILL.md
+   mkdir -p plugin-name/agents                # if needed
+   mkdir -p plugin-name/hooks                 # if needed
+   ```
+4. Create plugin.json manifest using Write tool:
+   ```json
+   {
+     &quot;name&quot;: &quot;plugin-name&quot;,
+     &quot;version&quot;: &quot;0.1.0&quot;,
+     &quot;description&quot;: &quot;[brief description]&quot;,
+     &quot;author&quot;: {
+       &quot;name&quot;: &quot;[author from user or default]&quot;,
+       &quot;email&quot;: &quot;[email or default]&quot;
+     }
+   }
+   ```
+5. Create README.md template
+6. Create .gitignore if needed (for .claude/\*.local.md, etc.)
+7. Initialize git repo if creating new directory
+**Output**: Plugin directory structure created and ready for components</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Phase 5: Component Implementation
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**Goal**: Create each component following best practices
+**LOAD RELEVANT SKILLS** before implementing each component type:
+- Skills: Load skill-development skill
+- Legacy `commands/` format (only if user explicitly requests): Load command-development skill
+- Agents: Load agent-development skill
+- Hooks: Load hook-development skill
+- MCP: Load mcp-integration skill
+- Settings: Load plugin-settings skill
+**Actions for each component**:
+### For Skills:
+1. Load skill-development skill using Skill tool
+2. For each skill:
+   - Ask user for concrete usage examples (or use from Phase 3)
+   - Plan resources (scripts/, references/, examples/)
+   - Create skill directory: `skills/&lt;skill-name&gt;/`
+   - Write `SKILL.md` with:
+     - Third-person description with specific trigger phrases
+     - Lean body (1,500-2,000 words) in imperative form
+     - References to supporting files
+   - For user-invoked skills (slash commands): include `description`, `argument-hint`, and `allowed-tools` frontmatter; write instructions FOR Claude (not TO user)
+   - Create reference files for detailed content
+   - Create example files for working code
+   - Create utility scripts if needed
+3. Use skill-reviewer agent to validate each skill
+### For legacy `commands/` format (only if user explicitly requests):
+&gt; Prefer `skills/&lt;name&gt;/SKILL.md` for new plugins. Use `commands/` only when maintaining an existing plugin that already uses this layout.
+1. Load command-development skill using Skill tool
+2. For each command:
+   - Write command markdown with frontmatter
+   - Include clear description and argument-hint
+   - Specify allowed-tools (minimal necessary)
+   - Write instructions FOR Claude (not TO user)
+   - Provide usage examples and tips
+   - Reference relevant skills if applicable
+### For Agents:
+1. Load agent-development skill using Skill tool
+2. For each agent, use agent-creator agent:
+   - Provide description of what agent should do
+   - Agent-creator generates: identifier, whenToUse with examples, systemPrompt
+   - Create agent markdown file with frontmatter and system prompt
+   - Add appropriate model, color, and tools
+   - Validate with validate-agent.sh script
+### For Hooks:
+1. Load hook-development skill using Skill tool
+2. For each hook:
+   - Create hooks/hooks.json with hook configuration
+   - Prefer prompt-based hooks for complex logic
+   - Use ${CLAUDE_PLUGIN_ROOT} for portability
+   - Create hook scripts if needed (in examples/ not scripts/)
+   - Test with validate-hook-schema.sh and test-hook.sh utilities
+### For MCP:
+1. Load mcp-integration skill using Skill tool
+2. Create .mcp.json configuration with:
+   - Server type (stdio for local, SSE for hosted)
+   - Command and args (with ${CLAUDE_PLUGIN_ROOT})
+   - extensionToLanguage mapping if LSP
+   - Environment variables as needed
+3. Document required env vars in README
+4. Provide setup instructions
+### For Settings:
+1. Load plugin-settings skill using Skill tool
+2. Create settings template in README
+3. Create example .claude/plugin-name.local.md file (as documentation)
+4. Implement settings reading in hooks/commands as needed
+5. Add to .gitignore: `.claude/*.local.md`
+**Progress tracking**: Update todos as each component is completed
+**Output**: All plugin components implemented</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Phase 6: Validation & Quality Check
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**Goal**: Ensure plugin meets quality standards and works correctly
+**Actions**:
+1. **Run plugin-validator agent**:
+   - Use plugin-validator agent to comprehensively validate plugin
+   - Check: manifest, structure, naming, components, security
+   - Review validation report
+2. **Fix critical issues**:
+   - Address any critical errors from validation
+   - Fix any warnings that indicate real problems
+3. **Review with skill-reviewer** (if plugin has skills):
+   - For each skill, use skill-reviewer agent
+   - Check description quality, progressive disclosure, writing style
+   - Apply recommendations
+4. **Test agent triggering** (if plugin has agents):
+   - For each agent, verify &lt;example&gt; blocks are clear
+   - Check triggering conditions are specific
+   - Run validate-agent.sh on agent files
+5. **Test hook configuration** (if plugin has hooks):
+   - Run validate-hook-schema.sh on hooks/hooks.json
+   - Test hook scripts with test-hook.sh
+   - Verify ${CLAUDE_PLUGIN_ROOT} usage
+6. **Present findings**:
+   - Summary of validation results
+   - Any remaining issues
+   - Overall quality assessment
+7. **Ask user**: &quot;Validation complete. Issues found: [count critical], [count warnings]. Would you like me to fix them now, or proceed to testing?&quot;
+**Output**: Plugin validated and ready for testing</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Phase 7: Testing & Verification
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**Goal**: Test that plugin works correctly in Claude Code
+**Actions**:
+1. **Installation instructions**:
+   - Show user how to test locally:
+     ```bash
+     cc --plugin-dir /path/to/plugin-name
+     ```
+   - Or copy to `.claude-plugin/` for project testing
+2. **Verification checklist** for user to perform:
+   - [ ] Skills load when triggered (ask questions with trigger phrases)
+   - [ ] User-invoked skills appear in `/help` and execute correctly
+   - [ ] Agents trigger on appropriate scenarios
+   - [ ] Hooks activate on events (if applicable)
+   - [ ] MCP servers connect (if applicable)
+   - [ ] Settings files work (if applicable)
+3. **Testing recommendations**:
+   - For skills: Ask questions using trigger phrases from descriptions
+   - For user-invoked skills: Run `/plugin-name:skill-name` with various arguments
+   - For agents: Create scenarios matching agent examples
+   - For hooks: Use `claude --debug` to see hook execution
+   - For MCP: Use `/mcp` to verify servers and tools
+4. **Ask user**: &quot;I&#039;ve prepared the plugin for testing. Would you like me to guide you through testing each component, or do you want to test it yourself?&quot;
+5. **If user wants guidance**, walk through testing each component with specific test cases
+**Output**: Plugin tested and verified working</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Phase 8: Documentation & Next Steps
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**Goal**: Ensure plugin is well-documented and ready for distribution
+**Actions**:
+1. **Verify README completeness**:
+   - Check README has: overview, features, installation, prerequisites, usage
+   - For MCP plugins: Document required environment variables
+   - For hook plugins: Explain hook activation
+   - For settings: Provide configuration templates
+2. **Add marketplace entry** (if publishing):
+   - Show user how to add to marketplace.json
+   - Help draft marketplace description
+   - Suggest category and tags
+3. **Create summary**:
+   - Mark all todos complete
+   - List what was created:
+     - Plugin name and purpose
+     - Components created (X skills, Y agents, etc.)
+     - Key files and their purposes
+     - Total file count and structure
+   - Next steps:
+     - Testing recommendations
+     - Publishing to marketplace (if desired)
+     - Iteration based on usage
+4. **Suggest improvements** (optional):
+   - Additional components that could enhance plugin
+   - Integration opportunities
+   - Testing strategies
+**Output**: Complete, documented plugin ready for use or publication</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Important Notes
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Throughout All Phases
+- **Use TodoWrite** to track progress at every phase
+- **Load skills with Skill tool** when working on specific component types
+- **Use specialized agents** (agent-creator, plugin-validator, skill-reviewer)
+- **Ask for user confirmation** at key decision points
+- **Follow plugin-dev&#039;s own patterns** as reference examples
+- **Apply best practices**:
+  - Third-person descriptions for skills
+  - Imperative form in skill bodies
+  - Skill instructions written FOR Claude (not TO user)
+  - Strong trigger phrases
+  - ${CLAUDE_PLUGIN_ROOT} for portability
+  - Progressive disclosure
+  - Security-first (HTTPS, no hardcoded credentials)
+### Key Decision Points (Wait for User)
+1. After Phase 1: Confirm plugin purpose
+2. After Phase 2: Approve component plan
+3. After Phase 3: Proceed to implementation
+4. After Phase 6: Fix issues or proceed
+5. After Phase 7: Continue to documentation
+### Skills to Load by Phase
+- **Phase 2**: plugin-structure
+- **Phase 5**: skill-development, agent-development, hook-development, mcp-integration, plugin-settings (as needed); command-development only for legacy `commands/` layout
+- **Phase 6**: (agents will use skills automatically)
+### Quality Standards
+Every component must meet these standards:
+- ✅ Follows plugin-dev&#039;s proven patterns
+- ✅ Uses correct naming conventions
+- ✅ Has strong trigger conditions (skills/agents)
+- ✅ Includes working examples
+- ✅ Properly documented
+- ✅ Validated with utilities
+- ✅ Tested in Claude Code</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-2-6V3.5L18.5 9H14z"/></svg>
+                Example Workflow
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### User Request
+&quot;Create a plugin for managing database migrations&quot;
+### Phase 1: Discovery
+- Understand: Migration management, database schema versioning
+- Confirm: User wants to create, run, rollback migrations
+### Phase 2: Component Planning
+- Skills: 4 (migration best practices, create-migration, run-migrations, rollback)
+- Agents: 1 (migration-validator)
+- MCP: 1 (database connection)
+### Phase 3: Clarifying Questions
+- Which databases? (PostgreSQL, MySQL, etc.)
+- Migration file format? (SQL, code-based?)
+- Should agent validate before applying?
+- What MCP tools needed? (query, execute, schema)
+### Phase 4-8: Implementation, Validation, Testing, Documentation
+**Begin with Phase 1: Discovery**</pre>
+            </div>
+        </section>
+        
+
+        <div class="detail-nav">
+            <a class="nav-card" href="review-pr.html">
+                <div class="nav-label">上一个</div>
+                <div class="nav-title">Launches all agents in parallel</div>
+                <div class="nav-type">Command</div>
+            </a>
+            <a class="nav-card" href="configure.html">
+                <div class="nav-label">下一个</div>
+                <div class="nav-title">Configure Hookify Rules</div>
+                <div class="nav-type">Command</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python测试 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Python测试</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">Python测试</h1>
+            <p class="detail-subtitle">Python测试，Python代码的测试策略</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Writing new Python code (follow TDD: red, green, refactor)
+- Designing test suites for Python projects
+- Reviewing Python test coverage
+- Setting up testing infrastructure</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Testing Philosophy
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Test-Driven Development (TDD)
+
+Always follow the TDD cycle:
+
+1. **RED**: Write a failing test for the desired behavior
+2. **GREEN**: Write minimal code to make the test pass
+3. **REFACTOR**: Improve code while keeping tests green
+
+```python
+# Step 1: Write failing test (RED)
+def test_add_numbers():
+    result = add(2, 3)
+    assert result == 5
+
+# Step 2: Write minimal implementation (GREEN)
+def add(a, b):
+    return a + b
+
+# Step 3: Refactor if needed (REFACTOR)
+```
+
+### Coverage Requirements
+
+- **Target**: 80%+ code coverage
+- **Critical paths**: 100% coverage required
+- Use `pytest --cov` to measure coverage
+
+```bash
+pytest --cov=mypackage --cov-report=term-missing --cov-report=html
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                pytest Fundamentals
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Basic Test Structure
+
+```python
+import pytest
+
+def test_addition():
+    &quot;&quot;&quot;Test basic addition.&quot;&quot;&quot;
+    assert 2 + 2 == 4
+
+def test_string_uppercase():
+    &quot;&quot;&quot;Test string uppercasing.&quot;&quot;&quot;
+    text = &quot;hello&quot;
+    assert text.upper() == &quot;HELLO&quot;
+
+def test_list_append():
+    &quot;&quot;&quot;Test list append.&quot;&quot;&quot;
+    items = [1, 2, 3]
+    items.append(4)
+    assert 4 in items
+    assert len(items) == 4
+```
+
+### Assertions
+
+```python
+# Equality
+assert result == expected
+
+# Inequality
+assert result != unexpected
+
+# Truthiness
+assert result  # Truthy
+assert not result  # Falsy
+assert result is True  # Exactly True
+assert result is False  # Exactly False
+assert result is None  # Exactly None
+
+# Membership
+assert item in collection
+assert item not in collection
+
+# Comparisons
+assert result &gt; 0
+assert 0 &lt;= result &lt;= 100
+
+# Type checking
+assert isinstance(result, str)
+
+# Exception testing (preferred approach)
+with pytest.raises(ValueError):
+    raise ValueError(&quot;error message&quot;)
+
+# Check exception message
+with pytest.raises(ValueError, match=&quot;invalid input&quot;):
+    raise ValueError(&quot;invalid input provided&quot;)
+
+# Check exception attributes
+with pytest.raises(ValueError) as exc_info:
+    raise ValueError(&quot;error message&quot;)
+assert str(exc_info.value) == &quot;error message&quot;
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Fixtures
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Basic Fixture Usage
+
+```python
+import pytest
+
+@pytest.fixture
+def sample_data():
+    &quot;&quot;&quot;Fixture providing sample data.&quot;&quot;&quot;
+    return {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 30}
+
+def test_sample_data(sample_data):
+    &quot;&quot;&quot;Test using the fixture.&quot;&quot;&quot;
+    assert sample_data[&quot;name&quot;] == &quot;Alice&quot;
+    assert sample_data[&quot;age&quot;] == 30
+```
+
+### Fixture with Setup/Teardown
+
+```python
+@pytest.fixture
+def database():
+    &quot;&quot;&quot;Fixture with setup and teardown.&quot;&quot;&quot;
+    # Setup
+    db = Database(&quot;:memory:&quot;)
+    db.create_tables()
+    db.insert_test_data()
+
+    yield db  # Provide to test
+
+    # Teardown
+    db.close()
+
+def test_database_query(database):
+    &quot;&quot;&quot;Test database operations.&quot;&quot;&quot;
+    result = database.query(&quot;SELECT * FROM users&quot;)
+    assert len(result) &gt; 0
+```
+
+### Fixture Scopes
+
+```python
+# Function scope (default) - runs for each test
+@pytest.fixture
+def temp_file():
+    with open(&quot;temp.txt&quot;, &quot;w&quot;) as f:
+        yield f
+    os.remove(&quot;temp.txt&quot;)
+
+# Module scope - runs once per module
+@pytest.fixture(scope=&quot;module&quot;)
+def module_db():
+    db = Database(&quot;:memory:&quot;)
+    db.create_tables()
+    yield db
+    db.close()
+
+# Session scope - runs once per test session
+@pytest.fixture(scope=&quot;session&quot;)
+def shared_resource():
+    resource = ExpensiveResource()
+    yield resource
+    resource.cleanup()
+```
+
+### Fixture with Parameters
+
+```python
+@pytest.fixture(params=[1, 2, 3])
+def number(request):
+    &quot;&quot;&quot;Parameterized fixture.&quot;&quot;&quot;
+    return request.param
+
+def test_numbers(number):
+    &quot;&quot;&quot;Test runs 3 times, once for each parameter.&quot;&quot;&quot;
+    assert number &gt; 0
+```
+
+### Using Multiple Fixtures
+
+```python
+@pytest.fixture
+def user():
+    return User(id=1, name=&quot;Alice&quot;)
+
+@pytest.fixture
+def admin():
+    return User(id=2, name=&quot;Admin&quot;, role=&quot;admin&quot;)
+
+def test_user_admin_interaction(user, admin):
+    &quot;&quot;&quot;Test using multiple fixtures.&quot;&quot;&quot;
+    assert admin.can_manage(user)
+```
+
+### Autouse Fixtures
+
+```python
+@pytest.fixture(autouse=True)
+def reset_config():
+    &quot;&quot;&quot;Automatically runs before every test.&quot;&quot;&quot;
+    Config.reset()
+    yield
+    Config.cleanup()
+
+def test_without_fixture_call():
+    # reset_config runs automatically
+    assert Config.get_setting(&quot;debug&quot;) is False
+```
+
+### Conftest.py for Shared Fixtures
+
+```python
+# tests/conftest.py
+import pytest
+
+@pytest.fixture
+def client():
+    &quot;&quot;&quot;Shared fixture for all tests.&quot;&quot;&quot;
+    app = create_app(testing=True)
+    with app.test_client() as client:
+        yield client
+
+@pytest.fixture
+def auth_headers(client):
+    &quot;&quot;&quot;Generate auth headers for API testing.&quot;&quot;&quot;
+    response = client.post(&quot;/api/login&quot;, json={
+        &quot;username&quot;: &quot;test&quot;,
+        &quot;password&quot;: &quot;test&quot;
+    })
+    token = response.json[&quot;token&quot;]
+    return {&quot;Authorization&quot;: f&quot;Bearer {token}&quot;}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Parametrization
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Basic Parametrization
+
+```python
+@pytest.mark.parametrize(&quot;input,expected&quot;, [
+    (&quot;hello&quot;, &quot;HELLO&quot;),
+    (&quot;world&quot;, &quot;WORLD&quot;),
+    (&quot;PyThOn&quot;, &quot;PYTHON&quot;),
+])
+def test_uppercase(input, expected):
+    &quot;&quot;&quot;Test runs 3 times with different inputs.&quot;&quot;&quot;
+    assert input.upper() == expected
+```
+
+### Multiple Parameters
+
+```python
+@pytest.mark.parametrize(&quot;a,b,expected&quot;, [
+    (2, 3, 5),
+    (0, 0, 0),
+    (-1, 1, 0),
+    (100, 200, 300),
+])
+def test_add(a, b, expected):
+    &quot;&quot;&quot;Test addition with multiple inputs.&quot;&quot;&quot;
+    assert add(a, b) == expected
+```
+
+### Parametrize with IDs
+
+```python
+@pytest.mark.parametrize(&quot;input,expected&quot;, [
+    (&quot;valid@email.com&quot;, True),
+    (&quot;invalid&quot;, False),
+    (&quot;@no-domain.com&quot;, False),
+], ids=[&quot;valid-email&quot;, &quot;missing-at&quot;, &quot;missing-domain&quot;])
+def test_email_validation(input, expected):
+    &quot;&quot;&quot;Test email validation with readable test IDs.&quot;&quot;&quot;
+    assert is_valid_email(input) is expected
+```
+
+### Parametrized Fixtures
+
+```python
+@pytest.fixture(params=[&quot;sqlite&quot;, &quot;postgresql&quot;, &quot;mysql&quot;])
+def db(request):
+    &quot;&quot;&quot;Test against multiple database backends.&quot;&quot;&quot;
+    if request.param == &quot;sqlite&quot;:
+        return Database(&quot;:memory:&quot;)
+    elif request.param == &quot;postgresql&quot;:
+        return Database(&quot;postgresql://localhost/test&quot;)
+    elif request.param == &quot;mysql&quot;:
+        return Database(&quot;mysql://localhost/test&quot;)
+
+def test_database_operations(db):
+    &quot;&quot;&quot;Test runs 3 times, once for each database.&quot;&quot;&quot;
+    result = db.query(&quot;SELECT 1&quot;)
+    assert result is not None
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Markers and Test Selection
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Custom Markers
+
+```python
+# Mark slow tests
+@pytest.mark.slow
+def test_slow_operation():
+    time.sleep(5)
+
+# Mark integration tests
+@pytest.mark.integration
+def test_api_integration():
+    response = requests.get(&quot;https://api.example.com&quot;)
+    assert response.status_code == 200
+
+# Mark unit tests
+@pytest.mark.unit
+def test_unit_logic():
+    assert calculate(2, 3) == 5
+```
+
+### Run Specific Tests
+
+```bash
+# Run only fast tests
+pytest -m &quot;not slow&quot;
+
+# Run only integration tests
+pytest -m integration
+
+# Run integration or slow tests
+pytest -m &quot;integration or slow&quot;
+
+# Run tests marked as unit but not slow
+pytest -m &quot;unit and not slow&quot;
+```
+
+### Configure Markers in pytest.ini
+
+```ini
+[pytest]
+markers =
+    slow: marks tests as slow
+    integration: marks tests as integration tests
+    unit: marks tests as unit tests
+    django: marks tests as requiring Django
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Mocking and Patching
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Mocking Functions
+
+```python
+from unittest.mock import patch, Mock
+
+@patch(&quot;mypackage.external_api_call&quot;)
+def test_with_mock(api_call_mock):
+    &quot;&quot;&quot;Test with mocked external API.&quot;&quot;&quot;
+    api_call_mock.return_value = {&quot;status&quot;: &quot;success&quot;}
+
+    result = my_function()
+
+    api_call_mock.assert_called_once()
+    assert result[&quot;status&quot;] == &quot;success&quot;
+```
+
+### Mocking Return Values
+
+```python
+@patch(&quot;mypackage.Database.connect&quot;)
+def test_database_connection(connect_mock):
+    &quot;&quot;&quot;Test with mocked database connection.&quot;&quot;&quot;
+    connect_mock.return_value = MockConnection()
+
+    db = Database()
+    db.connect()
+
+    connect_mock.assert_called_once_with(&quot;localhost&quot;)
+```
+
+### Mocking Exceptions
+
+```python
+@patch(&quot;mypackage.api_call&quot;)
+def test_api_error_handling(api_call_mock):
+    &quot;&quot;&quot;Test error handling with mocked exception.&quot;&quot;&quot;
+    api_call_mock.side_effect = ConnectionError(&quot;Network error&quot;)
+
+    with pytest.raises(ConnectionError):
+        api_call()
+
+    api_call_mock.assert_called_once()
+```
+
+### Mocking Context Managers
+
+```python
+@patch(&quot;builtins.open&quot;, new_callable=mock_open)
+def test_file_reading(mock_file):
+    &quot;&quot;&quot;Test file reading with mocked open.&quot;&quot;&quot;
+    mock_file.return_value.read.return_value = &quot;file content&quot;
+
+    result = read_file(&quot;test.txt&quot;)
+
+    mock_file.assert_called_once_with(&quot;test.txt&quot;, &quot;r&quot;)
+    assert result == &quot;file content&quot;
+```
+
+### Using Autospec
+
+```python
+@patch(&quot;mypackage.DBConnection&quot;, autospec=True)
+def test_autospec(db_mock):
+    &quot;&quot;&quot;Test with autospec to catch API misuse.&quot;&quot;&quot;
+    db = db_mock.return_value
+    db.query(&quot;SELECT * FROM users&quot;)
+
+    # This would fail if DBConnection doesn&#039;t have query method
+    db_mock.assert_called_once()
+```
+
+### Mock Class Instances
+
+```python
+class TestUserService:
+    @patch(&quot;mypackage.UserRepository&quot;)
+    def test_create_user(self, repo_mock):
+        &quot;&quot;&quot;Test user creation with mocked repository.&quot;&quot;&quot;
+        repo_mock.return_value.save.return_value = User(id=1, name=&quot;Alice&quot;)
+
+        service = UserService(repo_mock.return_value)
+        user = service.create_user(name=&quot;Alice&quot;)
+
+        assert user.name == &quot;Alice&quot;
+        repo_mock.return_value.save.assert_called_once()
+```
+
+### Mock Property
+
+```python
+@pytest.fixture
+def mock_config():
+    &quot;&quot;&quot;Create a mock with a property.&quot;&quot;&quot;
+    config = Mock()
+    type(config).debug = PropertyMock(return_value=True)
+    type(config).api_key = PropertyMock(return_value=&quot;test-key&quot;)
+    return config
+
+def test_with_mock_config(mock_config):
+    &quot;&quot;&quot;Test with mocked config properties.&quot;&quot;&quot;
+    assert mock_config.debug is True
+    assert mock_config.api_key == &quot;test-key&quot;
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Testing Async Code
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Async Tests with pytest-asyncio
+
+```python
+import pytest
+
+@pytest.mark.asyncio
+async def test_async_function():
+    &quot;&quot;&quot;Test async function.&quot;&quot;&quot;
+    result = await async_add(2, 3)
+    assert result == 5
+
+@pytest.mark.asyncio
+async def test_async_with_fixture(async_client):
+    &quot;&quot;&quot;Test async with async fixture.&quot;&quot;&quot;
+    response = await async_client.get(&quot;/api/users&quot;)
+    assert response.status_code == 200
+```
+
+### Async Fixture
+
+```python
+@pytest.fixture
+async def async_client():
+    &quot;&quot;&quot;Async fixture providing async test client.&quot;&quot;&quot;
+    app = create_app()
+    async with app.test_client() as client:
+        yield client
+
+@pytest.mark.asyncio
+async def test_api_endpoint(async_client):
+    &quot;&quot;&quot;Test using async fixture.&quot;&quot;&quot;
+    response = await async_client.get(&quot;/api/data&quot;)
+    assert response.status_code == 200
+```
+
+### Mocking Async Functions
+
+```python
+@pytest.mark.asyncio
+@patch(&quot;mypackage.async_api_call&quot;)
+async def test_async_mock(api_call_mock):
+    &quot;&quot;&quot;Test async function with mock.&quot;&quot;&quot;
+    api_call_mock.return_value = {&quot;status&quot;: &quot;ok&quot;}
+
+    result = await my_async_function()
+
+    api_call_mock.assert_awaited_once()
+    assert result[&quot;status&quot;] == &quot;ok&quot;
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Testing Exceptions
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Testing Expected Exceptions
+
+```python
+def test_divide_by_zero():
+    &quot;&quot;&quot;Test that dividing by zero raises ZeroDivisionError.&quot;&quot;&quot;
+    with pytest.raises(ZeroDivisionError):
+        divide(10, 0)
+
+def test_custom_exception():
+    &quot;&quot;&quot;Test custom exception with message.&quot;&quot;&quot;
+    with pytest.raises(ValueError, match=&quot;invalid input&quot;):
+        validate_input(&quot;invalid&quot;)
+```
+
+### Testing Exception Attributes
+
+```python
+def test_exception_with_details():
+    &quot;&quot;&quot;Test exception with custom attributes.&quot;&quot;&quot;
+    with pytest.raises(CustomError) as exc_info:
+        raise CustomError(&quot;error&quot;, code=400)
+
+    assert exc_info.value.code == 400
+    assert &quot;error&quot; in str(exc_info.value)
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Testing Side Effects
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Testing File Operations
+
+```python
+import tempfile
+import os
+
+def test_file_processing():
+    &quot;&quot;&quot;Test file processing with temp file.&quot;&quot;&quot;
+    with tempfile.NamedTemporaryFile(mode=&#039;w&#039;, delete=False, suffix=&#039;.txt&#039;) as f:
+        f.write(&quot;test content&quot;)
+        temp_path = f.name
+
+    try:
+        result = process_file(temp_path)
+        assert result == &quot;processed: test content&quot;
+    finally:
+        os.unlink(temp_path)
+```
+
+### Testing with pytest&#039;s tmp_path Fixture
+
+```python
+def test_with_tmp_path(tmp_path):
+    &quot;&quot;&quot;Test using pytest&#039;s built-in temp path fixture.&quot;&quot;&quot;
+    test_file = tmp_path / &quot;test.txt&quot;
+    test_file.write_text(&quot;hello world&quot;)
+
+    result = process_file(str(test_file))
+    assert result == &quot;hello world&quot;
+    # tmp_path automatically cleaned up
+```
+
+### Testing with tmpdir Fixture
+
+```python
+def test_with_tmpdir(tmpdir):
+    &quot;&quot;&quot;Test using pytest&#039;s tmpdir fixture.&quot;&quot;&quot;
+    test_file = tmpdir.join(&quot;test.txt&quot;)
+    test_file.write(&quot;data&quot;)
+
+    result = process_file(str(test_file))
+    assert result == &quot;data&quot;
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Test Organization
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Directory Structure
+
+```
+tests/
+├── conftest.py                 # Shared fixtures
+├── __init__.py
+├── unit/                       # Unit tests
+│   ├── __init__.py
+│   ├── test_models.py
+│   ├── test_utils.py
+│   └── test_services.py
+├── integration/                # Integration tests
+│   ├── __init__.py
+│   ├── test_api.py
+│   └── test_database.py
+└── e2e/                        # End-to-end tests
+    ├── __init__.py
+    └── test_user_flow.py
+```
+
+### Test Classes
+
+```python
+class TestUserService:
+    &quot;&quot;&quot;Group related tests in a class.&quot;&quot;&quot;
+
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        &quot;&quot;&quot;Setup runs before each test in this class.&quot;&quot;&quot;
+        self.service = UserService()
+
+    def test_create_user(self):
+        &quot;&quot;&quot;Test user creation.&quot;&quot;&quot;
+        user = self.service.create_user(&quot;Alice&quot;)
+        assert user.name == &quot;Alice&quot;
+
+    def test_delete_user(self):
+        &quot;&quot;&quot;Test user deletion.&quot;&quot;&quot;
+        user = User(id=1, name=&quot;Bob&quot;)
+        self.service.delete_user(user)
+        assert not self.service.user_exists(1)
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                最佳实践
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### DO
+
+- **Follow TDD**: Write tests before code (red-green-refactor)
+- **Test one thing**: Each test should verify a single behavior
+- **Use descriptive names**: `test_user_login_with_invalid_credentials_fails`
+- **Use fixtures**: Eliminate duplication with fixtures
+- **Mock external dependencies**: Don&#039;t depend on external services
+- **Test edge cases**: Empty inputs, None values, boundary conditions
+- **Aim for 80%+ coverage**: Focus on critical paths
+- **Keep tests fast**: Use marks to separate slow tests
+
+### DON&#039;T
+
+- **Don&#039;t test implementation**: Test behavior, not internals
+- **Don&#039;t use complex conditionals in tests**: Keep tests simple
+- **Don&#039;t ignore test failures**: All tests must pass
+- **Don&#039;t test third-party code**: Trust libraries to work
+- **Don&#039;t share state between tests**: Tests should be independent
+- **Don&#039;t catch exceptions in tests**: Use `pytest.raises`
+- **Don&#039;t use print statements**: Use assertions and pytest output
+- **Don&#039;t write tests that are too brittle**: Avoid over-specific mocks</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Common Patterns
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Testing API Endpoints (FastAPI/Flask)
+
+```python
+@pytest.fixture
+def client():
+    app = create_app(testing=True)
+    return app.test_client()
+
+def test_get_user(client):
+    response = client.get(&quot;/api/users/1&quot;)
+    assert response.status_code == 200
+    assert response.json[&quot;id&quot;] == 1
+
+def test_create_user(client):
+    response = client.post(&quot;/api/users&quot;, json={
+        &quot;name&quot;: &quot;Alice&quot;,
+        &quot;email&quot;: &quot;alice@example.com&quot;
+    })
+    assert response.status_code == 201
+    assert response.json[&quot;name&quot;] == &quot;Alice&quot;
+```
+
+### Testing Database Operations
+
+```python
+@pytest.fixture
+def db_session():
+    &quot;&quot;&quot;Create a test database session.&quot;&quot;&quot;
+    session = Session(bind=engine)
+    session.begin_nested()
+    yield session
+    session.rollback()
+    session.close()
+
+def test_create_user(db_session):
+    user = User(name=&quot;Alice&quot;, email=&quot;alice@example.com&quot;)
+    db_session.add(user)
+    db_session.commit()
+
+    retrieved = db_session.query(User).filter_by(name=&quot;Alice&quot;).first()
+    assert retrieved.email == &quot;alice@example.com&quot;
+```
+
+### Testing Class Methods
+
+```python
+class TestCalculator:
+    @pytest.fixture
+    def calculator(self):
+        return Calculator()
+
+    def test_add(self, calculator):
+        assert calculator.add(2, 3) == 5
+
+    def test_divide_by_zero(self, calculator):
+        with pytest.raises(ZeroDivisionError):
+            calculator.divide(10, 0)
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                pytest Configuration
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### pytest.ini
+
+```ini
+[pytest]
+testpaths = tests
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+addopts =
+    --strict-markers
+    --disable-warnings
+    --cov=mypackage
+    --cov-report=term-missing
+    --cov-report=html
+markers =
+    slow: marks tests as slow
+    integration: marks tests as integration tests
+    unit: marks tests as unit tests
+```
+
+### pyproject.toml
+
+```toml
+[tool.pytest.ini_options]
+testpaths = [&quot;tests&quot;]
+python_files = [&quot;test_*.py&quot;]
+python_classes = [&quot;Test*&quot;]
+python_functions = [&quot;test_*&quot;]
+addopts = [
+    &quot;--strict-markers&quot;,
+    &quot;--cov=mypackage&quot;,
+    &quot;--cov-report=term-missing&quot;,
+    &quot;--cov-report=html&quot;,
+]
+markers = [
+    &quot;slow: marks tests as slow&quot;,
+    &quot;integration: marks tests as integration tests&quot;,
+    &quot;unit: marks tests as unit tests&quot;,
+]
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Running Tests
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```bash
+# Run all tests
+pytest
+
+# Run specific file
+pytest tests/test_utils.py
+
+# Run specific test
+pytest tests/test_utils.py::test_function
+
+# Run with verbose output
+pytest -v
+
+# Run with coverage
+pytest --cov=mypackage --cov-report=html
+
+# Run only fast tests
+pytest -m &quot;not slow&quot;
+
+# Run until first failure
+pytest -x
+
+# Run and stop on N failures
+pytest --maxfail=3
+
+# Run last failed tests
+pytest --lf
+
+# Run tests with pattern
+pytest -k &quot;test_user&quot;
+
+# Run with debugger on failure
+pytest --pdb
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Quick Reference
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Pattern | Usage |
+|---------|-------|
+| `pytest.raises()` | Test expected exceptions |
+| `@pytest.fixture()` | Create reusable test fixtures |
+| `@pytest.mark.parametrize()` | Run tests with multiple inputs |
+| `@pytest.mark.slow` | Mark slow tests |
+| `pytest -m &quot;not slow&quot;` | Skip slow tests |
+| `@patch()` | Mock functions and classes |
+| `tmp_path` fixture | Automatic temp directory |
+| `pytest --cov` | Generate coverage report |
+| `assert` | Simple and readable assertions |
+
+**Remember**: Tests are code too. Keep them clean, readable, and maintainable. Good tests catch bugs; great tests prevent them.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: python-testing
+description: Python testing strategies using pytest, TDD methodology, fixtures, mocking, parametrization, and coverage requirements.
+origin: ECC
+---
+
+# Python Testing Patterns
+
+Comprehensive testing strategies for Python applications using pytest, TDD methodology, and best practices.
+
+## When to Activate
+
+- Writing new Python code (follow TDD: red, green, refactor)
+- Designing test suites for Python projects
+- Reviewing Python test coverage
+- Setting up testing infrastructure
+
+## Core Testing Philosophy
+
+### Test-Driven Development (TDD)
+
+Always follow the TDD cycle:
+
+1. **RED**: Write a failing test for the desired behavior
+2. **GREEN**: Write minimal code to make the test pass
+3. **REFACTOR**: Improve code while keeping tests green
+
+```python
+# Step 1: Write failing test (RED)
+def test_add_numbers():
+    result = add(2, 3)
+    assert result == 5
+
+# Step 2: Write minimal implementation (GREEN)
+def add(a, b):
+    return a + b
+
+# Step 3: Refactor if needed (REFACTOR)
+```
+
+### Coverage Requirements
+
+- **Target**: 80%+ code coverage
+- **Critical paths**: 100% coverage required
+- Use `pytest --cov` to measure coverage
+
+```bash
+pytest --cov=mypackage --cov-report=term-missing --cov-report=html
+```
+
+## pytest Fundamentals
+
+### Basic Test Structure
+
+```python
+import pytest
+
+def test_addition():
+    &quot;&quot;&quot;Test basic addition.&quot;&quot;&quot;
+    assert 2 + 2 == 4
+
+def test_string_uppercase():
+    &quot;&quot;&quot;Test string uppercasing.&quot;&quot;&quot;
+    text = &quot;hello&quot;
+    assert text.upper() == &quot;HELLO&quot;
+
+def test_list_append():
+    &quot;&quot;&quot;Test list append.&quot;&quot;&quot;
+    items = [1, 2, 3]
+    items.append(4)
+    assert 4 in items
+    assert len(items) == 4
+```
+
+### Assertions
+
+```python
+# Equality
+assert result == expected
+
+# Inequality
+assert result != unexpected
+
+# Truthiness
+assert result  # Truthy
+assert not result  # Falsy
+assert result is True  # Exactly True
+assert result is False  # Exactly False
+assert result is None  # Exactly None
+
+# Membership
+assert item in collection
+assert item not in collection
+
+# Comparisons
+assert result &gt; 0
+assert 0 &lt;= result &lt;= 100
+
+# Type checking
+assert isinstance(result, str)
+
+# Exception testing (preferred approach)
+with pytest.raises(ValueError):
+    raise ValueError(&quot;error message&quot;)
+
+# Check exception message
+with pytest.raises(ValueError, match=&quot;invalid input&quot;):
+    raise ValueError(&quot;invalid input provided&quot;)
+
+# Check exception attributes
+with pytest.raises(ValueError) as exc_info:
+    raise ValueError(&quot;error message&quot;)
+assert str(exc_info.value) == &quot;error message&quot;
+```
+
+## Fixtures
+
+### Basic Fixture Usage
+
+```python
+import pytest
+
+@pytest.fixture
+def sample_data():
+    &quot;&quot;&quot;Fixture providing sample data.&quot;&quot;&quot;
+    return {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 30}
+
+def test_sample_data(sample_data):
+    &quot;&quot;&quot;Test using the fixture.&quot;&quot;&quot;
+    assert sample_data[&quot;name&quot;] == &quot;Alice&quot;
+    assert sample_data[&quot;age&quot;] == 30
+```
+
+### Fixture with Setup/Teardown
+
+```python
+@pytest.fixture
+def database():
+    &quot;&quot;&quot;Fixture with setup and teardown.&quot;&quot;&quot;
+    # Setup
+    db = Database(&quot;:memory:&quot;)
+    db.create_tables()
+    db.insert_test_data()
+
+    yield db  # Provide to test
+
+    # Teardown
+    db.close()
+
+def test_database_query(database):
+    &quot;&quot;&quot;Test database operations.&quot;&quot;&quot;
+    result = database.query(&quot;SELECT * FROM users&quot;)
+    assert len(result) &gt; 0
+```
+
+### Fixture Scopes
+
+```python
+# Function scope (default) - runs for each test
+@pytest.fixture
+def temp_file():
+    with open(&quot;temp.txt&quot;, &quot;w&quot;) as f:
+        yield f
+    os.remove(&quot;temp.txt&quot;)
+
+# Module scope - runs once per module
+@pytest.fixture(scope=&quot;module&quot;)
+def module_db():
+    db = Database(&quot;:memory:&quot;)
+    db.create_tables()
+    yield db
+    db.close()
+
+# Session scope - runs once per test session
+@pytest.fixture(scope=&quot;session&quot;)
+def shared_resource():
+    resource = ExpensiveResource()
+    yield resource
+    resource.cleanup()
+```
+
+### Fixture with Parameters
+
+```python
+@pytest.fixture(params=[1, 2, 3])
+def number(request):
+    &quot;&quot;&quot;Parameterized fixture.&quot;&quot;&quot;
+    return request.param
+
+def test_numbers(number):
+    &quot;&quot;&quot;Test runs 3 times, once for each parameter.&quot;&quot;&quot;
+    assert number &gt; 0
+```
+
+### Using Multiple Fixtures
+
+```python
+@pytest.fixture
+def user():
+    return User(id=1, name=&quot;Alice&quot;)
+
+@pytest.fixture
+def admin():
+    return User(id=2, name=&quot;Admin&quot;, role=&quot;admin&quot;)
+
+def test_user_admin_interaction(user, admin):
+    &quot;&quot;&quot;Test using multiple fixtures.&quot;&quot;&quot;
+    assert admin.can_manage(user)
+```
+
+### Autouse Fixtures
+
+```python
+@pytest.fixture(autouse=True)
+def reset_config():
+    &quot;&quot;&quot;Automatically runs before every test.&quot;&quot;&quot;
+    Config.reset()
+    yield
+    Config.cleanup()
+
+def test_without_fixture_call():
+    # reset_config runs automatically
+    assert Config.get_setting(&quot;debug&quot;) is False
+```
+
+### Conftest.py for Shared Fixtures
+
+```python
+# tests/conftest.py
+import pytest
+
+@pytest.fixture
+def client():
+    &quot;&quot;&quot;Shared fixture for all tests.&quot;&quot;&quot;
+    app = create_app(testing=True)
+    with app.test_client() as client:
+        yield client
+
+@pytest.fixture
+def auth_headers(client):
+    &quot;&quot;&quot;Generate auth headers for API testing.&quot;&quot;&quot;
+    response = client.post(&quot;/api/login&quot;, json={
+        &quot;username&quot;: &quot;test&quot;,
+        &quot;password&quot;: &quot;test&quot;
+    })
+    token = response.json[&quot;token&quot;]
+    return {&quot;Authorization&quot;: f&quot;Bearer {token}&quot;}
+```
+
+## Parametrization
+
+### Basic Parametrization
+
+```python
+@pytest.mark.parametrize(&quot;input,expected&quot;, [
+    (&quot;hello&quot;, &quot;HELLO&quot;),
+    (&quot;world&quot;, &quot;WORLD&quot;),
+    (&quot;PyThOn&quot;, &quot;PYTHON&quot;),
+])
+def test_uppercase(input, expected):
+    &quot;&quot;&quot;Test runs 3 times with different inputs.&quot;&quot;&quot;
+    assert input.upper() == expected
+```
+
+### Multiple Parameters
+
+```python
+@pytest.mark.parametrize(&quot;a,b,expected&quot;, [
+    (2, 3, 5),
+    (0, 0, 0),
+    (-1, 1, 0),
+    (100, 200, 300),
+])
+def test_add(a, b, expected):
+    &quot;&quot;&quot;Test addition with multiple inputs.&quot;&quot;&quot;
+    assert add(a, b) == expected
+```
+
+### Parametrize with IDs
+
+```python
+@pytest.mark.parametrize(&quot;input,expected&quot;, [
+    (&quot;valid@email.com&quot;, True),
+    (&quot;invalid&quot;, False),
+    (&quot;@no-domain.com&quot;, False),
+], ids=[&quot;valid-email&quot;, &quot;missing-at&quot;, &quot;missing-domain&quot;])
+def test_email_validation(input, expected):
+    &quot;&quot;&quot;Test email validation with readable test IDs.&quot;&quot;&quot;
+    assert is_valid_email(input) is expected
+```
+
+### Parametrized Fixtures
+
+```python
+@pytest.fixture(params=[&quot;sqlite&quot;, &quot;postgresql&quot;, &quot;mysql&quot;])
+def db(request):
+    &quot;&quot;&quot;Test against multiple database backends.&quot;&quot;&quot;
+    if request.param == &quot;sqlite&quot;:
+        return Database(&quot;:memory:&quot;)
+    elif request.param == &quot;postgresql&quot;:
+        return Database(&quot;postgresql://localhost/test&quot;)
+    elif request.param == &quot;mysql&quot;:
+        return Database(&quot;mysql://localhost/test&quot;)
+
+def test_database_operations(db):
+    &quot;&quot;&quot;Test runs 3 times, once for each database.&quot;&quot;&quot;
+    result = db.query(&quot;SELECT 1&quot;)
+    assert result is not None
+```
+
+## Markers and Test Selection
+
+### Custom Markers
+
+```python
+# Mark slow tests
+@pytest.mark.slow
+def test_slow_operation():
+    time.sleep(5)
+
+# Mark integration tests
+@pytest.mark.integration
+def test_api_integration():
+    response = requests.get(&quot;https://api.example.com&quot;)
+    assert response.status_code == 200
+
+# Mark unit tests
+@pytest.mark.unit
+def test_unit_logic():
+    assert calculate(2, 3) == 5
+```
+
+### Run Specific Tests
+
+```bash
+# Run only fast tests
+pytest -m &quot;not slow&quot;
+
+# Run only integration tests
+pytest -m integration
+
+# Run integration or slow tests
+pytest -m &quot;integration or slow&quot;
+
+# Run tests marked as unit but not slow
+pytest -m &quot;unit and not slow&quot;
+```
+
+### Configure Markers in pytest.ini
+
+```ini
+[pytest]
+markers =
+    slow: marks tests as slow
+    integration: marks tests as integration tests
+    unit: marks tests as unit tests
+    django: marks tests as requiring Django
+```
+
+## Mocking and Patching
+
+### Mocking Functions
+
+```python
+from unittest.mock import patch, Mock
+
+@patch(&quot;mypackage.external_api_call&quot;)
+def test_with_mock(api_call_mock):
+    &quot;&quot;&quot;Test with mocked external API.&quot;&quot;&quot;
+    api_call_mock.return_value = {&quot;status&quot;: &quot;success&quot;}
+
+    result = my_function()
+
+    api_call_mock.assert_called_once()
+    assert result[&quot;status&quot;] == &quot;success&quot;
+```
+
+### Mocking Return Values
+
+```python
+@patch(&quot;mypackage.Database.connect&quot;)
+def test_database_connection(connect_mock):
+    &quot;&quot;&quot;Test with mocked database connection.&quot;&quot;&quot;
+    connect_mock.return_value = MockConnection()
+
+    db = Database()
+    db.connect()
+
+    connect_mock.assert_called_once_with(&quot;localhost&quot;)
+```
+
+### Mocking Exceptions
+
+```python
+@patch(&quot;mypackage.api_call&quot;)
+def test_api_error_handling(api_call_mock):
+    &quot;&quot;&quot;Test error handling with mocked exception.&quot;&quot;&quot;
+    api_call_mock.side_effect = ConnectionError(&quot;Network error&quot;)
+
+    with pytest.raises(ConnectionError):
+        api_call()
+
+    api_call_mock.assert_called_once()
+```
+
+### Mocking Context Managers
+
+```python
+@patch(&quot;builtins.open&quot;, new_callable=mock_open)
+def test_file_reading(mock_file):
+    &quot;&quot;&quot;Test file reading with mocked open.&quot;&quot;&quot;
+    mock_file.return_value.read.return_value = &quot;file content&quot;
+
+    result = read_file(&quot;test.txt&quot;)
+
+    mock_file.assert_called_once_with(&quot;test.txt&quot;, &quot;r&quot;)
+    assert result == &quot;file content&quot;
+```
+
+### Using Autospec
+
+```python
+@patch(&quot;mypackage.DBConnection&quot;, autospec=True)
+def test_autospec(db_mock):
+    &quot;&quot;&quot;Test with autospec to catch API misuse.&quot;&quot;&quot;
+    db = db_mock.return_value
+    db.query(&quot;SELECT * FROM users&quot;)
+
+    # This would fail if DBConnection doesn&#039;t have query method
+    db_mock.assert_called_once()
+```
+
+### Mock Class Instances
+
+```python
+class TestUserService:
+    @patch(&quot;mypackage.UserRepository&quot;)
+    def test_create_user(self, repo_mock):
+        &quot;&quot;&quot;Test user creation with mocked repository.&quot;&quot;&quot;
+        repo_mock.return_value.save.return_value = User(id=1, name=&quot;Alice&quot;)
+
+        service = UserService(repo_mock.return_value)
+        user = service.create_user(name=&quot;Alice&quot;)
+
+        assert user.name == &quot;Alice&quot;
+        repo_mock.return_value.save.assert_called_once()
+```
+
+### Mock Property
+
+```python
+@pytest.fixture
+def mock_config():
+    &quot;&quot;&quot;Create a mock with a property.&quot;&quot;&quot;
+    config = Mock()
+    type(config).debug = PropertyMock(return_value=True)
+    type(config).api_key = PropertyMock(return_value=&quot;test-key&quot;)
+    return config
+
+def test_with_mock_config(mock_config):
+    &quot;&quot;&quot;Test with mocked config properties.&quot;&quot;&quot;
+    assert mock_config.debug is True
+    assert mock_config.api_key == &quot;test-key&quot;
+```
+
+## Testing Async Code
+
+### Async Tests with pytest-asyncio
+
+```python
+import pytest
+
+@pytest.mark.asyncio
+async def test_async_function():
+    &quot;&quot;&quot;Test async function.&quot;&quot;&quot;
+    result = await async_add(2, 3)
+    assert result == 5
+
+@pytest.mark.asyncio
+async def test_async_with_fixture(async_client):
+    &quot;&quot;&quot;Test async with async fixture.&quot;&quot;&quot;
+    response = await async_client.get(&quot;/api/users&quot;)
+    assert response.status_code == 200
+```
+
+### Async Fixture
+
+```python
+@pytest.fixture
+async def async_client():
+    &quot;&quot;&quot;Async fixture providing async test client.&quot;&quot;&quot;
+    app = create_app()
+    async with app.test_client() as client:
+        yield client
+
+@pytest.mark.asyncio
+async def test_api_endpoint(async_client):
+    &quot;&quot;&quot;Test using async fixture.&quot;&quot;&quot;
+    response = await async_client.get(&quot;/api/data&quot;)
+    assert response.status_code == 200
+```
+
+### Mocking Async Functions
+
+```python
+@pytest.mark.asyncio
+@patch(&quot;mypackage.async_api_call&quot;)
+async def test_async_mock(api_call_mock):
+    &quot;&quot;&quot;Test async function with mock.&quot;&quot;&quot;
+    api_call_mock.return_value = {&quot;status&quot;: &quot;ok&quot;}
+
+    result = await my_async_function()
+
+    api_call_mock.assert_awaited_once()
+    assert result[&quot;status&quot;] == &quot;ok&quot;
+```
+
+## Testing Exceptions
+
+### Testing Expected Exceptions
+
+```python
+def test_divide_by_zero():
+    &quot;&quot;&quot;Test that dividing by zero raises ZeroDivisionError.&quot;&quot;&quot;
+    with pytest.raises(ZeroDivisionError):
+        divide(10, 0)
+
+def test_custom_exception():
+    &quot;&quot;&quot;Test custom exception with message.&quot;&quot;&quot;
+    with pytest.raises(ValueError, match=&quot;invalid input&quot;):
+        validate_input(&quot;invalid&quot;)
+```
+
+### Testing Exception Attributes
+
+```python
+def test_exception_with_details():
+    &quot;&quot;&quot;Test exception with custom attributes.&quot;&quot;&quot;
+    with pytest.raises(CustomError) as exc_info:
+        raise CustomError(&quot;error&quot;, code=400)
+
+    assert exc_info.value.code == 400
+    assert &quot;error&quot; in str(exc_info.value)
+```
+
+## Testing Side Effects
+
+### Testing File Operations
+
+```python
+import tempfile
+import os
+
+def test_file_processing():
+    &quot;&quot;&quot;Test file processing with temp file.&quot;&quot;&quot;
+    with tempfile.NamedTemporaryFile(mode=&#039;w&#039;, delete=False, suffix=&#039;.txt&#039;) as f:
+        f.write(&quot;test content&quot;)
+        temp_path = f.name
+
+    try:
+        result = process_file(temp_path)
+        assert result == &quot;processed: test content&quot;
+    finally:
+        os.unlink(temp_path)
+```
+
+### Testing with pytest&#039;s tmp_path Fixture
+
+```python
+def test_with_tmp_path(tmp_path):
+    &quot;&quot;&quot;Test using pytest&#039;s built-in temp path fixture.&quot;&quot;&quot;
+    test_file = tmp_path / &quot;test.txt&quot;
+    test_file.write_text(&quot;hello world&quot;)
+
+    result = process_file(str(test_file))
+    assert result == &quot;hello world&quot;
+    # tmp_path automatically cleaned up
+```
+
+### Testing with tmpdir Fixture
+
+```python
+def test_with_tmpdir(tmpdir):
+    &quot;&quot;&quot;Test using pytest&#039;s tmpdir fixture.&quot;&quot;&quot;
+    test_file = tmpdir.join(&quot;test.txt&quot;)
+    test_file.write(&quot;data&quot;)
+
+    result = process_file(str(test_file))
+    assert result == &quot;data&quot;
+```
+
+## Test Organization
+
+### Directory Structure
+
+```
+tests/
+├── conftest.py                 # Shared fixtures
+├── __init__.py
+├── unit/                       # Unit tests
+│   ├── __init__.py
+│   ├── test_models.py
+│   ├── test_utils.py
+│   └── test_services.py
+├── integration/                # Integration tests
+│   ├── __init__.py
+│   ├── test_api.py
+│   └── test_database.py
+└── e2e/                        # End-to-end tests
+    ├── __init__.py
+    └── test_user_flow.py
+```
+
+### Test Classes
+
+```python
+class TestUserService:
+    &quot;&quot;&quot;Group related tests in a class.&quot;&quot;&quot;
+
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        &quot;&quot;&quot;Setup runs before each test in this class.&quot;&quot;&quot;
+        self.service = UserService()
+
+    def test_create_user(self):
+        &quot;&quot;&quot;Test user creation.&quot;&quot;&quot;
+        user = self.service.create_user(&quot;Alice&quot;)
+        assert user.name == &quot;Alice&quot;
+
+    def test_delete_user(self):
+        &quot;&quot;&quot;Test user deletion.&quot;&quot;&quot;
+        user = User(id=1, name=&quot;Bob&quot;)
+        self.service.delete_user(user)
+        assert not self.service.user_exists(1)
+```
+
+## Best Practices
+
+### DO
+
+- **Follow TDD**: Write tests before code (red-green-refactor)
+- **Test one thing**: Each test should verify a single behavior
+- **Use descriptive names**: `test_user_login_with_invalid_credentials_fails`
+- **Use fixtures**: Eliminate duplication with fixtures
+- **Mock external dependencies**: Don&#039;t depend on external services
+- **Test edge cases**: Empty inputs, None values, boundary conditions
+- **Aim for 80%+ coverage**: Focus on critical paths
+- **Keep tests fast**: Use marks to separate slow tests
+
+### DON&#039;T
+
+- **Don&#039;t test implementation**: Test behavior, not internals
+- **Don&#039;t use complex conditionals in tests**: Keep tests simple
+- **Don&#039;t ignore test failures**: All tests must pass
+- **Don&#039;t test third-party code**: Trust libraries to work
+- **Don&#039;t share state between tests**: Tests should be independent
+- **Don&#039;t catch exceptions in tests**: Use `pytest.raises`
+- **Don&#039;t use print statements**: Use assertions and pytest output
+- **Don&#039;t write tests that are too brittle**: Avoid over-specific mocks
+
+## Common Patterns
+
+### Testing API Endpoints (FastAPI/Flask)
+
+```python
+@pytest.fixture
+def client():
+    app = create_app(testing=True)
+    return app.test_client()
+
+def test_get_user(client):
+    response = client.get(&quot;/api/users/1&quot;)
+    assert response.status_code == 200
+    assert response.json[&quot;id&quot;] == 1
+
+def test_create_user(client):
+    response = client.post(&quot;/api/users&quot;, json={
+        &quot;name&quot;: &quot;Alice&quot;,
+        &quot;email&quot;: &quot;alice@example.com&quot;
+    })
+    assert response.status_code == 201
+    assert response.json[&quot;name&quot;] == &quot;Alice&quot;
+```
+
+### Testing Database Operations
+
+```python
+@pytest.fixture
+def db_session():
+    &quot;&quot;&quot;Create a test database session.&quot;&quot;&quot;
+    session = Session(bind=engine)
+    session.begin_nested()
+    yield session
+    session.rollback()
+    session.close()
+
+def test_create_user(db_session):
+    user = User(name=&quot;Alice&quot;, email=&quot;alice@example.com&quot;)
+    db_session.add(user)
+    db_session.commit()
+
+    retrieved = db_session.query(User).filter_by(name=&quot;Alice&quot;).first()
+    assert retrieved.email == &quot;alice@example.com&quot;
+```
+
+### Testing Class Methods
+
+```python
+class TestCalculator:
+    @pytest.fixture
+    def calculator(self):
+        return Calculator()
+
+    def test_add(self, calculator):
+        assert calculator.add(2, 3) == 5
+
+    def test_divide_by_zero(self, calculator):
+        with pytest.raises(ZeroDivisionError):
+            calculator.divide(10, 0)
+```
+
+## pytest Configuration
+
+### pytest.ini
+
+```ini
+[pytest]
+testpaths = tests
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+addopts =
+    --strict-markers
+    --disable-warnings
+    --cov=mypackage
+    --cov-report=term-missing
+    --cov-report=html
+markers =
+    slow: marks tests as slow
+    integration: marks tests as integration tests
+    unit: marks tests as unit tests
+```
+
+### pyproject.toml
+
+```toml
+[tool.pytest.ini_options]
+testpaths = [&quot;tests&quot;]
+python_files = [&quot;test_*.py&quot;]
+python_classes = [&quot;Test*&quot;]
+python_functions = [&quot;test_*&quot;]
+addopts = [
+    &quot;--strict-markers&quot;,
+    &quot;--cov=mypackage&quot;,
+    &quot;--cov-report=term-missing&quot;,
+    &quot;--cov-report=html&quot;,
+]
+markers = [
+    &quot;slow: marks tests as slow&quot;,
+    &quot;integration: marks tests as integration tests&quot;,
+    &quot;unit: marks tests as unit tests&quot;,
+]
+```
+
+## Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run specific file
+pytest tests/test_utils.py
+
+# Run specific test
+pytest tests/test_utils.py::test_function
+
+# Run with verbose output
+pytest -v
+
+# Run with coverage
+pytest --cov=mypackage --cov-report=html
+
+# Run only fast tests
+pytest -m &quot;not slow&quot;
+
+# Run until first failure
+pytest -x
+
+# Run and stop on N failures
+pytest --maxfail=3
+
+# Run last failed tests
+pytest --lf
+
+# Run tests with pattern
+pytest -k &quot;test_user&quot;
+
+# Run with debugger on failure
+pytest --pdb
+```
+
+## Quick Reference
+
+| Pattern | Usage |
+|---------|-------|
+| `pytest.raises()` | Test expected exceptions |
+| `@pytest.fixture()` | Create reusable test fixtures |
+| `@pytest.mark.parametrize()` | Run tests with multiple inputs |
+| `@pytest.mark.slow` | Mark slow tests |
+| `pytest -m &quot;not slow&quot;` | Skip slow tests |
+| `@patch()` | Mock functions and classes |
+| `tmp_path` fixture | Automatic temp directory |
+| `pytest --cov` | Generate coverage report |
+| `assert` | Simple and readable assertions |
+
+**Remember**: Tests are code too. Keep them clean, readable, and maintainable. Good tests catch bugs; great tests prevent them.
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

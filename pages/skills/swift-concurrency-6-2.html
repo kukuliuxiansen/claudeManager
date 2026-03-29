@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swift 6.2 Approachable Concurrency - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Swift 6.2 Approachable Concurrency</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">Swift 6.2 Approachable Concurrency</h1>
+            <p class="detail-subtitle">技能模块，提供专业领域的自动化处理能力</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Migrating Swift 5.x or 6.0/6.1 projects to Swift 6.2
+- Resolving data-race safety compiler errors
+- Designing MainActor-based app architecture
+- Offloading CPU-intensive work to background threads
+- Implementing protocol conformances on MainActor-isolated types
+- Enabling Approachable Concurrency build settings in Xcode 26</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Problem: Implicit Background Offloading
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">In Swift 6.1 and earlier, async functions could be implicitly offloaded to background threads, causing data-race errors even in seemingly safe code:
+
+```swift
+// Swift 6.1: ERROR
+@MainActor
+final class StickerModel {
+    let photoProcessor = PhotoProcessor()
+
+    func extractSticker(_ item: PhotosPickerItem) async throws -&gt; Sticker? {
+        guard let data = try await item.loadTransferable(type: Data.self) else { return nil }
+
+        // Error: Sending &#039;self.photoProcessor&#039; risks causing data races
+        return await photoProcessor.extractSticker(data: data, with: item.itemIdentifier)
+    }
+}
+```
+
+Swift 6.2 fixes this: async functions stay on the calling actor by default.
+
+```swift
+// Swift 6.2: OK — async stays on MainActor, no data race
+@MainActor
+final class StickerModel {
+    let photoProcessor = PhotoProcessor()
+
+    func extractSticker(_ item: PhotosPickerItem) async throws -&gt; Sticker? {
+        guard let data = try await item.loadTransferable(type: Data.self) else { return nil }
+        return await photoProcessor.extractSticker(data: data, with: item.itemIdentifier)
+    }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Pattern — Isolated Conformances
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">MainActor types can now conform to non-isolated protocols safely:
+
+```swift
+protocol Exportable {
+    func export()
+}
+
+// Swift 6.1: ERROR — crosses into main actor-isolated code
+// Swift 6.2: OK with isolated conformance
+extension StickerModel: @MainActor Exportable {
+    func export() {
+        photoProcessor.exportAsPNG()
+    }
+}
+```
+
+The compiler ensures the conformance is only used on the main actor:
+
+```swift
+// OK — ImageExporter is also @MainActor
+@MainActor
+struct ImageExporter {
+    var items: [any Exportable]
+
+    mutating func add(_ item: StickerModel) {
+        items.append(item)  // Safe: same actor isolation
+    }
+}
+
+// ERROR — nonisolated context can&#039;t use MainActor conformance
+nonisolated struct ImageExporter {
+    var items: [any Exportable]
+
+    mutating func add(_ item: StickerModel) {
+        items.append(item)  // Error: Main actor-isolated conformance cannot be used here
+    }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Pattern — Global and Static Variables
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Protect global/static state with MainActor:
+
+```swift
+// Swift 6.1: ERROR — non-Sendable type may have shared mutable state
+final class StickerLibrary {
+    static let shared: StickerLibrary = .init()  // Error
+}
+
+// Fix: Annotate with @MainActor
+@MainActor
+final class StickerLibrary {
+    static let shared: StickerLibrary = .init()  // OK
+}
+```
+
+### MainActor Default Inference Mode
+
+Swift 6.2 introduces a mode where MainActor is inferred by default — no manual annotations needed:
+
+```swift
+// With MainActor default inference enabled:
+final class StickerLibrary {
+    static let shared: StickerLibrary = .init()  // Implicitly @MainActor
+}
+
+final class StickerModel {
+    let photoProcessor: PhotoProcessor
+    var selection: [PhotosPickerItem]  // Implicitly @MainActor
+}
+
+extension StickerModel: Exportable {  // Implicitly @MainActor conformance
+    func export() {
+        photoProcessor.exportAsPNG()
+    }
+}
+```
+
+This mode is opt-in and recommended for apps, scripts, and other executable targets.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Pattern — @concurrent for Background Work
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">When you need actual parallelism, explicitly offload with `@concurrent`:
+
+&gt; **Important:** This example requires Approachable Concurrency build settings — SE-0466 (MainActor default isolation) and SE-0461 (NonisolatedNonsendingByDefault). With these enabled, `extractSticker` stays on the caller&#039;s actor, making mutable state access safe. **Without these settings, this code has a data race** — the compiler will flag it.
+
+```swift
+nonisolated final class PhotoProcessor {
+    private var cachedStickers: [String: Sticker] = [:]
+
+    func extractSticker(data: Data, with id: String) async -&gt; Sticker {
+        if let sticker = cachedStickers[id] {
+            return sticker
+        }
+
+        let sticker = await Self.extractSubject(from: data)
+        cachedStickers[id] = sticker
+        return sticker
+    }
+
+    // Offload expensive work to concurrent thread pool
+    @concurrent
+    static func extractSubject(from data: Data) async -&gt; Sticker { /* ... */ }
+}
+
+// Callers must await
+let processor = PhotoProcessor()
+processedPhotos[item.id] = await processor.extractSticker(data: data, with: item.id)
+```
+
+To use `@concurrent`:
+1. Mark the containing type as `nonisolated`
+2. Add `@concurrent` to the function
+3. Add `async` if not already asynchronous
+4. Add `await` at call sites</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Key Design Decisions
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Decision | Rationale |
+|----------|-----------|
+| Single-threaded by default | Most natural code is data-race free; concurrency is opt-in |
+| Async stays on calling actor | Eliminates implicit offloading that caused data-race errors |
+| Isolated conformances | MainActor types can conform to protocols without unsafe workarounds |
+| `@concurrent` explicit opt-in | Background execution is a deliberate performance choice, not accidental |
+| MainActor default inference | Reduces boilerplate `@MainActor` annotations for app targets |
+| Opt-in adoption | Non-breaking migration path — enable features incrementally |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Migration Steps
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">1. **Enable in Xcode**: Swift Compiler &gt; Concurrency section in Build Settings
+2. **Enable in SPM**: Use `SwiftSettings` API in package manifest
+3. **Use migration tooling**: Automatic code changes via swift.org/migration
+4. **Start with MainActor defaults**: Enable inference mode for app targets
+5. **Add `@concurrent` where needed**: Profile first, then offload hot paths
+6. **Test thoroughly**: Data-race issues become compile-time errors</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                最佳实践
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- **Start on MainActor** — write single-threaded code first, optimize later
+- **Use `@concurrent` only for CPU-intensive work** — image processing, compression, complex computation
+- **Enable MainActor inference mode** for app targets that are mostly single-threaded
+- **Profile before offloading** — use Instruments to find actual bottlenecks
+- **Protect globals with MainActor** — global/static mutable state needs actor isolation
+- **Use isolated conformances** instead of `nonisolated` workarounds or `@Sendable` wrappers
+- **Migrate incrementally** — enable features one at a time in build settings</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Anti-Patterns to Avoid
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Applying `@concurrent` to every async function (most don&#039;t need background execution)
+- Using `nonisolated` to suppress compiler errors without understanding isolation
+- Keeping legacy `DispatchQueue` patterns when actors provide the same safety
+- Skipping `model.availability` checks in concurrency-related Foundation Models code
+- Fighting the compiler — if it reports a data race, the code has a real concurrency issue
+- Assuming all async code runs in the background (Swift 6.2 default: stays on calling actor)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                何时使用
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- All new Swift 6.2+ projects (Approachable Concurrency is the recommended default)
+- Migrating existing apps from Swift 5.x or 6.0/6.1 concurrency
+- Resolving data-race safety compiler errors during Xcode 26 adoption
+- Building MainActor-centric app architectures (most UI apps)
+- Performance optimization — offloading specific heavy computations to background</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: swift-concurrency-6-2
+description: Swift 6.2 Approachable Concurrency — single-threaded by default, @concurrent for explicit background offloading, isolated conformances for main actor types.
+---
+
+# Swift 6.2 Approachable Concurrency
+
+Patterns for adopting Swift 6.2&#039;s concurrency model where code runs single-threaded by default and concurrency is introduced explicitly. Eliminates common data-race errors without sacrificing performance.
+
+## When to Activate
+
+- Migrating Swift 5.x or 6.0/6.1 projects to Swift 6.2
+- Resolving data-race safety compiler errors
+- Designing MainActor-based app architecture
+- Offloading CPU-intensive work to background threads
+- Implementing protocol conformances on MainActor-isolated types
+- Enabling Approachable Concurrency build settings in Xcode 26
+
+## Core Problem: Implicit Background Offloading
+
+In Swift 6.1 and earlier, async functions could be implicitly offloaded to background threads, causing data-race errors even in seemingly safe code:
+
+```swift
+// Swift 6.1: ERROR
+@MainActor
+final class StickerModel {
+    let photoProcessor = PhotoProcessor()
+
+    func extractSticker(_ item: PhotosPickerItem) async throws -&gt; Sticker? {
+        guard let data = try await item.loadTransferable(type: Data.self) else { return nil }
+
+        // Error: Sending &#039;self.photoProcessor&#039; risks causing data races
+        return await photoProcessor.extractSticker(data: data, with: item.itemIdentifier)
+    }
+}
+```
+
+Swift 6.2 fixes this: async functions stay on the calling actor by default.
+
+```swift
+// Swift 6.2: OK — async stays on MainActor, no data race
+@MainActor
+final class StickerModel {
+    let photoProcessor = PhotoProcessor()
+
+    func extractSticker(_ item: PhotosPickerItem) async throws -&gt; Sticker? {
+        guard let data = try await item.loadTransferable(type: Data.self) else { return nil }
+        return await photoProcessor.extractSticker(data: data, with: item.itemIdentifier)
+    }
+}
+```
+
+## Core Pattern — Isolated Conformances
+
+MainActor types can now conform to non-isolated protocols safely:
+
+```swift
+protocol Exportable {
+    func export()
+}
+
+// Swift 6.1: ERROR — crosses into main actor-isolated code
+// Swift 6.2: OK with isolated conformance
+extension StickerModel: @MainActor Exportable {
+    func export() {
+        photoProcessor.exportAsPNG()
+    }
+}
+```
+
+The compiler ensures the conformance is only used on the main actor:
+
+```swift
+// OK — ImageExporter is also @MainActor
+@MainActor
+struct ImageExporter {
+    var items: [any Exportable]
+
+    mutating func add(_ item: StickerModel) {
+        items.append(item)  // Safe: same actor isolation
+    }
+}
+
+// ERROR — nonisolated context can&#039;t use MainActor conformance
+nonisolated struct ImageExporter {
+    var items: [any Exportable]
+
+    mutating func add(_ item: StickerModel) {
+        items.append(item)  // Error: Main actor-isolated conformance cannot be used here
+    }
+}
+```
+
+## Core Pattern — Global and Static Variables
+
+Protect global/static state with MainActor:
+
+```swift
+// Swift 6.1: ERROR — non-Sendable type may have shared mutable state
+final class StickerLibrary {
+    static let shared: StickerLibrary = .init()  // Error
+}
+
+// Fix: Annotate with @MainActor
+@MainActor
+final class StickerLibrary {
+    static let shared: StickerLibrary = .init()  // OK
+}
+```
+
+### MainActor Default Inference Mode
+
+Swift 6.2 introduces a mode where MainActor is inferred by default — no manual annotations needed:
+
+```swift
+// With MainActor default inference enabled:
+final class StickerLibrary {
+    static let shared: StickerLibrary = .init()  // Implicitly @MainActor
+}
+
+final class StickerModel {
+    let photoProcessor: PhotoProcessor
+    var selection: [PhotosPickerItem]  // Implicitly @MainActor
+}
+
+extension StickerModel: Exportable {  // Implicitly @MainActor conformance
+    func export() {
+        photoProcessor.exportAsPNG()
+    }
+}
+```
+
+This mode is opt-in and recommended for apps, scripts, and other executable targets.
+
+## Core Pattern — @concurrent for Background Work
+
+When you need actual parallelism, explicitly offload with `@concurrent`:
+
+&gt; **Important:** This example requires Approachable Concurrency build settings — SE-0466 (MainActor default isolation) and SE-0461 (NonisolatedNonsendingByDefault). With these enabled, `extractSticker` stays on the caller&#039;s actor, making mutable state access safe. **Without these settings, this code has a data race** — the compiler will flag it.
+
+```swift
+nonisolated final class PhotoProcessor {
+    private var cachedStickers: [String: Sticker] = [:]
+
+    func extractSticker(data: Data, with id: String) async -&gt; Sticker {
+        if let sticker = cachedStickers[id] {
+            return sticker
+        }
+
+        let sticker = await Self.extractSubject(from: data)
+        cachedStickers[id] = sticker
+        return sticker
+    }
+
+    // Offload expensive work to concurrent thread pool
+    @concurrent
+    static func extractSubject(from data: Data) async -&gt; Sticker { /* ... */ }
+}
+
+// Callers must await
+let processor = PhotoProcessor()
+processedPhotos[item.id] = await processor.extractSticker(data: data, with: item.id)
+```
+
+To use `@concurrent`:
+1. Mark the containing type as `nonisolated`
+2. Add `@concurrent` to the function
+3. Add `async` if not already asynchronous
+4. Add `await` at call sites
+
+## Key Design Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| Single-threaded by default | Most natural code is data-race free; concurrency is opt-in |
+| Async stays on calling actor | Eliminates implicit offloading that caused data-race errors |
+| Isolated conformances | MainActor types can conform to protocols without unsafe workarounds |
+| `@concurrent` explicit opt-in | Background execution is a deliberate performance choice, not accidental |
+| MainActor default inference | Reduces boilerplate `@MainActor` annotations for app targets |
+| Opt-in adoption | Non-breaking migration path — enable features incrementally |
+
+## Migration Steps
+
+1. **Enable in Xcode**: Swift Compiler &gt; Concurrency section in Build Settings
+2. **Enable in SPM**: Use `SwiftSettings` API in package manifest
+3. **Use migration tooling**: Automatic code changes via swift.org/migration
+4. **Start with MainActor defaults**: Enable inference mode for app targets
+5. **Add `@concurrent` where needed**: Profile first, then offload hot paths
+6. **Test thoroughly**: Data-race issues become compile-time errors
+
+## Best Practices
+
+- **Start on MainActor** — write single-threaded code first, optimize later
+- **Use `@concurrent` only for CPU-intensive work** — image processing, compression, complex computation
+- **Enable MainActor inference mode** for app targets that are mostly single-threaded
+- **Profile before offloading** — use Instruments to find actual bottlenecks
+- **Protect globals with MainActor** — global/static mutable state needs actor isolation
+- **Use isolated conformances** instead of `nonisolated` workarounds or `@Sendable` wrappers
+- **Migrate incrementally** — enable features one at a time in build settings
+
+## Anti-Patterns to Avoid
+
+- Applying `@concurrent` to every async function (most don&#039;t need background execution)
+- Using `nonisolated` to suppress compiler errors without understanding isolation
+- Keeping legacy `DispatchQueue` patterns when actors provide the same safety
+- Skipping `model.availability` checks in concurrency-related Foundation Models code
+- Fighting the compiler — if it reports a data race, the code has a real concurrency issue
+- Assuming all async code runs in the background (Swift 6.2 default: stays on calling actor)
+
+## When to Use
+
+- All new Swift 6.2+ projects (Approachable Concurrency is the recommended default)
+- Migrating existing apps from Swift 5.x or 6.0/6.1 concurrency
+- Resolving data-race safety compiler errors during Xcode 26 adoption
+- Building MainActor-centric app architectures (most UI apps)
+- Performance optimization — offloading specific heavy computations to background
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

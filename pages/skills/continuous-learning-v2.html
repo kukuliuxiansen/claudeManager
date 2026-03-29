@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>持续学习 V2 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">持续学习 V2</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">持续学习 V2</h1>
+            <p class="detail-subtitle">持续学习V2版本，增强的置信度评分和自动提取功能</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    local
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">local</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Setting up automatic learning from Claude Code sessions
+- Configuring instinct-based behavior extraction via hooks
+- Tuning confidence thresholds for learned behaviors
+- Reviewing, exporting, or importing instinct libraries
+- Evolving instincts into full skills, commands, or agents
+- Managing project-scoped vs global instincts
+- Promoting instincts from project to global scope</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                What's New in v2.1
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Feature | v2.0 | v2.1 |
+|---------|------|------|
+| Storage | Global (~/.claude/homunculus/) | Project-scoped (projects/&lt;hash&gt;/) |
+| Scope | All instincts apply everywhere | Project-scoped + global |
+| Detection | None | git remote URL / repo path |
+| Promotion | N/A | Project → global when seen in 2+ projects |
+| Commands | 4 (status/evolve/export/import) | 6 (+promote/projects) |
+| Cross-project | Contamination risk | Isolated by default |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                What's New in v2 (vs v1)
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Feature | v1 | v2 |
+|---------|----|----|
+| Observation | Stop hook (session end) | PreToolUse/PostToolUse (100% reliable) |
+| Analysis | Main context | Background agent (Haiku) |
+| Granularity | Full skills | Atomic &quot;instincts&quot; |
+| Confidence | None | 0.3-0.9 weighted |
+| Evolution | Direct to skill | Instincts -&gt; cluster -&gt; skill/command/agent |
+| Sharing | None | Export/import instincts |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                The Instinct Model
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">An instinct is a small learned behavior:
+
+```yaml
+---
+id: prefer-functional-style
+trigger: &quot;when writing new functions&quot;
+confidence: 0.7
+domain: &quot;code-style&quot;
+source: &quot;session-observation&quot;
+scope: project
+project_id: &quot;a1b2c3d4e5f6&quot;
+project_name: &quot;my-react-app&quot;
+---
+
+# Prefer Functional Style
+
+## Action
+Use functional patterns over classes when appropriate.
+
+## Evidence
+- Observed 5 instances of functional pattern preference
+- User corrected class-based approach to functional on 2025-01-15
+```
+
+**Properties:**
+- **Atomic** -- one trigger, one action
+- **Confidence-weighted** -- 0.3 = tentative, 0.9 = near certain
+- **Domain-tagged** -- code-style, testing, git, debugging, workflow, etc.
+- **Evidence-backed** -- tracks what observations created it
+- **Scope-aware** -- `project` (default) or `global`</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                How It Works
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```
+Session Activity (in a git repo)
+      |
+      | Hooks capture prompts + tool use (100% reliable)
+      | + detect project context (git remote / repo path)
+      v
++---------------------------------------------+
+|  projects/&lt;project-hash&gt;/observations.jsonl  |
+|   (prompts, tool calls, outcomes, project)   |
++---------------------------------------------+
+      |
+      | Observer agent reads (background, Haiku)
+      v
++---------------------------------------------+
+|          PATTERN DETECTION                   |
+|   * User corrections -&gt; instinct             |
+|   * Error resolutions -&gt; instinct            |
+|   * Repeated workflows -&gt; instinct           |
+|   * Scope decision: project or global?       |
++---------------------------------------------+
+      |
+      | Creates/updates
+      v
++---------------------------------------------+
+|  projects/&lt;project-hash&gt;/instincts/personal/ |
+|   * prefer-functional.yaml (0.7) [project]   |
+|   * use-react-hooks.yaml (0.9) [project]     |
++---------------------------------------------+
+|  instincts/personal/  (GLOBAL)               |
+|   * always-validate-input.yaml (0.85) [global]|
+|   * grep-before-edit.yaml (0.6) [global]     |
++---------------------------------------------+
+      |
+      | /evolve clusters + /promote
+      v
++---------------------------------------------+
+|  projects/&lt;hash&gt;/evolved/ (project-scoped)   |
+|  evolved/ (global)                           |
+|   * commands/new-feature.md                  |
+|   * skills/testing-workflow.md               |
+|   * agents/refactor-specialist.md            |
++---------------------------------------------+
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Project Detection
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">The system automatically detects your current project:
+
+1. **`CLAUDE_PROJECT_DIR` env var** (highest priority)
+2. **`git remote get-url origin`** -- hashed to create a portable project ID (same repo on different machines gets the same ID)
+3. **`git rev-parse --show-toplevel`** -- fallback using repo path (machine-specific)
+4. **Global fallback** -- if no project is detected, instincts go to global scope
+
+Each project gets a 12-character hash ID (e.g., `a1b2c3d4e5f6`). A registry file at `~/.claude/homunculus/projects.json` maps IDs to human-readable names.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Quick Start
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### 1. Enable Observation Hooks
+
+Add to your `~/.claude/settings.json`.
+
+**If installed as a plugin** (recommended):
+
+```json
+{
+  &quot;hooks&quot;: {
+    &quot;PreToolUse&quot;: [{
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/hooks/observe.sh&quot;
+      }]
+    }],
+    &quot;PostToolUse&quot;: [{
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/hooks/observe.sh&quot;
+      }]
+    }]
+  }
+}
+```
+
+**If installed manually** to `~/.claude/skills`:
+
+```json
+{
+  &quot;hooks&quot;: {
+    &quot;PreToolUse&quot;: [{
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;~/.claude/skills/continuous-learning-v2/hooks/observe.sh&quot;
+      }]
+    }],
+    &quot;PostToolUse&quot;: [{
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;~/.claude/skills/continuous-learning-v2/hooks/observe.sh&quot;
+      }]
+    }]
+  }
+}
+```
+
+### 2. Initialize Directory Structure
+
+The system creates directories automatically on first use, but you can also create them manually:
+
+```bash
+# Global directories
+mkdir -p ~/.claude/homunculus/{instincts/{personal,inherited},evolved/{agents,skills,commands},projects}
+
+# Project directories are auto-created when the hook first runs in a git repo
+```
+
+### 3. Use the Instinct Commands
+
+```bash
+/instinct-status     # Show learned instincts (project + global)
+/evolve              # Cluster related instincts into skills/commands
+/instinct-export     # Export instincts to file
+/instinct-import     # Import instincts from others
+/promote             # Promote project instincts to global scope
+/projects            # List all known projects and their instinct counts
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Commands
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Command | Description |
+|---------|-------------|
+| `/instinct-status` | Show all instincts (project-scoped + global) with confidence |
+| `/evolve` | Cluster related instincts into skills/commands, suggest promotions |
+| `/instinct-export` | Export instincts (filterable by scope/domain) |
+| `/instinct-import &lt;file&gt;` | Import instincts with scope control |
+| `/promote [id]` | Promote project instincts to global scope |
+| `/projects` | List all known projects and their instinct counts |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                配置
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Edit `config.json` to control the background observer:
+
+```json
+{
+  &quot;version&quot;: &quot;2.1&quot;,
+  &quot;observer&quot;: {
+    &quot;enabled&quot;: false,
+    &quot;run_interval_minutes&quot;: 5,
+    &quot;min_observations_to_analyze&quot;: 20
+  }
+}
+```
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `observer.enabled` | `false` | Enable the background observer agent |
+| `observer.run_interval_minutes` | `5` | How often the observer analyzes observations |
+| `observer.min_observations_to_analyze` | `20` | Minimum observations before analysis runs |
+
+Other behavior (observation capture, instinct thresholds, project scoping, promotion criteria) is configured via code defaults in `instinct-cli.py` and `observe.sh`.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                File Structure
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```
+~/.claude/homunculus/
++-- identity.json           # Your profile, technical level
++-- projects.json           # Registry: project hash -&gt; name/path/remote
++-- observations.jsonl      # Global observations (fallback)
++-- instincts/
+|   +-- personal/           # Global auto-learned instincts
+|   +-- inherited/          # Global imported instincts
++-- evolved/
+|   +-- agents/             # Global generated agents
+|   +-- skills/             # Global generated skills
+|   +-- commands/           # Global generated commands
++-- projects/
+    +-- a1b2c3d4e5f6/       # Project hash (from git remote URL)
+    |   +-- project.json    # Per-project metadata mirror (id/name/root/remote)
+    |   +-- observations.jsonl
+    |   +-- observations.archive/
+    |   +-- instincts/
+    |   |   +-- personal/   # Project-specific auto-learned
+    |   |   +-- inherited/  # Project-specific imported
+    |   +-- evolved/
+    |       +-- skills/
+    |       +-- commands/
+    |       +-- agents/
+    +-- f6e5d4c3b2a1/       # Another project
+        +-- ...
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Scope Decision Guide
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Pattern Type | Scope | Examples |
+|-------------|-------|---------|
+| Language/framework conventions | **project** | &quot;Use React hooks&quot;, &quot;Follow Django REST patterns&quot; |
+| File structure preferences | **project** | &quot;Tests in `__tests__`/&quot;, &quot;Components in src/components/&quot; |
+| Code style | **project** | &quot;Use functional style&quot;, &quot;Prefer dataclasses&quot; |
+| Error handling strategies | **project** | &quot;Use Result type for errors&quot; |
+| Security practices | **global** | &quot;Validate user input&quot;, &quot;Sanitize SQL&quot; |
+| General best practices | **global** | &quot;Write tests first&quot;, &quot;Always handle errors&quot; |
+| Tool workflow preferences | **global** | &quot;Grep before Edit&quot;, &quot;Read before Write&quot; |
+| Git practices | **global** | &quot;Conventional commits&quot;, &quot;Small focused commits&quot; |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Instinct Promotion (Project -> Global)
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">When the same instinct appears in multiple projects with high confidence, it&#039;s a candidate for promotion to global scope.
+
+**Auto-promotion criteria:**
+- Same instinct ID in 2+ projects
+- Average confidence &gt;= 0.8
+
+**How to promote:**
+
+```bash
+# Promote a specific instinct
+python3 instinct-cli.py promote prefer-explicit-errors
+
+# Auto-promote all qualifying instincts
+python3 instinct-cli.py promote
+
+# Preview without changes
+python3 instinct-cli.py promote --dry-run
+```
+
+The `/evolve` command also suggests promotion candidates.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Confidence Scoring
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Confidence evolves over time:
+
+| Score | Meaning | Behavior |
+|-------|---------|----------|
+| 0.3 | Tentative | Suggested but not enforced |
+| 0.5 | Moderate | Applied when relevant |
+| 0.7 | Strong | Auto-approved for application |
+| 0.9 | Near-certain | Core behavior |
+
+**Confidence increases** when:
+- Pattern is repeatedly observed
+- User doesn&#039;t correct the suggested behavior
+- Similar instincts from other sources agree
+
+**Confidence decreases** when:
+- User explicitly corrects the behavior
+- Pattern isn&#039;t observed for extended periods
+- Contradicting evidence appears</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Why Hooks vs Skills for Observation?
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">&gt; &quot;v1 relied on skills to observe. Skills are probabilistic -- they fire ~50-80% of the time based on Claude&#039;s judgment.&quot;
+
+Hooks fire **100% of the time**, deterministically. This means:
+- Every tool call is observed
+- No patterns are missed
+- Learning is comprehensive</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Backward Compatibility
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">v2.1 is fully compatible with v2.0 and v1:
+- Existing global instincts in `~/.claude/homunculus/instincts/` still work as global instincts
+- Existing `~/.claude/skills/learned/` skills from v1 still work
+- Stop hook still runs (but now also feeds into v2)
+- Gradual migration: run both in parallel</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Privacy
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Observations stay **local** on your machine
+- Project-scoped instincts are isolated per project
+- Only **instincts** (patterns) can be exported — not raw observations
+- No actual code or conversation content is shared
+- You control what gets exported and promoted</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                相关
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- [Skill Creator](https://skill-creator.app) - Generate instincts from repo history
+- Homunculus - Community project that inspired the v2 instinct-based architecture (atomic observations, confidence scoring, instinct evolution pipeline)
+- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Continuous learning section
+
+---
+
+*Instinct-based learning: teaching Claude your patterns, one project at a time.*</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: continuous-learning-v2
+description: Instinct-based learning system that observes sessions via hooks, creates atomic instincts with confidence scoring, and evolves them into skills/commands/agents. v2.1 adds project-scoped instincts to prevent cross-project contamination.
+origin: ECC
+version: 2.1.0
+---
+
+# Continuous Learning v2.1 - Instinct
+-Based Architecture
+
+An advanced learning system that turns your Claude Code sessions into reusable knowledge through atomic &quot;instincts&quot; - small learned behaviors with confidence scoring.
+
+**v2.1** adds **project-scoped instincts** — React patterns stay in your React project, Python conventions stay in your Python project, and universal patterns (like &quot;always validate input&quot;) are shared globally.
+
+## When to Activate
+
+- Setting up automatic learning from Claude Code sessions
+- Configuring instinct-based behavior extraction via hooks
+- Tuning confidence thresholds for learned behaviors
+- Reviewing, exporting, or importing instinct libraries
+- Evolving instincts into full skills, commands, or agents
+- Managing project-scoped vs global instincts
+- Promoting instincts from project to global scope
+
+## What&#039;s New in v2.1
+
+| Feature | v2.0 | v2.1 |
+|---------|------|------|
+| Storage | Global (~/.claude/homunculus/) | Project-scoped (projects/&lt;hash&gt;/) |
+| Scope | All instincts apply everywhere | Project-scoped + global |
+| Detection | None | git remote URL / repo path |
+| Promotion | N/A | Project → global when seen in 2+ projects |
+| Commands | 4 (status/evolve/export/import) | 6 (+promote/projects) |
+| Cross-project | Contamination risk | Isolated by default |
+
+## What&#039;s New in v2 (vs v1)
+
+| Feature | v1 | v2 |
+|---------|----|----|
+| Observation | Stop hook (session end) | PreToolUse/PostToolUse (100% reliable) |
+| Analysis | Main context | Background agent (Haiku) |
+| Granularity | Full skills | Atomic &quot;instincts&quot; |
+| Confidence | None | 0.3-0.9 weighted |
+| Evolution | Direct to skill | Instincts -&gt; cluster -&gt; skill/command/agent |
+| Sharing | None | Export/import instincts |
+
+## The Instinct Model
+
+An instinct is a small learned behavior:
+
+```yaml
+---
+id: prefer-functional-style
+trigger: &quot;when writing new functions&quot;
+confidence: 0.7
+domain: &quot;code-style&quot;
+source: &quot;session-observation&quot;
+scope: project
+project_id: &quot;a1b2c3d4e5f6&quot;
+project_name: &quot;my-react-app&quot;
+---
+
+# Prefer Functional Style
+
+## Action
+Use functional patterns over classes when appropriate.
+
+## Evidence
+- Observed 5 instances of functional pattern preference
+- User corrected class-based approach to functional on 2025-01-15
+```
+
+**Properties:**
+- **Atomic** -- one trigger, one action
+- **Confidence-weighted** -- 0.3 = tentative, 0.9 = near certain
+- **Domain-tagged** -- code-style, testing, git, debugging, workflow, etc.
+- **Evidence-backed** -- tracks what observations created it
+- **Scope-aware** -- `project` (default) or `global`
+
+## How It Works
+
+```
+Session Activity (in a git repo)
+      |
+      | Hooks capture prompts + tool use (100% reliable)
+      | + detect project context (git remote / repo path)
+      v
++---------------------------------------------+
+|  projects/&lt;project-hash&gt;/observations.jsonl  |
+|   (prompts, tool calls, outcomes, project)   |
++---------------------------------------------+
+      |
+      | Observer agent reads (background, Haiku)
+      v
++---------------------------------------------+
+|          PATTERN DETECTION                   |
+|   * User corrections -&gt; instinct             |
+|   * Error resolutions -&gt; instinct            |
+|   * Repeated workflows -&gt; instinct           |
+|   * Scope decision: project or global?       |
++---------------------------------------------+
+      |
+      | Creates/updates
+      v
++---------------------------------------------+
+|  projects/&lt;project-hash&gt;/instincts/personal/ |
+|   * prefer-functional.yaml (0.7) [project]   |
+|   * use-react-hooks.yaml (0.9) [project]     |
++---------------------------------------------+
+|  instincts/personal/  (GLOBAL)               |
+|   * always-validate-input.yaml (0.85) [global]|
+|   * grep-before-edit.yaml (0.6) [global]     |
++---------------------------------------------+
+      |
+      | /evolve clusters + /promote
+      v
++---------------------------------------------+
+|  projects/&lt;hash&gt;/evolved/ (project-scoped)   |
+|  evolved/ (global)                           |
+|   * commands/new-feature.md                  |
+|   * skills/testing-workflow.md               |
+|   * agents/refactor-specialist.md            |
++---------------------------------------------+
+```
+
+## Project Detection
+
+The system automatically detects your current project:
+
+1. **`CLAUDE_PROJECT_DIR` env var** (highest priority)
+2. **`git remote get-url origin`** -- hashed to create a portable project ID (same repo on different machines gets the same ID)
+3. **`git rev-parse --show-toplevel`** -- fallback using repo path (machine-specific)
+4. **Global fallback** -- if no project is detected, instincts go to global scope
+
+Each project gets a 12-character hash ID (e.g., `a1b2c3d4e5f6`). A registry file at `~/.claude/homunculus/projects.json` maps IDs to human-readable names.
+
+## Quick Start
+
+### 1. Enable Observation Hooks
+
+Add to your `~/.claude/settings.json`.
+
+**If installed as a plugin** (recommended):
+
+```json
+{
+  &quot;hooks&quot;: {
+    &quot;PreToolUse&quot;: [{
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/hooks/observe.sh&quot;
+      }]
+    }],
+    &quot;PostToolUse&quot;: [{
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/hooks/observe.sh&quot;
+      }]
+    }]
+  }
+}
+```
+
+**If installed manually** to `~/.claude/skills`:
+
+```json
+{
+  &quot;hooks&quot;: {
+    &quot;PreToolUse&quot;: [{
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;~/.claude/skills/continuous-learning-v2/hooks/observe.sh&quot;
+      }]
+    }],
+    &quot;PostToolUse&quot;: [{
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;~/.claude/skills/continuous-learning-v2/hooks/observe.sh&quot;
+      }]
+    }]
+  }
+}
+```
+
+### 2. Initialize Directory Structure
+
+The system creates directories automatically on first use, but you can also create them manually:
+
+```bash
+# Global directories
+mkdir -p ~/.claude/homunculus/{instincts/{personal,inherited},evolved/{agents,skills,commands},projects}
+
+# Project directories are auto-created when the hook first runs in a git repo
+```
+
+### 3. Use the Instinct Commands
+
+```bash
+/instinct-status     # Show learned instincts (project + global)
+/evolve              # Cluster related instincts into skills/commands
+/instinct-export     # Export instincts to file
+/instinct-import     # Import instincts from others
+/promote             # Promote project instincts to global scope
+/projects            # List all known projects and their instinct counts
+```
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `/instinct-status` | Show all instincts (project-scoped + global) with confidence |
+| `/evolve` | Cluster related instincts into skills/commands, suggest promotions |
+| `/instinct-export` | Export instincts (filterable by scope/domain) |
+| `/instinct-import &lt;file&gt;` | Import instincts with scope control |
+| `/promote [id]` | Promote project instincts to global scope |
+| `/projects` | List all known projects and their instinct counts |
+
+## Configuration
+
+Edit `config.json` to control the background observer:
+
+```json
+{
+  &quot;version&quot;: &quot;2.1&quot;,
+  &quot;observer&quot;: {
+    &quot;enabled&quot;: false,
+    &quot;run_interval_minutes&quot;: 5,
+    &quot;min_observations_to_analyze&quot;: 20
+  }
+}
+```
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `observer.enabled` | `false` | Enable the background observer agent |
+| `observer.run_interval_minutes` | `5` | How often the observer analyzes observations |
+| `observer.min_observations_to_analyze` | `20` | Minimum observations before analysis runs |
+
+Other behavior (observation capture, instinct thresholds, project scoping, promotion criteria) is configured via code defaults in `instinct-cli.py` and `observe.sh`.
+
+## File Structure
+
+```
+~/.claude/homunculus/
++-- identity.json           # Your profile, technical level
++-- projects.json           # Registry: project hash -&gt; name/path/remote
++-- observations.jsonl      # Global observations (fallback)
++-- instincts/
+|   +-- personal/           # Global auto-learned instincts
+|   +-- inherited/          # Global imported instincts
++-- evolved/
+|   +-- agents/             # Global generated agents
+|   +-- skills/             # Global generated skills
+|   +-- commands/           # Global generated commands
++-- projects/
+    +-- a1b2c3d4e5f6/       # Project hash (from git remote URL)
+    |   +-- project.json    # Per-project metadata mirror (id/name/root/remote)
+    |   +-- observations.jsonl
+    |   +-- observations.archive/
+    |   +-- instincts/
+    |   |   +-- personal/   # Project-specific auto-learned
+    |   |   +-- inherited/  # Project-specific imported
+    |   +-- evolved/
+    |       +-- skills/
+    |       +-- commands/
+    |       +-- agents/
+    +-- f6e5d4c3b2a1/       # Another project
+        +-- ...
+```
+
+## Scope Decision Guide
+
+| Pattern Type | Scope | Examples |
+|-------------|-------|---------|
+| Language/framework conventions | **project** | &quot;Use React hooks&quot;, &quot;Follow Django REST patterns&quot; |
+| File structure preferences | **project** | &quot;Tests in `__tests__`/&quot;, &quot;Components in src/components/&quot; |
+| Code style | **project** | &quot;Use functional style&quot;, &quot;Prefer dataclasses&quot; |
+| Error handling strategies | **project** | &quot;Use Result type for errors&quot; |
+| Security practices | **global** | &quot;Validate user input&quot;, &quot;Sanitize SQL&quot; |
+| General best practices | **global** | &quot;Write tests first&quot;, &quot;Always handle errors&quot; |
+| Tool workflow preferences | **global** | &quot;Grep before Edit&quot;, &quot;Read before Write&quot; |
+| Git practices | **global** | &quot;Conventional commits&quot;, &quot;Small focused commits&quot; |
+
+## Instinct Promotion (Project -&gt; Global)
+
+When the same instinct appears in multiple projects with high confidence, it&#039;s a candidate for promotion to global scope.
+
+**Auto-promotion criteria:**
+- Same instinct ID in 2+ projects
+- Average confidence &gt;= 0.8
+
+**How to promote:**
+
+```bash
+# Promote a specific instinct
+python3 instinct-cli.py promote prefer-explicit-errors
+
+# Auto-promote all qualifying instincts
+python3 instinct-cli.py promote
+
+# Preview without changes
+python3 instinct-cli.py promote --dry-run
+```
+
+The `/evolve` command also suggests promotion candidates.
+
+## Confidence Scoring
+
+Confidence evolves over time:
+
+| Score | Meaning | Behavior |
+|-------|---------|----------|
+| 0.3 | Tentative | Suggested but not enforced |
+| 0.5 | Moderate | Applied when relevant |
+| 0.7 | Strong | Auto-approved for application |
+| 0.9 | Near-certain | Core behavior |
+
+**Confidence increases** when:
+- Pattern is repeatedly observed
+- User doesn&#039;t correct the suggested behavior
+- Similar instincts from other sources agree
+
+**Confidence decreases** when:
+- User explicitly corrects the behavior
+- Pattern isn&#039;t observed for extended periods
+- Contradicting evidence appears
+
+## Why Hooks vs Skills for Observation?
+
+&gt; &quot;v1 relied on skills to observe. Skills are probabilistic -- they fire ~50-80% of the time based on Claude&#039;s judgment.&quot;
+
+Hooks fire **100% of the time**, deterministically. This means:
+- Every tool call is observed
+- No patterns are missed
+- Learning is comprehensive
+
+## Backward Compatibility
+
+v2.1 is fully compatible with v2.0 and v1:
+- Existing global instincts in `~/.claude/homunculus/instincts/` still work as global instincts
+- Existing `~/.claude/skills/learned/` skills from v1 still work
+- Stop hook still runs (but now also feeds into v2)
+- Gradual migration: run both in parallel
+
+## Privacy
+
+- Observations stay **local** on your machine
+- Project-scoped instincts are isolated per project
+- Only **instincts** (patterns) can be exported — not raw observations
+- No actual code or conversation content is shared
+- You control what gets exported and promoted
+
+## Related
+
+- [Skill Creator](https://skill-creator.app) - Generate instincts from repo history
+- Homunculus - Community project that inspired the v2 instinct-based architecture (atomic observations, confidence scoring, instinct evolution pipeline)
+- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Continuous learning section
+
+---
+
+*Instinct-based learning: teaching Claude your patterns, one project at a time.*
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

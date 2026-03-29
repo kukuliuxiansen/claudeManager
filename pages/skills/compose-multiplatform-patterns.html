@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compose多平台模式 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Compose多平台模式</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">Compose多平台模式</h1>
+            <p class="detail-subtitle">Compose多平台模式，Jetpack Compose最佳实践</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Building Compose UI (Jetpack Compose or Compose Multiplatform)
+- Managing UI state with ViewModels and Compose state
+- Implementing navigation in KMP or Android projects
+- Designing reusable composables and design systems
+- Optimizing recomposition and rendering performance</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                State Management
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### ViewModel + Single State Object
+
+Use a single data class for screen state. Expose it as `StateFlow` and collect in Compose:
+
+```kotlin
+data class ItemListState(
+    val items: List&lt;Item&gt; = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null,
+    val searchQuery: String = &quot;&quot;
+)
+
+class ItemListViewModel(
+    private val getItems: GetItemsUseCase
+) : ViewModel() {
+    private val _state = MutableStateFlow(ItemListState())
+    val state: StateFlow&lt;ItemListState&gt; = _state.asStateFlow()
+
+    fun onSearch(query: String) {
+        _state.update { it.copy(searchQuery = query) }
+        loadItems(query)
+    }
+
+    private fun loadItems(query: String) {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            getItems(query).fold(
+                onSuccess = { items -&gt; _state.update { it.copy(items = items, isLoading = false) } },
+                onFailure = { e -&gt; _state.update { it.copy(error = e.message, isLoading = false) } }
+            )
+        }
+    }
+}
+```
+
+### Collecting State in Compose
+
+```kotlin
+@Composable
+fun ItemListScreen(viewModel: ItemListViewModel = koinViewModel()) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    ItemListContent(
+        state = state,
+        onSearch = viewModel::onSearch
+    )
+}
+
+@Composable
+private fun ItemListContent(
+    state: ItemListState,
+    onSearch: (String) -&gt; Unit
+) {
+    // Stateless composable — easy to preview and test
+}
+```
+
+### Event Sink Pattern
+
+For complex screens, use a sealed interface for events instead of multiple callback lambdas:
+
+```kotlin
+sealed interface ItemListEvent {
+    data class Search(val query: String) : ItemListEvent
+    data class Delete(val itemId: String) : ItemListEvent
+    data object Refresh : ItemListEvent
+}
+
+// In ViewModel
+fun onEvent(event: ItemListEvent) {
+    when (event) {
+        is ItemListEvent.Search -&gt; onSearch(event.query)
+        is ItemListEvent.Delete -&gt; deleteItem(event.itemId)
+        is ItemListEvent.Refresh -&gt; loadItems(_state.value.searchQuery)
+    }
+}
+
+// In Composable — single lambda instead of many
+ItemListContent(
+    state = state,
+    onEvent = viewModel::onEvent
+)
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Navigation
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Type-Safe Navigation (Compose Navigation 2.8+)
+
+Define routes as `@Serializable` objects:
+
+```kotlin
+@Serializable data object HomeRoute
+@Serializable data class DetailRoute(val id: String)
+@Serializable data object SettingsRoute
+
+@Composable
+fun AppNavHost(navController: NavHostController = rememberNavController()) {
+    NavHost(navController, startDestination = HomeRoute) {
+        composable&lt;HomeRoute&gt; {
+            HomeScreen(onNavigateToDetail = { id -&gt; navController.navigate(DetailRoute(id)) })
+        }
+        composable&lt;DetailRoute&gt; { backStackEntry -&gt;
+            val route = backStackEntry.toRoute&lt;DetailRoute&gt;()
+            DetailScreen(id = route.id)
+        }
+        composable&lt;SettingsRoute&gt; { SettingsScreen() }
+    }
+}
+```
+
+### Dialog and Bottom Sheet Navigation
+
+Use `dialog()` and overlay patterns instead of imperative show/hide:
+
+```kotlin
+NavHost(navController, startDestination = HomeRoute) {
+    composable&lt;HomeRoute&gt; { /* ... */ }
+    dialog&lt;ConfirmDeleteRoute&gt; { backStackEntry -&gt;
+        val route = backStackEntry.toRoute&lt;ConfirmDeleteRoute&gt;()
+        ConfirmDeleteDialog(
+            itemId = route.itemId,
+            onConfirm = { navController.popBackStack() },
+            onDismiss = { navController.popBackStack() }
+        )
+    }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Composable Design
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Slot-Based APIs
+
+Design composables with slot parameters for flexibility:
+
+```kotlin
+@Composable
+fun AppCard(
+    modifier: Modifier = Modifier,
+    header: @Composable () -&gt; Unit = {},
+    content: @Composable ColumnScope.() -&gt; Unit,
+    actions: @Composable RowScope.() -&gt; Unit = {}
+) {
+    Card(modifier = modifier) {
+        Column {
+            header()
+            Column(content = content)
+            Row(horizontalArrangement = Arrangement.End, content = actions)
+        }
+    }
+}
+```
+
+### Modifier Ordering
+
+Modifier order matters — apply in this sequence:
+
+```kotlin
+Text(
+    text = &quot;Hello&quot;,
+    modifier = Modifier
+        .padding(16.dp)          // 1. Layout (padding, size)
+        .clip(RoundedCornerShape(8.dp))  // 2. Shape
+        .background(Color.White) // 3. Drawing (background, border)
+        .clickable { }           // 4. Interaction
+)
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                KMP Platform-Specific UI
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### expect/actual for Platform Composables
+
+```kotlin
+// commonMain
+@Composable
+expect fun PlatformStatusBar(darkIcons: Boolean)
+
+// androidMain
+@Composable
+actual fun PlatformStatusBar(darkIcons: Boolean) {
+    val systemUiController = rememberSystemUiController()
+    SideEffect { systemUiController.setStatusBarColor(Color.Transparent, darkIcons) }
+}
+
+// iosMain
+@Composable
+actual fun PlatformStatusBar(darkIcons: Boolean) {
+    // iOS handles this via UIKit interop or Info.plist
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                性能
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Stable Types for Skippable Recomposition
+
+Mark classes as `@Stable` or `@Immutable` when all properties are stable:
+
+```kotlin
+@Immutable
+data class ItemUiModel(
+    val id: String,
+    val title: String,
+    val description: String,
+    val progress: Float
+)
+```
+
+### Use `key()` and Lazy Lists Correctly
+
+```kotlin
+LazyColumn {
+    items(
+        items = items,
+        key = { it.id }  // Stable keys enable item reuse and animations
+    ) { item -&gt;
+        ItemRow(item = item)
+    }
+}
+```
+
+### Defer Reads with `derivedStateOf`
+
+```kotlin
+val listState = rememberLazyListState()
+val showScrollToTop by remember {
+    derivedStateOf { listState.firstVisibleItemIndex &gt; 5 }
+}
+```
+
+### Avoid Allocations in Recomposition
+
+```kotlin
+// BAD — new lambda and list every recomposition
+items.filter { it.isActive }.forEach { ActiveItem(it, onClick = { handle(it) }) }
+
+// GOOD — key each item so callbacks stay attached to the right row
+val activeItems = remember(items) { items.filter { it.isActive } }
+activeItems.forEach { item -&gt;
+    key(item.id) {
+        ActiveItem(item, onClick = { handle(item) })
+    }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Theming
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Material 3 Dynamic Theming
+
+```kotlin
+@Composable
+fun AppTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = true,
+    content: @Composable () -&gt; Unit
+) {
+    val colorScheme = when {
+        dynamicColor &amp;&amp; Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S -&gt; {
+            if (darkTheme) dynamicDarkColorScheme(LocalContext.current)
+            else dynamicLightColorScheme(LocalContext.current)
+        }
+        darkTheme -&gt; darkColorScheme()
+        else -&gt; lightColorScheme()
+    }
+
+    MaterialTheme(colorScheme = colorScheme, content = content)
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Anti-Patterns to Avoid
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Using `mutableStateOf` in ViewModels when `MutableStateFlow` with `collectAsStateWithLifecycle` is safer for lifecycle
+- Passing `NavController` deep into composables — pass lambda callbacks instead
+- Heavy computation inside `@Composable` functions — move to ViewModel or `remember {}`
+- Using `LaunchedEffect(Unit)` as a substitute for ViewModel init — it re-runs on configuration change in some setups
+- Creating new object instances in composable parameters — causes unnecessary recomposition</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                参考资料
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">See skill: `android-clean-architecture` for module structure and layering.
+See skill: `kotlin-coroutines-flows` for coroutine and Flow patterns.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: compose-multiplatform-patterns
+description: Compose Multiplatform and Jetpack Compose patterns for KMP projects — state management, navigation, theming, performance, and platform-specific UI.
+origin: ECC
+---
+
+# Compose Multiplatform Patterns
+
+Patterns for building shared UI across Android, iOS, Desktop, and Web using Compose Multiplatform and Jetpack Compose. Covers state management, navigation, theming, and performance.
+
+## When to Activate
+
+- Building Compose UI (Jetpack Compose or Compose Multiplatform)
+- Managing UI state with ViewModels and Compose state
+- Implementing navigation in KMP or Android projects
+- Designing reusable composables and design systems
+- Optimizing recomposition and rendering performance
+
+## State Management
+
+### ViewModel + Single State Object
+
+Use a single data class for screen state. Expose it as `StateFlow` and collect in Compose:
+
+```kotlin
+data class ItemListState(
+    val items: List&lt;Item&gt; = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null,
+    val searchQuery: String = &quot;&quot;
+)
+
+class ItemListViewModel(
+    private val getItems: GetItemsUseCase
+) : ViewModel() {
+    private val _state = MutableStateFlow(ItemListState())
+    val state: StateFlow&lt;ItemListState&gt; = _state.asStateFlow()
+
+    fun onSearch(query: String) {
+        _state.update { it.copy(searchQuery = query) }
+        loadItems(query)
+    }
+
+    private fun loadItems(query: String) {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            getItems(query).fold(
+                onSuccess = { items -&gt; _state.update { it.copy(items = items, isLoading = false) } },
+                onFailure = { e -&gt; _state.update { it.copy(error = e.message, isLoading = false) } }
+            )
+        }
+    }
+}
+```
+
+### Collecting State in Compose
+
+```kotlin
+@Composable
+fun ItemListScreen(viewModel: ItemListViewModel = koinViewModel()) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    ItemListContent(
+        state = state,
+        onSearch = viewModel::onSearch
+    )
+}
+
+@Composable
+private fun ItemListContent(
+    state: ItemListState,
+    onSearch: (String) -&gt; Unit
+) {
+    // Stateless composable — easy to preview and test
+}
+```
+
+### Event Sink Pattern
+
+For complex screens, use a sealed interface for events instead of multiple callback lambdas:
+
+```kotlin
+sealed interface ItemListEvent {
+    data class Search(val query: String) : ItemListEvent
+    data class Delete(val itemId: String) : ItemListEvent
+    data object Refresh : ItemListEvent
+}
+
+// In ViewModel
+fun onEvent(event: ItemListEvent) {
+    when (event) {
+        is ItemListEvent.Search -&gt; onSearch(event.query)
+        is ItemListEvent.Delete -&gt; deleteItem(event.itemId)
+        is ItemListEvent.Refresh -&gt; loadItems(_state.value.searchQuery)
+    }
+}
+
+// In Composable — single lambda instead of many
+ItemListContent(
+    state = state,
+    onEvent = viewModel::onEvent
+)
+```
+
+## Navigation
+
+### Type-Safe Navigation (Compose Navigation 2.8+)
+
+Define routes as `@Serializable` objects:
+
+```kotlin
+@Serializable data object HomeRoute
+@Serializable data class DetailRoute(val id: String)
+@Serializable data object SettingsRoute
+
+@Composable
+fun AppNavHost(navController: NavHostController = rememberNavController()) {
+    NavHost(navController, startDestination = HomeRoute) {
+        composable&lt;HomeRoute&gt; {
+            HomeScreen(onNavigateToDetail = { id -&gt; navController.navigate(DetailRoute(id)) })
+        }
+        composable&lt;DetailRoute&gt; { backStackEntry -&gt;
+            val route = backStackEntry.toRoute&lt;DetailRoute&gt;()
+            DetailScreen(id = route.id)
+        }
+        composable&lt;SettingsRoute&gt; { SettingsScreen() }
+    }
+}
+```
+
+### Dialog and Bottom Sheet Navigation
+
+Use `dialog()` and overlay patterns instead of imperative show/hide:
+
+```kotlin
+NavHost(navController, startDestination = HomeRoute) {
+    composable&lt;HomeRoute&gt; { /* ... */ }
+    dialog&lt;ConfirmDeleteRoute&gt; { backStackEntry -&gt;
+        val route = backStackEntry.toRoute&lt;ConfirmDeleteRoute&gt;()
+        ConfirmDeleteDialog(
+            itemId = route.itemId,
+            onConfirm = { navController.popBackStack() },
+            onDismiss = { navController.popBackStack() }
+        )
+    }
+}
+```
+
+## Composable Design
+
+### Slot-Based APIs
+
+Design composables with slot parameters for flexibility:
+
+```kotlin
+@Composable
+fun AppCard(
+    modifier: Modifier = Modifier,
+    header: @Composable () -&gt; Unit = {},
+    content: @Composable ColumnScope.() -&gt; Unit,
+    actions: @Composable RowScope.() -&gt; Unit = {}
+) {
+    Card(modifier = modifier) {
+        Column {
+            header()
+            Column(content = content)
+            Row(horizontalArrangement = Arrangement.End, content = actions)
+        }
+    }
+}
+```
+
+### Modifier Ordering
+
+Modifier order matters — apply in this sequence:
+
+```kotlin
+Text(
+    text = &quot;Hello&quot;,
+    modifier = Modifier
+        .padding(16.dp)          // 1. Layout (padding, size)
+        .clip(RoundedCornerShape(8.dp))  // 2. Shape
+        .background(Color.White) // 3. Drawing (background, border)
+        .clickable { }           // 4. Interaction
+)
+```
+
+## KMP Platform-Specific UI
+
+### expect/actual for Platform Composables
+
+```kotlin
+// commonMain
+@Composable
+expect fun PlatformStatusBar(darkIcons: Boolean)
+
+// androidMain
+@Composable
+actual fun PlatformStatusBar(darkIcons: Boolean) {
+    val systemUiController = rememberSystemUiController()
+    SideEffect { systemUiController.setStatusBarColor(Color.Transparent, darkIcons) }
+}
+
+// iosMain
+@Composable
+actual fun PlatformStatusBar(darkIcons: Boolean) {
+    // iOS handles this via UIKit interop or Info.plist
+}
+```
+
+## Performance
+
+### Stable Types for Skippable Recomposition
+
+Mark classes as `@Stable` or `@Immutable` when all properties are stable:
+
+```kotlin
+@Immutable
+data class ItemUiModel(
+    val id: String,
+    val title: String,
+    val description: String,
+    val progress: Float
+)
+```
+
+### Use `key()` and Lazy Lists Correctly
+
+```kotlin
+LazyColumn {
+    items(
+        items = items,
+        key = { it.id }  // Stable keys enable item reuse and animations
+    ) { item -&gt;
+        ItemRow(item = item)
+    }
+}
+```
+
+### Defer Reads with `derivedStateOf`
+
+```kotlin
+val listState = rememberLazyListState()
+val showScrollToTop by remember {
+    derivedStateOf { listState.firstVisibleItemIndex &gt; 5 }
+}
+```
+
+### Avoid Allocations in Recomposition
+
+```kotlin
+// BAD — new lambda and list every recomposition
+items.filter { it.isActive }.forEach { ActiveItem(it, onClick = { handle(it) }) }
+
+// GOOD — key each item so callbacks stay attached to the right row
+val activeItems = remember(items) { items.filter { it.isActive } }
+activeItems.forEach { item -&gt;
+    key(item.id) {
+        ActiveItem(item, onClick = { handle(item) })
+    }
+}
+```
+
+## Theming
+
+### Material 3 Dynamic Theming
+
+```kotlin
+@Composable
+fun AppTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = true,
+    content: @Composable () -&gt; Unit
+) {
+    val colorScheme = when {
+        dynamicColor &amp;&amp; Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S -&gt; {
+            if (darkTheme) dynamicDarkColorScheme(LocalContext.current)
+            else dynamicLightColorScheme(LocalContext.current)
+        }
+        darkTheme -&gt; darkColorScheme()
+        else -&gt; lightColorScheme()
+    }
+
+    MaterialTheme(colorScheme = colorScheme, content = content)
+}
+```
+
+## Anti-Patterns to Avoid
+
+- Using `mutableStateOf` in ViewModels when `MutableStateFlow` with `collectAsStateWithLifecycle` is safer for lifecycle
+- Passing `NavController` deep into composables — pass lambda callbacks instead
+- Heavy computation inside `@Composable` functions — move to ViewModel or `remember {}`
+- Using `LaunchedEffect(Unit)` as a substitute for ViewModel init — it re-runs on configuration change in some setups
+- Creating new object instances in composable parameters — causes unnecessary recomposition
+
+## References
+
+See skill: `android-clean-architecture` for module structure and layering.
+See skill: `kotlin-coroutines-flows` for coroutine and Flow patterns.
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

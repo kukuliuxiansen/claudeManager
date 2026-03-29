@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check GPU memory usage - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #f59e0b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #f59e0b; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #f59e0b; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #f59e0b40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #f59e0b; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Check GPU memory usage</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            </div>
+            <h1 class="detail-title">Check GPU memory usage</h1>
+            <p class="detail-subtitle">智能代理，自主执行复杂任务的AI系统</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    Agent
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Core Responsibilities
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">1. Diagnose PyTorch runtime and CUDA errors
+2. Fix tensor shape mismatches across model layers
+3. Resolve device placement issues (CPU/GPU)
+4. Debug gradient computation failures
+5. Fix DataLoader and data pipeline errors
+6. Handle mixed precision (AMP) issues</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Diagnostic Commands
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Run these in order:
+```bash
+python -c &quot;import torch; print(f&#039;PyTorch: {torch.__version__}, CUDA: {torch.cuda.is_available()}, Device: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else \&quot;CPU\&quot;}&#039;)&quot;
+python -c &quot;import torch; print(f&#039;cuDNN: {torch.backends.cudnn.version()}&#039;)&quot; 2&gt;/dev/null || echo &quot;cuDNN not available&quot;
+pip list 2&gt;/dev/null | grep -iE &quot;torch|cuda|nvidia&quot;
+nvidia-smi 2&gt;/dev/null || echo &quot;nvidia-smi not available&quot;
+python -c &quot;import torch; x = torch.randn(2,3).cuda(); print(&#039;CUDA tensor test: OK&#039;)&quot; 2&gt;&amp;1 || echo &quot;CUDA tensor creation failed&quot;
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Resolution Workflow
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```text
+1. Read error traceback     -&gt; Identify failing line and error type
+2. Read affected file       -&gt; Understand model/training context
+3. Trace tensor shapes      -&gt; Print shapes at key points
+4. Apply minimal fix        -&gt; Only what&#039;s needed
+5. Run failing script       -&gt; Verify fix
+6. Check gradients flow     -&gt; Ensure backward pass works
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Common Fix Patterns
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Error | Cause | Fix |
+|-------|-------|-----|
+| `RuntimeError: mat1 and mat2 shapes cannot be multiplied` | Linear layer input size mismatch | Fix `in_features` to match previous layer output |
+| `RuntimeError: Expected all tensors to be on the same device` | Mixed CPU/GPU tensors | Add `.to(device)` to all tensors and model |
+| `CUDA out of memory` | Batch too large or memory leak | Reduce batch size, add `torch.cuda.empty_cache()`, use gradient checkpointing |
+| `RuntimeError: element 0 of tensors does not require grad` | Detached tensor in loss computation | Remove `.detach()` or `.item()` before backward |
+| `ValueError: Expected input batch_size X to match target batch_size Y` | Mismatched batch dimensions | Fix DataLoader collation or model output reshape |
+| `RuntimeError: one of the variables needed for gradient computation has been modified by an inplace operation` | In-place op breaks autograd | Replace `x += 1` with `x = x + 1`, avoid in-place relu |
+| `RuntimeError: stack expects each tensor to be equal size` | Inconsistent tensor sizes in DataLoader | Add padding/truncation in Dataset `__getitem__` or custom `collate_fn` |
+| `RuntimeError: cuDNN error: CUDNN_STATUS_INTERNAL_ERROR` | cuDNN incompatibility or corrupted state | Set `torch.backends.cudnn.enabled = False` to test, update drivers |
+| `IndexError: index out of range in self` | Embedding index &gt;= num_embeddings | Fix vocabulary size or clamp indices |
+| `RuntimeError: Trying to backward through the graph a second time` | Reused computation graph | Add `retain_graph=True` or restructure forward pass |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Shape Debugging
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">When shapes are unclear, inject diagnostic prints:
+```python
+print(f&quot;tensor.shape = {tensor.shape}, dtype = {tensor.dtype}, device = {tensor.device}&quot;)
+from torchsummary import summary
+summary(model, input_size=(C, H, W))
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Memory Debugging
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```bash
+python -c &quot;
+import torch
+print(f&#039;Allocated: {torch.cuda.memory_allocated()/1e9:.2f} GB&#039;)
+print(f&#039;Cached: {torch.cuda.memory_reserved()/1e9:.2f} GB&#039;)
+print(f&#039;Max allocated: {torch.cuda.max_memory_allocated()/1e9:.2f} GB&#039;)
+&quot;
+```
+Common memory fixes:
+- Wrap validation in `with torch.no_grad():`
+- Use `del tensor; torch.cuda.empty_cache()`
+- Enable gradient checkpointing: `model.gradient_checkpointing_enable()`
+- Use `torch.cuda.amp.autocast()` for mixed precision</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Key Principles
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- **Surgical fixes only** -- don&#039;t refactor, just fix the error
+- **Never** change model architecture unless the error requires it
+- **Never** silence warnings with `warnings.filterwarnings` without approval
+- **Always** verify tensor shapes before and after fix
+- **Always** test with a small batch first (`batch_size=2`)
+- Fix root cause over suppressing symptoms</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Stop Conditions
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Stop and report if:
+- Same error persists after 3 fix attempts
+- Fix requires changing the model architecture fundamentally
+- Error is caused by hardware/driver incompatibility (recommend driver update)
+- Out of memory even with `batch_size=1` (recommend smaller model or gradient checkpointing)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Output Format
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```text
+[FIXED] train.py:42
+Error: RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x512 and 256x10)
+Fix: Changed nn.Linear(256, 10) to nn.Linear(512, 10) to match encoder output
+Remaining errors: 0
+```
+Final: `Status: SUCCESS/FAILED | Errors Fixed: N | Files Modified: list`
+For PyTorch best practices, consult the [official PyTorch documentation](https://pytorch.org/docs/stable/) and [PyTorch forums](https://discuss.pytorch.org/).</pre>
+            </div>
+        </section>
+        
+
+        <div class="detail-nav">
+            <a class="nav-card" href="java-reviewer.html">
+                <div class="nav-label">上一个</div>
+                <div class="nav-title">java-reviewer</div>
+                <div class="nav-type">Agent</div>
+            </a>
+            <a class="nav-card" href="rust-build-resolver.html">
+                <div class="nav-label">下一个</div>
+                <div class="nav-title">In Cargo.toml: edition = "2024"  # Requires rustc 1.85+</div>
+                <div class="nav-type">Agent</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

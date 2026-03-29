@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plugins 插件模块 - Claude Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        /* Page-specific styles */
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222e;
+            --accent-orange: #f59e0b;
+            --accent-cyan: #00d4aa;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --border-subtle: #2a2a35;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(245, 158, 11, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245, 158, 11, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 158, 11, 0.2), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 50%, rgba(0, 212, 170, 0.08), transparent),
+                radial-gradient(ellipse 50% 30% at 20% 80%, rgba(139, 92, 246, 0.06), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .noise {
+            position: fixed;
+            inset: 0;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-cyan));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--accent-orange);
+        }
+
+        .search-container {
+            position: relative;
+            width: 320px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        main {
+            position: relative;
+            z-index: 2;
+            padding: 40px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 40px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-orange);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 0.7;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-muted);
+        }
+
+        .page-title-section {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .page-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--accent-orange), rgba(245, 158, 11, 0.3));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px solid var(--accent-orange);
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .page-stats {
+            display: flex;
+            gap: 24px;
+            margin-left: auto;
+        }
+
+        .page-stat {
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .page-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent-orange);
+        }
+
+        .page-stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+            color: var(--bg-primary);
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-orange), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .module-card:hover::before {
+            opacity: 1;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .module-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent-orange);
+        }
+
+        .module-badge {
+            font-size: 11px;
+            padding: 4px 8px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 6px;
+            color: var(--accent-orange);
+        }
+
+        .module-version {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-left: 8px;
+        }
+
+        .module-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .module-components {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .module-components strong {
+            color: var(--accent-orange);
+        }
+
+        .module-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .module-tag {
+            font-size: 11px;
+            padding: 3px 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            color: var(--text-muted);
+        }
+
+        /* Plugin Source Colors */
+        .module-card.local { --accent-orange: #10b981; }
+        .module-card.npm { --accent-orange: #3b82f6; }
+        .module-card.github { --accent-orange: #8b5cf6; }
+
+        .module-card.local .module-name { color: #10b981; }
+        .module-card.local::before { background: linear-gradient(90deg, #10b981, transparent); }
+        .module-card.local:hover { border-color: #10b981; }
+        .module-card.local .module-badge { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #10b981; }
+
+        .module-card.npm .module-name { color: #3b82f6; }
+        .module-card.npm::before { background: linear-gradient(90deg, #3b82f6, transparent); }
+        .module-card.npm:hover { border-color: #3b82f6; }
+        .module-card.npm .module-badge { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #3b82f6; }
+
+        .module-card.github .module-name { color: #8b5cf6; }
+        .module-card.github::before { background: linear-gradient(90deg, #8b5cf6, transparent); }
+        .module-card.github:hover { border-color: #8b5cf6; }
+        .module-card.github .module-badge { background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3); color: #8b5cf6; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .module-card {
+            animation: fadeInUp 0.4s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .module-card:nth-child(1) { animation-delay: 0.02s; }
+        .module-card:nth-child(2) { animation-delay: 0.04s; }
+        .module-card:nth-child(3) { animation-delay: 0.06s; }
+        .module-card:nth-child(4) { animation-delay: 0.08s; }
+        .module-card:nth-child(5) { animation-delay: 0.10s; }
+        .module-card:nth-child(n+6) { animation-delay: 0.12s; }
+
+        footer {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 80px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 20px;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-orange);
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .search-container {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            main {
+                padding: 20px 20px;
+            }
+
+            .page-header {
+                padding: 24px 0;
+            }
+
+            .page-title-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .page-stats {
+                margin-left: 0;
+                margin-top: 16px;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+    <div class="noise"></div>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">CM</div>
+            <div class="logo-text">Claude <span>Manager</span></div>
+        </div>
+        <div class="search-container">
+            <span class="search-icon">⌘</span>
+            <input type="text" class="search-input" placeholder="搜索插件..." id="searchInput">
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="../index.html">首页</a>
+                <span class="breadcrumb-separator">→</span>
+                <span>Plugins 插件</span>
+            </div>
+
+            <div class="page-title-section">
+                <div class="page-icon">🔌</div>
+                <div>
+                    <h1 class="page-title">Plugins 插件模块</h1>
+                    <p class="page-subtitle">外部插件扩展。安装的第三方插件提供的额外 Skills、Agents 和 Commands，扩展 Claude Code 的能力边界。</p>
+                </div>
+                <div class="page-stats">
+                    <div class="page-stat">
+                        <div class="page-stat-value">10+</div>
+                        <div class="page-stat-label">插件总数</div>
+                    </div>
+                    <div class="page-stat">
+                        <div class="page-stat-value">3</div>
+                        <div class="page-stat-label">来源</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="local">本地</button>
+            <button class="filter-btn" data-filter="npm">NPM</button>
+            <button class="filter-btn" data-filter="github">GitHub</button>
+        </div>
+
+        <section class="modules-grid" id="modulesGrid">
+            <!-- Everything Claude Code Plugin -->
+            <div class="module-card local" data-source="local" data-module="everything-claude-code">
+                <div class="module-header">
+                    <span class="module-name">everything-claude-code</span>
+                    <span class="module-badge">本地</span>
+                </div>
+                <p class="module-description">Everything Claude Code 核心插件，提供完整的 Skills、Agents、Hooks 和 Rules 系统。包含 115+ Skills 和 40+ Agents。</p>
+                <div class="module-components">
+                    <strong>Skills:</strong> 115+ · <strong>Agents:</strong> 40+ · <strong>Hooks:</strong> 多个
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">核心</span>
+                    <span class="module-tag">TDD</span>
+                    <span class="module-tag">审查</span>
+                    <span class="module-tag">规划</span>
+                    <span class="module-tag">测试</span>
+                </div>
+            </div>
+
+            <!-- PR Review Toolkit -->
+            <div class="module-card local" data-source="local" data-module="pr-review-toolkit">
+                <div class="module-header">
+                    <span class="module-name">pr-review-toolkit</span>
+                    <span class="module-badge">本地</span>
+                </div>
+                <p class="module-description">PR审查工具包，提供代码审查、简化、测试分析、类型设计和静默失败检测代理。</p>
+                <div class="module-components">
+                    <strong>Agents:</strong> code-reviewer, code-simplifier, pr-test-analyzer, type-design-analyzer, silent-failure-hunter
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">PR</span>
+                    <span class="module-tag">审查</span>
+                    <span class="module-tag">测试</span>
+                    <span class="module-tag">类型</span>
+                </div>
+            </div>
+
+            <!-- Plugin Dev -->
+            <div class="module-card local" data-source="local" data-module="plugin-dev">
+                <div class="module-header">
+                    <span class="module-name">plugin-dev</span>
+                    <span class="module-badge">本地</span>
+                </div>
+                <p class="module-description">插件开发工具包，提供插件验证、代理创建和技能审查代理。帮助开发者创建高质量插件。</p>
+                <div class="module-components">
+                    <strong>Agents:</strong> plugin-validator, agent-creator, skill-reviewer
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">插件开发</span>
+                    <span class="module-tag">验证</span>
+                    <span class="module-tag">代理</span>
+                    <span class="module-tag">技能</span>
+                </div>
+            </div>
+
+            <!-- Hookify -->
+            <div class="module-card local" data-source="local" data-module="hookify">
+                <div class="module-header">
+                    <span class="module-name">hookify</span>
+                    <span class="module-badge">本地</span>
+                </div>
+                <p class="module-description">从对话分析中生成Hooks的插件。分析对话历史，识别需要阻止的行为并生成Hook配置。</p>
+                <div class="module-components">
+                    <strong>Agents:</strong> conversation-analyzer
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">Hooks</span>
+                    <span class="module-tag">对话分析</span>
+                    <span class="module-tag">行为阻止</span>
+                </div>
+            </div>
+
+            <!-- Statusline Setup -->
+            <div class="module-card npm" data-source="npm" data-module="statusline-setup">
+                <div class="module-header">
+                    <span class="module-name">statusline-setup</span>
+                    <span class="module-badge">NPM</span>
+                </div>
+                <p class="module-description">状态栏配置代理，帮助配置Claude Code状态栏设置。提供交互式配置体验。</p>
+                <div class="module-components">
+                    <strong>Agents:</strong> statusline-setup
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">配置</span>
+                    <span class="module-tag">状态栏</span>
+                    <span class="module-tag">交互式</span>
+                </div>
+            </div>
+
+            <!-- Feature Dev -->
+            <div class="module-card github" data-source="github" data-module="feature-dev">
+                <div class="module-header">
+                    <span class="module-name">feature-dev</span>
+                    <span class="module-badge">GitHub</span>
+                </div>
+                <p class="module-description">功能开发工具包，提供代码架构师、代码探索者、代码审查者代理。支持完整的功能开发流程。</p>
+                <div class="module-components">
+                    <strong>Agents:</strong> code-architect, code-explorer, code-reviewer
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">功能开发</span>
+                    <span class="module-tag">架构</span>
+                    <span class="module-tag">探索</span>
+                    <span class="module-tag">审查</span>
+                </div>
+            </div>
+
+            <!-- C++ Reviewer -->
+            <div class="module-card local" data-source="local" data-module="cpp-build-resolver">
+                <div class="module-header">
+                    <span class="module-name">cpp-build-resolver</span>
+                    <span class="module-badge">本地</span>
+                </div>
+                <p class="module-description">C++构建、CMake和编译错误解决专家。修复构建错误、链接问题和模板错误。</p>
+                <div class="module-components">
+                    <strong>Agents:</strong> cpp-build-resolver, cpp-reviewer
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">C++</span>
+                    <span class="module-tag">CMake</span>
+                    <span class="module-tag">构建</span>
+                    <span class="module-tag">模板</span>
+                </div>
+            </div>
+
+            <!-- Java Build Resolver -->
+            <div class="module-card local" data-source="local" data-module="java-build-resolver">
+                <div class="module-header">
+                    <span class="module-name">java-build-resolver</span>
+                    <span class="module-badge">本地</span>
+                </div>
+                <p class="module-description">Java/Maven/Gradle构建、编译和依赖错误解决专家。用最小变更修复构建问题。</p>
+                <div class="module-components">
+                    <strong>Agents:</strong> java-build-resolver
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">Java</span>
+                    <span class="module-tag">Maven</span>
+                    <span class="module-tag">Gradle</span>
+                    <span class="module-tag">构建</span>
+                </div>
+            </div>
+
+            <!-- PyTorch Build Resolver -->
+            <div class="module-card local" data-source="local" data-module="pytorch-build-resolver">
+                <div class="module-header">
+                    <span class="module-name">pytorch-build-resolver</span>
+                    <span class="module-badge">本地</span>
+                </div>
+                <p class="module-description">PyTorch运行时、CUDA和训练错误解决专家。修复tensor形状、设备错误和梯度问题。</p>
+                <div class="module-components">
+                    <strong>Agents:</strong> pytorch-build-resolver
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">PyTorch</span>
+                    <span class="module-tag">CUDA</span>
+                    <span class="module-tag">训练</span>
+                    <span class="module-tag">张量</span>
+                </div>
+            </div>
+
+            <!-- Rust Build Resolver -->
+            <div class="module-card local" data-source="local" data-module="rust-build-resolver">
+                <div class="module-header">
+                    <span class="module-name">rust-build-resolver</span>
+                    <span class="module-badge">本地</span>
+                </div>
+                <p class="module-description">Rust构建、编译和依赖错误解决专家。修复cargo构建错误和borrow checker问题。</p>
+                <div class="module-components">
+                    <strong>Agents:</strong> rust-build-resolver
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">Rust</span>
+                    <span class="module-tag">Cargo</span>
+                    <span class="module-tag">构建</span>
+                    <span class="module-tag">Borrow</span>
+                </div>
+            </div>
+
+            <!-- Flutter Reviewer -->
+            <div class="module-card local" data-source="local" data-module="flutter-reviewer">
+                <div class="module-header">
+                    <span class="module-name">flutter-reviewer</span>
+                    <span class="module-badge">本地</span>
+                </div>
+                <p class="module-description">Flutter和Dart代码审查专家。审查widget最佳实践、状态管理、Dart惯用模式和性能。</p>
+                <div class="module-components">
+                    <strong>Agents:</strong> flutter-reviewer
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">Flutter</span>
+                    <span class="module-tag">Dart</span>
+                    <span class="module-tag">Widget</span>
+                    <span class="module-tag">状态管理</span>
+                </div>
+            </div>
+
+            <!-- Chrome DevTools MCP -->
+            <div class="module-card npm" data-source="npm" data-module="chrome-devtools-mcp">
+                <div class="module-header">
+                    <span class="module-name">chrome-devtools-mcp</span>
+                    <span class="module-badge">MCP</span>
+                </div>
+                <p class="module-description">Chrome DevTools MCP插件，提供浏览器自动化、截图、性能分析等功能。支持Playwright风格操作。</p>
+                <div class="module-components">
+                    <strong>Tools:</strong> click, fill, navigate, screenshot, snapshot, evaluate_script
+                </div>
+                <div class="module-tags">
+                    <span class="module-tag">浏览器</span>
+                    <span class="module-tag">自动化</span>
+                    <span class="module-tag">MCP</span>
+                    <span class="module-tag">DevTools</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html" class="footer-link">← 返回首页</a>
+            <a href="https://github.com/anthropics/claude-code" class="footer-link">Claude Code GitHub</a>
+        </div>
+        <p class="footer-text">Plugins 插件模块 · Claude Manager</p>
+    </footer>
+
+    <script>
+        // Module card navigation
+        document.querySelectorAll('.module-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const module = card.dataset.module;
+                window.location.href = `plugin-detail.html?id=${module}`;
+            });
+        });
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const moduleCards = document.querySelectorAll('.module-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                moduleCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.source === filter) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeInUp 0.3s ease-out';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            moduleCards.forEach(card => {
+                const name = card.querySelector('.module-name').textContent.toLowerCase();
+                const desc = card.querySelector('.module-description').textContent.toLowerCase();
+                const tags = Array.from(card.querySelectorAll('.module-tag')).map(t => t.textContent.toLowerCase()).join(' ');
+
+                const matches = name.includes(query) || desc.includes(query) || tags.includes(query);
+                card.style.display = matches ? 'block' : 'none';
+            });
+        });
+
+        // Keyboard shortcut
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                searchInput.focus();
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

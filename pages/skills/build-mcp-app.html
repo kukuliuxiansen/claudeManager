@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>构建MCP应用 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">构建MCP应用</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">构建MCP应用</h1>
+            <p class="detail-subtitle">构建MCP应用，创建MCP应用程序</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    mcp-server-dev
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">mcp-server-dev</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When a widget beats plain text
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Don&#039;t add UI for its own sake — most tools are fine returning text or JSON. Add a widget when one of these is true:
+
+| Signal | Widget type |
+|---|---|
+| Tool needs structured input Claude can&#039;t reliably infer | Form |
+| User must pick from a list Claude can&#039;t rank (files, contacts, records) | Picker / table |
+| Destructive or billable action needs explicit confirmation | Confirm dialog |
+| Output is spatial or visual (charts, maps, diffs, previews) | Display widget |
+| Long-running job the user wants to watch | Progress / live status |
+
+If none apply, skip the widget. Text is faster to build and faster for the user.
+
+---</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Widgets vs Elicitation — route correctly
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Before building a widget, check if **elicitation** covers it. Elicitation is spec-native, zero UI code, works in any compliant host.
+
+| Need | Elicitation | Widget |
+|---|---|---|
+| Confirm yes/no | ✅ | overkill |
+| Pick from short enum | ✅ | overkill |
+| Fill a flat form (name, email, date) | ✅ | overkill |
+| Pick from a large/searchable list | ❌ (no scroll/search) | ✅ |
+| Visual preview before choosing | ❌ | ✅ |
+| Chart / map / diff view | ❌ | ✅ |
+| Live-updating progress | ❌ | ✅ |
+
+If elicitation covers it, use it. See `../build-mcp-server/references/elicitation.md`.
+
+---</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Architecture: two deployment shapes
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Remote MCP app (most common)
+
+Hosted streamable-HTTP server. Widget templates are served as **resources**; tool results reference them. The host fetches the resource, renders it in an iframe sandbox, and brokers messages between the widget and Claude.
+
+```
+┌──────────┐  tools/call   ┌────────────┐
+│  Claude  │─────────────&gt; │ MCP server │
+│   host   │&lt;── result ────│  (remote)  │
+│          │  + widget ref │            │
+│          │               │            │
+│          │ resources/read│            │
+│          │─────────────&gt; │  widget    │
+│ ┌──────┐ │&lt;── template ──│  HTML/JS   │
+│ │iframe│ │               └────────────┘
+│ │widget│ │
+│ └──────┘ │
+└──────────┘
+```
+
+### MCPB-packaged MCP app (local + UI)
+
+Same widget mechanism, but the server runs locally inside an MCPB bundle. Use this when the widget needs to drive a **local** application — e.g., a file picker that browses the actual local disk, a dialog that controls a desktop app.
+
+For MCPB packaging mechanics, defer to the **`build-mcpb`** skill. Everything below applies to both shapes.
+
+---</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                How widgets attach to tools
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">A widget-enabled tool has **two separate registrations**:
+
+1. **The tool** declares a UI resource via `_meta.ui.resourceUri`. Its handler returns plain text/JSON — NOT the HTML.
+2. **The resource** is registered separately and serves the HTML.
+
+When Claude calls the tool, the host sees `_meta.ui.resourceUri`, fetches that resource, renders it in an iframe, and pipes the tool&#039;s return value into the iframe via the `ontoolresult` event.
+
+```typescript
+import { McpServer } from &quot;@modelcontextprotocol/sdk/server/mcp.js&quot;;
+import { registerAppTool, registerAppResource, RESOURCE_MIME_TYPE }
+  from &quot;@modelcontextprotocol/ext-apps/server&quot;;
+import { z } from &quot;zod&quot;;
+
+const server = new McpServer({ name: &quot;contacts&quot;, version: &quot;1.0.0&quot; });
+
+// 1. The tool — returns DATA, declares which UI to show
+registerAppTool(server, &quot;pick_contact&quot;, {
+  description: &quot;Open an interactive contact picker&quot;,
+  inputSchema: { filter: z.string().optional() },
+  _meta: { ui: { resourceUri: &quot;ui://widgets/contact-picker.html&quot; } },
+}, async ({ filter }) =&gt; {
+  const contacts = await db.contacts.search(filter);
+  // Plain JSON — the widget receives this via ontoolresult
+  return { content: [{ type: &quot;text&quot;, text: JSON.stringify(contacts) }] };
+});
+
+// 2. The resource — serves the HTML
+registerAppResource(
+  server,
+  &quot;Contact Picker&quot;,
+  &quot;ui://widgets/contact-picker.html&quot;,
+  {},
+  async () =&gt; ({
+    contents: [{
+      uri: &quot;ui://widgets/contact-picker.html&quot;,
+      mimeType: RESOURCE_MIME_TYPE,
+      text: pickerHtml,  // your HTML string
+    }],
+  }),
+);
+```
+
+The URI scheme `ui://` is convention. The mime type MUST be `RESOURCE_MIME_TYPE` (`&quot;text/html;profile=mcp-app&quot;`) — this is how the host knows to render it as an interactive iframe, not just display the source.
+
+---</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Widget runtime — the `App` class
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Inside the iframe, your script talks to the host via the `App` class from `@modelcontextprotocol/ext-apps`. This is a **persistent bidirectional connection** — the widget stays alive as long as the conversation is active, receiving new tool results and sending user actions.
+
+```html
+&lt;script type=&quot;module&quot;&gt;
+  /* ext-apps bundle inlined at build time → globalThis.ExtApps */
+  /*__EXT_APPS_BUNDLE__*/
+  const { App } = globalThis.ExtApps;
+
+  const app = new App({ name: &quot;ContactPicker&quot;, version: &quot;1.0.0&quot; }, {});
+
+  // Set handlers BEFORE connecting
+  app.ontoolresult = ({ content }) =&gt; {
+    const contacts = JSON.parse(content[0].text);
+    render(contacts);
+  };
+
+  await app.connect();
+
+  // Later, when the user clicks something:
+  function onPick(contact) {
+    app.sendMessage({
+      role: &quot;user&quot;,
+      content: [{ type: &quot;text&quot;, text: `Selected contact: ${contact.id}` }],
+    });
+  }
+&lt;/script&gt;
+```
+
+The `/*__EXT_APPS_BUNDLE__*/` placeholder gets replaced by the server at startup with the contents of `@modelcontextprotocol/ext-apps/app-with-deps` — see `references/iframe-sandbox.md` for why this is necessary and the rewrite snippet. **Do not** `import { App } from &quot;https://esm.sh/...&quot;`; the iframe&#039;s CSP blocks the transitive dependency fetches and the widget renders blank.
+
+| Method | Direction | Use for |
+|---|---|---|
+| `app.ontoolresult = fn` | Host → widget | Receive the tool&#039;s return value |
+| `app.ontoolinput = fn` | Host → widget | Receive the tool&#039;s input args (what Claude passed) |
+| `app.sendMessage({...})` | Widget → host | Inject a message into the conversation |
+| `app.updateModelContext({...})` | Widget → host | Update context silently (no visible message) |
+| `app.callServerTool({name, arguments})` | Widget → server | Call another tool on your server |
+| `app.openLink({url})` | Widget → host | Open a URL in a new tab (sandbox blocks `window.open`) |
+| `app.getHostContext()` / `app.onhostcontextchanged` | Host → widget | Theme (`light`/`dark`), locale, etc. |
+
+`sendMessage` is the typical &quot;user picked something, tell Claude&quot; path. `updateModelContext` is for state that Claude should know about but shouldn&#039;t clutter the chat. `openLink` is **required** for any outbound navigation — `window.open` and `&lt;a target=&quot;_blank&quot;&gt;` are blocked by the sandbox attribute.
+
+**What widgets cannot do:**
+- Access the host page&#039;s DOM, cookies, or storage
+- Make network calls to arbitrary origins (CSP-restricted — route through `callServerTool`)
+- Open popups or navigate directly — use `app.openLink({url})`
+- Load remote images reliably — inline as `data:` URLs server-side
+
+Keep widgets **small and single-purpose**. A picker picks. A chart displays. Don&#039;t build a whole sub-app inside the iframe — split it into multiple tools with focused widgets.
+
+---</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Scaffold: minimal picker widget
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**Install:**
+
+```bash
+npm install @modelcontextprotocol/sdk @modelcontextprotocol/ext-apps zod express
+```
+
+**Server (`src/server.ts`):**
+
+```typescript
+import { McpServer } from &quot;@modelcontextprotocol/sdk/server/mcp.js&quot;;
+import { StreamableHTTPServerTransport } from &quot;@modelcontextprotocol/sdk/server/streamableHttp.js&quot;;
+import { registerAppTool, registerAppResource, RESOURCE_MIME_TYPE }
+  from &quot;@modelcontextprotocol/ext-apps/server&quot;;
+import express from &quot;express&quot;;
+import { readFileSync } from &quot;node:fs&quot;;
+import { createRequire } from &quot;node:module&quot;;
+import { z } from &quot;zod&quot;;
+
+const require = createRequire(import.meta.url);
+const server = new McpServer({ name: &quot;contact-picker&quot;, version: &quot;1.0.0&quot; });
+
+// Inline the ext-apps browser bundle into the widget HTML.
+// The iframe CSP blocks CDN script fetches — bundling is mandatory.
+const bundle = readFileSync(
+  require.resolve(&quot;@modelcontextprotocol/ext-apps/app-with-deps&quot;), &quot;utf8&quot;,
+).replace(/export\{([^}]+)\};?\s*$/, (_, body) =&gt;
+  &quot;globalThis.ExtApps={&quot; +
+  body.split(&quot;,&quot;).map((p) =&gt; {
+    const [local, exported] = p.split(&quot; as &quot;).map((s) =&gt; s.trim());
+    return `${exported ?? local}:${local}`;
+  }).join(&quot;,&quot;) + &quot;};&quot;,
+);
+const pickerHtml = readFileSync(&quot;./widgets/picker.html&quot;, &quot;utf8&quot;)
+  .replace(&quot;/*__EXT_APPS_BUNDLE__*/&quot;, () =&gt; bundle);
+
+registerAppTool(server, &quot;pick_contact&quot;, {
+  description: &quot;Open an interactive contact picker. User selects one contact.&quot;,
+  inputSchema: { filter: z.string().optional().describe(&quot;Name/email prefix filter&quot;) },
+  _meta: { ui: { resourceUri: &quot;ui://widgets/picker.html&quot; } },
+}, async ({ filter }) =&gt; {
+  const contacts = await db.contacts.search(filter ?? &quot;&quot;);
+  return { content: [{ type: &quot;text&quot;, text: JSON.stringify(contacts) }] };
+});
+
+registerAppResource(server, &quot;Contact Picker&quot;, &quot;ui://widgets/picker.html&quot;, {},
+  async () =&gt; ({
+    contents: [{ uri: &quot;ui://widgets/picker.html&quot;, mimeType: RESOURCE_MIME_TYPE, text: pickerHtml }],
+  }),
+);
+
+const app = express();
+app.use(express.json());
+app.post(&quot;/mcp&quot;, async (req, res) =&gt; {
+  const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
+  res.on(&quot;close&quot;, () =&gt; transport.close());
+  await server.connect(transport);
+  await transport.handleRequest(req, res, req.body);
+});
+app.listen(process.env.PORT ?? 3000);
+```
+
+For local-only widget apps (driving a desktop app, reading local files), swap the transport to `StdioServerTransport` and package via the `build-mcpb` skill.
+
+**Widget (`widgets/picker.html`):**
+
+```html
+&lt;!doctype html&gt;
+&lt;meta charset=&quot;utf-8&quot; /&gt;
+&lt;style&gt;
+  body { font: 14px system-ui; margin: 0; }
+  ul { list-style: none; padding: 0; margin: 0; max-height: 300px; overflow-y: auto; }
+  li { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #eee; }
+  li:hover { background: #f5f5f5; }
+  .sub { color: #666; font-size: 12px; }
+&lt;/style&gt;
+&lt;ul id=&quot;list&quot;&gt;&lt;/ul&gt;
+&lt;script type=&quot;module&quot;&gt;
+/*__EXT_APPS_BUNDLE__*/
+const { App } = globalThis.ExtApps;
+(async () =&gt; {
+  const app = new App({ name: &quot;ContactPicker&quot;, version: &quot;1.0.0&quot; }, {});
+  const ul = document.getElementById(&quot;list&quot;);
+
+  app.ontoolresult = ({ content }) =&gt; {
+    const contacts = JSON.parse(content[0].text);
+    ul.innerHTML = &quot;&quot;;
+    for (const c of contacts) {
+      const li = document.createElement(&quot;li&quot;);
+      li.innerHTML = `&lt;div&gt;${c.name}&lt;/div&gt;&lt;div class=&quot;sub&quot;&gt;${c.email}&lt;/div&gt;`;
+      li.addEventListener(&quot;click&quot;, () =&gt; {
+        app.sendMessage({
+          role: &quot;user&quot;,
+          content: [{ type: &quot;text&quot;, text: `Selected contact: ${c.id} (${c.name})` }],
+        });
+      });
+      ul.append(li);
+    }
+  };
+
+  await app.connect();
+})();
+&lt;/script&gt;
+```
+
+See `references/widget-templates.md` for more widget shapes.
+
+---</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Design notes that save you a rewrite
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**One widget per tool.** Resist the urge to build one mega-widget that does everything. One tool → one focused widget → one clear result shape. Claude reasons about these far better.
+
+**Tool description must mention the widget.** Claude only sees the tool description when deciding what to call. &quot;Opens an interactive picker&quot; in the description is what makes Claude reach for it instead of guessing an ID.
+
+**Widgets are optional at runtime.** Hosts that don&#039;t support the apps surface simply ignore `_meta.ui` and render the tool&#039;s text content normally. Since your tool handler already returns meaningful text/JSON (the widget&#039;s data), degradation is automatic — Claude sees the data directly instead of via the widget.
+
+**Don&#039;t block on widget results for read-only tools.** A widget that just *displays* data (chart, preview) shouldn&#039;t require a user action to complete. Return the display widget *and* a text summary in the same result so Claude can continue reasoning without waiting.
+
+**Layout-fork by item count, not by tool count.** If one use case is &quot;show one result in detail&quot; and another is &quot;show many results side-by-side&quot;, don&#039;t make two tools — make one tool that accepts `items[]`, and let the widget pick a layout: `items.length === 1` → detail view, `&gt; 1` → carousel. Keeps the server schema simple and lets Claude decide count naturally.
+
+**Put Claude&#039;s reasoning in the payload.** A short `note` field on each item (why Claude picked it) rendered as a callout on the card gives users the reasoning inline with the choice. Mention this field in the tool description so Claude populates it.
+
+**Normalize image shapes server-side.** If your data source returns images with wildly varying aspect ratios, rewrite to a predictable variant (e.g. square-bounded) *before* fetching for the data-URL inline. Then give the widget&#039;s image container a fixed `aspect-ratio` + `object-fit: contain` so everything sits centered.
+
+**Follow host theme.** `app.getHostContext()?.theme` (after `connect()`) plus `app.onhostcontextchanged` for live updates. Toggle a `.dark` class on `&lt;html&gt;`, keep colors in CSS custom props with a `:root.dark {}` override block, set `color-scheme`. Disable `mix-blend-mode: multiply` in dark — it makes images vanish.
+
+---</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Testing
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">**Claude Desktop** — current builds still require the `command`/`args` config shape (no native `&quot;type&quot;: &quot;http&quot;`). Wrap with `mcp-remote` and force `http-only` transport so the SSE probe doesn&#039;t swallow widget-capability negotiation:
+
+```json
+{
+  &quot;mcpServers&quot;: {
+    &quot;my-server&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;mcp-remote&quot;, &quot;http://localhost:3000/mcp&quot;,
+               &quot;--allow-http&quot;, &quot;--transport&quot;, &quot;http-only&quot;]
+    }
+  }
+}
+```
+
+Desktop caches UI resources aggressively. After editing widget HTML, **fully quit** (⌘Q / Alt+F4, not window-close) and relaunch to force a cold resource re-fetch.
+
+**Headless JSON-RPC loop** — fast iteration without clicking through Desktop:
+
+```bash
+# test.jsonl — one JSON-RPC message per line
+{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:1,&quot;method&quot;:&quot;initialize&quot;,&quot;params&quot;:{&quot;protocolVersion&quot;:&quot;2025-06-18&quot;,&quot;capabilities&quot;:{},&quot;clientInfo&quot;:{&quot;name&quot;:&quot;t&quot;,&quot;version&quot;:&quot;0&quot;}}}
+{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;method&quot;:&quot;notifications/initialized&quot;}
+{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:2,&quot;method&quot;:&quot;tools/list&quot;}
+{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:3,&quot;method&quot;:&quot;tools/call&quot;,&quot;params&quot;:{&quot;name&quot;:&quot;your_tool&quot;,&quot;arguments&quot;:{...}}}
+
+(cat test.jsonl; sleep 10) | npx mcp-remote http://localhost:3000/mcp --allow-http
+```
+
+The `sleep` keeps stdin open long enough to collect all responses. Parse the jsonl output with `jq` or a Python one-liner.
+
+**Host fallback** — use a host without the apps surface (or MCP Inspector) and confirm the tool&#039;s text content degrades gracefully.
+
+**CSP debugging** — open the iframe&#039;s own devtools console. CSP violations are the #1 reason widgets silently fail (blank rectangle, no error in the main console). See `references/iframe-sandbox.md`.
+
+---</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Reference files
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- `references/iframe-sandbox.md` — CSP/sandbox constraints, the bundle-inlining pattern, image handling
+- `references/widget-templates.md` — reusable HTML scaffolds for picker / confirm / progress / display
+- `references/apps-sdk-messages.md` — the `App` class API: widget ↔ host ↔ server messaging</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: build-mcp-app
+description: This skill should be used when the user wants to build an &quot;MCP app&quot;, add &quot;interactive UI&quot; or &quot;widgets&quot; to an MCP server, &quot;render components in chat&quot;, build &quot;MCP UI resources&quot;, make a tool that shows a &quot;form&quot;, &quot;picker&quot;, &quot;dashboard&quot; or &quot;confirmation dialog&quot; inline in the conversation, or mentions &quot;apps SDK&quot; in the context of MCP. Use AFTER the build-mcp-server skill has settled the deployment model, or when the user already knows they want UI widgets.
+version: 0.1.0
+---
+
+# Build an MCP App (Interactive UI Widgets)
+
+An MCP app is a standard MCP server that **also serves UI resources** — interactive components rendered inline in the chat surface. Build once, runs in Claude *and* ChatGPT and any other host that implements the apps surface.
+
+The UI layer is **additive**. Under the hood it&#039;s still tools, resources, and the same wire protocol. If you haven&#039;t built a plain MCP server before, the `build-mcp-server` skill covers the base layer. This skill adds widgets on top.
+
+---
+
+## When a widget beats plain text
+
+Don&#039;t add UI for its own sake — most tools are fine returning text or JSON. Add a widget when one of these is true:
+
+| Signal | Widget type |
+|---|---|
+| Tool needs structured input Claude can&#039;t reliably infer | Form |
+| User must pick from a list Claude can&#039;t rank (files, contacts, records) | Picker / table |
+| Destructive or billable action needs explicit confirmation | Confirm dialog |
+| Output is spatial or visual (charts, maps, diffs, previews) | Display widget |
+| Long-running job the user wants to watch | Progress / live status |
+
+If none apply, skip the widget. Text is faster to build and faster for the user.
+
+---
+
+## Widgets vs Elicitation — route correctly
+
+Before building a widget, check if **elicitation** covers it. Elicitation is spec-native, zero UI code, works in any compliant host.
+
+| Need | Elicitation | Widget |
+|---|---|---|
+| Confirm yes/no | ✅ | overkill |
+| Pick from short enum | ✅ | overkill |
+| Fill a flat form (name, email, date) | ✅ | overkill |
+| Pick from a large/searchable list | ❌ (no scroll/search) | ✅ |
+| Visual preview before choosing | ❌ | ✅ |
+| Chart / map / diff view | ❌ | ✅ |
+| Live-updating progress | ❌ | ✅ |
+
+If elicitation covers it, use it. See `../build-mcp-server/references/elicitation.md`.
+
+---
+
+## Architecture: two deployment shapes
+
+### Remote MCP app (most common)
+
+Hosted streamable-HTTP server. Widget templates are served as **resources**; tool results reference them. The host fetches the resource, renders it in an iframe sandbox, and brokers messages between the widget and Claude.
+
+```
+┌──────────┐  tools/call   ┌────────────┐
+│  Claude  │─────────────&gt; │ MCP server │
+│   host   │&lt;── result ────│  (remote)  │
+│          │  + widget ref │            │
+│          │               │            │
+│          │ resources/read│            │
+│          │─────────────&gt; │  widget    │
+│ ┌──────┐ │&lt;── template ──│  HTML/JS   │
+│ │iframe│ │               └────────────┘
+│ │widget│ │
+│ └──────┘ │
+└──────────┘
+```
+
+### MCPB-packaged MCP app (local + UI)
+
+Same widget mechanism, but the server runs locally inside an MCPB bundle. Use this when the widget needs to drive a **local** application — e.g., a file picker that browses the actual local disk, a dialog that controls a desktop app.
+
+For MCPB packaging mechanics, defer to the **`build-mcpb`** skill. Everything below applies to both shapes.
+
+---
+
+## How widgets attach to tools
+
+A widget-enabled tool has **two separate registrations**:
+
+1. **The tool** declares a UI resource via `_meta.ui.resourceUri`. Its handler returns plain text/JSON — NOT the HTML.
+2. **The resource** is registered separately and serves the HTML.
+
+When Claude calls the tool, the host sees `_meta.ui.resourceUri`, fetches that resource, renders it in an iframe, and pipes the tool&#039;s return value into the iframe via the `ontoolresult` event.
+
+```typescript
+import { McpServer } from &quot;@modelcontextprotocol/sdk/server/mcp.js&quot;;
+import { registerAppTool, registerAppResource, RESOURCE_MIME_TYPE }
+  from &quot;@modelcontextprotocol/ext-apps/server&quot;;
+import { z } from &quot;zod&quot;;
+
+const server = new McpServer({ name: &quot;contacts&quot;, version: &quot;1.0.0&quot; });
+
+// 1. The tool — returns DATA, declares which UI to show
+registerAppTool(server, &quot;pick_contact&quot;, {
+  description: &quot;Open an interactive contact picker&quot;,
+  inputSchema: { filter: z.string().optional() },
+  _meta: { ui: { resourceUri: &quot;ui://widgets/contact-picker.html&quot; } },
+}, async ({ filter }) =&gt; {
+  const contacts = await db.contacts.search(filter);
+  // Plain JSON — the widget receives this via ontoolresult
+  return { content: [{ type: &quot;text&quot;, text: JSON.stringify(contacts) }] };
+});
+
+// 2. The resource — serves the HTML
+registerAppResource(
+  server,
+  &quot;Contact Picker&quot;,
+  &quot;ui://widgets/contact-picker.html&quot;,
+  {},
+  async () =&gt; ({
+    contents: [{
+      uri: &quot;ui://widgets/contact-picker.html&quot;,
+      mimeType: RESOURCE_MIME_TYPE,
+      text: pickerHtml,  // your HTML string
+    }],
+  }),
+);
+```
+
+The URI scheme `ui://` is convention. The mime type MUST be `RESOURCE_MIME_TYPE` (`&quot;text/html;profile=mcp-app&quot;`) — this is how the host knows to render it as an interactive iframe, not just display the source.
+
+---
+
+## Widget runtime — the `App` class
+
+Inside the iframe, your script talks to the host via the `App` class from `@modelcontextprotocol/ext-apps`. This is a **persistent bidirectional connection** — the widget stays alive as long as the conversation is active, receiving new tool results and sending user actions.
+
+```html
+&lt;script type=&quot;module&quot;&gt;
+  /* ext-apps bundle inlined at build time → globalThis.ExtApps */
+  /*__EXT_APPS_BUNDLE__*/
+  const { App } = globalThis.ExtApps;
+
+  const app = new App({ name: &quot;ContactPicker&quot;, version: &quot;1.0.0&quot; }, {});
+
+  // Set handlers BEFORE connecting
+  app.ontoolresult = ({ content }) =&gt; {
+    const contacts = JSON.parse(content[0].text);
+    render(contacts);
+  };
+
+  await app.connect();
+
+  // Later, when the user clicks something:
+  function onPick(contact) {
+    app.sendMessage({
+      role: &quot;user&quot;,
+      content: [{ type: &quot;text&quot;, text: `Selected contact: ${contact.id}` }],
+    });
+  }
+&lt;/script&gt;
+```
+
+The `/*__EXT_APPS_BUNDLE__*/` placeholder gets replaced by the server at startup with the contents of `@modelcontextprotocol/ext-apps/app-with-deps` — see `references/iframe-sandbox.md` for why this is necessary and the rewrite snippet. **Do not** `import { App } from &quot;https://esm.sh/...&quot;`; the iframe&#039;s CSP blocks the transitive dependency fetches and the widget renders blank.
+
+| Method | Direction | Use for |
+|---|---|---|
+| `app.ontoolresult = fn` | Host → widget | Receive the tool&#039;s return value |
+| `app.ontoolinput = fn` | Host → widget | Receive the tool&#039;s input args (what Claude passed) |
+| `app.sendMessage({...})` | Widget → host | Inject a message into the conversation |
+| `app.updateModelContext({...})` | Widget → host | Update context silently (no visible message) |
+| `app.callServerTool({name, arguments})` | Widget → server | Call another tool on your server |
+| `app.openLink({url})` | Widget → host | Open a URL in a new tab (sandbox blocks `window.open`) |
+| `app.getHostContext()` / `app.onhostcontextchanged` | Host → widget | Theme (`light`/`dark`), locale, etc. |
+
+`sendMessage` is the typical &quot;user picked something, tell Claude&quot; path. `updateModelContext` is for state that Claude should know about but shouldn&#039;t clutter the chat. `openLink` is **required** for any outbound navigation — `window.open` and `&lt;a target=&quot;_blank&quot;&gt;` are blocked by the sandbox attribute.
+
+**What widgets cannot do:**
+- Access the host page&#039;s DOM, cookies, or storage
+- Make network calls to arbitrary origins (CSP-restricted — route through `callServerTool`)
+- Open popups or navigate directly — use `app.openLink({url})`
+- Load remote images reliably — inline as `data:` URLs server-side
+
+Keep widgets **small and single-purpose**. A picker picks. A chart displays. Don&#039;t build a whole sub-app inside the iframe — split it into multiple tools with focused widgets.
+
+---
+
+## Scaffold: minimal picker widget
+
+**Install:**
+
+```bash
+npm install @modelcontextprotocol/sdk @modelcontextprotocol/ext-apps zod express
+```
+
+**Server (`src/server.ts`):**
+
+```typescript
+import { McpServer } from &quot;@modelcontextprotocol/sdk/server/mcp.js&quot;;
+import { StreamableHTTPServerTransport } from &quot;@modelcontextprotocol/sdk/server/streamableHttp.js&quot;;
+import { registerAppTool, registerAppResource, RESOURCE_MIME_TYPE }
+  from &quot;@modelcontextprotocol/ext-apps/server&quot;;
+import express from &quot;express&quot;;
+import { readFileSync } from &quot;node:fs&quot;;
+import { createRequire } from &quot;node:module&quot;;
+import { z } from &quot;zod&quot;;
+
+const require = createRequire(import.meta.url);
+const server = new McpServer({ name: &quot;contact-picker&quot;, version: &quot;1.0.0&quot; });
+
+// Inline the ext-apps browser bundle into the widget HTML.
+// The iframe CSP blocks CDN script fetches — bundling is mandatory.
+const bundle = readFileSync(
+  require.resolve(&quot;@modelcontextprotocol/ext-apps/app-with-deps&quot;), &quot;utf8&quot;,
+).replace(/export\{([^}]+)\};?\s*$/, (_, body) =&gt;
+  &quot;globalThis.ExtApps={&quot; +
+  body.split(&quot;,&quot;).map((p) =&gt; {
+    const [local, exported] = p.split(&quot; as &quot;).map((s) =&gt; s.trim());
+    return `${exported ?? local}:${local}`;
+  }).join(&quot;,&quot;) + &quot;};&quot;,
+);
+const pickerHtml = readFileSync(&quot;./widgets/picker.html&quot;, &quot;utf8&quot;)
+  .replace(&quot;/*__EXT_APPS_BUNDLE__*/&quot;, () =&gt; bundle);
+
+registerAppTool(server, &quot;pick_contact&quot;, {
+  description: &quot;Open an interactive contact picker. User selects one contact.&quot;,
+  inputSchema: { filter: z.string().optional().describe(&quot;Name/email prefix filter&quot;) },
+  _meta: { ui: { resourceUri: &quot;ui://widgets/picker.html&quot; } },
+}, async ({ filter }) =&gt; {
+  const contacts = await db.contacts.search(filter ?? &quot;&quot;);
+  return { content: [{ type: &quot;text&quot;, text: JSON.stringify(contacts) }] };
+});
+
+registerAppResource(server, &quot;Contact Picker&quot;, &quot;ui://widgets/picker.html&quot;, {},
+  async () =&gt; ({
+    contents: [{ uri: &quot;ui://widgets/picker.html&quot;, mimeType: RESOURCE_MIME_TYPE, text: pickerHtml }],
+  }),
+);
+
+const app = express();
+app.use(express.json());
+app.post(&quot;/mcp&quot;, async (req, res) =&gt; {
+  const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
+  res.on(&quot;close&quot;, () =&gt; transport.close());
+  await server.connect(transport);
+  await transport.handleRequest(req, res, req.body);
+});
+app.listen(process.env.PORT ?? 3000);
+```
+
+For local-only widget apps (driving a desktop app, reading local files), swap the transport to `StdioServerTransport` and package via the `build-mcpb` skill.
+
+**Widget (`widgets/picker.html`):**
+
+```html
+&lt;!doctype html&gt;
+&lt;meta charset=&quot;utf-8&quot; /&gt;
+&lt;style&gt;
+  body { font: 14px system-ui; margin: 0; }
+  ul { list-style: none; padding: 0; margin: 0; max-height: 300px; overflow-y: auto; }
+  li { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #eee; }
+  li:hover { background: #f5f5f5; }
+  .sub { color: #666; font-size: 12px; }
+&lt;/style&gt;
+&lt;ul id=&quot;list&quot;&gt;&lt;/ul&gt;
+&lt;script type=&quot;module&quot;&gt;
+/*__EXT_APPS_BUNDLE__*/
+const { App } = globalThis.ExtApps;
+(async () =&gt; {
+  const app = new App({ name: &quot;ContactPicker&quot;, version: &quot;1.0.0&quot; }, {});
+  const ul = document.getElementById(&quot;list&quot;);
+
+  app.ontoolresult = ({ content }) =&gt; {
+    const contacts = JSON.parse(content[0].text);
+    ul.innerHTML = &quot;&quot;;
+    for (const c of contacts) {
+      const li = document.createElement(&quot;li&quot;);
+      li.innerHTML = `&lt;div&gt;${c.name}&lt;/div&gt;&lt;div class=&quot;sub&quot;&gt;${c.email}&lt;/div&gt;`;
+      li.addEventListener(&quot;click&quot;, () =&gt; {
+        app.sendMessage({
+          role: &quot;user&quot;,
+          content: [{ type: &quot;text&quot;, text: `Selected contact: ${c.id} (${c.name})` }],
+        });
+      });
+      ul.append(li);
+    }
+  };
+
+  await app.connect();
+})();
+&lt;/script&gt;
+```
+
+See `references/widget-templates.md` for more widget shapes.
+
+---
+
+## Design notes that save you a rewrite
+
+**One widget per tool.** Resist the urge to build one mega-widget that does everything. One tool → one focused widget → one clear result shape. Claude reasons about these far better.
+
+**Tool description must mention the widget.** Claude only sees the tool description when deciding what to call. &quot;Opens an interactive picker&quot; in the description is what makes Claude reach for it instead of guessing an ID.
+
+**Widgets are optional at runtime.** Hosts that don&#039;t support the apps surface simply ignore `_meta.ui` and render the tool&#039;s text content normally. Since your tool handler already returns meaningful text/JSON (the widget&#039;s data), degradation is automatic — Claude sees the data directly instead of via the widget.
+
+**Don&#039;t block on widget results for read-only tools.** A widget that just *displays* data (chart, preview) shouldn&#039;t require a user action to complete. Return the display widget *and* a text summary in the same result so Claude can continue reasoning without waiting.
+
+**Layout-fork by item count, not by tool count.** If one use case is &quot;show one result in detail&quot; and another is &quot;show many results side-by-side&quot;, don&#039;t make two tools — make one tool that accepts `items[]`, and let the widget pick a layout: `items.length === 1` → detail view, `&gt; 1` → carousel. Keeps the server schema simple and lets Claude decide count naturally.
+
+**Put Claude&#039;s reasoning in the payload.** A short `note` field on each item (why Claude picked it) rendered as a callout on the card gives users the reasoning inline with the choice. Mention this field in the tool description so Claude populates it.
+
+**Normalize image shapes server-side.** If your data source returns images with wildly varying aspect ratios, rewrite to a predictable variant (e.g. square-bounded) *before* fetching for the data-URL inline. Then give the widget&#039;s image container a fixed `aspect-ratio` + `object-fit: contain` so everything sits centered.
+
+**Follow host theme.** `app.getHostContext()?.theme` (after `connect()`) plus `app.onhostcontextchanged` for live updates. Toggle a `.dark` class on `&lt;html&gt;`, keep colors in CSS custom props with a `:root.dark {}` override block, set `color-scheme`. Disable `mix-blend-mode: multiply` in dark — it makes images vanish.
+
+---
+
+## Testing
+
+**Claude Desktop** — current builds still require the `command`/`args` config shape (no native `&quot;type&quot;: &quot;http&quot;`). Wrap with `mcp-remote` and force `http-only` transport so the SSE probe doesn&#039;t swallow widget-capability negotiation:
+
+```json
+{
+  &quot;mcpServers&quot;: {
+    &quot;my-server&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;mcp-remote&quot;, &quot;http://localhost:3000/mcp&quot;,
+               &quot;--allow-http&quot;, &quot;--transport&quot;, &quot;http-only&quot;]
+    }
+  }
+}
+```
+
+Desktop caches UI resources aggressively. After editing widget HTML, **fully quit** (⌘Q / Alt+F4, not window-close) and relaunch to force a cold resource re-fetch.
+
+**Headless JSON-RPC loop** — fast iteration without clicking through Desktop:
+
+```bash
+# test.jsonl — one JSON-RPC message per line
+{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:1,&quot;method&quot;:&quot;initialize&quot;,&quot;params&quot;:{&quot;protocolVersion&quot;:&quot;2025-06-18&quot;,&quot;capabilities&quot;:{},&quot;clientInfo&quot;:{&quot;name&quot;:&quot;t&quot;,&quot;version&quot;:&quot;0&quot;}}}
+{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;method&quot;:&quot;notifications/initialized&quot;}
+{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:2,&quot;method&quot;:&quot;tools/list&quot;}
+{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:3,&quot;method&quot;:&quot;tools/call&quot;,&quot;params&quot;:{&quot;name&quot;:&quot;your_tool&quot;,&quot;arguments&quot;:{...}}}
+
+(cat test.jsonl; sleep 10) | npx mcp-remote http://localhost:3000/mcp --allow-http
+```
+
+The `sleep` keeps stdin open long enough to collect all responses. Parse the jsonl output with `jq` or a Python one-liner.
+
+**Host fallback** — use a host without the apps surface (or MCP Inspector) and confirm the tool&#039;s text content degrades gracefully.
+
+**CSP debugging** — open the iframe&#039;s own devtools console. CSP violations are the #1 reason widgets silently fail (blank rectangle, no error in the main console). See `references/iframe-sandbox.md`.
+
+---
+
+## Reference files
+
+- `references/iframe-sandbox.md` — CSP/sandbox constraints, the bundle-inlining pattern, image handling
+- `references/widget-templates.md` — reusable HTML scaffolds for picker / confirm / progress / display
+- `references/apps-sdk-messages.md` — the `App` class API: widget ↔ host ↔ server messaging
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

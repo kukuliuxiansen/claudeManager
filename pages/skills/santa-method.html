@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santa Method - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Santa Method</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">Santa Method</h1>
+            <p class="detail-subtitle">技能模块，提供专业领域的自动化处理能力</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Invoke this skill when:
+- Output will be published, deployed, or consumed by end users
+- Compliance, regulatory, or brand constraints must be enforced
+- Code ships to production without human review
+- Content accuracy matters (technical docs, educational material, customer-facing copy)
+- Batch generation at scale where spot-checking misses systemic patterns
+- Hallucination risk is elevated (claims, statistics, API references, legal language)
+
+Do NOT use for internal drafts, exploratory research, or tasks with deterministic verification (use build/test/lint pipelines for those).</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Architecture
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```
+┌─────────────┐
+│  GENERATOR   │  Phase 1: Make a List
+│  (Agent A)   │  Produce the deliverable
+└──────┬───────┘
+       │ output
+       ▼
+┌──────────────────────────────┐
+│     DUAL INDEPENDENT REVIEW   │  Phase 2: Check It Twice
+│                                │
+│  ┌───────────┐ ┌───────────┐  │  Two agents, same rubric,
+│  │ Reviewer B │ │ Reviewer C │  │  no shared context
+│  └─────┬─────┘ └─────┬─────┘  │
+│        │              │        │
+└────────┼──────────────┼────────┘
+         │              │
+         ▼              ▼
+┌──────────────────────────────┐
+│        VERDICT GATE           │  Phase 3: Naughty or Nice
+│                                │
+│  B passes AND C passes → NICE  │  Both must pass.
+│  Otherwise → NAUGHTY           │  No exceptions.
+└──────┬──────────────┬─────────┘
+       │              │
+    NICE           NAUGHTY
+       │              │
+       ▼              ▼
+   [ SHIP ]    ┌─────────────┐
+               │  FIX CYCLE   │  Phase 4: Fix Until Nice
+               │              │
+               │ iteration++  │  Collect all flags.
+               │ if i &gt; MAX:  │  Fix all issues.
+               │   escalate   │  Re-run both reviewers.
+               │ else:        │  Loop until convergence.
+               │   goto Ph.2  │
+               └──────────────┘
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Phase Details
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Phase 1: Make a List (Generate)
+
+Execute the primary task. No changes to your normal generation workflow. Santa Method is a post-generation verification layer, not a generation strategy.
+
+```python
+# The generator runs as normal
+output = generate(task_spec)
+```
+
+### Phase 2: Check It Twice (Independent Dual Review)
+
+Spawn two review agents in parallel. Critical invariants:
+
+1. **Context isolation** — neither reviewer sees the other&#039;s assessment
+2. **Identical rubric** — both receive the same evaluation criteria
+3. **Same inputs** — both receive the original spec AND the generated output
+4. **Structured output** — each returns a typed verdict, not prose
+
+```python
+REVIEWER_PROMPT = &quot;&quot;&quot;
+You are an independent quality reviewer. You have NOT seen any other review of this output.
+
+## Task Specification
+{task_spec}
+
+## Output Under Review
+{output}
+
+## Evaluation Rubric
+{rubric}
+
+## Instructions
+Evaluate the output against EACH rubric criterion. For each:
+- PASS: criterion fully met, no issues
+- FAIL: specific issue found (cite the exact problem)
+
+Return your assessment as structured JSON:
+{
+  &quot;verdict&quot;: &quot;PASS&quot; | &quot;FAIL&quot;,
+  &quot;checks&quot;: [
+    {&quot;criterion&quot;: &quot;...&quot;, &quot;result&quot;: &quot;PASS|FAIL&quot;, &quot;detail&quot;: &quot;...&quot;}
+  ],
+  &quot;critical_issues&quot;: [&quot;...&quot;],   // blockers that must be fixed
+  &quot;suggestions&quot;: [&quot;...&quot;]         // non-blocking improvements
+}
+
+Be rigorous. Your job is to find problems, not to approve.
+&quot;&quot;&quot;
+```
+
+```python
+# Spawn reviewers in parallel (Claude Code subagents)
+review_b = Agent(prompt=REVIEWER_PROMPT.format(...), description=&quot;Santa Reviewer B&quot;)
+review_c = Agent(prompt=REVIEWER_PROMPT.format(...), description=&quot;Santa Reviewer C&quot;)
+
+# Both run concurrently — neither sees the other
+```
+
+### Rubric Design
+
+The rubric is the most important input. Vague rubrics produce vague reviews. Every criterion must have an objective pass/fail condition.
+
+| Criterion | Pass Condition | Failure Signal |
+|-----------|---------------|----------------|
+| Factual accuracy | All claims verifiable against source material or common knowledge | Invented statistics, wrong version numbers, nonexistent APIs |
+| Hallucination-free | No fabricated entities, quotes, URLs, or references | Links to pages that don&#039;t exist, attributed quotes with no source |
+| Completeness | Every requirement in the spec is addressed | Missing sections, skipped edge cases, incomplete coverage |
+| Compliance | Passes all project-specific constraints | Banned terms used, tone violations, regulatory non-compliance |
+| Internal consistency | No contradictions within the output | Section A says X, section B says not-X |
+| Technical correctness | Code compiles/runs, algorithms are sound | Syntax errors, logic bugs, wrong complexity claims |
+
+#### Domain-Specific Rubric Extensions
+
+**Content/Marketing:**
+- Brand voice adherence
+- SEO requirements met (keyword density, meta tags, structure)
+- No competitor trademark misuse
+- CTA present and correctly linked
+
+**Code:**
+- Type safety (no `any` leaks, proper null handling)
+- Error handling coverage
+- Security (no secrets in code, input validation, injection prevention)
+- Test coverage for new paths
+
+**Compliance-Sensitive (regulated, legal, financial):**
+- No outcome guarantees or unsubstantiated claims
+- Required disclaimers present
+- Approved terminology only
+- Jurisdiction-appropriate language
+
+### Phase 3: Naughty or Nice (Verdict Gate)
+
+```python
+def santa_verdict(review_b, review_c):
+    &quot;&quot;&quot;Both reviewers must pass. No partial credit.&quot;&quot;&quot;
+    if review_b.verdict == &quot;PASS&quot; and review_c.verdict == &quot;PASS&quot;:
+        return &quot;NICE&quot;  # Ship it
+
+    # Merge flags from both reviewers, deduplicate
+    all_issues = dedupe(review_b.critical_issues + review_c.critical_issues)
+    all_suggestions = dedupe(review_b.suggestions + review_c.suggestions)
+
+    return &quot;NAUGHTY&quot;, all_issues, all_suggestions
+```
+
+Why both must pass: if only one reviewer catches an issue, that issue is real. The other reviewer&#039;s blind spot is exactly the failure mode Santa Method exists to eliminate.
+
+### Phase 4: Fix Until Nice (Convergence Loop)
+
+```python
+MAX_ITERATIONS = 3
+
+for iteration in range(MAX_ITERATIONS):
+    verdict, issues, suggestions = santa_verdict(review_b, review_c)
+
+    if verdict == &quot;NICE&quot;:
+        log_santa_result(output, iteration, &quot;passed&quot;)
+        return ship(output)
+
+    # Fix all critical issues (suggestions are optional)
+    output = fix_agent.execute(
+        output=output,
+        issues=issues,
+        instruction=&quot;Fix ONLY the flagged issues. Do not refactor or add unrequested changes.&quot;
+    )
+
+    # Re-run BOTH reviewers on fixed output (fresh agents, no memory of previous round)
+    review_b = Agent(prompt=REVIEWER_PROMPT.format(output=output, ...))
+    review_c = Agent(prompt=REVIEWER_PROMPT.format(output=output, ...))
+
+# Exhausted iterations — escalate
+log_santa_result(output, MAX_ITERATIONS, &quot;escalated&quot;)
+escalate_to_human(output, issues)
+```
+
+Critical: each review round uses **fresh agents**. Reviewers must not carry memory from previous rounds, as prior context creates anchoring bias.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Implementation Patterns
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Pattern A: Claude Code Subagents (Recommended)
+
+Subagents provide true context isolation. Each reviewer is a separate process with no shared state.
+
+```bash
+# In a Claude Code session, use the Agent tool to spawn reviewers
+# Both agents run in parallel for speed
+```
+
+```python
+# Pseudocode for Agent tool invocation
+reviewer_b = Agent(
+    description=&quot;Santa Review B&quot;,
+    prompt=f&quot;Review this output for quality...\n\nRUBRIC:\n{rubric}\n\nOUTPUT:\n{output}&quot;
+)
+reviewer_c = Agent(
+    description=&quot;Santa Review C&quot;,
+    prompt=f&quot;Review this output for quality...\n\nRUBRIC:\n{rubric}\n\nOUTPUT:\n{output}&quot;
+)
+```
+
+### Pattern B: Sequential Inline (Fallback)
+
+When subagents aren&#039;t available, simulate isolation with explicit context resets:
+
+1. Generate output
+2. New context: &quot;You are Reviewer 1. Evaluate ONLY against this rubric. Find problems.&quot;
+3. Record findings verbatim
+4. Clear context completely
+5. New context: &quot;You are Reviewer 2. Evaluate ONLY against this rubric. Find problems.&quot;
+6. Compare both reviews, fix, repeat
+
+The subagent pattern is strictly superior — inline simulation risks context bleed between reviewers.
+
+### Pattern C: Batch Sampling
+
+For large batches (100+ items), full Santa on every item is cost-prohibitive. Use stratified sampling:
+
+1. Run Santa on a random sample (10-15% of batch, minimum 5 items)
+2. Categorize failures by type (hallucination, compliance, completeness, etc.)
+3. If systematic patterns emerge, apply targeted fixes to the entire batch
+4. Re-sample and re-verify the fixed batch
+5. Continue until a clean sample passes
+
+```python
+import random
+
+def santa_batch(items, rubric, sample_rate=0.15):
+    sample = random.sample(items, max(5, int(len(items) * sample_rate)))
+
+    for item in sample:
+        result = santa_full(item, rubric)
+        if result.verdict == &quot;NAUGHTY&quot;:
+            pattern = classify_failure(result.issues)
+            items = batch_fix(items, pattern)  # Fix all items matching pattern
+            return santa_batch(items, rubric)   # Re-sample
+
+    return items  # Clean sample → ship batch
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Failure Modes and Mitigations
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Failure Mode | Symptom | Mitigation |
+|-------------|---------|------------|
+| Infinite loop | Reviewers keep finding new issues after fixes | Max iteration cap (3). Escalate. |
+| Rubber stamping | Both reviewers pass everything | Adversarial prompt: &quot;Your job is to find problems, not approve.&quot; |
+| Subjective drift | Reviewers flag style preferences, not errors | Tight rubric with objective pass/fail criteria only |
+| Fix regression | Fixing issue A introduces issue B | Fresh reviewers each round catch regressions |
+| Reviewer agreement bias | Both reviewers miss the same thing | Mitigated by independence, not eliminated. For critical output, add a third reviewer or human spot-check. |
+| Cost explosion | Too many iterations on large outputs | Batch sampling pattern. Budget caps per verification cycle. |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Integration with Other Skills
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Skill | Relationship |
+|-------|-------------|
+| Verification Loop | Use for deterministic checks (build, lint, test). Santa for semantic checks (accuracy, hallucinations). Run verification-loop first, Santa second. |
+| Eval Harness | Santa Method results feed eval metrics. Track pass@k across Santa runs to measure generator quality over time. |
+| Continuous Learning v2 | Santa findings become instincts. Repeated failures on the same criterion → learned behavior to avoid the pattern. |
+| Strategic Compact | Run Santa BEFORE compacting. Don&#039;t lose review context mid-verification. |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                指标
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Track these to measure Santa Method effectiveness:
+
+- **First-pass rate**: % of outputs that pass Santa on round 1 (target: &gt;70%)
+- **Mean iterations to convergence**: average rounds to NICE (target: &lt;1.5)
+- **Issue taxonomy**: distribution of failure types (hallucination vs. completeness vs. compliance)
+- **Reviewer agreement**: % of issues flagged by both reviewers vs. only one (low agreement = rubric needs tightening)
+- **Escape rate**: issues found post-ship that Santa should have caught (target: 0)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Cost Analysis
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Santa Method costs approximately 2-3x the token cost of generation alone per verification cycle. For most high-stakes output, this is a bargain:
+
+```
+Cost of Santa = (generation tokens) + 2×(review tokens per round) × (avg rounds)
+Cost of NOT Santa = (reputation damage) + (correction effort) + (trust erosion)
+```
+
+For batch operations, the sampling pattern reduces cost to ~15-20% of full verification while catching &gt;90% of systematic issues.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: santa-method
+description: &quot;Multi-agent adversarial verification with convergence loop. Two independent review agents must both pass before output ships.&quot;
+origin: &quot;Ronald Skelton - Founder, RapportScore.ai&quot;
+---
+
+# Santa Method
+
+Multi-agent adversarial verification framework. Make a list, check it twice. If it&#039;s naughty, fix it until it&#039;s nice.
+
+The core insight: a single agent reviewing its own output shares the same biases, knowledge gaps, and systematic errors that produced the output. Two independent reviewers with no shared context break this failure mode.
+
+## When to Activate
+
+Invoke this skill when:
+- Output will be published, deployed, or consumed by end users
+- Compliance, regulatory, or brand constraints must be enforced
+- Code ships to production without human review
+- Content accuracy matters (technical docs, educational material, customer-facing copy)
+- Batch generation at scale where spot-checking misses systemic patterns
+- Hallucination risk is elevated (claims, statistics, API references, legal language)
+
+Do NOT use for internal drafts, exploratory research, or tasks with deterministic verification (use build/test/lint pipelines for those).
+
+## Architecture
+
+```
+┌─────────────┐
+│  GENERATOR   │  Phase 1: Make a List
+│  (Agent A)   │  Produce the deliverable
+└──────┬───────┘
+       │ output
+       ▼
+┌──────────────────────────────┐
+│     DUAL INDEPENDENT REVIEW   │  Phase 2: Check It Twice
+│                                │
+│  ┌───────────┐ ┌───────────┐  │  Two agents, same rubric,
+│  │ Reviewer B │ │ Reviewer C │  │  no shared context
+│  └─────┬─────┘ └─────┬─────┘  │
+│        │              │        │
+└────────┼──────────────┼────────┘
+         │              │
+         ▼              ▼
+┌──────────────────────────────┐
+│        VERDICT GATE           │  Phase 3: Naughty or Nice
+│                                │
+│  B passes AND C passes → NICE  │  Both must pass.
+│  Otherwise → NAUGHTY           │  No exceptions.
+└──────┬──────────────┬─────────┘
+       │              │
+    NICE           NAUGHTY
+       │              │
+       ▼              ▼
+   [ SHIP ]    ┌─────────────┐
+               │  FIX CYCLE   │  Phase 4: Fix Until Nice
+               │              │
+               │ iteration++  │  Collect all flags.
+               │ if i &gt; MAX:  │  Fix all issues.
+               │   escalate   │  Re-run both reviewers.
+               │ else:        │  Loop until convergence.
+               │   goto Ph.2  │
+               └──────────────┘
+```
+
+## Phase Details
+
+### Phase 1: Make a List (Generate)
+
+Execute the primary task. No changes to your normal generation workflow. Santa Method is a post-generation verification layer, not a generation strategy.
+
+```python
+# The generator runs as normal
+output = generate(task_spec)
+```
+
+### Phase 2: Check It Twice (Independent Dual Review)
+
+Spawn two review agents in parallel. Critical invariants:
+
+1. **Context isolation** — neither reviewer sees the other&#039;s assessment
+2. **Identical rubric** — both receive the same evaluation criteria
+3. **Same inputs** — both receive the original spec AND the generated output
+4. **Structured output** — each returns a typed verdict, not prose
+
+```python
+REVIEWER_PROMPT = &quot;&quot;&quot;
+You are an independent quality reviewer. You have NOT seen any other review of this output.
+
+## Task Specification
+{task_spec}
+
+## Output Under Review
+{output}
+
+## Evaluation Rubric
+{rubric}
+
+## Instructions
+Evaluate the output against EACH rubric criterion. For each:
+- PASS: criterion fully met, no issues
+- FAIL: specific issue found (cite the exact problem)
+
+Return your assessment as structured JSON:
+{
+  &quot;verdict&quot;: &quot;PASS&quot; | &quot;FAIL&quot;,
+  &quot;checks&quot;: [
+    {&quot;criterion&quot;: &quot;...&quot;, &quot;result&quot;: &quot;PASS|FAIL&quot;, &quot;detail&quot;: &quot;...&quot;}
+  ],
+  &quot;critical_issues&quot;: [&quot;...&quot;],   // blockers that must be fixed
+  &quot;suggestions&quot;: [&quot;...&quot;]         // non-blocking improvements
+}
+
+Be rigorous. Your job is to find problems, not to approve.
+&quot;&quot;&quot;
+```
+
+```python
+# Spawn reviewers in parallel (Claude Code subagents)
+review_b = Agent(prompt=REVIEWER_PROMPT.format(...), description=&quot;Santa Reviewer B&quot;)
+review_c = Agent(prompt=REVIEWER_PROMPT.format(...), description=&quot;Santa Reviewer C&quot;)
+
+# Both run concurrently — neither sees the other
+```
+
+### Rubric Design
+
+The rubric is the most important input. Vague rubrics produce vague reviews. Every criterion must have an objective pass/fail condition.
+
+| Criterion | Pass Condition | Failure Signal |
+|-----------|---------------|----------------|
+| Factual accuracy | All claims verifiable against source material or common knowledge | Invented statistics, wrong version numbers, nonexistent APIs |
+| Hallucination-free | No fabricated entities, quotes, URLs, or references | Links to pages that don&#039;t exist, attributed quotes with no source |
+| Completeness | Every requirement in the spec is addressed | Missing sections, skipped edge cases, incomplete coverage |
+| Compliance | Passes all project-specific constraints | Banned terms used, tone violations, regulatory non-compliance |
+| Internal consistency | No contradictions within the output | Section A says X, section B says not-X |
+| Technical correctness | Code compiles/runs, algorithms are sound | Syntax errors, logic bugs, wrong complexity claims |
+
+#### Domain-Specific Rubric Extensions
+
+**Content/Marketing:**
+- Brand voice adherence
+- SEO requirements met (keyword density, meta tags, structure)
+- No competitor trademark misuse
+- CTA present and correctly linked
+
+**Code:**
+- Type safety (no `any` leaks, proper null handling)
+- Error handling coverage
+- Security (no secrets in code, input validation, injection prevention)
+- Test coverage for new paths
+
+**Compliance-Sensitive (regulated, legal, financial):**
+- No outcome guarantees or unsubstantiated claims
+- Required disclaimers present
+- Approved terminology only
+- Jurisdiction-appropriate language
+
+### Phase 3: Naughty or Nice (Verdict Gate)
+
+```python
+def santa_verdict(review_b, review_c):
+    &quot;&quot;&quot;Both reviewers must pass. No partial credit.&quot;&quot;&quot;
+    if review_b.verdict == &quot;PASS&quot; and review_c.verdict == &quot;PASS&quot;:
+        return &quot;NICE&quot;  # Ship it
+
+    # Merge flags from both reviewers, deduplicate
+    all_issues = dedupe(review_b.critical_issues + review_c.critical_issues)
+    all_suggestions = dedupe(review_b.suggestions + review_c.suggestions)
+
+    return &quot;NAUGHTY&quot;, all_issues, all_suggestions
+```
+
+Why both must pass: if only one reviewer catches an issue, that issue is real. The other reviewer&#039;s blind spot is exactly the failure mode Santa Method exists to eliminate.
+
+### Phase 4: Fix Until Nice (Convergence Loop)
+
+```python
+MAX_ITERATIONS = 3
+
+for iteration in range(MAX_ITERATIONS):
+    verdict, issues, suggestions = santa_verdict(review_b, review_c)
+
+    if verdict == &quot;NICE&quot;:
+        log_santa_result(output, iteration, &quot;passed&quot;)
+        return ship(output)
+
+    # Fix all critical issues (suggestions are optional)
+    output = fix_agent.execute(
+        output=output,
+        issues=issues,
+        instruction=&quot;Fix ONLY the flagged issues. Do not refactor or add unrequested changes.&quot;
+    )
+
+    # Re-run BOTH reviewers on fixed output (fresh agents, no memory of previous round)
+    review_b = Agent(prompt=REVIEWER_PROMPT.format(output=output, ...))
+    review_c = Agent(prompt=REVIEWER_PROMPT.format(output=output, ...))
+
+# Exhausted iterations — escalate
+log_santa_result(output, MAX_ITERATIONS, &quot;escalated&quot;)
+escalate_to_human(output, issues)
+```
+
+Critical: each review round uses **fresh agents**. Reviewers must not carry memory from previous rounds, as prior context creates anchoring bias.
+
+## Implementation Patterns
+
+### Pattern A: Claude Code Subagents (Recommended)
+
+Subagents provide true context isolation. Each reviewer is a separate process with no shared state.
+
+```bash
+# In a Claude Code session, use the Agent tool to spawn reviewers
+# Both agents run in parallel for speed
+```
+
+```python
+# Pseudocode for Agent tool invocation
+reviewer_b = Agent(
+    description=&quot;Santa Review B&quot;,
+    prompt=f&quot;Review this output for quality...\n\nRUBRIC:\n{rubric}\n\nOUTPUT:\n{output}&quot;
+)
+reviewer_c = Agent(
+    description=&quot;Santa Review C&quot;,
+    prompt=f&quot;Review this output for quality...\n\nRUBRIC:\n{rubric}\n\nOUTPUT:\n{output}&quot;
+)
+```
+
+### Pattern B: Sequential Inline (Fallback)
+
+When subagents aren&#039;t available, simulate isolation with explicit context resets:
+
+1. Generate output
+2. New context: &quot;You are Reviewer 1. Evaluate ONLY against this rubric. Find problems.&quot;
+3. Record findings verbatim
+4. Clear context completely
+5. New context: &quot;You are Reviewer 2. Evaluate ONLY against this rubric. Find problems.&quot;
+6. Compare both reviews, fix, repeat
+
+The subagent pattern is strictly superior — inline simulation risks context bleed between reviewers.
+
+### Pattern C: Batch Sampling
+
+For large batches (100+ items), full Santa on every item is cost-prohibitive. Use stratified sampling:
+
+1. Run Santa on a random sample (10-15% of batch, minimum 5 items)
+2. Categorize failures by type (hallucination, compliance, completeness, etc.)
+3. If systematic patterns emerge, apply targeted fixes to the entire batch
+4. Re-sample and re-verify the fixed batch
+5. Continue until a clean sample passes
+
+```python
+import random
+
+def santa_batch(items, rubric, sample_rate=0.15):
+    sample = random.sample(items, max(5, int(len(items) * sample_rate)))
+
+    for item in sample:
+        result = santa_full(item, rubric)
+        if result.verdict == &quot;NAUGHTY&quot;:
+            pattern = classify_failure(result.issues)
+            items = batch_fix(items, pattern)  # Fix all items matching pattern
+            return santa_batch(items, rubric)   # Re-sample
+
+    return items  # Clean sample → ship batch
+```
+
+## Failure Modes and Mitigations
+
+| Failure Mode | Symptom | Mitigation |
+|-------------|---------|------------|
+| Infinite loop | Reviewers keep finding new issues after fixes | Max iteration cap (3). Escalate. |
+| Rubber stamping | Both reviewers pass everything | Adversarial prompt: &quot;Your job is to find problems, not approve.&quot; |
+| Subjective drift | Reviewers flag style preferences, not errors | Tight rubric with objective pass/fail criteria only |
+| Fix regression | Fixing issue A introduces issue B | Fresh reviewers each round catch regressions |
+| Reviewer agreement bias | Both reviewers miss the same thing | Mitigated by independence, not eliminated. For critical output, add a third reviewer or human spot-check. |
+| Cost explosion | Too many iterations on large outputs | Batch sampling pattern. Budget caps per verification cycle. |
+
+## Integration with Other Skills
+
+| Skill | Relationship |
+|-------|-------------|
+| Verification Loop | Use for deterministic checks (build, lint, test). Santa for semantic checks (accuracy, hallucinations). Run verification-loop first, Santa second. |
+| Eval Harness | Santa Method results feed eval metrics. Track pass@k across Santa runs to measure generator quality over time. |
+| Continuous Learning v2 | Santa findings become instincts. Repeated failures on the same criterion → learned behavior to avoid the pattern. |
+| Strategic Compact | Run Santa BEFORE compacting. Don&#039;t lose review context mid-verification. |
+
+## Metrics
+
+Track these to measure Santa Method effectiveness:
+
+- **First-pass rate**: % of outputs that pass Santa on round 1 (target: &gt;70%)
+- **Mean iterations to convergence**: average rounds to NICE (target: &lt;1.5)
+- **Issue taxonomy**: distribution of failure types (hallucination vs. completeness vs. compliance)
+- **Reviewer agreement**: % of issues flagged by both reviewers vs. only one (low agreement = rubric needs tightening)
+- **Escape rate**: issues found post-ship that Santa should have caught (target: 0)
+
+## Cost Analysis
+
+Santa Method costs approximately 2-3x the token cost of generation alone per verification cycle. For most high-stakes output, this is a bargain:
+
+```
+Cost of Santa = (generation tokens) + 2×(review tokens per round) × (avg rounds)
+Cost of NOT Santa = (reputation damage) + (correction effort) + (trust erosion)
+```
+
+For batch operations, the sampling pattern reduces cost to ~15-20% of full verification while catching &gt;90% of systematic issues.
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

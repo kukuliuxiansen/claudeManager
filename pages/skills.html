@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>能力模块 - Claude Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        /* Page-specific styles */
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222e;
+            --accent-cyan: #00d4aa;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f59e0b;
+            --accent-pink: #ec4899;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --border-subtle: #2a2a35;
+
+            /* Type colors */
+            --color-skill: #00d4aa;
+            --color-agent: #f59e0b;
+            --color-command: #8b5cf6;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 212, 170, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 50%, rgba(139, 92, 246, 0.08), transparent),
+                radial-gradient(ellipse 50% 30% at 20% 80%, rgba(245, 158, 11, 0.06), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .noise {
+            position: fixed;
+            inset: 0;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--bg-primary);
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .logo-text span {
+            color: var(--accent-cyan);
+        }
+
+        .search-container {
+            position: relative;
+            width: 320px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 212, 170, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        main {
+            position: relative;
+            z-index: 2;
+            padding: 40px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 40px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 0.7;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-muted);
+        }
+
+        .page-title-section {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .page-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--accent-cyan), rgba(0, 212, 170, 0.3));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 32px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .stat-value.skill { color: var(--color-skill); }
+        .stat-value.agent { color: var(--color-agent); }
+        .stat-value.command { color: var(--color-command); }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Filter Buttons */
+        .filter-section {
+            margin-bottom: 30px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-cyan);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: var(--bg-primary);
+            font-weight: 500;
+        }
+
+        .filter-btn.skill.active {
+            background: var(--color-skill);
+            border-color: var(--color-skill);
+        }
+        .filter-btn.agent.active {
+            background: var(--color-agent);
+            border-color: var(--color-agent);
+        }
+        .filter-btn.command.active {
+            background: var(--color-command);
+            border-color: var(--color-command);
+        }
+
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        /* Module Card */
+        .module-card {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .module-card[data-type="skill"]::before { background: var(--color-skill); }
+        .module-card[data-type="agent"]::before { background: var(--color-agent); }
+        .module-card[data-type="command"]::before { background: var(--color-command); }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 212, 170, 0.15);
+        }
+
+        .module-card[data-type="skill"]:hover { border-color: var(--color-skill); box-shadow: 0 12px 40px rgba(0, 212, 170, 0.15); }
+        .module-card[data-type="agent"]:hover { border-color: var(--color-agent); box-shadow: 0 12px 40px rgba(245, 158, 11, 0.15); }
+        .module-card[data-type="command"]:hover { border-color: var(--color-command); box-shadow: 0 12px 40px rgba(139, 92, 246, 0.15); }
+
+        .module-card:hover::before {
+            opacity: 1;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .module-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .module-type-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .module-type-badge.skill {
+            background: rgba(0, 212, 170, 0.15);
+            border: 1px solid var(--color-skill);
+            color: var(--color-skill);
+        }
+        .module-type-badge.agent {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--color-agent);
+            color: var(--color-agent);
+        }
+        .module-type-badge.command {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid var(--color-command);
+            color: var(--color-command);
+        }
+
+        .module-source {
+            padding: 4px 10px;
+            background: rgba(0, 212, 170, 0.15);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent-cyan);
+            margin-left: 8px;
+        }
+
+        .module-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .module-usage {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .module-usage code {
+            font-family: 'JetBrains Mono', monospace;
+            padding: 4px 8px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+        }
+
+        .module-card[data-type="skill"] .module-usage code { color: var(--color-skill); }
+        .module-card[data-type="agent"] .module-usage code { color: var(--color-agent); }
+        .module-card[data-type="command"] .module-usage code { color: var(--color-command); }
+
+        .module-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .module-tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 60px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 20px;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .search-container {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            main {
+                padding: 20px 20px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .module-card {
+                padding: 20px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .module-card {
+            animation: fadeInUp 0.4s ease-out;
+            animation-fill-mode: both;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+    <div class="noise"></div>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">CM</div>
+            <div class="logo-text">Claude <span>Manager</span></div>
+        </div>
+        <div class="search-container">
+            <span class="search-icon">⌘</span>
+            <input type="text" class="search-input" placeholder="搜索技能模块..." id="searchInput">
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="../index.html">首页</a>
+                <span class="breadcrumb-separator">→</span>
+                <span>Skills 技能模块</span>
+            </div>
+            <div class="page-title-section">
+                <div class="page-icon">⚡</div>
+                <div>
+                    <h1 class="page-title">Skills 技能模块</h1>
+                    <p class="page-subtitle">工作流定义和领域知识 — 由命令或代理调用的专业能力模块</p>
+                </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-value skill" id="skillCount">0</span>
+                    <span class="stat-label">Skills</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-buttons" id="originFilterButtons"></div>
+        </div>
+
+        <div class="modules-grid" id="modulesGrid"></div>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html" class="footer-link">← 返回首页</a>
+            <a href="https://github.com/anthropics/claude-code" class="footer-link">Claude Code GitHub</a>
+        </div>
+        <p class="footer-text">能力模块 · Claude Manager</p>
+    </footer>
+
+    <script src="skills-data.js"></script>
+    <script src="skills-chinese.js"></script>
+    <script>
+        // Type names
+        const TYPE_NAMES = {
+            'skill': 'Skill',
+            'agent': 'Agent',
+            'command': 'Command'
+        };
+
+        // Count by type and origin (only skills)
+        function countItems() {
+            const counts = { byType: {}, byOrigin: {} };
+            for (const [name, data] of Object.entries(CAPABILITIES_DATA)) {
+                if (data.type !== 'skill') continue; // Only count skills
+                counts.byType[data.type] = (counts.byType[data.type] || 0) + 1;
+                counts.byOrigin[data.origin] = (counts.byOrigin[data.origin] || 0) + 1;
+            }
+            return counts;
+        }
+
+        // Create origin filter buttons
+        function createOriginFilterButtons() {
+            const container = document.getElementById('originFilterButtons');
+            const counts = countItems();
+
+            // Sort origins by count
+            const sortedOrigins = Object.keys(counts.byOrigin).sort((a, b) => counts.byOrigin[b] - counts.byOrigin[a]);
+
+            // "全部" button
+            const allBtn = document.createElement('button');
+            allBtn.className = 'filter-btn active';
+            allBtn.textContent = '全部来源';
+            allBtn.dataset.origin = 'all';
+            allBtn.addEventListener('click', handleOriginFilterClick);
+            container.appendChild(allBtn);
+
+            // Origin buttons - top 10
+            for (const origin of sortedOrigins.slice(0, 10)) {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.textContent = origin + ' (' + counts.byOrigin[origin] + ')';
+                btn.dataset.origin = origin;
+                btn.addEventListener('click', handleOriginFilterClick);
+                container.appendChild(btn);
+            }
+        }
+
+        // Origin filter click handler
+        function handleOriginFilterClick(e) {
+            const buttons = document.querySelectorAll('#originFilterButtons .filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            filterAndRender();
+        }
+
+        // Handle search
+        function handleSearch(e) {
+            filterAndRender();
+        }
+
+        // Filter and render (only skills)
+        function filterAndRender() {
+            const originBtn = document.querySelector('#originFilterButtons .filter-btn.active');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            const selectedOrigin = originBtn ? originBtn.dataset.origin : 'all';
+
+            renderItems(selectedOrigin, searchTerm);
+        }
+
+        // Render items (only skills)
+        function renderItems(originFilter, searchTerm) {
+            const container = document.getElementById('modulesGrid');
+
+            // Clear existing cards
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+
+            let index = 0;
+            for (const [itemName, itemData] of Object.entries(CAPABILITIES_DATA)) {
+                // Only show skills
+                if (itemData.type !== 'skill') continue;
+
+                // Filter by origin
+                if (originFilter !== 'all' && itemData.origin !== originFilter) continue;
+
+                // Filter by search
+                if (searchTerm) {
+                    const matchesName = itemName.toLowerCase().includes(searchTerm);
+                    const matchesDesc = itemData.description.toLowerCase().includes(searchTerm);
+                    const matchesTitle = (itemData.title || '').toLowerCase().includes(searchTerm);
+                    if (!matchesName && !matchesDesc && !matchesTitle) continue;
+                }
+
+                // Create card
+                const card = document.createElement('div');
+                card.className = 'module-card';
+                card.dataset.name = itemName;
+                card.dataset.type = itemData.type;
+                card.style.animationDelay = (index * 0.03) + 's';
+
+                // Header
+                const header = document.createElement('div');
+                header.className = 'module-header';
+
+                const name = document.createElement('div');
+                name.className = 'module-name';
+                name.textContent = itemName;
+                header.appendChild(name);
+
+                const typeBadge = document.createElement('span');
+                typeBadge.className = 'module-type-badge ' + itemData.type;
+                typeBadge.textContent = TYPE_NAMES[itemData.type];
+                header.appendChild(typeBadge);
+
+                const source = document.createElement('span');
+                source.className = 'module-source';
+                source.textContent = itemData.origin;
+                header.appendChild(source);
+
+                card.appendChild(header);
+
+                // Description - use Chinese description if available
+                const desc = document.createElement('div');
+                desc.className = 'module-description';
+                const chineseDesc = getSkillChineseDescription(itemName);
+                desc.textContent = chineseDesc || itemData.description || '无描述';
+                card.appendChild(desc);
+
+                // Usage
+                const usage = document.createElement('div');
+                usage.className = 'module-usage';
+                usage.textContent = '调用: ';
+
+                const code = document.createElement('code');
+                code.textContent = '/' + itemName;
+                usage.appendChild(code);
+
+                card.appendChild(usage);
+
+                // Click handler
+                card.addEventListener('click', () => {
+                    window.location.href = 'skills/' + encodeURIComponent(itemName) + '.html';
+                });
+
+                container.appendChild(card);
+                index++;
+            }
+
+            // Update stats
+            updateStats();
+        }
+
+        // Update stats (only skills)
+        function updateStats() {
+            const counts = countItems();
+            document.getElementById('skillCount').textContent = counts.byType.skill || 0;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createOriginFilterButtons();
+            updateStats();
+            renderItems('all', '');
+
+            // Search handler
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+
+            // Keyboard shortcut for search
+            document.addEventListener('keydown', (e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    document.getElementById('searchInput').focus();
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

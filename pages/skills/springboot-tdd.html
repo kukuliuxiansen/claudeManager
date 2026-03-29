@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpringBoot TDD - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">SpringBoot TDD</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">SpringBoot TDD</h1>
+            <p class="detail-subtitle">SpringBoot TDD，Spring Boot的测试驱动开发</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    local
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">local</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                何时使用
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- New features or endpoints
+- Bug fixes or refactors
+- Adding data access logic or security rules</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Workflow
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">1) Write tests first (they should fail)
+2) Implement minimal code to pass
+3) Refactor with tests green
+4) Enforce coverage (JaCoCo)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Unit Tests (JUnit 5 + Mockito)
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```java
+@ExtendWith(MockitoExtension.class)
+class MarketServiceTest {
+  @Mock MarketRepository repo;
+  @InjectMocks MarketService service;
+
+  @Test
+  void createsMarket() {
+    CreateMarketRequest req = new CreateMarketRequest(&quot;name&quot;, &quot;desc&quot;, Instant.now(), List.of(&quot;cat&quot;));
+    when(repo.save(any())).thenAnswer(inv -&gt; inv.getArgument(0));
+
+    Market result = service.create(req);
+
+    assertThat(result.name()).isEqualTo(&quot;name&quot;);
+    verify(repo).save(any());
+  }
+}
+```
+
+Patterns:
+- Arrange-Act-Assert
+- Avoid partial mocks; prefer explicit stubbing
+- Use `@ParameterizedTest` for variants</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Web Layer Tests (MockMvc)
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```java
+@WebMvcTest(MarketController.class)
+class MarketControllerTest {
+  @Autowired MockMvc mockMvc;
+  @MockBean MarketService marketService;
+
+  @Test
+  void returnsMarkets() throws Exception {
+    when(marketService.list(any())).thenReturn(Page.empty());
+
+    mockMvc.perform(get(&quot;/api/markets&quot;))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath(&quot;$.content&quot;).isArray());
+  }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Integration Tests (SpringBootTest)
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```java
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles(&quot;test&quot;)
+class MarketIntegrationTest {
+  @Autowired MockMvc mockMvc;
+
+  @Test
+  void createsMarket() throws Exception {
+    mockMvc.perform(post(&quot;/api/markets&quot;)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(&quot;&quot;&quot;
+          {&quot;name&quot;:&quot;Test&quot;,&quot;description&quot;:&quot;Desc&quot;,&quot;endDate&quot;:&quot;2030-01-01T00:00:00Z&quot;,&quot;categories&quot;:[&quot;general&quot;]}
+        &quot;&quot;&quot;))
+      .andExpect(status().isCreated());
+  }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Persistence Tests (DataJpaTest)
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```java
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(TestContainersConfig.class)
+class MarketRepositoryTest {
+  @Autowired MarketRepository repo;
+
+  @Test
+  void savesAndFinds() {
+    MarketEntity entity = new MarketEntity();
+    entity.setName(&quot;Test&quot;);
+    repo.save(entity);
+
+    Optional&lt;MarketEntity&gt; found = repo.findByName(&quot;Test&quot;);
+    assertThat(found).isPresent();
+  }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Testcontainers
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Use reusable containers for Postgres/Redis to mirror production
+- Wire via `@DynamicPropertySource` to inject JDBC URLs into Spring context</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Coverage (JaCoCo)
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Maven snippet:
+```xml
+&lt;plugin&gt;
+  &lt;groupId&gt;org.jacoco&lt;/groupId&gt;
+  &lt;artifactId&gt;jacoco-maven-plugin&lt;/artifactId&gt;
+  &lt;version&gt;0.8.14&lt;/version&gt;
+  &lt;executions&gt;
+    &lt;execution&gt;
+      &lt;goals&gt;&lt;goal&gt;prepare-agent&lt;/goal&gt;&lt;/goals&gt;
+    &lt;/execution&gt;
+    &lt;execution&gt;
+      &lt;id&gt;report&lt;/id&gt;
+      &lt;phase&gt;verify&lt;/phase&gt;
+      &lt;goals&gt;&lt;goal&gt;report&lt;/goal&gt;&lt;/goals&gt;
+    &lt;/execution&gt;
+  &lt;/executions&gt;
+&lt;/plugin&gt;
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Assertions
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Prefer AssertJ (`assertThat`) for readability
+- For JSON responses, use `jsonPath`
+- For exceptions: `assertThatThrownBy(...)`</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Test Data Builders
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```java
+class MarketBuilder {
+  private String name = &quot;Test&quot;;
+  MarketBuilder withName(String name) { this.name = name; return this; }
+  Market build() { return new Market(null, name, MarketStatus.ACTIVE); }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                CI Commands
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Maven: `mvn -T 4 test` or `mvn verify`
+- Gradle: `./gradlew test jacocoTestReport`
+
+**Remember**: Keep tests fast, isolated, and deterministic. Test behavior, not implementation details.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: springboot-tdd
+description: Test-driven development for Spring Boot using JUnit 5, Mockito, MockMvc, Testcontainers, and JaCoCo. Use when adding features, fixing bugs, or refactoring.
+origin: ECC
+---
+
+# Spring Boot TDD Workflow
+
+TDD guidance for Spring Boot services with 80%+ coverage (unit + integration).
+
+## When to Use
+
+- New features or endpoints
+- Bug fixes or refactors
+- Adding data access logic or security rules
+
+## Workflow
+
+1) Write tests first (they should fail)
+2) Implement minimal code to pass
+3) Refactor with tests green
+4) Enforce coverage (JaCoCo)
+
+## Unit Tests (JUnit 5 + Mockito)
+
+```java
+@ExtendWith(MockitoExtension.class)
+class MarketServiceTest {
+  @Mock MarketRepository repo;
+  @InjectMocks MarketService service;
+
+  @Test
+  void createsMarket() {
+    CreateMarketRequest req = new CreateMarketRequest(&quot;name&quot;, &quot;desc&quot;, Instant.now(), List.of(&quot;cat&quot;));
+    when(repo.save(any())).thenAnswer(inv -&gt; inv.getArgument(0));
+
+    Market result = service.create(req);
+
+    assertThat(result.name()).isEqualTo(&quot;name&quot;);
+    verify(repo).save(any());
+  }
+}
+```
+
+Patterns:
+- Arrange-Act-Assert
+- Avoid partial mocks; prefer explicit stubbing
+- Use `@ParameterizedTest` for variants
+
+## Web Layer Tests (MockMvc)
+
+```java
+@WebMvcTest(MarketController.class)
+class MarketControllerTest {
+  @Autowired MockMvc mockMvc;
+  @MockBean MarketService marketService;
+
+  @Test
+  void returnsMarkets() throws Exception {
+    when(marketService.list(any())).thenReturn(Page.empty());
+
+    mockMvc.perform(get(&quot;/api/markets&quot;))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath(&quot;$.content&quot;).isArray());
+  }
+}
+```
+
+## Integration Tests (SpringBootTest)
+
+```java
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles(&quot;test&quot;)
+class MarketIntegrationTest {
+  @Autowired MockMvc mockMvc;
+
+  @Test
+  void createsMarket() throws Exception {
+    mockMvc.perform(post(&quot;/api/markets&quot;)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(&quot;&quot;&quot;
+          {&quot;name&quot;:&quot;Test&quot;,&quot;description&quot;:&quot;Desc&quot;,&quot;endDate&quot;:&quot;2030-01-01T00:00:00Z&quot;,&quot;categories&quot;:[&quot;general&quot;]}
+        &quot;&quot;&quot;))
+      .andExpect(status().isCreated());
+  }
+}
+```
+
+## Persistence Tests (DataJpaTest)
+
+```java
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(TestContainersConfig.class)
+class MarketRepositoryTest {
+  @Autowired MarketRepository repo;
+
+  @Test
+  void savesAndFinds() {
+    MarketEntity entity = new MarketEntity();
+    entity.setName(&quot;Test&quot;);
+    repo.save(entity);
+
+    Optional&lt;MarketEntity&gt; found = repo.findByName(&quot;Test&quot;);
+    assertThat(found).isPresent();
+  }
+}
+```
+
+## Testcontainers
+
+- Use reusable containers for Postgres/Redis to mirror production
+- Wire via `@DynamicPropertySource` to inject JDBC URLs into Spring context
+
+## Coverage (JaCoCo)
+
+Maven snippet:
+```xml
+&lt;plugin&gt;
+  &lt;groupId&gt;org.jacoco&lt;/groupId&gt;
+  &lt;artifactId&gt;jacoco-maven-plugin&lt;/artifactId&gt;
+  &lt;version&gt;0.8.14&lt;/version&gt;
+  &lt;executions&gt;
+    &lt;execution&gt;
+      &lt;goals&gt;&lt;goal&gt;prepare-agent&lt;/goal&gt;&lt;/goals&gt;
+    &lt;/execution&gt;
+    &lt;execution&gt;
+      &lt;id&gt;report&lt;/id&gt;
+      &lt;phase&gt;verify&lt;/phase&gt;
+      &lt;goals&gt;&lt;goal&gt;report&lt;/goal&gt;&lt;/goals&gt;
+    &lt;/execution&gt;
+  &lt;/executions&gt;
+&lt;/plugin&gt;
+```
+
+## Assertions
+
+- Prefer AssertJ (`assertThat`) for readability
+- For JSON responses, use `jsonPath`
+- For exceptions: `assertThatThrownBy(...)`
+
+## Test Data Builders
+
+```java
+class MarketBuilder {
+  private String name = &quot;Test&quot;;
+  MarketBuilder withName(String name) { this.name = name; return this; }
+  Market build() { return new Market(null, name, MarketStatus.ACTIVE); }
+}
+```
+
+## CI Commands
+
+- Maven: `mvn -T 4 test` or `mvn verify`
+- Gradle: `./gradlew test jacocoTestReport`
+
+**Remember**: Keep tests fast, isolated, and deterministic. Test behavior, not implementation details.
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成本感知LLM管道 - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">成本感知LLM管道</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">成本感知LLM管道</h1>
+            <p class="detail-subtitle">成本感知LLM管道，优化LLM成本</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                When to Activate
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Building applications that call LLM APIs (Claude, GPT, etc.)
+- Processing batches of items with varying complexity
+- Need to stay within a budget for API spend
+- Optimizing cost without sacrificing quality on complex tasks</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Core Concepts
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### 1. Model Routing by Task Complexity
+
+Automatically select cheaper models for simple tasks, reserving expensive models for complex ones.
+
+```python
+MODEL_SONNET = &quot;claude-sonnet-4-6&quot;
+MODEL_HAIKU = &quot;claude-haiku-4-5-20251001&quot;
+
+_SONNET_TEXT_THRESHOLD = 10_000  # chars
+_SONNET_ITEM_THRESHOLD = 30     # items
+
+def select_model(
+    text_length: int,
+    item_count: int,
+    force_model: str | None = None,
+) -&gt; str:
+    &quot;&quot;&quot;Select model based on task complexity.&quot;&quot;&quot;
+    if force_model is not None:
+        return force_model
+    if text_length &gt;= _SONNET_TEXT_THRESHOLD or item_count &gt;= _SONNET_ITEM_THRESHOLD:
+        return MODEL_SONNET  # Complex task
+    return MODEL_HAIKU  # Simple task (3-4x cheaper)
+```
+
+### 2. Immutable Cost Tracking
+
+Track cumulative spend with frozen dataclasses. Each API call returns a new tracker — never mutates state.
+
+```python
+from dataclasses import dataclass
+
+@dataclass(frozen=True, slots=True)
+class CostRecord:
+    model: str
+    input_tokens: int
+    output_tokens: int
+    cost_usd: float
+
+@dataclass(frozen=True, slots=True)
+class CostTracker:
+    budget_limit: float = 1.00
+    records: tuple[CostRecord, ...] = ()
+
+    def add(self, record: CostRecord) -&gt; &quot;CostTracker&quot;:
+        &quot;&quot;&quot;Return new tracker with added record (never mutates self).&quot;&quot;&quot;
+        return CostTracker(
+            budget_limit=self.budget_limit,
+            records=(*self.records, record),
+        )
+
+    @property
+    def total_cost(self) -&gt; float:
+        return sum(r.cost_usd for r in self.records)
+
+    @property
+    def over_budget(self) -&gt; bool:
+        return self.total_cost &gt; self.budget_limit
+```
+
+### 3. Narrow Retry Logic
+
+Retry only on transient errors. Fail fast on authentication or bad request errors.
+
+```python
+from anthropic import (
+    APIConnectionError,
+    InternalServerError,
+    RateLimitError,
+)
+
+_RETRYABLE_ERRORS = (APIConnectionError, RateLimitError, InternalServerError)
+_MAX_RETRIES = 3
+
+def call_with_retry(func, *, max_retries: int = _MAX_RETRIES):
+    &quot;&quot;&quot;Retry only on transient errors, fail fast on others.&quot;&quot;&quot;
+    for attempt in range(max_retries):
+        try:
+            return func()
+        except _RETRYABLE_ERRORS:
+            if attempt == max_retries - 1:
+                raise
+            time.sleep(2 ** attempt)  # Exponential backoff
+    # AuthenticationError, BadRequestError etc. → raise immediately
+```
+
+### 4. Prompt Caching
+
+Cache long system prompts to avoid resending them on every request.
+
+```python
+messages = [
+    {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: [
+            {
+                &quot;type&quot;: &quot;text&quot;,
+                &quot;text&quot;: system_prompt,
+                &quot;cache_control&quot;: {&quot;type&quot;: &quot;ephemeral&quot;},  # Cache this
+            },
+            {
+                &quot;type&quot;: &quot;text&quot;,
+                &quot;text&quot;: user_input,  # Variable part
+            },
+        ],
+    }
+]
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Composition
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">Combine all four techniques in a single pipeline function:
+
+```python
+def process(text: str, config: Config, tracker: CostTracker) -&gt; tuple[Result, CostTracker]:
+    # 1. Route model
+    model = select_model(len(text), estimated_items, config.force_model)
+
+    # 2. Check budget
+    if tracker.over_budget:
+        raise BudgetExceededError(tracker.total_cost, tracker.budget_limit)
+
+    # 3. Call with retry + caching
+    response = call_with_retry(lambda: client.messages.create(
+        model=model,
+        messages=build_cached_messages(system_prompt, text),
+    ))
+
+    # 4. Track cost (immutable)
+    record = CostRecord(model=model, input_tokens=..., output_tokens=..., cost_usd=...)
+    tracker = tracker.add(record)
+
+    return parse_result(response), tracker
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Pricing Reference (2025-2026)
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Model | Input ($/1M tokens) | Output ($/1M tokens) | Relative Cost |
+|-------|---------------------|----------------------|---------------|
+| Haiku 4.5 | $0.80 | $4.00 | 1x |
+| Sonnet 4.6 | $3.00 | $15.00 | ~4x |
+| Opus 4.5 | $15.00 | $75.00 | ~19x |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                最佳实践
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- **Start with the cheapest model** and only route to expensive models when complexity thresholds are met
+- **Set explicit budget limits** before processing batches — fail early rather than overspend
+- **Log model selection decisions** so you can tune thresholds based on real data
+- **Use prompt caching** for system prompts over 1024 tokens — saves both cost and latency
+- **Never retry on authentication or validation errors** — only transient failures (network, rate limit, server error)</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Anti-Patterns to Avoid
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Using the most expensive model for all requests regardless of complexity
+- Retrying on all errors (wastes budget on permanent failures)
+- Mutating cost tracking state (makes debugging and auditing difficult)
+- Hardcoding model names throughout the codebase (use constants or config)
+- Ignoring prompt caching for repetitive system prompts</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                何时使用
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Any application calling Claude, OpenAI, or similar LLM APIs
+- Batch processing pipelines where cost adds up quickly
+- Multi-model architectures that need intelligent routing
+- Production systems that need budget guardrails</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: cost-aware-llm-pipeline
+description: Cost optimization patterns for LLM API usage — model routing by task complexity, budget tracking, retry logic, and prompt caching.
+origin: ECC
+---
+
+# Cost-Aware LLM Pipeline
+
+Patterns for controlling LLM API costs while maintaining quality. Combines model routing, budget tracking, retry logic, and prompt caching into a composable pipeline.
+
+## When to Activate
+
+- Building applications that call LLM APIs (Claude, GPT, etc.)
+- Processing batches of items with varying complexity
+- Need to stay within a budget for API spend
+- Optimizing cost without sacrificing quality on complex tasks
+
+## Core Concepts
+
+### 1. Model Routing by Task Complexity
+
+Automatically select cheaper models for simple tasks, reserving expensive models for complex ones.
+
+```python
+MODEL_SONNET = &quot;claude-sonnet-4-6&quot;
+MODEL_HAIKU = &quot;claude-haiku-4-5-20251001&quot;
+
+_SONNET_TEXT_THRESHOLD = 10_000  # chars
+_SONNET_ITEM_THRESHOLD = 30     # items
+
+def select_model(
+    text_length: int,
+    item_count: int,
+    force_model: str | None = None,
+) -&gt; str:
+    &quot;&quot;&quot;Select model based on task complexity.&quot;&quot;&quot;
+    if force_model is not None:
+        return force_model
+    if text_length &gt;= _SONNET_TEXT_THRESHOLD or item_count &gt;= _SONNET_ITEM_THRESHOLD:
+        return MODEL_SONNET  # Complex task
+    return MODEL_HAIKU  # Simple task (3-4x cheaper)
+```
+
+### 2. Immutable Cost Tracking
+
+Track cumulative spend with frozen dataclasses. Each API call returns a new tracker — never mutates state.
+
+```python
+from dataclasses import dataclass
+
+@dataclass(frozen=True, slots=True)
+class CostRecord:
+    model: str
+    input_tokens: int
+    output_tokens: int
+    cost_usd: float
+
+@dataclass(frozen=True, slots=True)
+class CostTracker:
+    budget_limit: float = 1.00
+    records: tuple[CostRecord, ...] = ()
+
+    def add(self, record: CostRecord) -&gt; &quot;CostTracker&quot;:
+        &quot;&quot;&quot;Return new tracker with added record (never mutates self).&quot;&quot;&quot;
+        return CostTracker(
+            budget_limit=self.budget_limit,
+            records=(*self.records, record),
+        )
+
+    @property
+    def total_cost(self) -&gt; float:
+        return sum(r.cost_usd for r in self.records)
+
+    @property
+    def over_budget(self) -&gt; bool:
+        return self.total_cost &gt; self.budget_limit
+```
+
+### 3. Narrow Retry Logic
+
+Retry only on transient errors. Fail fast on authentication or bad request errors.
+
+```python
+from anthropic import (
+    APIConnectionError,
+    InternalServerError,
+    RateLimitError,
+)
+
+_RETRYABLE_ERRORS = (APIConnectionError, RateLimitError, InternalServerError)
+_MAX_RETRIES = 3
+
+def call_with_retry(func, *, max_retries: int = _MAX_RETRIES):
+    &quot;&quot;&quot;Retry only on transient errors, fail fast on others.&quot;&quot;&quot;
+    for attempt in range(max_retries):
+        try:
+            return func()
+        except _RETRYABLE_ERRORS:
+            if attempt == max_retries - 1:
+                raise
+            time.sleep(2 ** attempt)  # Exponential backoff
+    # AuthenticationError, BadRequestError etc. → raise immediately
+```
+
+### 4. Prompt Caching
+
+Cache long system prompts to avoid resending them on every request.
+
+```python
+messages = [
+    {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: [
+            {
+                &quot;type&quot;: &quot;text&quot;,
+                &quot;text&quot;: system_prompt,
+                &quot;cache_control&quot;: {&quot;type&quot;: &quot;ephemeral&quot;},  # Cache this
+            },
+            {
+                &quot;type&quot;: &quot;text&quot;,
+                &quot;text&quot;: user_input,  # Variable part
+            },
+        ],
+    }
+]
+```
+
+## Composition
+
+Combine all four techniques in a single pipeline function:
+
+```python
+def process(text: str, config: Config, tracker: CostTracker) -&gt; tuple[Result, CostTracker]:
+    # 1. Route model
+    model = select_model(len(text), estimated_items, config.force_model)
+
+    # 2. Check budget
+    if tracker.over_budget:
+        raise BudgetExceededError(tracker.total_cost, tracker.budget_limit)
+
+    # 3. Call with retry + caching
+    response = call_with_retry(lambda: client.messages.create(
+        model=model,
+        messages=build_cached_messages(system_prompt, text),
+    ))
+
+    # 4. Track cost (immutable)
+    record = CostRecord(model=model, input_tokens=..., output_tokens=..., cost_usd=...)
+    tracker = tracker.add(record)
+
+    return parse_result(response), tracker
+```
+
+## Pricing Reference (2025-2026)
+
+| Model | Input ($/1M tokens) | Output ($/1M tokens) | Relative Cost |
+|-------|---------------------|----------------------|---------------|
+| Haiku 4.5 | $0.80 | $4.00 | 1x |
+| Sonnet 4.6 | $3.00 | $15.00 | ~4x |
+| Opus 4.5 | $15.00 | $75.00 | ~19x |
+
+## Best Practices
+
+- **Start with the cheapest model** and only route to expensive models when complexity thresholds are met
+- **Set explicit budget limits** before processing batches — fail early rather than overspend
+- **Log model selection decisions** so you can tune thresholds based on real data
+- **Use prompt caching** for system prompts over 1024 tokens — saves both cost and latency
+- **Never retry on authentication or validation errors** — only transient failures (network, rate limit, server error)
+
+## Anti-Patterns to Avoid
+
+- Using the most expensive model for all requests regardless of complexity
+- Retrying on all errors (wastes budget on permanent failures)
+- Mutating cost tracking state (makes debugging and auditing difficult)
+- Hardcoding model names throughout the codebase (use constants or config)
+- Ignoring prompt caching for repetitive system prompts
+
+## When to Use
+
+- Any application calling Claude, OpenAI, or similar LLM APIs
+- Batch processing pipelines where cost adds up quickly
+- Multi-model architectures that need intelligent routing
+- Production systems that need budget guardrails
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

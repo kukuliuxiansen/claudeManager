@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust Development Patterns - Everything Claude Code</title>
+    <link rel="stylesheet" href="../../styles/shared.css">
+    <style>
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 40px; }
+        .detail-header {
+            background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+            border-radius: 20px; padding: 50px; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .detail-header::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .detail-icon {
+            width: 80px; height: 80px; background: rgba(255,255,255,0.2);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        .detail-icon svg { width: 40px; height: 40px; fill: white; }
+        .detail-title { font-size: 36px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -1px; }
+        .detail-subtitle { font-size: 18px; color: rgba(255,255,255,0.8); font-weight: 400; }
+        .detail-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .detail-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: rgba(255,255,255,0.9); }
+        .section-card { background: rgba(26, 26, 46, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: #00d4aa; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 24px; height: 24px; fill: #00d4aa; }
+        .section-content { font-size: 16px; color: rgba(255, 255, 255, 0.8); line-height: 1.8; }
+        .section-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .full-content-text { max-height: 600px; overflow-y: auto; }
+        .origin-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .origin-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .origin-value { color: #00d4aa; font-weight: 600; }
+        .detail-nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-card { flex: 1; background: rgba(26, 26, 46, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-card:hover { border-color: #00d4aa40; background: rgba(26, 26, 46, 0.8); }
+        .nav-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+        .nav-title { font-size: 16px; color: rgba(255, 255, 255, 0.8); font-weight: 500; }
+        .nav-type { font-size: 12px; color: #00d4aa; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .detail-container { padding: 20px; }
+            .detail-header { padding: 30px; }
+            .detail-title { font-size: 28px; }
+            .section-card { padding: 20px; }
+            .detail-nav { flex-direction: column; }
+            .detail-badges { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../index.html" class="breadcrumb-link">首页</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../skills.html" class="breadcrumb-link">Capabilities</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Rust Development Patterns</span>
+    </nav>
+
+    <div class="detail-container">
+        <header class="detail-header">
+            <div class="detail-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h1 class="detail-title">Rust Development Patterns</h1>
+            <p class="detail-subtitle">技能模块，提供专业领域的自动化处理能力</p>
+            <div class="detail-badges">
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    技能
+                </div>
+                <div class="detail-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    everything-claude-code
+                </div>
+            </div>
+        </header>
+
+        <div class="origin-info">
+            <span class="origin-label">来源:</span>
+            <span class="origin-value">everything-claude-code</span>
+        </div>
+
+        
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                何时使用
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">- Writing new Rust code
+- Reviewing Rust code
+- Refactoring existing Rust code
+- Designing crate structure and module layout</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                How It Works
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">This skill enforces idiomatic Rust conventions across six key areas: ownership and borrowing to prevent data races at compile time, `Result`/`?` error propagation with `thiserror` for libraries and `anyhow` for applications, enums and exhaustive pattern matching to make illegal states unrepresentable, traits and generics for zero-cost abstraction, safe concurrency via `Arc&lt;Mutex&lt;T&gt;&gt;`, channels, and async/await, and minimal `pub` surfaces organized by domain.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                核心原理
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### 1. Ownership and Borrowing
+
+Rust&#039;s ownership system prevents data races and memory bugs at compile time.
+
+```rust
+// Good: Pass references when you don&#039;t need ownership
+fn process(data: &amp;[u8]) -&gt; usize {
+    data.len()
+}
+
+// Good: Take ownership only when you need to store or consume
+fn store(data: Vec&lt;u8&gt;) -&gt; Record {
+    Record { payload: data }
+}
+
+// Bad: Cloning unnecessarily to avoid borrow checker
+fn process_bad(data: &amp;Vec&lt;u8&gt;) -&gt; usize {
+    let cloned = data.clone(); // Wasteful — just borrow
+    cloned.len()
+}
+```
+
+### Use `Cow` for Flexible Ownership
+
+```rust
+use std::borrow::Cow;
+
+fn normalize(input: &amp;str) -&gt; Cow&lt;&#039;_, str&gt; {
+    if input.contains(&#039; &#039;) {
+        Cow::Owned(input.replace(&#039; &#039;, &quot;_&quot;))
+    } else {
+        Cow::Borrowed(input) // Zero-cost when no mutation needed
+    }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                错误处理
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Use `Result` and `?` — Never `unwrap()` in Production
+
+```rust
+// Good: Propagate errors with context
+use anyhow::{Context, Result};
+
+fn load_config(path: &amp;str) -&gt; Result&lt;Config&gt; {
+    let content = std::fs::read_to_string(path)
+        .with_context(|| format!(&quot;failed to read config from {path}&quot;))?;
+    let config: Config = toml::from_str(&amp;content)
+        .with_context(|| format!(&quot;failed to parse config from {path}&quot;))?;
+    Ok(config)
+}
+
+// Bad: Panics on error
+fn load_config_bad(path: &amp;str) -&gt; Config {
+    let content = std::fs::read_to_string(path).unwrap(); // Panics!
+    toml::from_str(&amp;content).unwrap()
+}
+```
+
+### Library Errors with `thiserror`, Application Errors with `anyhow`
+
+```rust
+// Library code: structured, typed errors
+use thiserror::Error;
+
+#[derive(Debug, Error)]
+pub enum StorageError {
+    #[error(&quot;record not found: {id}&quot;)]
+    NotFound { id: String },
+    #[error(&quot;connection failed&quot;)]
+    Connection(#[from] std::io::Error),
+    #[error(&quot;invalid data: {0}&quot;)]
+    InvalidData(String),
+}
+
+// Application code: flexible error handling
+use anyhow::{bail, Result};
+
+fn run() -&gt; Result&lt;()&gt; {
+    let config = load_config(&quot;app.toml&quot;)?;
+    if config.workers == 0 {
+        bail!(&quot;worker count must be &gt; 0&quot;);
+    }
+    Ok(())
+}
+```
+
+### `Option` Combinators Over Nested Matching
+
+```rust
+// Good: Combinator chain
+fn find_user_email(users: &amp;[User], id: u64) -&gt; Option&lt;String&gt; {
+    users.iter()
+        .find(|u| u.id == id)
+        .map(|u| u.email.clone())
+}
+
+// Bad: Deeply nested matching
+fn find_user_email_bad(users: &amp;[User], id: u64) -&gt; Option&lt;String&gt; {
+    match users.iter().find(|u| u.id == id) {
+        Some(user) =&gt; match &amp;user.email {
+            email =&gt; Some(email.clone()),
+        },
+        None =&gt; None,
+    }
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Enums and Pattern Matching
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Model States as Enums
+
+```rust
+// Good: Impossible states are unrepresentable
+enum ConnectionState {
+    Disconnected,
+    Connecting { attempt: u32 },
+    Connected { session_id: String },
+    Failed { reason: String, retries: u32 },
+}
+
+fn handle(state: &amp;ConnectionState) {
+    match state {
+        ConnectionState::Disconnected =&gt; connect(),
+        ConnectionState::Connecting { attempt } if *attempt &gt; 3 =&gt; abort(),
+        ConnectionState::Connecting { .. } =&gt; wait(),
+        ConnectionState::Connected { session_id } =&gt; use_session(session_id),
+        ConnectionState::Failed { retries, .. } if *retries &lt; 5 =&gt; retry(),
+        ConnectionState::Failed { reason, .. } =&gt; log_failure(reason),
+    }
+}
+```
+
+### Exhaustive Matching — No Catch-All for Business Logic
+
+```rust
+// Good: Handle every variant explicitly
+match command {
+    Command::Start =&gt; start_service(),
+    Command::Stop =&gt; stop_service(),
+    Command::Restart =&gt; restart_service(),
+    // Adding a new variant forces handling here
+}
+
+// Bad: Wildcard hides new variants
+match command {
+    Command::Start =&gt; start_service(),
+    _ =&gt; {} // Silently ignores Stop, Restart, and future variants
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Traits and Generics
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Accept Generics, Return Concrete Types
+
+```rust
+// Good: Generic input, concrete output
+fn read_all(reader: &amp;mut impl Read) -&gt; std::io::Result&lt;Vec&lt;u8&gt;&gt; {
+    let mut buf = Vec::new();
+    reader.read_to_end(&amp;mut buf)?;
+    Ok(buf)
+}
+
+// Good: Trait bounds for multiple constraints
+fn process&lt;T: Display + Send + &#039;static&gt;(item: T) -&gt; String {
+    format!(&quot;processed: {item}&quot;)
+}
+```
+
+### Trait Objects for Dynamic Dispatch
+
+```rust
+// Use when you need heterogeneous collections or plugin systems
+trait Handler: Send + Sync {
+    fn handle(&amp;self, request: &amp;Request) -&gt; Response;
+}
+
+struct Router {
+    handlers: Vec&lt;Box&lt;dyn Handler&gt;&gt;,
+}
+
+// Use generics when you need performance (monomorphization)
+fn fast_process&lt;H: Handler&gt;(handler: &amp;H, request: &amp;Request) -&gt; Response {
+    handler.handle(request)
+}
+```
+
+### Newtype Pattern for Type Safety
+
+```rust
+// Good: Distinct types prevent mixing up arguments
+struct UserId(u64);
+struct OrderId(u64);
+
+fn get_order(user: UserId, order: OrderId) -&gt; Result&lt;Order&gt; {
+    // Can&#039;t accidentally swap user and order IDs
+    todo!()
+}
+
+// Bad: Easy to swap arguments
+fn get_order_bad(user_id: u64, order_id: u64) -&gt; Result&lt;Order&gt; {
+    todo!()
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Structs and Data Modeling
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Builder Pattern for Complex Construction
+
+```rust
+struct ServerConfig {
+    host: String,
+    port: u16,
+    max_connections: usize,
+}
+
+impl ServerConfig {
+    fn builder(host: impl Into&lt;String&gt;, port: u16) -&gt; ServerConfigBuilder {
+        ServerConfigBuilder { host: host.into(), port, max_connections: 100 }
+    }
+}
+
+struct ServerConfigBuilder { host: String, port: u16, max_connections: usize }
+
+impl ServerConfigBuilder {
+    fn max_connections(mut self, n: usize) -&gt; Self { self.max_connections = n; self }
+    fn build(self) -&gt; ServerConfig {
+        ServerConfig { host: self.host, port: self.port, max_connections: self.max_connections }
+    }
+}
+
+// Usage: ServerConfig::builder(&quot;localhost&quot;, 8080).max_connections(200).build()
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Iterators and Closures
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Prefer Iterator Chains Over Manual Loops
+
+```rust
+// Good: Declarative, lazy, composable
+let active_emails: Vec&lt;String&gt; = users.iter()
+    .filter(|u| u.is_active)
+    .map(|u| u.email.clone())
+    .collect();
+
+// Bad: Imperative accumulation
+let mut active_emails = Vec::new();
+for user in &amp;users {
+    if user.is_active {
+        active_emails.push(user.email.clone());
+    }
+}
+```
+
+### Use `collect()` with Type Annotation
+
+```rust
+// Collect into different types
+let names: Vec&lt;_&gt; = items.iter().map(|i| &amp;i.name).collect();
+let lookup: HashMap&lt;_, _&gt; = items.iter().map(|i| (i.id, i)).collect();
+let combined: String = parts.iter().copied().collect();
+
+// Collect Results — short-circuits on first error
+let parsed: Result&lt;Vec&lt;i32&gt;, _&gt; = strings.iter().map(|s| s.parse()).collect();
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Concurrency
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### `Arc&lt;Mutex&lt;T&gt;&gt;` for Shared Mutable State
+
+```rust
+use std::sync::{Arc, Mutex};
+
+let counter = Arc::new(Mutex::new(0));
+let handles: Vec&lt;_&gt; = (0..10).map(|_| {
+    let counter = Arc::clone(&amp;counter);
+    std::thread::spawn(move || {
+        let mut num = counter.lock().expect(&quot;mutex poisoned&quot;);
+        *num += 1;
+    })
+}).collect();
+
+for handle in handles {
+    handle.join().expect(&quot;worker thread panicked&quot;);
+}
+```
+
+### Channels for Message Passing
+
+```rust
+use std::sync::mpsc;
+
+let (tx, rx) = mpsc::sync_channel(16); // Bounded channel with backpressure
+
+for i in 0..5 {
+    let tx = tx.clone();
+    std::thread::spawn(move || {
+        tx.send(format!(&quot;message {i}&quot;)).expect(&quot;receiver disconnected&quot;);
+    });
+}
+drop(tx); // Close sender so rx iterator terminates
+
+for msg in rx {
+    println!(&quot;{msg}&quot;);
+}
+```
+
+### Async with Tokio
+
+```rust
+use tokio::time::Duration;
+
+async fn fetch_with_timeout(url: &amp;str) -&gt; Result&lt;String&gt; {
+    let response = tokio::time::timeout(
+        Duration::from_secs(5),
+        reqwest::get(url),
+    )
+    .await
+    .context(&quot;request timed out&quot;)?
+    .context(&quot;request failed&quot;)?;
+
+    response.text().await.context(&quot;failed to read body&quot;)
+}
+
+// Spawn concurrent tasks
+async fn fetch_all(urls: Vec&lt;String&gt;) -&gt; Vec&lt;Result&lt;String&gt;&gt; {
+    let handles: Vec&lt;_&gt; = urls.into_iter()
+        .map(|url| tokio::spawn(async move {
+            fetch_with_timeout(&amp;url).await
+        }))
+        .collect();
+
+    let mut results = Vec::with_capacity(handles.len());
+    for handle in handles {
+        results.push(handle.await.unwrap_or_else(|e| panic!(&quot;spawned task panicked: {e}&quot;)));
+    }
+    results
+}
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Unsafe Code
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### When Unsafe Is Acceptable
+
+```rust
+// Acceptable: FFI boundary with documented invariants (Rust 2024+)
+/// # Safety
+/// `ptr` must be a valid, aligned pointer to an initialized `Widget`.
+unsafe fn widget_from_raw&lt;&#039;a&gt;(ptr: *const Widget) -&gt; &amp;&#039;a Widget {
+    // SAFETY: caller guarantees ptr is valid and aligned
+    unsafe { &amp;*ptr }
+}
+
+// Acceptable: Performance-critical path with proof of correctness
+// SAFETY: index is always &lt; len due to the loop bound
+unsafe { slice.get_unchecked(index) }
+```
+
+### When Unsafe Is NOT Acceptable
+
+```rust
+// Bad: Using unsafe to bypass borrow checker
+// Bad: Using unsafe for convenience
+// Bad: Using unsafe without a Safety comment
+// Bad: Transmuting between unrelated types
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Module System and Crate Structure
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Organize by Domain, Not by Type
+
+```text
+my_app/
+├── src/
+│   ├── main.rs
+│   ├── lib.rs
+│   ├── auth/          # Domain module
+│   │   ├── mod.rs
+│   │   ├── token.rs
+│   │   └── middleware.rs
+│   ├── orders/        # Domain module
+│   │   ├── mod.rs
+│   │   ├── model.rs
+│   │   └── service.rs
+│   └── db/            # Infrastructure
+│       ├── mod.rs
+│       └── pool.rs
+├── tests/             # Integration tests
+├── benches/           # Benchmarks
+└── Cargo.toml
+```
+
+### Visibility — Expose Minimally
+
+```rust
+// Good: pub(crate) for internal sharing
+pub(crate) fn validate_input(input: &amp;str) -&gt; bool {
+    !input.is_empty()
+}
+
+// Good: Re-export public API from lib.rs
+pub mod auth;
+pub use auth::AuthMiddleware;
+
+// Bad: Making everything pub
+pub fn internal_helper() {} // Should be pub(crate) or private
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Tooling Integration
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">### Essential Commands
+
+```bash
+# Build and check
+cargo build
+cargo check              # Fast type checking without codegen
+cargo clippy             # Lints and suggestions
+cargo fmt                # Format code
+
+# Testing
+cargo test
+cargo test -- --nocapture    # Show println output
+cargo test --lib             # Unit tests only
+cargo test --test integration # Integration tests only
+
+# Dependencies
+cargo audit              # Security audit
+cargo tree               # Dependency tree
+cargo update             # Update dependencies
+
+# Performance
+cargo bench              # Run benchmarks
+```</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Quick Reference: Rust Idioms
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">| Idiom | Description |
+|-------|-------------|
+| Borrow, don&#039;t clone | Pass `&amp;T` instead of cloning unless ownership is needed |
+| Make illegal states unrepresentable | Use enums to model valid states only |
+| `?` over `unwrap()` | Propagate errors, never panic in library/production code |
+| Parse, don&#039;t validate | Convert unstructured data to typed structs at the boundary |
+| Newtype for type safety | Wrap primitives in newtypes to prevent argument swaps |
+| Prefer iterators over loops | Declarative chains are clearer and often faster |
+| `#[must_use]` on Results | Ensure callers handle return values |
+| `Cow` for flexible ownership | Avoid allocations when borrowing suffices |
+| Exhaustive matching | No wildcard `_` for business-critical enums |
+| Minimal `pub` surface | Use `pub(crate)` for internal APIs |</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Anti-Patterns to Avoid
+            </h2>
+            <div class="section-content">
+                <pre class="section-text">```rust
+// Bad: .unwrap() in production code
+let value = map.get(&quot;key&quot;).unwrap();
+
+// Bad: .clone() to satisfy borrow checker without understanding why
+let data = expensive_data.clone();
+process(&amp;original, &amp;data);
+
+// Bad: Using String when &amp;str suffices
+fn greet(name: String) { /* should be &amp;str */ }
+
+// Bad: Box&lt;dyn Error&gt; in libraries (use thiserror instead)
+fn parse(input: &amp;str) -&gt; Result&lt;Data, Box&lt;dyn std::error::Error&gt;&gt; { todo!() }
+
+// Bad: Ignoring must_use warnings
+let _ = validate(input); // Silently discarding a Result
+
+// Bad: Blocking in async context
+async fn bad_async() {
+    std::thread::sleep(Duration::from_secs(1)); // Blocks the executor!
+    // Use: tokio::time::sleep(Duration::from_secs(1)).await;
+}
+```
+
+**Remember**: If it compiles, it&#039;s probably correct — but only if you avoid `unwrap()`, minimize `unsafe`, and let the type system work for you.</pre>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                完整内容
+            </h2>
+            <div class="section-content">
+                <pre class="section-text full-content-text">---
+name: rust-patterns
+description: Idiomatic Rust patterns, ownership, error handling, traits, concurrency, and best practices for building safe, performant applications.
+origin: ECC
+---
+
+# Rust Development Patterns
+
+Idiomatic Rust patterns and best practices for building safe, performant, and maintainable applications.
+
+## When to Use
+
+- Writing new Rust code
+- Reviewing Rust code
+- Refactoring existing Rust code
+- Designing crate structure and module layout
+
+## How It Works
+
+This skill enforces idiomatic Rust conventions across six key areas: ownership and borrowing to prevent data races at compile time, `Result`/`?` error propagation with `thiserror` for libraries and `anyhow` for applications, enums and exhaustive pattern matching to make illegal states unrepresentable, traits and generics for zero-cost abstraction, safe concurrency via `Arc&lt;Mutex&lt;T&gt;&gt;`, channels, and async/await, and minimal `pub` surfaces organized by domain.
+
+## Core Principles
+
+### 1. Ownership and Borrowing
+
+Rust&#039;s ownership system prevents data races and memory bugs at compile time.
+
+```rust
+// Good: Pass references when you don&#039;t need ownership
+fn process(data: &amp;[u8]) -&gt; usize {
+    data.len()
+}
+
+// Good: Take ownership only when you need to store or consume
+fn store(data: Vec&lt;u8&gt;) -&gt; Record {
+    Record { payload: data }
+}
+
+// Bad: Cloning unnecessarily to avoid borrow checker
+fn process_bad(data: &amp;Vec&lt;u8&gt;) -&gt; usize {
+    let cloned = data.clone(); // Wasteful — just borrow
+    cloned.len()
+}
+```
+
+### Use `Cow` for Flexible Ownership
+
+```rust
+use std::borrow::Cow;
+
+fn normalize(input: &amp;str) -&gt; Cow&lt;&#039;_, str&gt; {
+    if input.contains(&#039; &#039;) {
+        Cow::Owned(input.replace(&#039; &#039;, &quot;_&quot;))
+    } else {
+        Cow::Borrowed(input) // Zero-cost when no mutation needed
+    }
+}
+```
+
+## Error Handling
+
+### Use `Result` and `?` — Never `unwrap()` in Production
+
+```rust
+// Good: Propagate errors with context
+use anyhow::{Context, Result};
+
+fn load_config(path: &amp;str) -&gt; Result&lt;Config&gt; {
+    let content = std::fs::read_to_string(path)
+        .with_context(|| format!(&quot;failed to read config from {path}&quot;))?;
+    let config: Config = toml::from_str(&amp;content)
+        .with_context(|| format!(&quot;failed to parse config from {path}&quot;))?;
+    Ok(config)
+}
+
+// Bad: Panics on error
+fn load_config_bad(path: &amp;str) -&gt; Config {
+    let content = std::fs::read_to_string(path).unwrap(); // Panics!
+    toml::from_str(&amp;content).unwrap()
+}
+```
+
+### Library Errors with `thiserror`, Application Errors with `anyhow`
+
+```rust
+// Library code: structured, typed errors
+use thiserror::Error;
+
+#[derive(Debug, Error)]
+pub enum StorageError {
+    #[error(&quot;record not found: {id}&quot;)]
+    NotFound { id: String },
+    #[error(&quot;connection failed&quot;)]
+    Connection(#[from] std::io::Error),
+    #[error(&quot;invalid data: {0}&quot;)]
+    InvalidData(String),
+}
+
+// Application code: flexible error handling
+use anyhow::{bail, Result};
+
+fn run() -&gt; Result&lt;()&gt; {
+    let config = load_config(&quot;app.toml&quot;)?;
+    if config.workers == 0 {
+        bail!(&quot;worker count must be &gt; 0&quot;);
+    }
+    Ok(())
+}
+```
+
+### `Option` Combinators Over Nested Matching
+
+```rust
+// Good: Combinator chain
+fn find_user_email(users: &amp;[User], id: u64) -&gt; Option&lt;String&gt; {
+    users.iter()
+        .find(|u| u.id == id)
+        .map(|u| u.email.clone())
+}
+
+// Bad: Deeply nested matching
+fn find_user_email_bad(users: &amp;[User], id: u64) -&gt; Option&lt;String&gt; {
+    match users.iter().find(|u| u.id == id) {
+        Some(user) =&gt; match &amp;user.email {
+            email =&gt; Some(email.clone()),
+        },
+        None =&gt; None,
+    }
+}
+```
+
+## Enums and Pattern Matching
+
+### Model States as Enums
+
+```rust
+// Good: Impossible states are unrepresentable
+enum ConnectionState {
+    Disconnected,
+    Connecting { attempt: u32 },
+    Connected { session_id: String },
+    Failed { reason: String, retries: u32 },
+}
+
+fn handle(state: &amp;ConnectionState) {
+    match state {
+        ConnectionState::Disconnected =&gt; connect(),
+        ConnectionState::Connecting { attempt } if *attempt &gt; 3 =&gt; abort(),
+        ConnectionState::Connecting { .. } =&gt; wait(),
+        ConnectionState::Connected { session_id } =&gt; use_session(session_id),
+        ConnectionState::Failed { retries, .. } if *retries &lt; 5 =&gt; retry(),
+        ConnectionState::Failed { reason, .. } =&gt; log_failure(reason),
+    }
+}
+```
+
+### Exhaustive Matching — No Catch-All for Business Logic
+
+```rust
+// Good: Handle every variant explicitly
+match command {
+    Command::Start =&gt; start_service(),
+    Command::Stop =&gt; stop_service(),
+    Command::Restart =&gt; restart_service(),
+    // Adding a new variant forces handling here
+}
+
+// Bad: Wildcard hides new variants
+match command {
+    Command::Start =&gt; start_service(),
+    _ =&gt; {} // Silently ignores Stop, Restart, and future variants
+}
+```
+
+## Traits and Generics
+
+### Accept Generics, Return Concrete Types
+
+```rust
+// Good: Generic input, concrete output
+fn read_all(reader: &amp;mut impl Read) -&gt; std::io::Result&lt;Vec&lt;u8&gt;&gt; {
+    let mut buf = Vec::new();
+    reader.read_to_end(&amp;mut buf)?;
+    Ok(buf)
+}
+
+// Good: Trait bounds for multiple constraints
+fn process&lt;T: Display + Send + &#039;static&gt;(item: T) -&gt; String {
+    format!(&quot;processed: {item}&quot;)
+}
+```
+
+### Trait Objects for Dynamic Dispatch
+
+```rust
+// Use when you need heterogeneous collections or plugin systems
+trait Handler: Send + Sync {
+    fn handle(&amp;self, request: &amp;Request) -&gt; Response;
+}
+
+struct Router {
+    handlers: Vec&lt;Box&lt;dyn Handler&gt;&gt;,
+}
+
+// Use generics when you need performance (monomorphization)
+fn fast_process&lt;H: Handler&gt;(handler: &amp;H, request: &amp;Request) -&gt; Response {
+    handler.handle(request)
+}
+```
+
+### Newtype Pattern for Type Safety
+
+```rust
+// Good: Distinct types prevent mixing up arguments
+struct UserId(u64);
+struct OrderId(u64);
+
+fn get_order(user: UserId, order: OrderId) -&gt; Result&lt;Order&gt; {
+    // Can&#039;t accidentally swap user and order IDs
+    todo!()
+}
+
+// Bad: Easy to swap arguments
+fn get_order_bad(user_id: u64, order_id: u64) -&gt; Result&lt;Order&gt; {
+    todo!()
+}
+```
+
+## Structs and Data Modeling
+
+### Builder Pattern for Complex Construction
+
+```rust
+struct ServerConfig {
+    host: String,
+    port: u16,
+    max_connections: usize,
+}
+
+impl ServerConfig {
+    fn builder(host: impl Into&lt;String&gt;, port: u16) -&gt; ServerConfigBuilder {
+        ServerConfigBuilder { host: host.into(), port, max_connections: 100 }
+    }
+}
+
+struct ServerConfigBuilder { host: String, port: u16, max_connections: usize }
+
+impl ServerConfigBuilder {
+    fn max_connections(mut self, n: usize) -&gt; Self { self.max_connections = n; self }
+    fn build(self) -&gt; ServerConfig {
+        ServerConfig { host: self.host, port: self.port, max_connections: self.max_connections }
+    }
+}
+
+// Usage: ServerConfig::builder(&quot;localhost&quot;, 8080).max_connections(200).build()
+```
+
+## Iterators and Closures
+
+### Prefer Iterator Chains Over Manual Loops
+
+```rust
+// Good: Declarative, lazy, composable
+let active_emails: Vec&lt;String&gt; = users.iter()
+    .filter(|u| u.is_active)
+    .map(|u| u.email.clone())
+    .collect();
+
+// Bad: Imperative accumulation
+let mut active_emails = Vec::new();
+for user in &amp;users {
+    if user.is_active {
+        active_emails.push(user.email.clone());
+    }
+}
+```
+
+### Use `collect()` with Type Annotation
+
+```rust
+// Collect into different types
+let names: Vec&lt;_&gt; = items.iter().map(|i| &amp;i.name).collect();
+let lookup: HashMap&lt;_, _&gt; = items.iter().map(|i| (i.id, i)).collect();
+let combined: String = parts.iter().copied().collect();
+
+// Collect Results — short-circuits on first error
+let parsed: Result&lt;Vec&lt;i32&gt;, _&gt; = strings.iter().map(|s| s.parse()).collect();
+```
+
+## Concurrency
+
+### `Arc&lt;Mutex&lt;T&gt;&gt;` for Shared Mutable State
+
+```rust
+use std::sync::{Arc, Mutex};
+
+let counter = Arc::new(Mutex::new(0));
+let handles: Vec&lt;_&gt; = (0..10).map(|_| {
+    let counter = Arc::clone(&amp;counter);
+    std::thread::spawn(move || {
+        let mut num = counter.lock().expect(&quot;mutex poisoned&quot;);
+        *num += 1;
+    })
+}).collect();
+
+for handle in handles {
+    handle.join().expect(&quot;worker thread panicked&quot;);
+}
+```
+
+### Channels for Message Passing
+
+```rust
+use std::sync::mpsc;
+
+let (tx, rx) = mpsc::sync_channel(16); // Bounded channel with backpressure
+
+for i in 0..5 {
+    let tx = tx.clone();
+    std::thread::spawn(move || {
+        tx.send(format!(&quot;message {i}&quot;)).expect(&quot;receiver disconnected&quot;);
+    });
+}
+drop(tx); // Close sender so rx iterator terminates
+
+for msg in rx {
+    println!(&quot;{msg}&quot;);
+}
+```
+
+### Async with Tokio
+
+```rust
+use tokio::time::Duration;
+
+async fn fetch_with_timeout(url: &amp;str) -&gt; Result&lt;String&gt; {
+    let response = tokio::time::timeout(
+        Duration::from_secs(5),
+        reqwest::get(url),
+    )
+    .await
+    .context(&quot;request timed out&quot;)?
+    .context(&quot;request failed&quot;)?;
+
+    response.text().await.context(&quot;failed to read body&quot;)
+}
+
+// Spawn concurrent tasks
+async fn fetch_all(urls: Vec&lt;String&gt;) -&gt; Vec&lt;Result&lt;String&gt;&gt; {
+    let handles: Vec&lt;_&gt; = urls.into_iter()
+        .map(|url| tokio::spawn(async move {
+            fetch_with_timeout(&amp;url).await
+        }))
+        .collect();
+
+    let mut results = Vec::with_capacity(handles.len());
+    for handle in handles {
+        results.push(handle.await.unwrap_or_else(|e| panic!(&quot;spawned task panicked: {e}&quot;)));
+    }
+    results
+}
+```
+
+## Unsafe Code
+
+### When Unsafe Is Acceptable
+
+```rust
+// Acceptable: FFI boundary with documented invariants (Rust 2024+)
+/// # Safety
+/// `ptr` must be a valid, aligned pointer to an initialized `Widget`.
+unsafe fn widget_from_raw&lt;&#039;a&gt;(ptr: *const Widget) -&gt; &amp;&#039;a Widget {
+    // SAFETY: caller guarantees ptr is valid and aligned
+    unsafe { &amp;*ptr }
+}
+
+// Acceptable: Performance-critical path with proof of correctness
+// SAFETY: index is always &lt; len due to the loop bound
+unsafe { slice.get_unchecked(index) }
+```
+
+### When Unsafe Is NOT Acceptable
+
+```rust
+// Bad: Using unsafe to bypass borrow checker
+// Bad: Using unsafe for convenience
+// Bad: Using unsafe without a Safety comment
+// Bad: Transmuting between unrelated types
+```
+
+## Module System and Crate Structure
+
+### Organize by Domain, Not by Type
+
+```text
+my_app/
+├── src/
+│   ├── main.rs
+│   ├── lib.rs
+│   ├── auth/          # Domain module
+│   │   ├── mod.rs
+│   │   ├── token.rs
+│   │   └── middleware.rs
+│   ├── orders/        # Domain module
+│   │   ├── mod.rs
+│   │   ├── model.rs
+│   │   └── service.rs
+│   └── db/            # Infrastructure
+│       ├── mod.rs
+│       └── pool.rs
+├── tests/             # Integration tests
+├── benches/           # Benchmarks
+└── Cargo.toml
+```
+
+### Visibility — Expose Minimally
+
+```rust
+// Good: pub(crate) for internal sharing
+pub(crate) fn validate_input(input: &amp;str) -&gt; bool {
+    !input.is_empty()
+}
+
+// Good: Re-export public API from lib.rs
+pub mod auth;
+pub use auth::AuthMiddleware;
+
+// Bad: Making everything pub
+pub fn internal_helper() {} // Should be pub(crate) or private
+```
+
+## Tooling Integration
+
+### Essential Commands
+
+```bash
+# Build and check
+cargo build
+cargo check              # Fast type checking without codegen
+cargo clippy             # Lints and suggestions
+cargo fmt                # Format code
+
+# Testing
+cargo test
+cargo test -- --nocapture    # Show println output
+cargo test --lib             # Unit tests only
+cargo test --test integration # Integration tests only
+
+# Dependencies
+cargo audit              # Security audit
+cargo tree               # Dependency tree
+cargo update             # Update dependencies
+
+# Performance
+cargo bench              # Run benchmarks
+```
+
+## Quick Reference: Rust Idioms
+
+| Idiom | Description |
+|-------|-------------|
+| Borrow, don&#039;t clone | Pass `&amp;T` instead of cloning unless ownership is needed |
+| Make illegal states unrepresentable | Use enums to model valid states only |
+| `?` over `unwrap()` | Propagate errors, never panic in library/production code |
+| Parse, don&#039;t validate | Convert unstructured data to typed structs at the boundary |
+| Newtype for type safety | Wrap primitives in newtypes to prevent argument swaps |
+| Prefer iterators over loops | Declarative chains are clearer and often faster |
+| `#[must_use]` on Results | Ensure callers handle return values |
+| `Cow` for flexible ownership | Avoid allocations when borrowing suffices |
+| Exhaustive matching | No wildcard `_` for business-critical enums |
+| Minimal `pub` surface | Use `pub(crate)` for internal APIs |
+
+## Anti-Patterns to Avoid
+
+```rust
+// Bad: .unwrap() in production code
+let value = map.get(&quot;key&quot;).unwrap();
+
+// Bad: .clone() to satisfy borrow checker without understanding why
+let data = expensive_data.clone();
+process(&amp;original, &amp;data);
+
+// Bad: Using String when &amp;str suffices
+fn greet(name: String) { /* should be &amp;str */ }
+
+// Bad: Box&lt;dyn Error&gt; in libraries (use thiserror instead)
+fn parse(input: &amp;str) -&gt; Result&lt;Data, Box&lt;dyn std::error::Error&gt;&gt; { todo!() }
+
+// Bad: Ignoring must_use warnings
+let _ = validate(input); // Silently discarding a Result
+
+// Bad: Blocking in async context
+async fn bad_async() {
+    std::thread::sleep(Duration::from_secs(1)); // Blocks the executor!
+    // Use: tokio::time::sleep(Duration::from_secs(1)).await;
+}
+```
+
+**Remember**: If it compiles, it&#039;s probably correct — but only if you avoid `unwrap()`, minimize `unsafe`, and let the type system work for you.
+</pre>
+            </div>
+        </section>
+
+        <div class="detail-nav">
+            <a class="nav-card" href="../skills.html">
+                <div class="nav-label">返回列表</div>
+                <div class="nav-title">Capabilities 列表</div>
+                <div class="nav-type">技能</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

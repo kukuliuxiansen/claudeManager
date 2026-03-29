@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Manager - Claude Code 组件管理</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        /* Page-specific styles */
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222e;
+            --accent-cyan: #00d4aa;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f59e0b;
+            --accent-pink: #ec4899;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --border-subtle: #2a2a35;
+        }
+
+        /* Background Effects */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 212, 170, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 50%, rgba(0, 212, 170, 0.08), transparent),
+                radial-gradient(ellipse 50% 30% at 20% 80%, rgba(245, 158, 11, 0.06), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .noise {
+            position: fixed;
+            inset: 0;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--accent-cyan);
+        }
+
+        .search-container {
+            position: relative;
+            width: 320px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 212, 170, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 24px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 2;
+            padding: 60px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        /* Category Card */
+        .category-card {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 32px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, var(--card-accent) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--card-accent);
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 60px var(--card-glow);
+        }
+
+        .category-card:hover::before {
+            opacity: 0.1;
+        }
+
+        /* Card Colors */
+        .category-card.skills { --card-accent: var(--accent-cyan); --card-glow: rgba(0, 212, 170, 0.15); }
+        .category-card.agents { --card-accent: var(--accent-purple); --card-glow: rgba(139, 92, 246, 0.15); }
+        .category-card.commands { --card-accent: var(--accent-purple); --card-glow: rgba(139, 92, 246, 0.15); }
+        .category-card.plugins { --card-accent: var(--accent-orange); --card-glow: rgba(245, 158, 11, 0.15); }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--card-accent), transparent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 1px solid var(--card-accent);
+            opacity: 0.8;
+        }
+
+        .card-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--card-accent);
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid var(--card-accent);
+            opacity: 0.6;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .card-modules {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .card-module-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            padding: 4px 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+            transition: all 0.2s ease;
+        }
+
+        .category-card:hover .card-module-tag {
+            border-color: var(--card-accent);
+            color: var(--card-accent);
+        }
+
+        .card-arrow {
+            position: absolute;
+            right: 24px;
+            bottom: 24px;
+            width: 40px;
+            height: 40px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .card-arrow {
+            background: var(--card-accent);
+            color: var(--bg-primary);
+            transform: translateX(4px);
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 80px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 20px;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .category-card {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .category-card:nth-child(1) { animation-delay: 0.1s; }
+        .category-card:nth-child(2) { animation-delay: 0.15s; }
+        .category-card:nth-child(3) { animation-delay: 0.2s; }
+        .category-card:nth-child(4) { animation-delay: 0.25s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .search-container {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .stats {
+                display: none;
+            }
+
+            main {
+                padding: 40px 20px;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .category-card {
+                padding: 24px;
+            }
+
+            .card-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+    <div class="noise"></div>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">CM</div>
+            <div class="logo-text">Claude <span>Manager</span></div>
+        </div>
+        <div class="search-container">
+            <span class="search-icon">⌘</span>
+            <input type="text" class="search-input" placeholder="搜索组件..." id="searchInput">
+        </div>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">115+</div>
+                <div class="stat-label">Skills</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">40+</div>
+                <div class="stat-label">Agents</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">70+</div>
+                <div class="stat-label">Commands</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">10+</div>
+                <div class="stat-label">Plugins</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1 class="hero-title">Claude Manager</h1>
+            <p class="hero-subtitle">
+                Claude Code 组件管理系统。统一管理 Skills 技能、Agents 代理、Plugins 插件，提供完整的三级导航结构。
+            </p>
+            <div class="hero-badge">
+                <div class="hero-badge-dot"></div>
+                <span>本地组件 + 插件组件 · 实时扫描 · 详细文档</span>
+            </div>
+        </section>
+
+        <section class="categories-grid" id="categoriesGrid">
+            <!-- Skills -->
+            <div class="category-card skills" data-category="skills">
+                <div class="card-header">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-count">115+ modules</div>
+                </div>
+                <h2 class="card-title">Skills 技能模块</h2>
+                <p class="card-description">
+                    工作流定义和领域知识。由命令或代理调用的专业能力模块，包含详细的实现指南和最佳实践。
+                </p>
+                <div class="card-modules">
+                    <span class="card-module-tag">python-testing</span>
+                    <span class="card-module-tag">tdd-workflow</span>
+                    <span class="card-module-tag">security-review</span>
+                    <span class="card-module-tag">golang-patterns</span>
+                    <span class="card-module-tag">continuous-learning</span>
+                </div>
+                <div class="card-arrow">→</div>
+            </div>
+
+            <!-- Agents -->
+            <div class="category-card agents" data-category="agents">
+                <div class="card-header">
+                    <div class="card-icon">🤖</div>
+                    <div class="card-count">40+ modules</div>
+                </div>
+                <h2 class="card-title">Agents 代理模块</h2>
+                <p class="card-description">
+                    专业子代理，用于委托处理特定任务。每个代理具有有限的工具范围、明确的职责和独立的工作上下文。
+                </p>
+                <div class="card-modules">
+                    <span class="card-module-tag">planner</span>
+                    <span class="card-module-tag">code-reviewer</span>
+                    <span class="card-module-tag">tdd-guide</span>
+                    <span class="card-module-tag">architect</span>
+                    <span class="card-module-tag">security-reviewer</span>
+                </div>
+                <div class="card-arrow">→</div>
+            </div>
+
+            <!-- Commands -->
+            <div class="category-card commands" data-category="commands">
+                <div class="card-header">
+                    <div class="card-icon">📝</div>
+                    <div class="card-count">70+ modules</div>
+                </div>
+                <h2 class="card-title">Commands 命令模块</h2>
+                <p class="card-description">
+                    快捷命令脚本，通过斜杠命令直接执行特定操作。提供快速访问工作流和自动化任务的能力。
+                </p>
+                <div class="card-modules">
+                    <span class="card-module-tag">commit</span>
+                    <span class="card-module-tag">review-pr</span>
+                    <span class="card-module-tag">test</span>
+                    <span class="card-module-tag">build</span>
+                    <span class="card-module-tag">deploy</span>
+                </div>
+                <div class="card-arrow">→</div>
+            </div>
+
+            <!-- Plugins -->
+            <div class="category-card plugins" data-category="plugins">
+                <div class="card-header">
+                    <div class="card-icon">🔌</div>
+                    <div class="card-count">10+ plugins</div>
+                </div>
+                <h2 class="card-title">Plugins 插件模块</h2>
+                <p class="card-description">
+                    外部插件扩展。安装的第三方插件提供的额外 Skills、Agents 和 Commands，扩展 Claude Code 的能力边界。
+                </p>
+                <div class="card-modules">
+                    <span class="card-module-tag">everything-claude-code</span>
+                    <span class="card-module-tag">pr-review-toolkit</span>
+                    <span class="card-module-tag">plugin-dev</span>
+                    <span class="card-module-tag">hookify</span>
+                    <span class="card-module-tag">statusline-setup</span>
+                </div>
+                <div class="card-arrow">→</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html" class="footer-link">← Everything Claude Code</a>
+            <a href="https://github.com/anthropics/claude-code" class="footer-link">Claude Code GitHub</a>
+        </div>
+        <p class="footer-text">Claude Manager · 本地组件管理系统</p>
+    </footer>
+
+    <script>
+        // Category navigation
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const category = card.dataset.category;
+                window.location.href = `pages/${category}.html`;
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.category-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const description = card.querySelector('.card-description').textContent.toLowerCase();
+                const tags = card.querySelectorAll('.card-module-tag');
+                const tagText = Array.from(tags).map(t => t.textContent.toLowerCase()).join(' ');
+
+                const matches = title.includes(query) ||
+                               description.includes(query) ||
+                               tagText.includes(query);
+
+                card.style.display = matches ? 'block' : 'none';
+                card.style.animation = matches ? 'fadeInUp 0.3s ease-out' : 'none';
+            });
+        });
+
+        // Keyboard shortcut for search
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                searchInput.focus();
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

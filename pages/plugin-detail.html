@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>插件详情 - Claude Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-orange: #f59e0b;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --border-subtle: #2a2a35;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(245, 158, 11, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245, 158, 11, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 158, 11, 0.2), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 50%, rgba(0, 212, 170, 0.08), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-orange), #00d4aa);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--accent-orange);
+        }
+
+        main {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-orange);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 0.7;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-muted);
+        }
+
+        .detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .detail-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--accent-orange), rgba(245, 158, 11, 0.3));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px solid var(--accent-orange);
+        }
+
+        .detail-title-section {
+            flex: 1;
+        }
+
+        .detail-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .detail-source {
+            display: inline-block;
+            font-size: 12px;
+            padding: 6px 12px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            color: var(--accent-orange);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 8px;
+        }
+
+        .section-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .components-box {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            margin-top: 16px;
+            line-height: 1.8;
+        }
+
+        .components-box strong {
+            color: var(--accent-orange);
+        }
+
+        .component-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .component-tag {
+            font-size: 12px;
+            padding: 6px 10px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            color: var(--text-secondary);
+        }
+
+        .component-tag.agent {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #8b5cf6;
+        }
+
+        .component-tag.tool {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+
+        .component-tag.skill {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            color: #3b82f6;
+        }
+
+        .component-tag.hook {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+            color: #f59e0b;
+        }
+
+        .tags-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .tag {
+            font-size: 12px;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            color: var(--text-muted);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .action-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn.primary {
+            background: var(--accent-orange);
+            color: white;
+        }
+
+        .action-btn.secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 60px;
+            color: #ef4444;
+            font-size: 16px;
+        }
+
+        footer {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 60px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Source-specific colors */
+        .detail-card.local { --accent-orange: #10b981; }
+        .detail-card.npm { --accent-orange: #3b82f6; }
+        .detail-card.github { --accent-orange: #8b5cf6; }
+        .detail-card.mcp { --accent-orange: #f59e0b; }
+
+        .detail-card.local .detail-name { color: #10b981; }
+        .detail-card.local .detail-icon { background: linear-gradient(135deg, #10b981, rgba(16, 185, 129, 0.3)); border-color: #10b981; }
+        .detail-card.local .detail-source { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #10b981; }
+        .detail-card.local .components-box strong { color: #10b981; }
+
+        .detail-card.npm .detail-name { color: #3b82f6; }
+        .detail-card.npm .detail-icon { background: linear-gradient(135deg, #3b82f6, rgba(59, 130, 246, 0.3)); border-color: #3b82f6; }
+        .detail-card.npm .detail-source { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #3b82f6; }
+        .detail-card.npm .components-box strong { color: #3b82f6; }
+
+        .detail-card.github .detail-name { color: #8b5cf6; }
+        .detail-card.github .detail-icon { background: linear-gradient(135deg, #8b5cf6, rgba(139, 92, 246, 0.3)); border-color: #8b5cf6; }
+        .detail-card.github .detail-source { background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3); color: #8b5cf6; }
+        .detail-card.github .components-box strong { color: #8b5cf6; }
+
+        .detail-card.mcp .detail-name { color: #f59e0b; }
+        .detail-card.mcp .detail-icon { background: linear-gradient(135deg, #f59e0b, rgba(245, 158, 11, 0.3)); border-color: #f59e0b; }
+        .detail-card.mcp .detail-source { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); color: #f59e0b; }
+        .detail-card.mcp .components-box strong { color: #f59e0b; }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 20px;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            .detail-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">CM</div>
+            <div class="logo-text">Claude <span>Manager</span></div>
+        </div>
+    </header>
+
+    <main>
+        <div class="breadcrumb" id="breadcrumb">
+            <!-- Built via safe DOM methods -->
+        </div>
+
+        <div class="detail-card" id="detailCard">
+            <div class="loading">加载中...</div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="footer-text">插件详情 · Claude Manager</p>
+    </footer>
+
+    <script>
+        // Plugin data from plugins.html
+        const PLUGINS_DATA = {
+            'everything-claude-code': {
+                name: 'everything-claude-code',
+                source: 'local',
+                description: 'Everything Claude Code 核心插件，提供完整的 Skills、Agents、Hooks 和 Rules 系统。包含 115+ Skills 和 40+ Agents，覆盖测试、审查、规划、构建等所有开发场景。',
+                components: {
+                    skills: 115,
+                    agents: 40,
+                    hooks: '多个',
+                    rules: '完整'
+                },
+                agents: ['planner', 'architect', 'tdd-guide', 'e2e-runner', 'code-reviewer', 'security-reviewer', 'refactor-cleaner', 'build-error-resolver', 'kotlin-build-resolver', 'go-build-resolver', 'go-reviewer', 'python-reviewer', 'kotlin-reviewer', 'typescript-reviewer', 'java-reviewer', 'rust-reviewer', 'database-reviewer', 'doc-updater', 'chief-of-staff', 'harness-optimizer', 'loop-operator', 'docs-lookup'],
+                tags: ['核心', 'TDD', '审查', '规划', '测试', '全面']
+            },
+            'pr-review-toolkit': {
+                name: 'pr-review-toolkit',
+                source: 'local',
+                description: 'PR审查工具包，提供代码审查、简化、测试分析、类型设计和静默失败检测代理。帮助确保PR质量达到项目标准。',
+                components: {
+                    agents: 5
+                },
+                agents: ['code-reviewer', 'code-simplifier', 'pr-test-analyzer', 'type-design-analyzer', 'silent-failure-hunter', 'comment-analyzer'],
+                tags: ['PR', '审查', '测试', '类型', '静默失败']
+            },
+            'plugin-dev': {
+                name: 'plugin-dev',
+                source: 'local',
+                description: '插件开发工具包，提供插件验证、代理创建和技能审查代理。帮助开发者创建高质量插件，确保插件结构和内容正确。',
+                components: {
+                    agents: 3
+                },
+                agents: ['plugin-validator', 'agent-creator', 'skill-reviewer'],
+                tags: ['插件开发', '验证', '代理', '技能']
+            },
+            'hookify': {
+                name: 'hookify',
+                source: 'local',
+                description: '从对话分析中生成Hooks的插件。分析对话历史，识别需要阻止的行为并生成Hook配置，帮助防止重复错误。',
+                components: {
+                    agents: 1
+                },
+                agents: ['conversation-analyzer'],
+                tags: ['Hooks', '对话分析', '行为阻止']
+            },
+            'statusline-setup': {
+                name: 'statusline-setup',
+                source: 'npm',
+                description: '状态栏配置代理，帮助配置Claude Code状态栏设置。提供交互式配置体验，设置显示选项和格式。',
+                components: {
+                    agents: 1
+                },
+                agents: ['statusline-setup'],
+                tags: ['配置', '状态栏', '交互式']
+            },
+            'feature-dev': {
+                name: 'feature-dev',
+                source: 'github',
+                description: '功能开发工具包，提供代码架构师、代码探索者、代码审查者代理。支持完整的功能开发流程，从架构设计到代码审查。',
+                components: {
+                    agents: 3
+                },
+                agents: ['code-architect', 'code-explorer', 'code-reviewer'],
+                tags: ['功能开发', '架构', '探索', '审查']
+            },
+            'cpp-build-resolver': {
+                name: 'cpp-build-resolver',
+                source: 'local',
+                description: 'C++构建、CMake和编译错误解决专家。修复构建错误、链接问题和模板错误，专注于内存安全和现代C++惯用模式。',
+                components: {
+                    agents: 2
+                },
+                agents: ['cpp-build-resolver', 'cpp-reviewer'],
+                tags: ['C++', 'CMake', '构建', '模板', '内存安全']
+            },
+            'java-build-resolver': {
+                name: 'java-build-resolver',
+                source: 'local',
+                description: 'Java/Maven/Gradle构建、编译和依赖错误解决专家。用最小变更修复构建问题，处理依赖冲突和编译错误。',
+                components: {
+                    agents: 1
+                },
+                agents: ['java-build-resolver'],
+                tags: ['Java', 'Maven', 'Gradle', '构建']
+            },
+            'pytorch-build-resolver': {
+                name: 'pytorch-build-resolver',
+                source: 'local',
+                description: 'PyTorch运行时、CUDA和训练错误解决专家。修复tensor形状不匹配、设备错误、梯度问题和DataLoader问题。',
+                components: {
+                    agents: 1
+                },
+                agents: ['pytorch-build-resolver'],
+                tags: ['PyTorch', 'CUDA', '训练', '张量']
+            },
+            'rust-build-resolver': {
+                name: 'rust-build-resolver',
+                source: 'local',
+                description: 'Rust构建、编译和依赖错误解决专家。修复cargo构建错误和borrow checker问题，处理Cargo.toml配置。',
+                components: {
+                    agents: 1
+                },
+                agents: ['rust-build-resolver'],
+                tags: ['Rust', 'Cargo', '构建', 'Borrow']
+            },
+            'flutter-reviewer': {
+                name: 'flutter-reviewer',
+                source: 'local',
+                description: 'Flutter和Dart代码审查专家。审查widget最佳实践、状态管理、Dart惯用模式、性能和Clean Architecture合规。',
+                components: {
+                    agents: 1
+                },
+                agents: ['flutter-reviewer'],
+                tags: ['Flutter', 'Dart', 'Widget', '状态管理']
+            },
+            'chrome-devtools-mcp': {
+                name: 'chrome-devtools-mcp',
+                source: 'mcp',
+                description: 'Chrome DevTools MCP插件，提供浏览器自动化、截图、性能分析等功能。支持Playwright风格操作，包括点击、填充、导航、脚本执行等。',
+                components: {
+                    tools: 30
+                },
+                tools: ['click', 'fill', 'navigate', 'screenshot', 'snapshot', 'evaluate_script', 'hover', 'press_key', 'drag', 'upload_file', 'wait_for', 'list_pages', 'select_page', 'close_page', 'new_page', 'resize_page', 'handle_dialog', 'list_console_messages', 'list_network_requests', 'get_console_message', 'get_network_request', 'lighthouse_audit', 'performance_start_trace', 'performance_stop_trace', 'performance_analyze_insight', 'take_memory_snapshot', 'emulate'],
+                tags: ['浏览器', '自动化', 'MCP', 'DevTools', '截图']
+            }
+        };
+
+        const SOURCE_NAMES = {
+            'local': '本地',
+            'npm': 'NPM',
+            'github': 'GitHub',
+            'mcp': 'MCP'
+        };
+
+        const SOURCE_ICONS = {
+            'local': '📦',
+            'npm': '🔷',
+            'github': '🐙',
+            'mcp': '🔌'
+        };
+
+        // Get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                id: params.get('id')
+            };
+        }
+
+        // Build breadcrumb using safe DOM methods
+        function buildBreadcrumb(pluginName) {
+            const breadcrumb = document.getElementById('breadcrumb');
+
+            // Home link
+            const homeLink = document.createElement('a');
+            homeLink.href = '../index.html';
+            homeLink.textContent = '首页';
+            breadcrumb.appendChild(homeLink);
+
+            // Separator 1
+            const sep1 = document.createElement('span');
+            sep1.className = 'breadcrumb-separator';
+            sep1.textContent = '→';
+            breadcrumb.appendChild(sep1);
+
+            // Plugins link
+            const pluginsLink = document.createElement('a');
+            pluginsLink.href = 'plugins.html';
+            pluginsLink.textContent = '插件';
+            breadcrumb.appendChild(pluginsLink);
+
+            // Separator 2
+            const sep2 = document.createElement('span');
+            sep2.className = 'breadcrumb-separator';
+            sep2.textContent = '→';
+            breadcrumb.appendChild(sep2);
+
+            // Current plugin name
+            const currentSpan = document.createElement('span');
+            currentSpan.textContent = pluginName;
+            breadcrumb.appendChild(currentSpan);
+        }
+
+        // Render plugin detail using safe DOM methods
+        function renderPluginDetail(pluginId) {
+            const container = document.getElementById('detailCard');
+
+            // Clear existing content safely
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+
+            // Check if plugin exists
+            if (!PLUGINS_DATA[pluginId]) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = '未找到插件: ' + pluginId;
+                container.appendChild(errorDiv);
+                return;
+            }
+
+            const plugin = PLUGINS_DATA[pluginId];
+
+            // Set source class for coloring
+            container.className = 'detail-card ' + plugin.source;
+
+            // Build breadcrumb
+            buildBreadcrumb(pluginId);
+
+            // Header section
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'detail-header';
+
+            // Icon
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'detail-icon';
+            iconDiv.textContent = SOURCE_ICONS[plugin.source] || '🔌';
+            headerDiv.appendChild(iconDiv);
+
+            // Title section
+            const titleSection = document.createElement('div');
+            titleSection.className = 'detail-title-section';
+
+            const nameEl = document.createElement('div');
+            nameEl.className = 'detail-name';
+            nameEl.textContent = plugin.name;
+            titleSection.appendChild(nameEl);
+
+            // Source badge
+            const sourceBadge = document.createElement('span');
+            sourceBadge.className = 'detail-source';
+            sourceBadge.textContent = SOURCE_NAMES[plugin.source];
+            titleSection.appendChild(sourceBadge);
+
+            headerDiv.appendChild(titleSection);
+            container.appendChild(headerDiv);
+
+            // Description section
+            const descSection = document.createElement('div');
+            descSection.style.marginTop = '24px';
+
+            const descTitle = document.createElement('div');
+            descTitle.className = 'section-title';
+            descTitle.textContent = '描述';
+            descSection.appendChild(descTitle);
+
+            const descContent = document.createElement('div');
+            descContent.className = 'section-content';
+            descContent.textContent = plugin.description;
+            descSection.appendChild(descContent);
+
+            container.appendChild(descSection);
+
+            // Components section
+            const compSection = document.createElement('div');
+            compSection.style.marginTop = '24px';
+
+            const compTitle = document.createElement('div');
+            compTitle.className = 'section-title';
+            compTitle.textContent = '包含组件';
+            compSection.appendChild(compTitle);
+
+            const compBox = document.createElement('div');
+            compBox.className = 'components-box';
+
+            // Build component summary
+            if (plugin.components) {
+                const compSummary = document.createElement('div');
+                compSummary.style.marginBottom = '12px';
+
+                Object.entries(plugin.components).forEach(([key, value]) => {
+                    const compLine = document.createElement('div');
+                    compLine.style.marginBottom = '4px';
+
+                    const compKey = document.createElement('strong');
+                    compKey.textContent = key.charAt(0).toUpperCase() + key.slice(1) + ': ';
+                    compLine.appendChild(compKey);
+
+                    const compValue = document.createTextNode(String(value));
+                    compLine.appendChild(compValue);
+
+                    compSummary.appendChild(compLine);
+                });
+
+                compBox.appendChild(compSummary);
+            }
+
+            compSection.appendChild(compBox);
+            container.appendChild(compSection);
+
+            // Agents list if exists
+            if (plugin.agents && plugin.agents.length > 0) {
+                const agentsSection = document.createElement('div');
+                agentsSection.style.marginTop = '16px';
+
+                const agentsTitle = document.createElement('div');
+                agentsTitle.className = 'section-title';
+                agentsTitle.textContent = '代理列表';
+                agentsSection.appendChild(agentsTitle);
+
+                const agentsList = document.createElement('div');
+                agentsList.className = 'component-list';
+
+                plugin.agents.forEach(agent => {
+                    const agentTag = document.createElement('span');
+                    agentTag.className = 'component-tag agent';
+                    agentTag.textContent = agent;
+
+                    // Make clickable to agent detail
+                    agentTag.style.cursor = 'pointer';
+                    agentTag.addEventListener('click', () => {
+                        window.location.href = 'agent-detail.html?id=' + agent;
+                    });
+
+                    agentsList.appendChild(agentTag);
+                });
+
+                agentsSection.appendChild(agentsList);
+                container.appendChild(agentsSection);
+            }
+
+            // Tools list if exists
+            if (plugin.tools && plugin.tools.length > 0) {
+                const toolsSection = document.createElement('div');
+                toolsSection.style.marginTop = '16px';
+
+                const toolsTitle = document.createElement('div');
+                toolsTitle.className = 'section-title';
+                toolsTitle.textContent = '工具列表';
+                toolsSection.appendChild(toolsTitle);
+
+                const toolsList = document.createElement('div');
+                toolsList.className = 'component-list';
+
+                plugin.tools.forEach(tool => {
+                    const toolTag = document.createElement('span');
+                    toolTag.className = 'component-tag tool';
+                    toolTag.textContent = tool;
+                    toolsList.appendChild(toolTag);
+                });
+
+                toolsSection.appendChild(toolsList);
+                container.appendChild(toolsSection);
+            }
+
+            // Tags section
+            const tagsSection = document.createElement('div');
+            tagsSection.style.marginTop = '16px';
+
+            const tagsList = document.createElement('div');
+            tagsList.className = 'tags-section';
+
+            plugin.tags.forEach(tag => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'tag';
+                tagEl.textContent = tag;
+                tagsList.appendChild(tagEl);
+            });
+
+            tagsSection.appendChild(tagsList);
+            container.appendChild(tagsSection);
+
+            // Action buttons
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'action-buttons';
+
+            const viewBtn = document.createElement('button');
+            viewBtn.className = 'action-btn primary';
+            viewBtn.textContent = '查看插件目录';
+            viewBtn.addEventListener('click', () => {
+                alert('插件目录: ~/.claude/plugins/' + plugin.name);
+            });
+            actionsDiv.appendChild(viewBtn);
+
+            const backBtn = document.createElement('button');
+            backBtn.className = 'action-btn secondary';
+            backBtn.textContent = '返回插件列表';
+            backBtn.addEventListener('click', () => {
+                window.location.href = 'plugins.html';
+            });
+            actionsDiv.appendChild(backBtn);
+
+            container.appendChild(actionsDiv);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = getUrlParams();
+            if (params.id) {
+                renderPluginDetail(params.id);
+            } else {
+                const container = document.getElementById('detailCard');
+                while (container.firstChild) {
+                    container.removeChild(container.firstChild);
+                }
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = '未指定插件ID';
+                container.appendChild(errorDiv);
+            }
+        });
+    </script>
+</body>
+</html>
