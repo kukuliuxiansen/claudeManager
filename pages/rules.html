@@ -3,167 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rules - Everything Claude Code</title>
-    <link rel="stylesheet" href="../styles/shared.css">
+    <title>Rules 开发规则 - Claude Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
     <style>
-        .category-hero {
-            background: linear-gradient(135deg, #1a1a2e 0%, #1e3a5f 50%, #0a192f 100%);
-            padding: 60px 40px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
+        /* Page-specific styles */
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222e;
+            --accent-cyan: #00d4aa;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f59e0b;
+            --accent-pink: #ec4899;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --border-subtle: #2a2a35;
+
+            /* Rule type colors */
+            --color-common: #10b981;
+            --color-language: #3b82f6;
+            --color-project: #8b5cf6;
         }
 
-        .category-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(46, 204, 113, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 40%, rgba(39, 174, 96, 0.08) 0%, transparent 40%);
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(16, 184, 129, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 184, 129, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
             pointer-events: none;
+            z-index: 0;
         }
 
-        .category-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            border-radius: 20px;
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(16, 184, 129, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 50%, rgba(59, 130, 246, 0.08), transparent),
+                radial-gradient(ellipse 50% 30% at 20% 80%, rgba(139, 92, 246, 0.06), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .noise {
+            position: fixed;
+            inset: 0;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
-        }
-
-        .category-icon svg {
-            width: 40px;
-            height: 40px;
-            fill: white;
-        }
-
-        .category-title {
-            font-size: 48px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 10px;
-            letter-spacing: -1px;
-        }
-
-        .category-subtitle {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 400;
-        }
-
-        .category-stats {
-            display: flex;
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: 700;
-            color: #2ecc71;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .filter-bar {
-            padding: 20px 40px;
-            background: rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
-            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
             font-size: 14px;
         }
 
-        .filter-btn:hover {
-            background: rgba(46, 204, 113, 0.2);
-            border-color: rgba(46, 204, 113, 0.5);
-            color: #fff;
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
         }
 
-        .filter-btn.active {
-            background: rgba(46, 204, 113, 0.3);
-            border-color: #2ecc71;
-            color: #2ecc71;
+        .logo-text span {
+            color: var(--accent-cyan);
         }
 
-        .search-box {
-            flex: 1;
-            max-width: 300px;
+        .search-container {
             position: relative;
+            width: 320px;
         }
 
         .search-input {
             width: 100%;
-            padding: 12px 20px 12px 45px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: #fff;
+            padding: 12px 16px 12px 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
             font-size: 14px;
             transition: all 0.3s ease;
         }
 
         .search-input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(46, 204, 113, 0.5);
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(16, 184, 129, 0.2);
         }
 
         .search-icon {
             position: absolute;
-            left: 15px;
+            left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            fill: rgba(255, 255, 255, 0.4);
+            color: var(--text-muted);
+            font-size: 18px;
         }
 
-        .modules-section {
-            padding: 40px;
+        main {
+            position: relative;
+            z-index: 2;
+            padding: 40px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
+        .page-header {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 40px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-green);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 0.7;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-muted);
+        }
+
+        .page-title-section {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .page-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--accent-green), rgba(16, 184, 129, 0.3));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px solid var(--accent-green);
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 32px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .stat-value.common { color: var(--color-common); }
+        .stat-value.language { color: var(--color-language); }
+        .stat-value.project { color: var(--color-project); }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Filter Buttons */
+        .filter-section {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            min-width: 70px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-green);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+            color: var(--bg-primary);
+            font-weight: 500;
+        }
+
+        .filter-btn.common.active {
+            background: var(--color-common);
+            border-color: var(--color-common);
+        }
+        .filter-btn.language.active {
+            background: var(--color-language);
+            border-color: var(--color-language);
+        }
+        .filter-btn.project.active {
+            background: var(--color-project);
+            border-color: var(--color-project);
+        }
+
+        /* Modules Grid */
         .modules-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
         }
 
+        /* Module Card */
         .module-card {
-            background: rgba(26, 26, 46, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 25px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             overflow: hidden;
         }
 
@@ -174,16 +319,22 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: var(--accent-color, #2ecc71);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
+        .module-card[data-type="common"]::before { background: var(--color-common); }
+        .module-card[data-type="language"]::before { background: var(--color-language); }
+        .module-card[data-type="project"]::before { background: var(--color-project); }
+
         .module-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(46, 204, 113, 0.3);
-            box-shadow: 0 15px 40px rgba(46, 204, 113, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(16, 184, 129, 0.15);
         }
+
+        .module-card[data-type="common"]:hover { border-color: var(--color-common); box-shadow: 0 12px 40px rgba(16, 184, 129, 0.15); }
+        .module-card[data-type="language"]:hover { border-color: var(--color-language); box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15); }
+        .module-card[data-type="project"]:hover { border-color: var(--color-project); box-shadow: 0 12px 40px rgba(139, 92, 246, 0.15); }
 
         .module-card:hover::before {
             opacity: 1;
@@ -192,164 +343,231 @@
         .module-header {
             display: flex;
             align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .module-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--accent-color, #2ecc71), var(--accent-color-dark, #27ae60));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .module-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
-        }
-
-        .module-info {
-            flex: 1;
+            justify-content: space-between;
+            margin-bottom: 16px;
         }
 
         .module-name {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 18px;
             font-weight: 600;
-            color: #fff;
-            margin-bottom: 5px;
+            color: var(--text-primary);
         }
 
-        .module-type {
+        .module-type-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
             font-size: 12px;
-            color: var(--accent-color, #2ecc71);
             font-weight: 500;
         }
 
-        .module-desc {
+        .module-type-badge.common {
+            background: rgba(16, 184, 129, 0.15);
+            border: 1px solid var(--color-common);
+            color: var(--color-common);
+        }
+        .module-type-badge.language {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid var(--color-language);
+            color: var(--color-language);
+        }
+        .module-type-badge.project {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid var(--color-project);
+            color: var(--color-project);
+        }
+
+        .module-description {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.5;
-            margin-bottom: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
         }
 
         .module-location {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            padding: 8px 12px;
+            background: var(--bg-secondary);
             border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 15px;
-            border: 1px solid rgba(46, 204, 113, 0.2);
         }
 
-        .module-location .path {
-            color: #2ecc71;
+        .module-location code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
         }
+
+        .module-card[data-type="common"] .module-location code { color: var(--color-common); }
+        .module-card[data-type="language"] .module-location code { color: var(--color-language); }
+        .module-card[data-type="project"] .module-location code { color: var(--color-project); }
 
         .module-tags {
             display: flex;
-            gap: 8px;
             flex-wrap: wrap;
+            gap: 8px;
         }
 
         .module-tag {
-            padding: 5px 12px;
-            background: rgba(46, 204, 113, 0.15);
-            border-radius: 6px;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
+            padding: 4px 10px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
         }
 
-        /* Rule type colors */
-        .module-card[data-type="common"] { --accent-color: #2ecc71; --accent-color-dark: #27ae60; }
-        .module-card[data-type="language"] { --accent-color: #3498db; --accent-color-dark: #2980b9; }
-        .module-card[data-type="project"] { --accent-color: #9b59b6; --accent-color-dark: #8e44ad; }
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 60px;
+        }
 
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 20px;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-green);
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .category-hero {
-                padding: 40px 20px;
+            header {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 16px;
             }
 
-            .category-title {
-                font-size: 32px;
+            .search-container {
+                width: 100%;
+                max-width: 300px;
             }
 
-            .filter-bar {
-                padding: 15px 20px;
+            main {
+                padding: 20px 20px;
             }
 
-            .modules-section {
-                padding: 20px;
+            .page-title {
+                font-size: 28px;
             }
 
             .modules-grid {
                 grid-template-columns: 1fr;
+                gap: 16px;
             }
+
+            .module-card {
+                padding: 20px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .module-card {
+            animation: fadeInUp 0.4s ease-out;
+            animation-fill-mode: both;
         }
     </style>
 </head>
 <body>
-    <nav class="breadcrumb">
-        <a href="../index.html" class="breadcrumb-link">首页</a>
-        <span class="breadcrumb-separator">/</span>
-        <span class="breadcrumb-current">Rules</span>
-    </nav>
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+    <div class="noise"></div>
 
-    <header class="category-hero">
-        <div class="category-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">CM</div>
+            <div class="logo-text">Claude <span>Manager</span></div>
         </div>
-        <h1 class="category-title">Rules</h1>
-        <p class="category-subtitle">开发规则与指南，定义代码风格和最佳实践</p>
-        <div class="category-stats">
-            <div class="stat-item">
-                <span class="stat-number">10</span>
-                <span class="stat-label">通用规则</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">5</span>
-                <span class="stat-label">TypeScript规则</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">MD</span>
-                <span class="stat-label">配置格式</span>
-            </div>
+        <div class="search-container">
+            <span class="search-icon">⌘</span>
+            <input type="text" class="search-input" placeholder="搜索规则..." id="searchInput">
         </div>
     </header>
 
-    <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">全部</button>
-        <button class="filter-btn" data-filter="common">通用规则</button>
-        <button class="filter-btn" data-filter="language">语言规则</button>
-        <button class="filter-btn" data-filter="project">项目规则</button>
-        <div class="search-box">
-            <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 7 9.5 7 14 9.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            <input type="text" class="search-input" placeholder="搜索规则..." id="searchInput">
+    <main>
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="../index.html">首页</a>
+                <span class="breadcrumb-separator">→</span>
+                <span>Rules 开发规则</span>
+            </div>
+            <div class="page-title-section">
+                <div class="page-icon">📋</div>
+                <div>
+                    <h1 class="page-title">Rules 开发规则</h1>
+                    <p class="page-subtitle">开发规则与指南 — 定义代码风格、安全规范、测试要求和最佳实践</p>
+                </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-value common">10</span>
+                    <span class="stat-label">通用规则</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value language">5</span>
+                    <span class="stat-label">语言规则</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value project">2</span>
+                    <span class="stat-label">项目规则</span>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <main class="modules-section">
+        <div class="filter-section">
+            <div class="filter-label">分类筛选:</div>
+            <div class="filter-buttons" id="filterButtons">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn common" data-filter="common">通用规则</button>
+                <button class="filter-btn language" data-filter="language">语言规则</button>
+                <button class="filter-btn project" data-filter="project">项目规则</button>
+            </div>
+        </div>
+
         <div class="modules-grid" id="modulesGrid">
             <!-- Common Rules -->
             <div class="module-card" data-type="common" onclick="location.href='rules/agents.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">agents.md</h3>
-                        <span class="module-type">通用规则</span>
-                    </div>
+                    <span class="module-name">agents.md</span>
+                    <span class="module-type-badge common">通用规则</span>
                 </div>
-                <p class="module-desc">代理编排规则。定义如何使用各种代理、何时触发、并行执行策略和多视角分析。</p>
+                <p class="module-description">代理编排规则。定义如何使用各种代理、何时触发、并行执行策略和多视角分析。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/agents.md</span>
+                    <code>~/.claude/rules/agents.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">代理编排</span>
@@ -360,17 +578,12 @@
 
             <div class="module-card" data-type="common" onclick="location.href='rules/browser-automation.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">browser-automation.md</h3>
-                        <span class="module-type">通用规则</span>
-                    </div>
+                    <span class="module-name">browser-automation.md</span>
+                    <span class="module-type-badge common">通用规则</span>
                 </div>
-                <p class="module-desc">浏览器自动化规则。定义会话管理策略、连接与重启策略、MCP配置方法。</p>
+                <p class="module-description">浏览器自动化规则。定义会话管理策略、连接与重启策略、MCP配置方法。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/browser-automation.md</span>
+                    <code>~/.claude/rules/browser-automation.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">浏览器</span>
@@ -381,17 +594,12 @@
 
             <div class="module-card" data-type="common" onclick="location.href='rules/coding-style.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">coding-style.md</h3>
-                        <span class="module-type">通用规则</span>
-                    </div>
+                    <span class="module-name">coding-style.md</span>
+                    <span class="module-type-badge common">通用规则</span>
                 </div>
-                <p class="module-desc">通用编码风格指南。定义不可变性原则、文件组织、错误处理、输入验证和代码质量标准。</p>
+                <p class="module-description">通用编码风格指南。定义不可变性原则、文件组织、错误处理、输入验证和代码质量标准。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/coding-style.md</span>
+                    <code>~/.claude/rules/coding-style.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">编码风格</span>
@@ -402,17 +610,12 @@
 
             <div class="module-card" data-type="common" onclick="location.href='rules/development-workflow.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">development-workflow.md</h3>
-                        <span class="module-type">通用规则</span>
-                    </div>
+                    <span class="module-name">development-workflow.md</span>
+                    <span class="module-type-badge common">通用规则</span>
                 </div>
-                <p class="module-desc">开发工作流规则。定义完整开发流程：研究复用、规划、TDD、代码审查、提交推送。</p>
+                <p class="module-description">开发工作流规则。定义完整开发流程：研究复用、规划、TDD、代码审查、提交推送。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/development-workflow.md</span>
+                    <code>~/.claude/rules/development-workflow.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">开发流程</span>
@@ -423,17 +626,12 @@
 
             <div class="module-card" data-type="common" onclick="location.href='rules/git-workflow.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">git-workflow.md</h3>
-                        <span class="module-type">通用规则</span>
-                    </div>
+                    <span class="module-name">git-workflow.md</span>
+                    <span class="module-type-badge common">通用规则</span>
                 </div>
-                <p class="module-desc">Git工作流规则。定义提交消息格式、Pull Request流程和分支策略。</p>
+                <p class="module-description">Git工作流规则。定义提交消息格式、Pull Request流程和分支策略。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/git-workflow.md</span>
+                    <code>~/.claude/rules/git-workflow.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">Git</span>
@@ -444,17 +642,12 @@
 
             <div class="module-card" data-type="common" onclick="location.href='rules/hooks.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">hooks.md</h3>
-                        <span class="module-type">通用规则</span>
-                    </div>
+                    <span class="module-name">hooks.md</span>
+                    <span class="module-type-badge common">通用规则</span>
                 </div>
-                <p class="module-desc">Hooks系统规则。定义Hook类型、自动接受权限和TodoWrite最佳实践。</p>
+                <p class="module-description">Hooks系统规则。定义Hook类型、自动接受权限和TodoWrite最佳实践。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/hooks.md</span>
+                    <code>~/.claude/rules/hooks.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">Hooks</span>
@@ -465,17 +658,12 @@
 
             <div class="module-card" data-type="common" onclick="location.href='rules/patterns.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">patterns.md</h3>
-                        <span class="module-type">通用规则</span>
-                    </div>
+                    <span class="module-name">patterns.md</span>
+                    <span class="module-type-badge common">通用规则</span>
                 </div>
-                <p class="module-desc">常见模式规则。定义骨架项目策略、设计模式、通信模式和调试流程。</p>
+                <p class="module-description">常见模式规则。定义骨架项目策略、设计模式、通信模式和调试流程。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/patterns.md</span>
+                    <code>~/.claude/rules/patterns.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">设计模式</span>
@@ -486,17 +674,12 @@
 
             <div class="module-card" data-type="common" onclick="location.href='rules/performance.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h.71C7.37 7.69 9.48 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3s-1.34 3-3 3z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">performance.md</h3>
-                        <span class="module-type">通用规则</span>
-                    </div>
+                    <span class="module-name">performance.md</span>
+                    <span class="module-type-badge common">通用规则</span>
                 </div>
-                <p class="module-desc">性能优化规则。定义模型选择策略、上下文窗口管理、Extended Thinking和构建调试方法。</p>
+                <p class="module-description">性能优化规则。定义模型选择策略、上下文窗口管理、Extended Thinking和构建调试方法。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/performance.md</span>
+                    <code>~/.claude/rules/performance.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">性能</span>
@@ -507,17 +690,12 @@
 
             <div class="module-card" data-type="common" onclick="location.href='rules/security.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">security.md</h3>
-                        <span class="module-type">通用规则</span>
-                    </div>
+                    <span class="module-name">security.md</span>
+                    <span class="module-type-badge common">通用规则</span>
                 </div>
-                <p class="module-desc">安全指南规则。定义强制性安全检查、密钥管理和安全响应协议。</p>
+                <p class="module-description">安全指南规则。定义强制性安全检查、密钥管理和安全响应协议。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/security.md</span>
+                    <code>~/.claude/rules/security.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">安全</span>
@@ -528,17 +706,12 @@
 
             <div class="module-card" data-type="common" onclick="location.href='rules/testing.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">testing.md</h3>
-                        <span class="module-type">通用规则</span>
-                    </div>
+                    <span class="module-name">testing.md</span>
+                    <span class="module-type-badge common">通用规则</span>
                 </div>
-                <p class="module-desc">测试要求规则。定义最低覆盖率、测试类型、TDD工作流和失败排查策略。</p>
+                <p class="module-description">测试要求规则。定义最低覆盖率、测试类型、TDD工作流和失败排查策略。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/testing.md</span>
+                    <code>~/.claude/rules/testing.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">测试</span>
@@ -550,17 +723,12 @@
             <!-- Language Rules - TypeScript -->
             <div class="module-card" data-type="language" onclick="location.href='rules/typescript-coding-style.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">typescript/coding-style.md</h3>
-                        <span class="module-type">语言规则</span>
-                    </div>
+                    <span class="module-name">typescript/coding-style.md</span>
+                    <span class="module-type-badge language">语言规则</span>
                 </div>
-                <p class="module-desc">TypeScript编码规范。定义类型安全、不可变性、接口设计和React/Node最佳实践。</p>
+                <p class="module-description">TypeScript编码规范。定义类型安全、不可变性、接口设计和React/Node最佳实践。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/typescript/coding-style.md</span>
+                    <code>~/.claude/rules/typescript/coding-style.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">TypeScript</span>
@@ -571,17 +739,12 @@
 
             <div class="module-card" data-type="language" onclick="location.href='rules/typescript-hooks.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">typescript/hooks.md</h3>
-                        <span class="module-type">语言规则</span>
-                    </div>
+                    <span class="module-name">typescript/hooks.md</span>
+                    <span class="module-type-badge language">语言规则</span>
                 </div>
-                <p class="module-desc">TypeScript Hooks规范。定义类型安全的钩子配置、编译时验证和模块绑定。</p>
+                <p class="module-description">TypeScript Hooks规范。定义类型安全的钩子配置、编译时验证和模块绑定。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/typescript/hooks.md</span>
+                    <code>~/.claude/rules/typescript/hooks.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">TypeScript</span>
@@ -592,17 +755,12 @@
 
             <div class="module-card" data-type="language" onclick="location.href='rules/typescript-patterns.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">typescript/patterns.md</h3>
-                        <span class="module-type">语言规则</span>
-                    </div>
+                    <span class="module-name">typescript/patterns.md</span>
+                    <span class="module-type-badge language">语言规则</span>
                 </div>
-                <p class="module-desc">TypeScript设计模式。定义品牌类型、联合类型、泛型约束和函数式编程模式。</p>
+                <p class="module-description">TypeScript设计模式。定义品牌类型、联合类型、泛型约束和函数式编程模式。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/typescript/patterns.md</span>
+                    <code>~/.claude/rules/typescript/patterns.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">TypeScript</span>
@@ -613,17 +771,12 @@
 
             <div class="module-card" data-type="language" onclick="location.href='rules/typescript-security.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">typescript/security.md</h3>
-                        <span class="module-type">语言规则</span>
-                    </div>
+                    <span class="module-name">typescript/security.md</span>
+                    <span class="module-type-badge language">语言规则</span>
                 </div>
-                <p class="module-desc">TypeScript安全规范。定义类型安全边界、输入验证、XSS防护和依赖安全检查。</p>
+                <p class="module-description">TypeScript安全规范。定义类型安全边界、输入验证、XSS防护和依赖安全检查。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/typescript/security.md</span>
+                    <code>~/.claude/rules/typescript/security.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">TypeScript</span>
@@ -634,17 +787,12 @@
 
             <div class="module-card" data-type="language" onclick="location.href='rules/typescript-testing.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">typescript/testing.md</h3>
-                        <span class="module-type">语言规则</span>
-                    </div>
+                    <span class="module-name">typescript/testing.md</span>
+                    <span class="module-type-badge language">语言规则</span>
                 </div>
-                <p class="module-desc">TypeScript测试规范。定义单元测试、集成测试、E2E测试和Mock策略。</p>
+                <p class="module-description">TypeScript测试规范。定义单元测试、集成测试、E2E测试和Mock策略。</p>
                 <div class="module-location">
-                    <span class="path">~/.claude/rules/typescript/testing.md</span>
+                    <code>~/.claude/rules/typescript/testing.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">TypeScript</span>
@@ -656,17 +804,12 @@
             <!-- Project Rules -->
             <div class="module-card" data-type="project" onclick="location.href='rules/claude-md.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">CLAUDE.md</h3>
-                        <span class="module-type">项目规则</span>
-                    </div>
+                    <span class="module-name">CLAUDE.md</span>
+                    <span class="module-type-badge project">项目规则</span>
                 </div>
-                <p class="module-desc">项目级配置文件。定义项目特定的规则、架构说明、重要路径和团队约定。</p>
+                <p class="module-description">项目级配置文件。定义项目特定的规则、架构说明、重要路径和团队约定。</p>
                 <div class="module-location">
-                    <span class="path">[项目根目录]/CLAUDE.md</span>
+                    <code>[项目根目录]/CLAUDE.md</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">项目配置</span>
@@ -677,17 +820,12 @@
 
             <div class="module-card" data-type="project" onclick="location.href='rules/settings-json.html'">
                 <div class="module-header">
-                    <div class="module-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.46.17-.49.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.03.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-                    </div>
-                    <div class="module-info">
-                        <h3 class="module-name">settings.json</h3>
-                        <span class="module-type">项目规则</span>
-                    </div>
+                    <span class="module-name">settings.json</span>
+                    <span class="module-type-badge project">项目规则</span>
                 </div>
-                <p class="module-desc">项目级设置文件。定义权限模式、自动批准工具、Hooks配置和MCP服务器设置。</p>
+                <p class="module-description">项目级设置文件。定义权限模式、自动批准工具、Hooks配置和MCP服务器设置。</p>
                 <div class="module-location">
-                    <span class="path">[项目根目录]/.claude/settings.json</span>
+                    <code>[项目根目录]/.claude/settings.json</code>
                 </div>
                 <div class="module-tags">
                     <span class="module-tag">设置</span>
@@ -698,14 +836,22 @@
         </div>
     </main>
 
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html" class="footer-link">← 返回首页</a>
+            <a href="https://github.com/anthropics/claude-code" class="footer-link">Claude Code GitHub</a>
+        </div>
+        <p class="footer-text">开发规则 · Claude Manager</p>
+    </footer>
+
     <script>
         // Filter functionality
-        const filterBtns = document.querySelectorAll('.filter-btn');
+        const filterButtons = document.querySelectorAll('.filter-btn');
         const moduleCards = document.querySelectorAll('.module-card');
 
-        filterBtns.forEach(btn => {
+        filterButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
+                filterButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
                 const filter = btn.dataset.filter;
@@ -713,10 +859,8 @@
                 moduleCards.forEach(card => {
                     if (filter === 'all' || card.dataset.type === filter) {
                         card.style.display = 'block';
-                        card.style.opacity = '1';
                     } else {
                         card.style.display = 'none';
-                        card.style.opacity = '0';
                     }
                 });
             });
@@ -730,23 +874,21 @@
 
             moduleCards.forEach(card => {
                 const name = card.querySelector('.module-name').textContent.toLowerCase();
-                const desc = card.querySelector('.module-desc').textContent.toLowerCase();
+                const desc = card.querySelector('.module-description').textContent.toLowerCase();
                 const tags = Array.from(card.querySelectorAll('.module-tag'))
                     .map(t => t.textContent.toLowerCase()).join(' ');
 
                 if (name.includes(query) || desc.includes(query) || tags.includes(query)) {
                     card.style.display = 'block';
-                    card.style.opacity = '1';
                 } else {
                     card.style.display = 'none';
-                    card.style.opacity = '0';
                 }
             });
 
             if (query) {
-                filterBtns.forEach(b => b.classList.remove('active'));
+                filterButtons.forEach(b => b.classList.remove('active'));
             } else {
-                filterBtns[0].classList.add('active');
+                filterButtons[0].classList.add('active');
             }
         });
 
