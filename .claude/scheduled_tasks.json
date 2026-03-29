@@ -1,0 +1,11 @@
+{
+  "tasks": [
+    {
+      "id": "934ce472",
+      "cron": "0 21 * * *",
+      "prompt": "扫描 ~/.claude/ 目录下的 skills/、agents/、commands/、rules/ 目录，以及 ~/.claude/plugins/ 目录（如果存在），与 /Users/weidian/claudeProject/claudeManager/pages/ 下的现有页面进行对比：\n\n1. 如果有新增的 skill/agent/command/rule/plugin：\n   - 读取其源文件内容\n   - 在 pages/skills/ 或 pages/agents/ 或 pages/commands/ 或 pages/rules/ 目录下创建对应的 HTML 详情页\n   - 更新对应的列表页（skills.html/agents.html/commands.html/rules.html）\n\n2. 如果有文件被删除（源文件不存在但页面还在）：\n   - 在对应的页面标题添加标签：[已删除]\n   - 或在卡片上添加 \"已删除\" 标记\n\n3. 汇总本次扫描结果：新增多少、删除多少、更新多少\n\n完成后提交代码。",
+      "createdAt": 1774792308439,
+      "recurring": true
+    }
+  ]
+}
