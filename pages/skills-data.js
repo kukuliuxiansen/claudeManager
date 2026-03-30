@@ -2363,6 +2363,30 @@ const CAPABILITIES_DATA = {
     "description": "Flutter代码审查代理，审查Flutter和Dart代码质量",
     "tags": ["Flutter", "Dart", "审查"],
     "origin": "flutter-reviewer"
+  },
+  "agentic-engineering": {
+    "name": "agentic-engineering",
+    "type": "skill",
+    "title": "Agentic Engineering",
+    "description": "使用 eval-first 执行、分解和成本感知模型路由的代理工程工作流",
+    "tags": ["AI", "代理", "工程"],
+    "origin": "ECC"
+  },
+  "configure-ecc": {
+    "name": "configure-ecc",
+    "type": "skill",
+    "title": "Configure ECC",
+    "description": "Everything Claude Code 交互式安装器 — 引导用户选择和安装 skills 和 rules",
+    "tags": ["配置", "安装", "ECC"],
+    "origin": "ECC"
+  },
+  "perl-patterns": {
+    "name": "perl-patterns",
+    "type": "skill",
+    "title": "Perl Patterns",
+    "description": "Modern Perl 5.36+ 习语、最佳实践和约定",
+    "tags": ["Perl", "开发"],
+    "origin": "ECC"
   }
 
 };
