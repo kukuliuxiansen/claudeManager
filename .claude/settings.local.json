@@ -6,7 +6,12 @@
       "Bash(git commit:*)",
       "Bash(git remote:*)",
       "Bash(git branch:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(unset HTTPS_PROXY HTTP_PROXY http_proxy https_proxy ALL_PROXY)",
+      "Bash(curl -I https://www.baidu.com --connect-timeout 5)",
+      "Bash(networksetup -getwebproxy Wi-Fi)",
+      "Bash(networksetup -getsecurewebproxy Wi-Fi)",
+      "Bash(scutil:*)"
     ]
   }
 }

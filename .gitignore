@@ -1,0 +1,5 @@
+# Claude 本地文件
+.claude/scheduled_tasks.lock
+
+# macOS
+.DS_Store
